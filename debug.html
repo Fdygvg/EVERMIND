@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVERMIND Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        pre { background: #f8f9fa; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 EVERMIND Debug Page</h1>
+    
+    <div id="debug-results"></div>
+    
+    <script>
+        const debugResults = document.getElementById('debug-results');
+        
+        function addDebugMessage(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `debug-section ${type}`;
+            div.innerHTML = `<h3>${message}</h3>`;
+            debugResults.appendChild(div);
+            return div;
+        }
+        
+        function addDebugData(message, data, type = 'info') {
+            const div = addDebugMessage(message, type);
+            const pre = document.createElement('pre');
+            pre.textContent = JSON.stringify(data, null, 2);
+            div.appendChild(pre);
+        }
+        
+        // Test data loading
+        async function testDataLoading() {
+            addDebugMessage('🚀 Starting Data Loading Test...', 'info');
+            
+            const sections = [
+                { id: 'languages', name: 'Languages' },
+                { id: 'programming', name: 'Programming' },
+                { id: 'bible', name: 'Bible' },
+                { id: 'facts', name: 'Facts' },
+                { id: 'science', name: 'Science' },
+                { id: 'history', name: 'History' },
+                { id: 'country_flags', name: 'Country Flags' }
+            ];
+            
+            const allQuestions = {};
+            
+            for (const section of sections) {
+                try {
+                    addDebugMessage(`📁 Testing ${section.name} (${section.id}.json)...`, 'info');
+                    
+                    const response = await fetch(`data/${section.id}.json`);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        allQuestions[section.id] = data;
+                        
+                        addDebugData(`✅ ${section.name} loaded successfully`, {
+                            status: response.status,
+                            questionCount: data.length,
+                            firstQuestion: data[0] || 'No questions'
+                        }, 'success');
+                    } else {
+                        addDebugData(`❌ ${section.name} failed to load`, {
+                            status: response.status,
+                            statusText: response.statusText,
+                            url: response.url
+                        }, 'error');
+                    }
+                } catch (error) {
+                    addDebugData(`💥 ${section.name} error`, {
+                        error: error.message,
+                        stack: error.stack
+                    }, 'error');
+                }
+            }
+            
+            // Summary
+            addDebugData('📊 Final Summary', {
+                totalSections: sections.length,
+                loadedSections: Object.keys(allQuestions).length,
+                totalQuestions: Object.values(allQuestions).reduce((sum, arr) => sum + arr.length, 0),
+                sections: allQuestions
+            }, 'info');
+            
+            // Test specific sections
+            if (allQuestions.languages) {
+                addDebugMessage('🔊 Testing Languages Audio Fields...', 'info');
+                allQuestions.languages.forEach((q, i) => {
+                    if (q.word && q.language) {
+                        addDebugMessage(`✅ Q${i+1}: Has audio (${q.language})`, 'success');
+                    } else {
+                        addDebugMessage(`⚠️ Q${i+1}: Missing audio fields`, 'error');
+                    }
+                });
+            }
+            
+            if (allQuestions.programming) {
+                addDebugMessage('💻 Testing Programming Code Fields...', 'info');
+                allQuestions.programming.forEach((q, i) => {
+                    if (q.answer && (q.answer.includes('{') || q.answer.includes('<') || q.answer.includes('function'))) {
+                        addDebugMessage(`✅ Q${i+1}: Has code`, 'success');
+                    } else {
+                        addDebugMessage(`⚠️ Q${i+1}: No code detected`, 'error');
+                    }
+                });
+            }
+        }
+        
+        // Run test when page loads
+        window.addEventListener('DOMContentLoaded', testDataLoading);
+    </script>
+</body>
+</html>

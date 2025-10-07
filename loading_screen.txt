@@ -1,0 +1,15 @@
+﻿<!-- Loading Screen -->
+<div id="loadingScreen" class="loading-screen active">
+    <div class="loading-content">
+        <div class="loading-logo"></div>
+        <h1 class="loading-title">EVERMIND V.3</h1>
+        <p class="loading-subtitle">Loading your personal learning system...</p>
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+        </div>
+        <div class="loading-progress">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+</div>
+

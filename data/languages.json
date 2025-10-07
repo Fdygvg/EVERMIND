@@ -1,0 +1,98 @@
+[
+  {
+    "question": "How do you say 'hello' in Spanish?",
+    "word": "hola",
+    "language": "spanish",
+    "answer": "Translated: hola | Pronounced: OH-lah"
+  },
+  {
+    "question": "How do you say 'thank you' in Japanese?",
+    "word": "arigatou",
+    "language": "japanese",
+    "answer": "Translated: arigatou | Pronounced: ah-ree-gah-toh"
+  },
+  {
+    "question": "How do you say 'goodbye' in French?",
+    "word": "au revoir",
+    "language": "french",
+    "answer": "Translated: au revoir | Pronounced: oh reh-vwah"
+  },
+  {
+    "question": "How do you say 'good morning' in Yoruba?",
+    "word": "e kaaro",
+    "language": "yoruba",
+    "answer": "Translated: e kaaro | Used to greet someone in the morning"
+  },
+  {
+    "question": "How do you say 'welcome' in Igbo?",
+    "word": "nnoo",
+    "language": "igbo",
+    "answer": "Translated: nnoo | Used to welcome someone"
+  },
+  {
+    "question": "How do you say 'how are you?' in Hausa?",
+    "word": "yaya kake?",
+    "language": "hausa",
+    "answer": "Translated: yaya kake? (to male) / yaya kike? (to female) | Asking how someone is doing"
+  },
+  {
+    "question": "How do you say 'please' in Spanish?",
+    "word": "por favor",
+    "language": "spanish",
+    "answer": "Translated: por favor | Used when making a polite request"
+  },
+  {
+    "question": "How do you say 'excuse me' in Japanese?",
+    "word": "sumimasen",
+    "language": "japanese",
+    "answer": "Translated: sumimasen | Used to get attention or apologize"
+  },
+  {
+    "question": "How do you say 'yes' in French?",
+    "word": "oui",
+    "language": "french",
+    "answer": "Translated: oui | Pronounced: wee"
+  },
+  {
+    "question": "How do you say 'I love you' in Yoruba?",
+    "word": "mo nife re",
+    "language": "yoruba",
+    "answer": "Translated: mo nife re | Expression of love"
+  },
+  {
+    "question": "How do you say 'I am hungry' in Igbo?",
+    "word": "a na m aguu",
+    "language": "igbo",
+    "answer": "Translated: a na m aguu | Pronounced: ah nah m ah-GOO"
+  },
+  {
+    "question": "How do you say 'I am hungry' in Yoruba?",
+    "word": "mo n re",
+    "language": "yoruba",
+    "answer": "Translated: mo n re | Pronounced: moh nn reh"
+  },
+  {
+    "question": "How do you say 'I am hungry' in Hausa?",
+    "word": "Ina jin yunwa",
+    "language": "hausa",
+    "answer": "Translated: Ina jin yunwa | Pronounced: EE-nah jeen YOON-wah"
+  },
+  {
+    "question": "How do you say 'I am hungry' in Spanish?",
+    "word": "Tengo hambre",
+    "language": "spanish",
+    "answer": "Translated: Tengo hambre | Pronounced: TEN-go AM-breh"
+  },
+  {
+    "question": "How do you say 'I am hungry' in French?",
+    "word": "J'ai faim",
+    "language": "french",
+    "answer": "Translated: J'ai faim | Pronounced: zhay FEM"
+  },
+  {
+    "question": "How do you say 'I am hungry' in Japanese?",
+    "word": "onaka ga suita",
+    "language": "japanese",
+    "answer": "Translated: onaka ga suita | Pronounced: oh-na-ka ga sue-ta"
+  }
+]

@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVERMIND V.3 - Personal Learning System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Homepage -->
+    <div id="homepage" class="page active">
+        <header>
+            <h1>🧠 EVERMIND V.3</h1>
+            <p class="subtitle">Your Personal Learning System</p>
+            <div class="theme-switcher">
+                <button onclick="setTheme('light')" class="theme-btn" title="Light Mode">☀️</button>
+                <button onclick="setTheme('dark')" class="theme-btn" title="Dark Mode">🌙</button>
+                <button onclick="setTheme('red')" class="theme-btn" title="Red Mode">🔴</button>
+                <button onclick="setTheme('blue')" class="theme-btn" title="Blue Mode">🔵</button>
+            </div>
+        </header>
+
+        <div class="sections-grid">
+            <div class="section-card" onclick="openSection('languages')">
+                <div class="card-icon">🌍</div>
+                <h2>Languages</h2>
+                <p>Learn translations and pronunciation</p>
+            </div>
+
+            <div class="section-card" onclick="openSection('programming')">
+                <div class="card-icon">💻</div>
+                <h2>Programming</h2>
+                <p>Master code syntax and concepts</p>
+            </div>
+
+            <div class="section-card" onclick="openSection('bible')">
+                <div class="card-icon">📖</div>
+                <h2>Bible</h2>
+                <p>Study verses and biblical knowledge</p>
+            </div>
+
+            <div class="section-card" onclick="openSection('science')">
+                <div class="card-icon">🔬</div>
+                <h2>Science</h2>
+                <p>Explore scientific facts and concepts</p>
+            </div>
+
+            <div class="section-card" onclick="openSection('history')">
+                <div class="card-icon">🏛️</div>
+                <h2>History</h2>
+                <p>Remember important historical events</p>
+            </div>
+
+            <div class="section-card" onclick="openSection('facts')">
+                <div class="card-icon">💡</div>
+                <h2>Random Facts</h2>
+                <p>Interesting facts from around the world</p>
+            </div>
+
+            <div class="section-card" onclick="openSection('country_flags')">
+                <div class="card-icon">🚩</div>
+                <h2>Country Flags</h2>
+                <p>Identify flags from around the world</p>
+            </div>
+        </div>
+
+        <div class="global-revision">
+            <h3>Global Revision Mode</h3>
+            <div class="section-checkboxes" id="sectionCheckboxes">
+                <label><input type="checkbox" value="languages"> Languages</label>
+                <label><input type="checkbox" value="programming"> Programming</label>
+                <label><input type="checkbox" value="bible"> Bible</label>
+                <label><input type="checkbox" value="science"> Science</label>
+                <label><input type="checkbox" value="history"> History</label>
+                <label><input type="checkbox" value="facts"> Random Facts</label>
+                <label><input type="checkbox" value="country_flags"> Country Flags</label>
+            </div>
+            <button class="big-btn primary-btn" onclick="startGlobalRevision()">Start Global Revision</button>
+        </div>
+    </div>
+
+    <!-- Section View -->
+    <div id="sectionView" class="page">
+        <header>
+            <button class="back-btn" onclick="backToHome()">← Back</button>
+            <h1 id="sectionTitle">Section</h1>
+        </header>
+
+        <div class="section-actions">
+            <button class="big-btn primary-btn" onclick="startSectionRevision()">Start Revision Mode</button>
+        </div>
+
+        <div class="questions-list" id="questionsList">
+            <!-- Questions will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Revision Mode -->
+    <div id="revisionMode" class="page">
+        <header>
+            <button class="back-btn" onclick="exitRevision()">← Exit</button>
+            <h1>Revision Mode</h1>
+            <div class="progress-indicator" id="progressIndicator">
+                <span id="questionsLeft">0</span> / <span id="totalQuestions">0</span> questions
+            </div>
+        </header>
+
+        <div class="revision-container">
+            <div class="question-card" id="questionCard">
+                <div class="question-content" id="questionContent">
+                    <!-- Question will be displayed here -->
+                </div>
+                <div class="answer-content" id="answerContent" style="display: none;">
+                    <!-- Answer will be displayed here -->
+                </div>
+            </div>
+
+            <div class="revision-controls">
+                <button class="big-btn secondary-btn" onclick="skipQuestion()">⏭️ Skip</button>
+                <button class="big-btn primary-btn" id="showAnswerBtn" onclick="showAnswer()">👁️ Show Answer</button>
+            </div>
+
+            <div class="answer-controls" id="answerControls" style="display: none;">
+                <button class="big-btn wrong-btn" onclick="markWrong()">✗ Wrong</button>
+                <button class="big-btn correct-btn" onclick="markCorrect()">✓ Correct</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
+
