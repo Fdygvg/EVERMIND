@@ -9,9 +9,17 @@ const CodeEditor = {
     
     /**
      * Create and show the code editor modal
+     * @param {string} initialCode - Initial code to load
+     * @param {string} codeType - Type of code (html, css, javascript, python, c, shell)
+     * @param {string} sectionId - Current section ID for persistence
+     * @param {number} questionIndex - Question index for persistence
      */
-    openEditor(initialCode = '') {
+    openEditor(initialCode = '', codeType = 'html', sectionId = null, questionIndex = null) {
         if (this.isEditorOpen) return;
+        
+        // Store context for code persistence
+        this.currentSection = sectionId;
+        this.currentQuestionIndex = questionIndex;
         
         // Create editor modal
         const editorModal = document.createElement('div');
@@ -23,6 +31,7 @@ const CodeEditor = {
                     <h3>💻 Code Editor</h3>
                     <div class="editor-controls">
                         <button class="editor-btn" onclick="CodeEditor.runCode()" title="Run Code">▶️ Run</button>
+                        <button class="editor-btn" onclick="CodeEditor.testCode()" title="Test with Sample Code">🧪 Test</button>
                         <button class="editor-btn" onclick="CodeEditor.clearCode()" title="Clear Code">🗑️ Clear</button>
                         <button class="editor-btn" onclick="CodeEditor.closeEditor()" title="Close Editor">✖️ Close</button>
                     </div>
@@ -76,7 +85,7 @@ const CodeEditor = {
                         <span>Preview</span>
                         <button class="editor-btn small" onclick="CodeEditor.refreshPreview()" title="Refresh Preview">🔄 Refresh</button>
                     </div>
-                    <iframe id="codePreview" class="code-preview-iframe" sandbox="allow-scripts allow-modals"></iframe>
+                    <iframe id="codePreview" class="code-preview-iframe" sandbox="allow-scripts allow-same-origin"></iframe>
                 </div>
             </div>
         `;
@@ -84,14 +93,35 @@ const CodeEditor = {
         document.body.appendChild(editorModal);
         this.isEditorOpen = true;
         
-        // Set initial code if provided
-        if (initialCode) {
-            document.getElementById('htmlEditor').value = initialCode;
+        // Wait for iframe to be ready
+        const preview = document.getElementById('codePreview');
+        if (preview) {
+            preview.onload = () => {
+                console.log('Iframe loaded and ready');
+                // Auto-run on first open if there's initial code
+                if (initialCode) {
+                    setTimeout(() => {
+                        this.runCode();
+                    }, 200);
+                }
+            };
         }
         
-        // Auto-run on first open if there's initial code
+        // Load code into correct panel based on type
         if (initialCode) {
-            this.runCode();
+            const normalizedType = codeType.toLowerCase();
+            
+            if (normalizedType === 'javascript' || normalizedType === 'js') {
+                document.getElementById('jsEditor').value = initialCode;
+            } else if (normalizedType === 'css') {
+                document.getElementById('cssEditor').value = initialCode;
+            } else if (normalizedType === 'python' || normalizedType === 'c' || normalizedType === 'shell') {
+                // For non-web languages, put in JS editor with comment
+                document.getElementById('jsEditor').value = `/* ${normalizedType.toUpperCase()} Code:\n${initialCode}\n*/\n\n// Note: This is ${normalizedType} code. Run it in a ${normalizedType} environment.`;
+            } else {
+                // Default to HTML
+                document.getElementById('htmlEditor').value = initialCode;
+            }
         }
     },
     
@@ -99,11 +129,30 @@ const CodeEditor = {
      * Close the code editor
      */
     closeEditor() {
+        // Save code to localStorage before closing
+        if (this.currentSection !== null && this.currentQuestionIndex !== null) {
+            const html = document.getElementById('htmlEditor').value;
+            const css = document.getElementById('cssEditor').value;
+            const js = document.getElementById('jsEditor').value;
+            
+            // Combine all code to save
+            const combinedCode = html || css || js;
+            
+            if (combinedCode.trim()) {
+                const storageKey = `code_${this.currentSection}_${this.currentQuestionIndex}`;
+                localStorage.setItem(storageKey, combinedCode);
+            }
+        }
+        
         const modal = document.getElementById('codeEditorModal');
         if (modal) {
             modal.remove();
             this.isEditorOpen = false;
         }
+        
+        // Clear context
+        this.currentSection = null;
+        this.currentQuestionIndex = null;
     },
     
     /**
@@ -114,25 +163,110 @@ const CodeEditor = {
         const css = document.getElementById('cssEditor').value;
         const js = document.getElementById('jsEditor').value;
         
+        console.log('Running code:', { html, css, js }); // Debug log
+        
         const preview = document.getElementById('codePreview');
-        const previewDoc = preview.contentDocument || preview.contentWindow.document;
+        if (!preview) {
+            console.error('Preview iframe not found');
+            return;
+        }
         
-        const fullCode = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>${css}</style>
-            </head>
-            <body>
-                ${html}
-                <script>${js}<\/script>
-            </body>
-            </html>
-        `;
+        const fullCode = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>${css}</style>
+</head>
+<body>
+    ${html}
+    <script>${js}</script>
+</body>
+</html>`;
         
-        previewDoc.open();
-        previewDoc.write(fullCode);
-        previewDoc.close();
+        try {
+            // Method 1: Try srcdoc first
+            preview.srcdoc = fullCode;
+            console.log('Code executed successfully using srcdoc');
+        } catch (error) {
+            console.error('srcdoc failed:', error);
+            
+            try {
+                // Method 2: Try data URL
+                const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(fullCode);
+                preview.src = dataUrl;
+                console.log('Code executed successfully using data URL');
+            } catch (dataError) {
+                console.error('Data URL failed:', dataError);
+                
+                try {
+                    // Method 3: Try document.write method
+                    const previewDoc = preview.contentDocument || preview.contentWindow.document;
+                    previewDoc.open();
+                    previewDoc.write(fullCode);
+                    previewDoc.close();
+                    console.log('Code executed successfully using document.write');
+                } catch (fallbackError) {
+                    console.error('All methods failed:', fallbackError);
+                }
+            }
+        }
+    },
+    
+    /**
+     * Refresh the preview (same as runCode)
+     */
+    refreshPreview() {
+        this.runCode();
+    },
+    
+    /**
+     * Test with sample code to verify compiler works
+     */
+    testCode() {
+        document.getElementById('htmlEditor').value = '<h1>Hello World!</h1><p>This is a test.</p>';
+        document.getElementById('cssEditor').value = 'h1 { color: blue; } p { color: green; }';
+        document.getElementById('jsEditor').value = 'console.log("JavaScript is working!"); document.body.style.backgroundColor = "#f0f0f0";';
+        
+        // Run the test code
+        setTimeout(() => {
+            this.runCode();
+        }, 100);
+    },
+    
+    /**
+     * Debug function to test iframe directly
+     */
+    debugIframe() {
+        const preview = document.getElementById('codePreview');
+        console.log('Iframe element:', preview);
+        console.log('Iframe src:', preview.src);
+        console.log('Iframe srcdoc:', preview.srcdoc);
+        
+        // Test simple HTML
+        preview.srcdoc = '<h1>Test</h1><p>If you see this, iframe works!</p>';
+        console.log('Set simple test HTML');
+    },
+    
+    /**
+     * Simple test to verify iframe works
+     */
+    simpleTest() {
+        const preview = document.getElementById('codePreview');
+        if (!preview) {
+            console.error('No iframe found');
+            return;
+        }
+        
+        // Test with minimal HTML
+        const testHTML = '<h1 style="color: red;">Hello!</h1><p>Iframe is working!</p>';
+        
+        try {
+            preview.srcdoc = testHTML;
+            console.log('Simple test HTML set');
+        } catch (e) {
+            console.error('Error setting srcdoc:', e);
+        }
     },
     
     /**

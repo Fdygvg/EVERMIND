@@ -429,9 +429,51 @@ h1 {
 .revision-controls,
 .answer-controls {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.revision-controls .big-btn {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.9rem;
+    padding: 12px 8px;
+}
+
+@media (max-width: 768px) {
+    .revision-controls {
+        gap: 8px;
+    }
+    
+    .revision-controls .big-btn {
+        font-size: 0.8rem;
+        padding: 10px 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .revision-controls {
+        gap: 5px;
+    }
+    
+    .revision-controls .big-btn {
+        font-size: 0.75rem;
+        padding: 8px 4px;
+    }
+}
+
+@media (max-width: 360px) {
+    .revision-controls {
+        gap: 3px;
+    }
+    
+    .revision-controls .big-btn {
+        font-size: 0.7rem;
+        padding: 6px 2px;
+    }
 }
 
 /* ==================== CODE FORMATTING ==================== */
@@ -841,6 +883,75 @@ body[aria-busy="true"] {
 .code-editor-btn:hover {
     background: var(--color-blue-dark);
     transform: translateY(-2px);
+}
+
+/* ==================== TAG FILTER UI ==================== */
+.tag-filter-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.tag-filter-header h4 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.tag-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tag-chip {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.tag-chip:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.tag-chip.active {
+    background: var(--color-blue);
+    color: white;
+    border-color: var(--color-blue-dark);
+}
+
+.tag-search {
+    margin-top: 15px;
+}
+
+.tag-search input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.tag-search input:focus {
+    outline: none;
+    border-color: var(--color-blue);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.tag-search input::placeholder {
+    opacity: 0.6;
 }
 
 /* Code Editor Responsive */

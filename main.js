@@ -4,9 +4,9 @@ const state = {
     allQuestions: {},
     revisionQuestions: [],
     currentQuestionIndex: 0,
-    wrongAnswers: [],
     isAnswerShown: false,
     revisionMode: 'section', // 'section' or 'global'
+    tagFilter: null, // For programming section tag filtering
 };
 
 // ==================== LOADING SCREEN ====================
@@ -159,34 +159,30 @@ function displayQuestions(questions) {
     
     console.log(`📝 Displaying ${questions ? questions.length : 0} questions`);
     
-    if (!questions || questions.length === 0) {
-        questionsList.innerHTML = '<p style="text-align: center; padding: 40px; font-size: 1.2rem;">No questions found in this section.</p>';
+    // Add tag filter UI for programming section
+    if (state.currentSection === 'programming') {
+        addTagFilterUI(questions);
+    }
+    
+    // Filter questions by tag if a tag is selected
+    let filteredQuestions = questions;
+    if (state.tagFilter && state.currentSection === 'programming') {
+        filteredQuestions = questions.filter(q => q.tags && q.tags.includes(state.tagFilter));
+    }
+    
+    if (!filteredQuestions || filteredQuestions.length === 0) {
+        questionsList.innerHTML = '<p style="text-align: center; padding: 40px; font-size: 1.2rem;">No questions found.</p>';
         return;
     }
     
-    questions.forEach((q, index) => {
+    filteredQuestions.forEach((q, index) => {
         const questionItem = document.createElement('div');
         questionItem.className = 'question-item';
         questionItem.onclick = () => toggleAnswer(index);
         
         let content = `<h3>Q${index + 1}: ${escapeHtml(q.question)}</h3>`;
         
-        // Add speaker button for language questions
-        if (state.currentSection === 'languages' && q.language && q.word) {
-            const speakerBtn = AudioPlayer.addSpeakerButton(questionItem, q.word, q.language);
-            questionItem.querySelector('h3').appendChild(speakerBtn);
-        }
-        
-        // Add code editor button for programming questions
-        if (state.currentSection === 'programming') {
-            const codeBtn = CodeEditor.addCodeButton(questionItem);
-            if (!questionItem.querySelector('h3').querySelector('.code-editor-btn')) {
-                questionItem.querySelector('h3').appendChild(codeBtn);
-            }
-        }
-        
         if (q.image) {
-            content = `<h3>Q${index + 1}: ${escapeHtml(q.question)}</h3>`;
             content += `<img src="${q.image}" alt="Question image" class="question-image">`;
         }
         
@@ -209,7 +205,7 @@ function displayQuestions(questions) {
         
         questionItem.innerHTML = content;
         
-        // Re-add buttons after innerHTML is set
+        // Add buttons after innerHTML is set
         const h3 = questionItem.querySelector('h3');
         
         if (state.currentSection === 'languages' && q.language && q.word) {
@@ -217,13 +213,83 @@ function displayQuestions(questions) {
             h3.appendChild(speakerBtn);
         }
         
-        if (state.currentSection === 'programming') {
-            const codeBtn = CodeEditor.addCodeButton(questionItem);
+        if (state.currentSection === 'programming' && q.answer) {
+            const codeBtn = document.createElement('button');
+            codeBtn.className = 'code-editor-btn';
+            codeBtn.innerHTML = '💻 Try Code';
+            codeBtn.title = 'Open code editor';
+            codeBtn.onclick = (e) => {
+                e.stopPropagation();
+                const savedCode = localStorage.getItem(`code_${state.currentSection}_${index}`);
+                CodeEditor.openEditor(savedCode || q.answer, q.type || 'html', state.currentSection, index);
+            };
             h3.appendChild(codeBtn);
         }
         
         questionsList.appendChild(questionItem);
     });
+}
+
+function addTagFilterUI(questions) {
+    const questionsList = document.getElementById('questionsList');
+    
+    // Get unique tags from questions
+    const tags = new Set();
+    questions.forEach(q => {
+        if (q.tags) {
+            q.tags.forEach(tag => tags.add(tag));
+        }
+    });
+    
+    if (tags.size === 0) return;
+    
+    // Create filter UI
+    const filterDiv = document.createElement('div');
+    filterDiv.className = 'tag-filter-container';
+    filterDiv.innerHTML = `
+        <div class="tag-filter-header">
+            <h4>Filter by Tag:</h4>
+        </div>
+        <div class="tag-chips">
+            <button class="tag-chip ${!state.tagFilter ? 'active' : ''}" onclick="filterByTag(null)">All</button>
+            ${Array.from(tags).map(tag => 
+                `<button class="tag-chip ${state.tagFilter === tag ? 'active' : ''}" onclick="filterByTag('${tag}')">#${tag}</button>`
+            ).join('')}
+        </div>
+        <div class="tag-search">
+            <input type="text" id="tagSearchInput" placeholder="Search tags... (e.g., #html)" oninput="searchTags(this.value)">
+        </div>
+    `;
+    
+    questionsList.insertBefore(filterDiv, questionsList.firstChild);
+}
+
+function filterByTag(tag) {
+    state.tagFilter = tag;
+    const questions = state.allQuestions[state.currentSection];
+    displayQuestions(questions);
+}
+
+function searchTags(searchValue) {
+    const input = searchValue.toLowerCase().replace('#', '');
+    if (!input) {
+        filterByTag(null);
+        return;
+    }
+    
+    // Find matching tag
+    const questions = state.allQuestions[state.currentSection];
+    const allTags = new Set();
+    questions.forEach(q => {
+        if (q.tags) {
+            q.tags.forEach(tag => allTags.add(tag));
+        }
+    });
+    
+    const matchingTag = Array.from(allTags).find(tag => tag.toLowerCase().includes(input));
+    if (matchingTag) {
+        filterByTag(matchingTag);
+    }
 }
 
 function toggleAnswer(index) {
@@ -239,7 +305,6 @@ function startSectionRevision() {
     state.revisionQuestions = [...state.allQuestions[state.currentSection]];
     shuffleArray(state.revisionQuestions);
     state.currentQuestionIndex = 0;
-    state.wrongAnswers = [];
     
     startRevision();
 }
@@ -264,7 +329,6 @@ function startGlobalRevision() {
     
     shuffleArray(state.revisionQuestions);
     state.currentQuestionIndex = 0;
-    state.wrongAnswers = [];
     
     startRevision();
 }
@@ -312,7 +376,11 @@ function displayCurrentQuestion() {
     
     // Add code editor button for programming questions in revision mode
     if (question.answer && (question.answer.includes('{') || question.answer.includes('<') || question.answer.includes('function'))) {
-        answerHtml += `<br><button class="code-editor-btn" onclick="CodeEditor.openEditor(\`${escapeHtml(question.answer).replace(/`/g, '\\`')}\`)">💻 Try This Code</button>`;
+        const questionId = `revision_${state.revisionMode}_${state.revisionQuestions.indexOf(question)}`;
+        const savedCode = localStorage.getItem(`code_${questionId}`);
+        const codeToUse = savedCode || question.answer;
+        const codeType = question.type || 'html';
+        answerHtml += `<br><button class="code-editor-btn" onclick="openRevisionCodeEditor('${questionId}', '${codeType}')">💻 Try This Code</button>`;
     }
     
     if (question.audio) {
@@ -321,7 +389,7 @@ function displayCurrentQuestion() {
     
     answerContent.innerHTML = answerHtml;
     
-    // Reset UI
+    // Hide answer initially, show Show Answer button
     answerContent.style.display = 'none';
     document.getElementById('showAnswerBtn').style.display = 'inline-block';
     document.getElementById('answerControls').style.display = 'none';
@@ -345,18 +413,14 @@ function markCorrect() {
 }
 
 function markWrong() {
-    // Move question to wrongAnswers queue
+    // Remove current question from front
     const question = state.revisionQuestions.shift();
-    state.wrongAnswers.push(question);
     
-    // If we have 5 or more wrong answers, add the oldest one back to the queue
-    if (state.wrongAnswers.length >= 5) {
-        const oldQuestion = state.wrongAnswers.shift();
-        state.revisionQuestions.push(oldQuestion);
-    }
+    // Insert question at position 5 (or at end if less than 5 questions remain)
+    const insertPosition = Math.min(5, state.revisionQuestions.length);
+    state.revisionQuestions.splice(insertPosition, 0, question);
     
     state.currentQuestionIndex = 0;
-    
     updateProgress();
     displayCurrentQuestion();
 }
@@ -392,11 +456,10 @@ function previousQuestion() {
 }
 
 function updateProgress() {
-    const totalQuestions = state.revisionQuestions.length + state.wrongAnswers.length;
     const questionsLeft = state.revisionQuestions.length;
     
     document.getElementById('questionsLeft').textContent = questionsLeft;
-    document.getElementById('totalQuestions').textContent = totalQuestions;
+    document.getElementById('totalQuestions').textContent = questionsLeft;
 }
 
 function showCompletionMessage() {
@@ -419,7 +482,6 @@ function showCompletionMessage() {
 
 function resetRevision() {
     state.revisionQuestions = [];
-    state.wrongAnswers = [];
     state.currentQuestionIndex = 0;
     state.isAnswerShown = false;
 }
@@ -442,6 +504,12 @@ function escapeHtml(text) {
         "'": '&#039;'
     };
     return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+function openRevisionCodeEditor(questionId, codeType) {
+    const question = state.revisionQuestions[0];
+    const savedCode = localStorage.getItem(`code_${questionId}`) || question.answer;
+    CodeEditor.openEditor(savedCode, codeType, questionId, 0);
 }
 
 // ==================== KEYBOARD SHORTCUTS ====================
@@ -482,4 +550,7 @@ window.markWrong = markWrong;
 window.skipQuestion = skipQuestion;
 window.nextQuestion = nextQuestion;
 window.previousQuestion = previousQuestion;
+window.filterByTag = filterByTag;
+window.searchTags = searchTags;
+window.openRevisionCodeEditor = openRevisionCodeEditor;
 
