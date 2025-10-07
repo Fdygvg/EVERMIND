@@ -371,6 +371,26 @@ function skipQuestion() {
     displayCurrentQuestion();
 }
 
+function nextQuestion() {
+    // Move to next question without marking current one
+    if (state.revisionQuestions.length > 1) {
+        const question = state.revisionQuestions.shift();
+        state.revisionQuestions.push(question);
+        state.currentQuestionIndex = 0;
+        displayCurrentQuestion();
+    }
+}
+
+function previousQuestion() {
+    // Move to previous question (last in queue)
+    if (state.revisionQuestions.length > 1) {
+        const question = state.revisionQuestions.pop();
+        state.revisionQuestions.unshift(question);
+        state.currentQuestionIndex = 0;
+        displayCurrentQuestion();
+    }
+}
+
 function updateProgress() {
     const totalQuestions = state.revisionQuestions.length + state.wrongAnswers.length;
     const questionsLeft = state.revisionQuestions.length;
@@ -460,4 +480,6 @@ window.showAnswer = showAnswer;
 window.markCorrect = markCorrect;
 window.markWrong = markWrong;
 window.skipQuestion = skipQuestion;
+window.nextQuestion = nextQuestion;
+window.previousQuestion = previousQuestion;
 

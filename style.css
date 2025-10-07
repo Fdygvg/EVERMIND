@@ -308,30 +308,39 @@ h1 {
 }
 
 .secondary-btn {
-    background: #95a5a6;
-    color: white;
+    background: #f39c12 !important;
+    color: white !important;
 }
 
 .secondary-btn:hover {
-    background: #7f8c8d;
+    background: #e67e22 !important;
 }
 
 .correct-btn {
-    background: #27ae60;
-    color: white;
+    background: #27ae60 !important;
+    color: white !important;
 }
 
 .correct-btn:hover {
-    background: #229954;
+    background: #229954 !important;
 }
 
 .wrong-btn {
-    background: #e74c3c;
-    color: white;
+    background: #e74c3c !important;
+    color: white !important;
 }
 
 .wrong-btn:hover {
-    background: #c0392b;
+    background: #c0392b !important;
+}
+
+.nav-btn {
+    background: #3498db !important;
+    color: white !important;
+}
+
+.nav-btn:hover {
+    background: #2980b9 !important;
 }
 
 /* ==================== SECTION VIEW ==================== */
