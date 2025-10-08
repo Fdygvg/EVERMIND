@@ -169,10 +169,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ==================== GLOBAL SEARCH ====================
 function initGlobalSearch() {
+    console.log('🔍 Initializing global search...');
     const searchInput = document.getElementById('globalSearchInput');
     const searchResults = document.getElementById('searchResults');
     
-    if (!searchInput || !searchResults) return;
+    if (!searchInput || !searchResults) {
+        console.error('❌ Search elements not found:', { searchInput: !!searchInput, searchResults: !!searchResults });
+        return;
+    }
+    
+    console.log('✅ Search elements found, setting up event listeners');
     
     let searchTimeout;
     
@@ -202,16 +208,41 @@ function initGlobalSearch() {
         if (e.key === 'Escape') {
             searchResults.classList.remove('show');
             searchInput.blur();
+        } else if (e.key === 'Enter') {
+            // Handle Enter key - perform search immediately
+            e.preventDefault();
+            const query = searchInput.value.trim();
+            if (query.length >= 2) {
+                // Add visual feedback
+                searchInput.style.borderColor = 'var(--color-blue)';
+                searchInput.style.boxShadow = '0 0 20px rgba(30, 58, 138, 0.3)';
+                
+                performGlobalSearch(query);
+                
+                // Reset visual feedback after a moment
+                setTimeout(() => {
+                    searchInput.style.borderColor = '';
+                    searchInput.style.boxShadow = '';
+                }, 300);
+            } else {
+                // Show message for short queries
+                if (searchResults) {
+                    searchResults.innerHTML = '<div class="no-results">Please enter at least 2 characters to search</div>';
+                    searchResults.classList.add('show');
+                }
+            }
         }
     });
 }
 
 function performGlobalSearch(query) {
+    console.log('🔍 Performing search for:', query);
     const searchResults = document.getElementById('searchResults');
     const results = [];
     
     // Check if data is loaded
     if (!state.allQuestions || Object.keys(state.allQuestions).length === 0) {
+        console.log('⚠️ No questions loaded yet');
         if (searchResults) {
             searchResults.innerHTML = '<div class="no-results">Loading questions...</div>';
             searchResults.classList.add('show');
@@ -219,18 +250,32 @@ function performGlobalSearch(query) {
         return;
     }
     
+    console.log('📊 Available sections:', Object.keys(state.allQuestions));
+    
+    // Debug: Check first question structure
+    const firstSection = Object.keys(state.allQuestions)[0];
+    if (firstSection && state.allQuestions[firstSection][0]) {
+        console.log('🔍 Sample question structure:', state.allQuestions[firstSection][0]);
+    }
+    
     // Search through all sections
     Object.keys(state.allQuestions).forEach(sectionName => {
         state.allQuestions[sectionName].forEach((question, index) => {
-            const questionText = question.q.toLowerCase();
-            const answerText = question.a.toLowerCase();
+            // Check if question has the expected structure
+            if (!question || typeof question !== 'object') {
+                console.warn('⚠️ Invalid question at', sectionName, index, question);
+                return;
+            }
+            
+            const questionText = (question.q || '').toLowerCase();
+            const answerText = (question.a || '').toLowerCase();
             const searchQuery = query.toLowerCase();
             
             if (questionText.includes(searchQuery) || answerText.includes(searchQuery)) {
                 results.push({
                     section: sectionName,
-                    question: question.q,
-                    answer: question.a,
+                    question: question.q || 'No question text',
+                    answer: question.a || 'No answer text',
                     index: index,
                     sectionDisplayName: getSectionDisplayName(sectionName)
                 });
@@ -238,6 +283,7 @@ function performGlobalSearch(query) {
         });
     });
     
+    console.log('🎯 Found', results.length, 'results');
     displaySearchResults(results, query);
 }
 
