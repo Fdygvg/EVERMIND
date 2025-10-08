@@ -267,15 +267,16 @@ function performGlobalSearch(query) {
                 return;
             }
             
-            const questionText = (question.q || '').toLowerCase();
-            const answerText = (question.a || '').toLowerCase();
+            // Handle both old format (q/a) and new format (question/answer)
+            const questionText = (question.q || question.question || '').toLowerCase();
+            const answerText = (question.a || question.answer || '').toLowerCase();
             const searchQuery = query.toLowerCase();
             
             if (questionText.includes(searchQuery) || answerText.includes(searchQuery)) {
                 results.push({
                     section: sectionName,
-                    question: question.q || 'No question text',
-                    answer: question.a || 'No answer text',
+                    question: question.q || question.question || 'No question text',
+                    answer: question.a || question.answer || 'No answer text',
                     index: index,
                     sectionDisplayName: getSectionDisplayName(sectionName)
                 });
