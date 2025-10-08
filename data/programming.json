@@ -1,3 +1,104 @@
 [
- 
+  {
+    "question": "How do I start a new JavaScript file?",
+    "answer": "// In terminal:\nnode filename.js\n\n// Or in HTML:\n<script src=\"filename.js\"></script>",
+    "type": "javascript",
+    "tags": ["js", "cmd"]
+  },
+  {
+    "question": "How do I start a new Python file?",
+    "answer": "# In terminal:\npython filename.py\n\n# Or:\npython3 filename.py",
+    "type": "python",
+    "tags": ["python", "cmd"]
+  },
+  {
+    "question": "How do I start a new C program/file?",
+    "answer": "// Compile:\ngcc filename.c -o filename\n\n// Run:\n./filename",
+    "type": "c",
+    "tags": ["c", "cmd"]
+  },
+  {
+    "question": "How do I start a new C++ program/file?",
+    "answer": "// Compile:\ng++ filename.cpp -o filename\n\n// Run:\n./filename",
+    "type": "c",
+    "tags": ["c", "cmd"]
+  },
+  {
+    "question": "How do I run programs in CMD?",
+    "answer": "# Navigate to folder:\ncd path/to/folder\n\n# Run executable:\nfilename.exe\n\n# Or:\nstart filename.exe",
+    "type": "shell",
+    "tags": ["cmd"]
+  },
+  {
+    "question": "How do I start a Playwright file in CMD?",
+    "answer": "# Install Playwright:\nnpm install playwright\n\n# Run test:\nnpx playwright test filename.spec.js",
+    "type": "javascript",
+    "tags": ["js", "playwright", "cmd"]
+  },
+  {
+    "question": "What does API stand for?",
+    "answer": "API stands for Application Programming Interface.\n\nIt's a set of rules and protocols that allows different software applications to communicate with each other.",
+    "type": "html",
+    "tags": ["api"]
+  },
+  {
+    "question": "What are the names of these symbols: () [] <> {} / \\ |",
+    "answer": "() - Parentheses\n[] - Square brackets / Brackets\n<> - Angle brackets\n{} - Curly braces / Braces\n/ - Forward slash\n\\ - Backslash\n| - Pipe / Vertical bar",
+    "type": "html",
+    "tags": ["symbols"]
+  },
+  {
+    "question": "How do I make a commit and push changes to GitHub?",
+    "answer": "git add .\ngit commit -m \"Your commit message\"\ngit push origin main",
+    "type": "shell",
+    "tags": ["git"]
+  },
+  {
+    "question": "How do I see the commit history?",
+    "answer": "git log\n\n# Optional for a one-line view:\ngit log --oneline",
+    "type": "shell",
+    "tags": ["git"]
+  },
+  {
+    "question": "How do I view all commits?",
+    "answer": "git log\n\n# Optional for a one-line view:\ngit log --oneline",
+    "type": "shell",
+    "tags": ["git"]
+  },
+  {
+    "question": "How do I restore a commit?",
+    "answer": "# Creates a new commit undoing the changes:\ngit revert <commit-hash>\n\n# Or reset to a previous commit (destructive):\ngit reset --hard <commit-hash>",
+    "type": "shell",
+    "tags": ["git"]
+  },
+  {
+    "question": "How do I view tags?",
+    "answer": "git tag",
+    "type": "shell",
+    "tags": ["git"]
+  },
+  {
+    "question": "How do I create a tag?",
+    "answer": "git tag <tag-name>\n\n# For annotated tag:\ngit tag -a <tag-name> -m \"Tag message\"",
+    "type": "shell",
+    "tags": ["git"]
+  },
+  {
+    "question": "How do I push tags to GitHub?",
+    "answer": "# Push a single tag:\ngit push origin <tag-name>\n\n# Push all tags:\ngit push origin --tags",
+    "type": "shell",
+    "tags": ["git"]
+  },
+  {
+    "question": "How do I delete a tag?",
+    "answer": "# Delete locally:\ngit tag -d <tag-name>\n\n# Delete remotely:\ngit push origin --delete <tag-name>",
+    "type": "shell",
+    "tags": ["git"]
+  },
+  {
+    "question": "How do I check the current branch?",
+    "answer": "git branch\n\n# Or just the current branch:\ngit branch --show-current",
+    "type": "shell",
+    "tags": ["git"]
+  }
 ]

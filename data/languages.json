@@ -34,5 +34,77 @@
     "word": "onaka ga suita",
     "language": "japanese",
     "answer": "Translated: onaka ga suita | Pronounced: oh-na-ka ga sue-ta"
+  },
+  {
+    "question": "How do you say 'How are you?' in Igbo?",
+    "word": "Kedu",
+    "language": "igbo",
+    "answer": "Translated: Kedu? | Pronounced: KEH-doo"
+  },
+  {
+    "question": "How do you say 'How are you?' in Yoruba?",
+    "word": "Se alaafia ni",
+    "language": "yoruba",
+    "answer": "Translated: Se alaafia ni? | Pronounced: shay AH-lah-fee-ah nee"
+  },
+  {
+    "question": "How do you say 'How are you?' in Hausa?",
+    "word": "Lafiya lau",
+    "language": "hausa",
+    "answer": "Translated: Lafiya lau? | Pronounced: LAH-fee-yah lau"
+  },
+  {
+    "question": "How do you say 'How are you?' in Spanish?",
+    "word": "Como estas",
+    "language": "spanish",
+    "answer": "Translated: ¿Cómo estás? | Pronounced: KOH-mo es-TAHS"
+  },
+  {
+    "question": "How do you say 'How are you?' in French?",
+    "word": "Comment ca va",
+    "language": "french",
+    "answer": "Translated: Comment ça va? | Pronounced: koh-MAHN sah vah"
+  },
+  {
+    "question": "How do you say 'How are you?' in Japanese?",
+    "word": "ogenki desu ka",
+    "language": "japanese",
+    "answer": "Translated: お元気ですか | Pronounced: oh-gen-kee dess ka"
+  },
+  {
+    "question": "How do you say 'I am fine' in Igbo?",
+    "word": "Adi m mma",
+    "language": "igbo",
+    "answer": "Translated: Adị m mma | Pronounced: AH-dee m mah"
+  },
+  {
+    "question": "How do you say 'I am fine' in Yoruba?",
+    "word": "Mo wa pa",
+    "language": "yoruba",
+    "answer": "Translated: Mo wà pa | Pronounced: moh wah pah"
+  },
+  {
+    "question": "How do you say 'I am fine' in Hausa?",
+    "word": "Lafiya",
+    "language": "hausa",
+    "answer": "Translated: Lafiya | Pronounced: LAH-fee-yah"
+  },
+  {
+    "question": "How do you say 'I am fine' in Spanish?",
+    "word": "Estoy bien",
+    "language": "spanish",
+    "answer": "Translated: Estoy bien | Pronounced: es-TOY byen"
+  },
+  {
+    "question": "How do you say 'I am fine' in French?",
+    "word": "Ca va bien",
+    "language": "french",
+    "answer": "Translated: Ça va bien | Pronounced: sah vah byen"
+  },
+  {
+    "question": "How do you say 'I am fine' in Japanese?",
+    "word": "genki desu",
+    "language": "japanese",
+    "answer": "Translated: 元気です | Pronounced: gen-kee dess"
   }
 ]
