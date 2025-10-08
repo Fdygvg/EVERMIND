@@ -209,8 +209,12 @@ function displayQuestions(questions) {
         const h3 = questionItem.querySelector('h3');
         
         if (state.currentSection === 'languages' && q.language && q.word) {
-            const speakerBtn = AudioPlayer.addSpeakerButton(questionItem, q.word, q.language);
-            h3.appendChild(speakerBtn);
+            // Only add speaker button for Web Speech API languages (not Spitch)
+            const webSpeechLanguages = ['french', 'spanish', 'japanese'];
+            if (webSpeechLanguages.includes(q.language.toLowerCase())) {
+                const speakerBtn = AudioPlayer.addSpeakerButton(questionItem, q.word, q.language);
+                h3.appendChild(speakerBtn);
+            }
         }
         
         if (state.currentSection === 'programming' && q.answer) {
@@ -301,6 +305,9 @@ function toggleAnswer(index) {
 function startSectionRevision() {
     if (!state.currentSection) return;
     
+    // Reset revision state
+    resetRevision();
+    
     state.revisionMode = 'section';
     state.revisionQuestions = [...state.allQuestions[state.currentSection]];
     shuffleArray(state.revisionQuestions);
@@ -316,6 +323,9 @@ function startGlobalRevision() {
         alert('Please select at least one section for revision!');
         return;
     }
+    
+    // Reset revision state
+    resetRevision();
     
     state.revisionMode = 'global';
     state.revisionQuestions = [];
@@ -352,9 +362,14 @@ function displayCurrentQuestion() {
     // Display question
     let questionHtml = escapeHtml(question.question);
     
-    // Add speaker button for language questions in revision mode
+    // Add speaker button for language questions in revision mode (only Web Speech API languages)
     if (question.language && question.word) {
-        questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${escapeHtml(question.word)}', '${escapeHtml(question.language)}')" title="Play pronunciation">🔊</button>`;
+        const webSpeechLanguages = ['french', 'spanish', 'japanese'];
+        if (webSpeechLanguages.includes(question.language.toLowerCase())) {
+            const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            const safeLang = question.language.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${safeWord}', '${safeLang}')" title="Play pronunciation">🔊</button>`;
+        }
     }
     
     if (question.image) {
@@ -484,6 +499,19 @@ function resetRevision() {
     state.revisionQuestions = [];
     state.currentQuestionIndex = 0;
     state.isAnswerShown = false;
+    
+    // Clear any completion message from previous sessions
+    const questionCard = document.getElementById('questionCard');
+    if (questionCard) {
+        questionCard.innerHTML = `
+            <div class="question-content" id="questionContent">
+                <!-- Question will be displayed here -->
+            </div>
+            <div class="answer-content" id="answerContent" style="display: none;">
+                <!-- Answer will be displayed here -->
+            </div>
+        `;
+    }
 }
 
 // ==================== UTILITY FUNCTIONS ====================
