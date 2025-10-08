@@ -9,12 +9,31 @@ const state = {
     tagFilter: null, // For programming section tag filtering
 };
 
-// ==================== LOADING SCREEN ====================
+// ==================== ENHANCED LOADING SCREEN ====================
 async function initLoadingScreen() {
+    console.log('🚀 Starting loading screen initialization...');
+    
     const loadingScreen = document.getElementById('loadingScreen');
     const progressBar = document.getElementById('progressBar');
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
+    const loadingStatus = document.getElementById('loadingStatus');
+    const factText = document.getElementById('factText');
+    
+    // Debug: Check if elements exist
+    console.log('📋 Element check:', {
+        loadingScreen: !!loadingScreen,
+        progressBar: !!progressBar,
+        progressFill: !!progressFill,
+        progressText: !!progressText,
+        loadingStatus: !!loadingStatus,
+        factText: !!factText
+    });
+    
+    if (!loadingScreen || !progressBar || !progressFill || !progressText) {
+        console.error('❌ Missing loading screen elements!');
+        return;
+    }
     
     // Set aria-busy on body
     document.body.setAttribute('aria-busy', 'true');
@@ -23,25 +42,89 @@ async function initLoadingScreen() {
     const duration = 3000; // 3 seconds
     let dataLoaded = false;
     
+    // Did You Know Facts
+    const facts = [
+        "The human brain contains approximately 86 billion neurons!",
+        "Learning a new language can increase your brain's gray matter density.",
+        "The brain uses about 20% of your body's total energy, even though it's only 2% of your weight.",
+        "Memory consolidation happens during sleep - that's why good sleep helps learning!",
+        "The brain can process information as fast as 120 meters per second.",
+        "Practice makes perfect - repetition strengthens neural pathways in your brain.",
+        "Multitasking actually reduces productivity by up to 40% according to research.",
+        "The brain is more creative when you're slightly tired - that's why 'aha!' moments often come at night.",
+        "Learning new skills creates new neural pathways and can help prevent cognitive decline.",
+        "The brain's hippocampus is crucial for forming new memories and learning.",
+        "Spaced repetition is scientifically proven to be more effective than cramming.",
+        "Your brain processes visual information 60,000 times faster than text.",
+        "Learning music can improve mathematical abilities and spatial reasoning.",
+        "The brain releases dopamine when you learn something new - that's the 'learning high'!",
+        "Regular exercise increases brain-derived neurotrophic factor (BDNF), which helps learning."
+    ];
+    
+    // Loading status messages
+    const statusMessages = [
+        'Initializing...',
+        'Loading questions...',
+        'Preparing interface...',
+        'Almost ready...',
+        'Welcome to EVERMIND!'
+    ];
+    
     // Load data in parallel with animation
     loadAllSections().then(() => {
         dataLoaded = true;
+        console.log('✅ Data loading complete');
+    }).catch(error => {
+        console.error('❌ Error loading data:', error);
+        dataLoaded = true; // Continue anyway
     });
+    
+    // Show one random fact at a time during loading
+    let factIndex = Math.floor(Math.random() * facts.length);
+    if (factText && facts.length > 0) {
+        factText.textContent = facts[factIndex];
+        console.log(`💡 Showing random fact: ${facts[factIndex]}`);
+    } else {
+        console.warn('⚠️ factText element not found or facts array empty');
+    }
     
     function updateProgress(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(100, (elapsed / duration) * 100);
         const roundedProgress = Math.round(progress);
         
-        // Update progress bar
-        progressFill.style.width = `${progress}%`;
-        progressBar.setAttribute('aria-valuenow', roundedProgress);
-        progressText.textContent = `${roundedProgress}%`;
+        // Update progress bar with smooth animation
+        if (progressFill) {
+            progressFill.style.width = `${progress}%`;
+        }
+        if (progressBar) {
+            progressBar.setAttribute('aria-valuenow', roundedProgress);
+        }
+        if (progressText) {
+            progressText.textContent = `${roundedProgress}%`;
+        }
+        
+        // Update loading status
+        if (loadingStatus) {
+            const statusIndex = Math.floor((progress / 100) * statusMessages.length);
+            if (statusIndex < statusMessages.length) {
+                loadingStatus.textContent = statusMessages[statusIndex];
+            }
+        }
+        
+        console.log(`📊 Progress: ${roundedProgress}% (${Math.round(elapsed)}ms elapsed)`);
         
         if (progress < 100 || !dataLoaded) {
             requestAnimationFrame(updateProgress);
         } else {
-            // Loading complete - fade out
+            // Loading complete - play completion sound
+            console.log('🎉 Loading complete!');
+            
+            // Play completion sound if available
+            if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+                window.SoundEffects.playSound('complete');
+            }
+            
             setTimeout(() => {
                 loadingScreen.classList.add('fade-out');
                 document.body.removeAttribute('aria-busy');
@@ -49,24 +132,41 @@ async function initLoadingScreen() {
                 // Remove loading screen from DOM after fade completes
                 setTimeout(() => {
                     loadingScreen.remove();
-                }, 300);
-            }, 250);
+                    console.log('🚀 Loading screen removed, app ready!');
+                }, 500);
+            }, 300);
         }
     }
     
+    console.log('🎬 Starting progress animation...');
     requestAnimationFrame(updateProgress);
 }
 
 // ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 DOM Content Loaded');
+    
+    // Small delay to ensure SoundEffects is loaded
+    setTimeout(() => {
     loadTheme();
-    initLoadingScreen();
+        console.log('🎨 Theme loaded');
+        
+        // Small delay to ensure all elements are rendered
+        setTimeout(() => {
+            initLoadingScreen();
+        }, 100);
+    }, 200);
 });
 
 // ==================== THEME MANAGEMENT ====================
 function setTheme(theme) {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('evermind-theme', theme);
+    
+    // Play sound if SoundEffects is available and has the method
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('click');
+    }
 }
 
 function loadTheme() {
@@ -150,6 +250,9 @@ async function openSection(sectionId) {
     console.log(`🔍 Opening ${sectionId} section with ${questions ? questions.length : 0} questions`);
     displayQuestions(questions);
     
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('click');
+    }
     showPage('sectionView');
 }
 
@@ -313,6 +416,9 @@ function startSectionRevision() {
     shuffleArray(state.revisionQuestions);
     state.currentQuestionIndex = 0;
     
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('click');
+    }
     startRevision();
 }
 
@@ -340,6 +446,9 @@ function startGlobalRevision() {
     shuffleArray(state.revisionQuestions);
     state.currentQuestionIndex = 0;
     
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('click');
+    }
     startRevision();
 }
 
@@ -416,6 +525,9 @@ function showAnswer() {
     document.getElementById('showAnswerBtn').style.display = 'none';
     document.getElementById('answerControls').style.display = 'flex';
     state.isAnswerShown = true;
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('click');
+    }
 }
 
 function markCorrect() {
@@ -423,6 +535,9 @@ function markCorrect() {
     state.revisionQuestions.shift();
     state.currentQuestionIndex = 0;
     
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('correct');
+    }
     updateProgress();
     displayCurrentQuestion();
 }
@@ -436,6 +551,9 @@ function markWrong() {
     state.revisionQuestions.splice(insertPosition, 0, question);
     
     state.currentQuestionIndex = 0;
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('wrong');
+    }
     updateProgress();
     displayCurrentQuestion();
 }
@@ -446,6 +564,9 @@ function skipQuestion() {
     state.revisionQuestions.push(question);
     
     state.currentQuestionIndex = 0;
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('skip');
+    }
     
     displayCurrentQuestion();
 }
@@ -456,6 +577,9 @@ function nextQuestion() {
         const question = state.revisionQuestions.shift();
         state.revisionQuestions.push(question);
         state.currentQuestionIndex = 0;
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('next');
+    }
         displayCurrentQuestion();
     }
 }
@@ -466,6 +590,9 @@ function previousQuestion() {
         const question = state.revisionQuestions.pop();
         state.revisionQuestions.unshift(question);
         state.currentQuestionIndex = 0;
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('next');
+    }
         displayCurrentQuestion();
     }
 }

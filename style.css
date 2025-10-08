@@ -154,11 +154,7 @@ body[data-theme="blue"] .section-card h2 {
     display: block;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 40px;
-    position: relative;
-}
+/* Removed old header style - using new layout below */
 
 h1 {
     font-size: 2.5rem;
@@ -536,16 +532,17 @@ audio {
     }
 }
 
-/* ==================== LOADING SCREEN ==================== */
+/* ==================== ENHANCED LOADING SCREEN ==================== */
 .loading-screen {
     position: fixed;
     inset: 0;
-    display: grid;
-    place-items: center;
-    background: radial-gradient(1200px 800px at 50% -200px, rgba(255, 255, 255, 0.06), transparent),
-                #0B1220;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0B1220 0%, #1a1a2e 50%, #16213e 100%);
     z-index: 9999;
-    transition: opacity 0.3s ease-out;
+    transition: opacity 0.5s ease-out;
+    overflow: hidden;
 }
 
 .loading-screen.fade-out {
@@ -553,104 +550,304 @@ audio {
     pointer-events: none;
 }
 
-.loading-brains {
+/* Animated Background */
+.loading-background {
     position: absolute;
     inset: 0;
     overflow: hidden;
-    pointer-events: none;
 }
 
-.loading-brain {
+.gradient-orb {
     position: absolute;
-    top: -10vh;
-    left: var(--left, 50%);
-    font-size: 2rem;
-    animation: fall var(--dur, 2.4s) linear var(--delay, 0s) forwards;
-    will-change: transform, opacity;
-    transform: translateX(-50%);
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: float 6s ease-in-out infinite;
 }
 
-@keyframes fall {
-    0% {
-        transform: translateY(-120vh) translateX(-50%) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) translateX(-50%) rotate(360deg);
-        opacity: 1;
-    }
+.orb-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(30, 58, 138, 0.3) 0%, transparent 70%);
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
 }
 
-.progress-wrap {
-    width: min(560px, 86vw);
-    z-index: 10;
+.orb-2 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(185, 28, 28, 0.3) 0%, transparent 70%);
+    top: 60%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-20px) scale(1.1); }
+}
+
+/* Main Content */
+.loading-content {
     position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+}
+
+.loading-brand {
+    margin-bottom: 40px;
 }
 
 .loading-title {
-    font-size: 3rem;
-    text-align: center;
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
     color: var(--text-on-dark);
-    margin-bottom: 10px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .loading-subtitle {
     font-size: 1.3rem;
-    text-align: center;
     color: var(--text-on-dark);
-    opacity: 0.85;
+    opacity: 0.9;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+}
+
+/* Did You Know Facts */
+.fact-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 25px;
     margin-bottom: 40px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fact-label {
+    font-size: 1rem;
+    color: var(--text-on-dark);
+    opacity: 0.8;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.fact-text {
+    font-size: 1.2rem;
+    color: var(--text-on-dark);
+    line-height: 1.6;
     font-weight: 400;
+    animation: factFade 0.5s ease-in-out;
+}
+
+@keyframes factFade {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Enhanced Progress Bar */
+.progress-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .progress-bar {
-    height: 8px;
-    border-radius: 999px;
+    position: relative;
+    height: 12px;
+    border-radius: 20px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.progress-track {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, 
+        rgba(30, 58, 138, 0.3) 0%, 
+        rgba(185, 28, 28, 0.3) 50%, 
+        rgba(52, 152, 219, 0.3) 100%);
+    border-radius: 20px;
 }
 
 .progress-fill {
+    position: relative;
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, var(--color-blue), var(--color-red));
-    transition: width 80ms linear;
+    transition: width 100ms ease-out;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.3) 0%, 
+        transparent 50%, 
+        rgba(255, 255, 255, 0.3) 100%);
+    animation: progressGlow 2s ease-in-out infinite;
+}
+
+@keyframes progressGlow {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
 }
 
 .progress-text {
-    margin-top: 12px;
-    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
     color: var(--text-on-dark);
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
+.loading-status {
+    font-size: 1rem;
+    color: var(--text-on-dark);
+    opacity: 0.7;
+    font-weight: 300;
+}
+
+/* Static Brain for Reduced Motion */
 .static-brain-illustration {
     position: absolute;
     display: none;
     z-index: 5;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.static-brain {
+    font-size: 8rem;
+    opacity: 0.3;
+    animation: staticPulse 3s ease-in-out infinite;
+}
+
+@keyframes staticPulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+}
+
+/* Glass Morphism Overlay */
+.glass-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    z-index: 1;
+}
+
+/* Header Layout */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-center {
+    flex: 1;
+    text-align: center;
+}
+
+.header-center h1 {
+    margin: 0;
+}
+
+.header-center .subtitle {
+    margin: 5px 0 0 0;
+}
+
+.mute-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.mute-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.mute-btn.muted {
+    background: rgba(185, 28, 28, 0.3);
+    border-color: rgba(185, 28, 28, 0.5);
+}
+
+.mute-icon {
+    font-size: 1.2rem;
+    display: block;
 }
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-    .loading-brain {
+    .gradient-orb {
         animation: none;
         display: none;
     }
     
     .static-brain-illustration {
-        display: block;
+        display: flex;
+    }
+    
+    .progress-glow {
+        animation: none;
+    }
+    
+    .fact-text {
+        animation: none;
     }
 }
 
 /* Loading Screen Responsive */
 @media (max-width: 768px) {
+    .loading-title {
+        font-size: 2.5rem;
+    }
+    
+    .loading-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .fact-container {
+        padding: 20px;
+        min-height: 100px;
+    }
+    
+    .fact-text {
+        font-size: 1.1rem;
+    }
+    
+    .progress-text {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
     .loading-title {
         font-size: 2rem;
     }
@@ -660,12 +857,17 @@ audio {
         margin-bottom: 30px;
     }
     
-    .loading-brain {
-        font-size: 1.5rem;
+    .fact-container {
+        padding: 15px;
+        min-height: 80px;
+    }
+    
+    .fact-text {
+        font-size: 1rem;
     }
     
     .progress-text {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 }
 

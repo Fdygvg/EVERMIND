@@ -7,52 +7,66 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Loading Screen -->
+    <!-- Enhanced Loading Screen -->
     <div id="loadingScreen" class="loading-screen" role="status" aria-live="polite">
-        <!-- Falling Brains Container -->
-        <div class="loading-brains" aria-hidden="true">
-            <div class="loading-brain" style="--delay: 0s; --dur: 2.4s; --left: 7%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.15s; --dur: 2.75s; --left: 14%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.3s; --dur: 2.1s; --left: 21%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.45s; --dur: 2.55s; --left: 28%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.6s; --dur: 2.85s; --left: 35%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.75s; --dur: 2.3s; --left: 42%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.9s; --dur: 2.65s; --left: 49%;">🧠</div>
-            <div class="loading-brain" style="--delay: 1.05s; --dur: 2.2s; --left: 56%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.2s; --dur: 2.5s; --left: 63%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.35s; --dur: 2.8s; --left: 70%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.5s; --dur: 2.35s; --left: 77%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.65s; --dur: 2.7s; --left: 84%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.8s; --dur: 2.45s; --left: 91%;">🧠</div>
-            <div class="loading-brain" style="--delay: 0.95s; --dur: 2.6s; --left: 98%;">🧠</div>
+        <!-- Animated Background -->
+        <div class="loading-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
         </div>
         
-        <!-- Progress Bar -->
-        <div class="progress-wrap">
-            <h1 class="loading-title">🧠 EVERMIND V.3</h1>
-            <p class="loading-subtitle">Your Personal Learning System</p>
-            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar">
-                <div class="progress-fill" id="progressFill"></div>
+        <!-- Main Content -->
+        <div class="loading-content">
+            <div class="loading-brand">
+                <h1 class="loading-title">🧠 EVERMIND</h1>
+                <p class="loading-subtitle">Your Personal Learning System</p>
             </div>
-            <div class="progress-text" id="progressText" aria-live="polite">0%</div>
+            
+            <!-- Did You Know Facts -->
+            <div class="fact-container">
+                <div class="fact-label">💡 Did you know?</div>
+                <div class="fact-text" id="factText">Loading interesting facts...</div>
+            </div>
+            
+            <!-- Enhanced Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar">
+                    <div class="progress-track"></div>
+                    <div class="progress-fill" id="progressFill">
+                        <div class="progress-glow"></div>
+                    </div>
+                </div>
+                <div class="progress-text" id="progressText" aria-live="polite">0%</div>
+                <div class="loading-status" id="loadingStatus">Initializing...</div>
+            </div>
         </div>
         
         <!-- Static Brain for Reduced Motion -->
         <div class="static-brain-illustration" aria-hidden="true">
-            <div style="font-size: 8rem; opacity: 0.3;">🧠</div>
+            <div class="static-brain">🧠</div>
         </div>
+        
+        <!-- Glass Morphism Overlay -->
+        <div class="glass-overlay"></div>
     </div>
 
     <!-- Homepage -->
     <div id="homepage" class="page active">
         <header>
-            <h1>🧠 EVERMIND V.3</h1>
-            <p class="subtitle">Your Personal Learning System</p>
-            <div class="theme-switcher">
-                <button onclick="setTheme('light')" class="theme-btn" title="Light Mode">☀️</button>
-                <button onclick="setTheme('dark')" class="theme-btn" title="Dark Mode">🌙</button>
-                <button onclick="setTheme('red')" class="theme-btn" title="Fire Mode">🔥</button>
-                <button onclick="setTheme('blue')" class="theme-btn" title="Water Mode">💧</button>
+            <div class="header-center">
+                <h1>🧠 EVERMIND</h1>
+                <p class="subtitle">Your Personal Learning System</p>
+            </div>
+            <div class="header-right">
+                <div class="theme-switcher">
+                    <button onclick="setTheme('light')" class="theme-btn" title="Light Mode">☀️</button>
+                    <button onclick="setTheme('dark')" class="theme-btn" title="Dark Mode">🌙</button>
+                    <button onclick="setTheme('red')" class="theme-btn" title="Fire Mode">🔥</button>
+                    <button onclick="setTheme('blue')" class="theme-btn" title="Water Mode">💧</button>
+                </div>
+                <button id="muteBtn" class="mute-btn" onclick="if(window.SoundEffects) window.SoundEffects.toggleMute()" title="Toggle Sound Effects">
+                    <span class="mute-icon">🔊</span>
+                </button>
             </div>
         </header>
 
@@ -165,6 +179,7 @@
         </div>
     </div>
 
+    <script src="sound_effects.js"></script>
     <script src="audio_player.js"></script>
     <script src="code_editor.js"></script>
     <script src="main.js"></script>
