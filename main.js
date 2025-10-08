@@ -7,6 +7,10 @@ const state = {
     isAnswerShown: false,
     revisionMode: 'section', // 'section' or 'global'
     tagFilter: null, // For programming section tag filtering
+    // Enhanced progress tracking
+    correctCount: 0,
+    wrongCount: 0,
+    totalQuestions: 0
 };
 
 // ==================== ENHANCED LOADING SCREEN ====================
@@ -151,6 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTheme();
         console.log('🎨 Theme loaded');
         
+        // Initialize global search after data is loaded
+        setTimeout(() => {
+            initGlobalSearch();
+        }, 1000);
+        
         // Small delay to ensure all elements are rendered
         setTimeout(() => {
             initLoadingScreen();
@@ -158,10 +167,143 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 200);
 });
 
-// ==================== THEME MANAGEMENT ====================
+// ==================== GLOBAL SEARCH ====================
+function initGlobalSearch() {
+    const searchInput = document.getElementById('globalSearchInput');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (!searchInput || !searchResults) return;
+    
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) {
+            searchResults.classList.remove('show');
+            return;
+        }
+        
+        searchTimeout = setTimeout(() => {
+            performGlobalSearch(query);
+        }, 300);
+    });
+    
+    // Hide results when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.remove('show');
+        }
+    });
+    
+    // Hide results on escape key
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            searchResults.classList.remove('show');
+            searchInput.blur();
+        }
+    });
+}
+
+function performGlobalSearch(query) {
+    const searchResults = document.getElementById('searchResults');
+    const results = [];
+    
+    // Search through all sections
+    Object.keys(state.allQuestions).forEach(sectionName => {
+        state.allQuestions[sectionName].forEach((question, index) => {
+            const questionText = question.q.toLowerCase();
+            const answerText = question.a.toLowerCase();
+            const searchQuery = query.toLowerCase();
+            
+            if (questionText.includes(searchQuery) || answerText.includes(searchQuery)) {
+                results.push({
+                    section: sectionName,
+                    question: question.q,
+                    answer: question.a,
+                    index: index,
+                    sectionDisplayName: getSectionDisplayName(sectionName)
+                });
+            }
+        });
+    });
+    
+    displaySearchResults(results, query);
+}
+
+function displaySearchResults(results, query) {
+    const searchResults = document.getElementById('searchResults');
+    
+    if (results.length === 0) {
+        searchResults.innerHTML = '<div class="no-results">No questions found matching "' + query + '"</div>';
+    } else {
+        searchResults.innerHTML = results.slice(0, 10).map(result => `
+            <div class="search-result-item" onclick="jumpToQuestion('${result.section}', ${result.index})">
+                <div class="search-result-question">${highlightText(result.question, query)}</div>
+                <div class="search-result-section">${result.sectionDisplayName}</div>
+            </div>
+        `).join('');
+    }
+    
+    searchResults.classList.add('show');
+}
+
+function highlightText(text, query) {
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, '<span class="search-highlight">$1</span>');
+}
+
+function getSectionDisplayName(sectionId) {
+    const displayNames = {
+        'languages': '🌍 Languages',
+        'programming': '💻 Programming',
+        'bible': '📖 Bible',
+        'science': '🔬 Science',
+        'history': '📚 History',
+        'facts': '💡 Facts',
+        'country_flags': '🏳️ Country Flags'
+    };
+    return displayNames[sectionId] || sectionId;
+}
+
+function jumpToQuestion(sectionName, questionIndex) {
+    // Close search results
+    document.getElementById('searchResults').classList.remove('show');
+    document.getElementById('globalSearchInput').value = '';
+    
+    // Open the section
+    openSection(sectionName);
+    
+    // Scroll to the specific question
+    setTimeout(() => {
+        const questionItems = document.querySelectorAll('.question-item');
+        if (questionItems[questionIndex]) {
+            questionItems[questionIndex].scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            // Highlight the question briefly
+            questionItems[questionIndex].style.backgroundColor = 'rgba(30, 58, 138, 0.2)';
+            setTimeout(() => {
+                questionItems[questionIndex].style.backgroundColor = '';
+            }, 2000);
+        }
+    }, 100);
+}
 function setTheme(theme) {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('evermind-theme', theme);
+    
+    // Update dropdown to show active theme
+    updateThemeDropdown();
+    
+    // Close dropdown
+    const dropdown = document.getElementById('themeDropdownMenu');
+    const btn = document.querySelector('.theme-dropdown-btn');
+    dropdown.classList.remove('show');
+    btn.classList.remove('active');
     
     // Play sound if SoundEffects is available and has the method
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
@@ -169,12 +311,115 @@ function setTheme(theme) {
     }
 }
 
+// ==================== THEME DROPDOWN ====================
+function toggleThemeDropdown() {
+    const dropdown = document.getElementById('themeDropdownMenu');
+    const btn = document.querySelector('.theme-dropdown-btn');
+    
+    if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+        btn.classList.remove('active');
+    } else {
+        dropdown.classList.add('show');
+        btn.classList.add('active');
+    }
+}
+
+function updateThemeDropdown() {
+    const currentTheme = localStorage.getItem('evermind-theme') || 'dark';
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    themeOptions.forEach(option => {
+        option.classList.remove('active');
+        if (option.dataset.theme === currentTheme) {
+            option.classList.add('active');
+        }
+    });
+}
+
+// Hide dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('themeDropdownMenu');
+    const btn = document.querySelector('.theme-dropdown-btn');
+    
+    if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('show');
+        btn.classList.remove('active');
+    }
+});
+
 function loadTheme() {
     const savedTheme = localStorage.getItem('evermind-theme') || 'light';
     setTheme(savedTheme);
 }
 
-// ==================== DATA LOADING ====================
+// ==================== MOBILE SWIPE GESTURES ====================
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+function initSwipeGestures() {
+    const questionCard = document.getElementById('questionCard');
+    if (!questionCard) return;
+    
+    questionCard.addEventListener('touchstart', handleTouchStart, { passive: true });
+    questionCard.addEventListener('touchend', handleTouchEnd, { passive: true });
+}
+
+function handleTouchStart(e) {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}
+
+function handleTouchEnd(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    const minSwipeDistance = 50;
+    
+    // Check if it's a horizontal swipe (more horizontal than vertical)
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX > 0) {
+            // Swipe right = Correct
+            showSwipeFeedback('correct');
+            markCorrect();
+        } else {
+            // Swipe left = Wrong
+            showSwipeFeedback('wrong');
+            markWrong();
+        }
+    }
+    // Check if it's a vertical swipe down
+    else if (deltaY > minSwipeDistance && Math.abs(deltaY) > Math.abs(deltaX)) {
+        // Swipe down = Skip
+        showSwipeFeedback('skip');
+        skipQuestion();
+    }
+}
+
+function showSwipeFeedback(type) {
+    const questionCard = document.getElementById('questionCard');
+    if (!questionCard) return;
+    
+    // Remove existing feedback classes
+    questionCard.classList.remove('swipe-correct', 'swipe-wrong', 'swipe-skip');
+    
+    // Add appropriate feedback class
+    questionCard.classList.add(`swipe-${type}`);
+    
+    // Remove feedback after animation
+    setTimeout(() => {
+        questionCard.classList.remove(`swipe-${type}`);
+    }, 300);
+    
+    // Play sound effect
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound(type);
+    }
+}
 const sections = [
     { id: 'languages', name: 'Languages', icon: '🌍' },
     { id: 'programming', name: 'Programming', icon: '💻' },
@@ -416,6 +661,11 @@ function startSectionRevision() {
     shuffleArray(state.revisionQuestions);
     state.currentQuestionIndex = 0;
     
+    // Initialize enhanced progress tracking
+    state.correctCount = 0;
+    state.wrongCount = 0;
+    state.totalQuestions = state.revisionQuestions.length;
+    
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('click');
     }
@@ -446,6 +696,11 @@ function startGlobalRevision() {
     shuffleArray(state.revisionQuestions);
     state.currentQuestionIndex = 0;
     
+    // Initialize enhanced progress tracking
+    state.correctCount = 0;
+    state.wrongCount = 0;
+    state.totalQuestions = state.revisionQuestions.length;
+    
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('click');
     }
@@ -456,6 +711,9 @@ function startRevision() {
     showPage('revisionMode');
     displayCurrentQuestion();
     updateProgress();
+    
+    // Initialize swipe gestures for mobile
+    initSwipeGestures();
 }
 
 function displayCurrentQuestion() {
@@ -531,6 +789,14 @@ function showAnswer() {
 }
 
 function markCorrect() {
+    // Increment correct counter
+    state.correctCount++;
+    
+    // Award points through gamification system
+    if (window.Gamification && typeof window.Gamification.awardPoints === 'function') {
+        window.Gamification.awardPoints('correct', true);
+    }
+    
     // Remove the question from the list (correct answer)
     state.revisionQuestions.shift();
     state.currentQuestionIndex = 0;
@@ -543,6 +809,14 @@ function markCorrect() {
 }
 
 function markWrong() {
+    // Increment wrong counter
+    state.wrongCount++;
+    
+    // Reset streak through gamification system
+    if (window.Gamification && typeof window.Gamification.awardPoints === 'function') {
+        window.Gamification.awardPoints('wrong', false);
+    }
+    
     // Remove current question from front
     const question = state.revisionQuestions.shift();
     
@@ -599,9 +873,22 @@ function previousQuestion() {
 
 function updateProgress() {
     const questionsLeft = state.revisionQuestions.length;
+    const totalAnswered = state.correctCount + state.wrongCount;
+    const totalQuestions = state.totalQuestions;
+    const completedQuestions = totalQuestions - questionsLeft;
+    const percentage = totalQuestions > 0 ? Math.round((completedQuestions / totalQuestions) * 100) : 0;
     
-    document.getElementById('questionsLeft').textContent = questionsLeft;
-    document.getElementById('totalQuestions').textContent = questionsLeft;
+    // Update the enhanced progress display
+    document.getElementById('correctCount').textContent = state.correctCount;
+    document.getElementById('wrongCount').textContent = state.wrongCount;
+    document.getElementById('remainingCount').textContent = questionsLeft;
+    document.getElementById('progressPercentage').textContent = `${percentage}% complete`;
+    
+    // Update progress bar
+    const progressBarFill = document.getElementById('progressBarFill');
+    if (progressBarFill) {
+        progressBarFill.style.width = `${percentage}%`;
+    }
 }
 
 function showCompletionMessage() {
@@ -693,7 +980,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==================== EXPORT FUNCTIONS TO GLOBAL SCOPE ====================
-window.setTheme = setTheme;
+window.toggleThemeDropdown = toggleThemeDropdown;
 window.openSection = openSection;
 window.backToHome = backToHome;
 window.startSectionRevision = startSectionRevision;
