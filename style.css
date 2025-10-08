@@ -715,6 +715,93 @@ body[aria-busy="true"] {
     transform: scale(0.95);
 }
 
+/* ==================== CODE SNIPPETS BAR ==================== */
+.code-snippets-bar {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.snippets-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    white-space: nowrap;
+}
+
+.snippets-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.snippet-btn {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: 'Courier New', monospace;
+    transition: all 0.2s ease;
+    min-width: 40px;
+    text-align: center;
+}
+
+.snippet-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.snippet-btn:active {
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive snippets bar */
+@media (max-width: 768px) {
+    .code-snippets-bar {
+        padding: 8px 15px;
+        gap: 10px;
+    }
+    
+    .snippets-container {
+        gap: 6px;
+    }
+    
+    .snippet-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+        min-width: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .code-snippets-bar {
+        padding: 6px 10px;
+        gap: 8px;
+    }
+    
+    .snippets-label {
+        font-size: 0.8rem;
+    }
+    
+    .snippets-container {
+        gap: 4px;
+    }
+    
+    .snippet-btn {
+        padding: 3px 6px;
+        font-size: 0.75rem;
+        min-width: 30px;
+    }
+}
+
 /* ==================== CODE EDITOR ==================== */
 .code-editor-modal {
     position: fixed;

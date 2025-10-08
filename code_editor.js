@@ -37,16 +37,29 @@ const CodeEditor = {
                     </div>
                 </div>
                 
+                <div class="code-snippets-bar">
+                    <div class="snippets-label">Quick Insert:</div>
+                    <div class="snippets-container">
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('{}')" title="Curly braces">{ }</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('[]')" title="Square brackets">[ ]</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('()')" title="Parentheses">( )</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('<>')" title="Angle brackets">&lt; &gt;</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol(':')" title="Colon">:</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol(';')" title="Semicolon">;</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('=')" title="Equals">=</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('+')" title="Plus">+</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('-')" title="Minus">-</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('*')" title="Multiply">*</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('/')" title="Divide">/</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol('\"\"')" title="Quotes">&quot; &quot;</button>
+                        <button class="snippet-btn" onclick="CodeEditor.insertSymbol(\"''\")" title="Single quotes">' '</button>
+                    </div>
+                </div>
+                
                 <div class="code-editor-body">
                     <div class="code-editor-panel">
                         <div class="panel-header">
                             <span>HTML</span>
-                            <div class="quick-symbols">
-                                <button onclick="CodeEditor.insertSymbol('html', '<div></div>')" title="Insert div">&lt;div&gt;</button>
-                                <button onclick="CodeEditor.insertSymbol('html', '<p></p>')" title="Insert paragraph">&lt;p&gt;</button>
-                                <button onclick="CodeEditor.insertSymbol('html', '<button></button>')" title="Insert button">&lt;btn&gt;</button>
-                                <button onclick="CodeEditor.insertSymbol('html', '<input>')" title="Insert input">&lt;input&gt;</button>
-                            </div>
                         </div>
                         <textarea id="htmlEditor" class="code-textarea" placeholder="Write your HTML here..." spellcheck="false"></textarea>
                     </div>
@@ -54,13 +67,6 @@ const CodeEditor = {
                     <div class="code-editor-panel">
                         <div class="panel-header">
                             <span>CSS</span>
-                            <div class="quick-symbols">
-                                <button onclick="CodeEditor.insertSymbol('css', '{}')" title="Curly braces">{ }</button>
-                                <button onclick="CodeEditor.insertSymbol('css', ':')" title="Colon">:</button>
-                                <button onclick="CodeEditor.insertSymbol('css', ';')" title="Semicolon">;</button>
-                                <button onclick="CodeEditor.insertSymbol('css', '#')" title="Hash">#</button>
-                                <button onclick="CodeEditor.insertSymbol('css', '.')" title="Class">.</button>
-                            </div>
                         </div>
                         <textarea id="cssEditor" class="code-textarea" placeholder="Write your CSS here..." spellcheck="false"></textarea>
                     </div>
@@ -68,13 +74,6 @@ const CodeEditor = {
                     <div class="code-editor-panel">
                         <div class="panel-header">
                             <span>JavaScript</span>
-                            <div class="quick-symbols">
-                                <button onclick="CodeEditor.insertSymbol('js', '{}')" title="Curly braces">{ }</button>
-                                <button onclick="CodeEditor.insertSymbol('js', '[]')" title="Square brackets">[ ]</button>
-                                <button onclick="CodeEditor.insertSymbol('js', '()')" title="Parentheses">( )</button>
-                                <button onclick="CodeEditor.insertSymbol('js', '=>')" title="Arrow function">=&gt;</button>
-                                <button onclick="CodeEditor.insertSymbol('js', ';')" title="Semicolon">;</button>
-                            </div>
                         </div>
                         <textarea id="jsEditor" class="code-textarea" placeholder="Write your JavaScript here..." spellcheck="false"></textarea>
                     </div>
@@ -98,12 +97,7 @@ const CodeEditor = {
         if (preview) {
             preview.onload = () => {
                 console.log('Iframe loaded and ready');
-                // Auto-run on first open if there's initial code
-                if (initialCode) {
-                    setTimeout(() => {
-                        this.runCode();
-                    }, 200);
-                }
+                // Don't auto-run here to prevent blinking
             };
         }
         
@@ -171,6 +165,14 @@ const CodeEditor = {
             return;
         }
         
+        // Prevent unnecessary refreshes if content hasn't changed
+        const currentContent = html + css + js;
+        if (this.lastContent === currentContent) {
+            console.log('Content unchanged, skipping refresh');
+            return;
+        }
+        this.lastContent = currentContent;
+        
         const fullCode = `<!DOCTYPE html>
 <html>
 <head>
@@ -185,7 +187,7 @@ const CodeEditor = {
 </html>`;
         
         try {
-            // Method 1: Try srcdoc first
+            // Method 1: Try srcdoc first (most stable)
             preview.srcdoc = fullCode;
             console.log('Code executed successfully using srcdoc');
         } catch (error) {
@@ -289,28 +291,37 @@ const CodeEditor = {
     },
     
     /**
-     * Insert symbol at cursor position
+     * Insert symbol at cursor position in the currently focused editor
      */
-    insertSymbol(editorType, symbol) {
-        let editorId;
-        switch(editorType) {
-            case 'html': editorId = 'htmlEditor'; break;
-            case 'css': editorId = 'cssEditor'; break;
-            case 'js': editorId = 'jsEditor'; break;
+    insertSymbol(symbol) {
+        // Find which editor is currently focused
+        const editors = ['htmlEditor', 'cssEditor', 'jsEditor'];
+        let activeEditor = null;
+        
+        for (const editorId of editors) {
+            const editor = document.getElementById(editorId);
+            if (editor === document.activeElement) {
+                activeEditor = editor;
+                break;
+            }
         }
         
-        const editor = document.getElementById(editorId);
-        const start = editor.selectionStart;
-        const end = editor.selectionEnd;
-        const text = editor.value;
+        // If no editor is focused, default to HTML editor
+        if (!activeEditor) {
+            activeEditor = document.getElementById('htmlEditor');
+        }
+        
+        const start = activeEditor.selectionStart;
+        const end = activeEditor.selectionEnd;
+        const text = activeEditor.value;
         
         // Insert symbol
-        editor.value = text.substring(0, start) + symbol + text.substring(end);
+        activeEditor.value = text.substring(0, start) + symbol + text.substring(end);
         
         // Move cursor to middle of symbol (for paired symbols like {})
         const cursorPos = start + Math.floor(symbol.length / 2);
-        editor.selectionStart = editor.selectionEnd = cursorPos;
-        editor.focus();
+        activeEditor.selectionStart = activeEditor.selectionEnd = cursorPos;
+        activeEditor.focus();
     },
     
     /**
