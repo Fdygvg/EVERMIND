@@ -824,32 +824,265 @@ body[data-theme="orange"] .back-btn:hover {
     100% { transform: translateY(0) scale(1); }
 }
 
-/* Mobile Optimizations */
-@media (max-width: 768px) {
-    .big-btn {
-        min-height: 50px;
-        font-size: 1rem;
-        padding: 15px 20px;
+/* ==================== MOBILE RESPONSIVENESS ==================== */
+
+/* Base responsive design */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    min-width: 320px; /* Minimum width for mobile */
+}
+
+/* Header responsive layout */
+@media (max-width: 1024px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
     }
     
+    .header-left,
+    .header-center,
+    .header-right {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .header-center {
+        order: 1;
+    }
+    
+    .header-left {
+        order: 2;
+    }
+    
+    .header-right {
+        order: 3;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 10px;
+    }
+    
+    .header-center h1 {
+        font-size: 1.8rem;
+    }
+    
+    .header-center .subtitle {
+        font-size: 1rem;
+    }
+    
+    /* XP Display mobile */
+    .xp-display {
+        flex-direction: column;
+        gap: 10px;
+        padding: 8px 12px;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .level-info {
+        flex-direction: row;
+        gap: 15px;
+    }
+    
+    .xp-bar-container {
+        min-width: 200px;
+    }
+    
+    /* Search bar mobile */
+    .global-search {
+        margin-right: 0;
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .global-search input {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+    
+    /* Theme dropdown mobile */
+    .theme-dropdown-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .theme-dropdown-menu {
+        right: 0;
+        left: auto;
+        min-width: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Very small screens */
+    .header-center h1 {
+        font-size: 1.5rem;
+    }
+    
+    .header-center .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .xp-display {
+        padding: 6px 10px;
+    }
+    
+    .level-badge {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+    
+    .level-name {
+        font-size: 0.6rem;
+    }
+    
+    .xp-text {
+        font-size: 0.7rem;
+    }
+    
+    .global-search input {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+    
+    .theme-dropdown-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .theme-text {
+        display: none; /* Hide "Themes" text on very small screens */
+    }
+}
+
+/* Sections grid responsive */
+@media (max-width: 1024px) {
+    .sections-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sections-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+        padding: 12px;
+    }
+    
+    .section-card {
+        padding: 15px;
+    }
+    
+    .section-card h2 {
+        font-size: 1.2rem;
+    }
+    
+    .section-card p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sections-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    .section-card {
+        padding: 12px;
+    }
+    
+    .section-card h2 {
+        font-size: 1.1rem;
+    }
+    
+    .section-card p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Question cards responsive */
+@media (max-width: 768px) {
     .question-card {
         margin: 10px;
-        padding: 20px;
+        padding: 15px;
     }
     
+    .question-content {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .answer {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 480px) {
+    .question-card {
+        margin: 5px;
+        padding: 12px;
+    }
+    
+    .question-content {
+        font-size: 0.95rem;
+    }
+    
+    .answer {
+        font-size: 0.9rem;
+    }
+}
+
+/* Revision buttons responsive */
+@media (max-width: 768px) {
     .revision-buttons {
+        flex-direction: column;
         gap: 10px;
         padding: 0 10px;
     }
     
     .revision-buttons button {
-        flex: 1;
+        width: 100%;
+        min-height: 50px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .revision-buttons {
+        padding: 0 5px;
+    }
+    
+    .revision-buttons button {
         min-height: 45px;
         font-size: 0.9rem;
     }
+}
+
+/* Progress indicator responsive */
+@media (max-width: 768px) {
+    .progress-indicator {
+        margin: 15px 0;
+        padding: 0 10px;
+    }
     
     .progress-stats {
-        gap: 10px;
+        flex-direction: column;
+        gap: 8px;
     }
     
     .stat {
@@ -857,17 +1090,226 @@ body[data-theme="orange"] .back-btn:hover {
         padding: 6px 10px;
     }
     
-    .global-search input {
-        width: 200px;
+    .progress-bar-bg {
+        height: 10px;
+    }
+    
+    .progress-percentage {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-stats {
+        gap: 6px;
+    }
+    
+    .stat {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+    
+    .progress-bar-bg {
+        height: 8px;
+    }
+    
+    .progress-percentage {
+        font-size: 0.8rem;
+    }
+}
+
+/* Search results responsive */
+@media (max-width: 768px) {
+    .search-results {
+        max-height: 250px;
+        font-size: 0.9rem;
+    }
+    
+    .search-result-item {
+        padding: 10px 12px;
+    }
+    
+    .search-result-question {
+        font-size: 0.85rem;
+    }
+    
+    .search-result-section {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-results {
+        max-height: 200px;
         font-size: 0.8rem;
     }
     
-    .theme-dropdown-btn {
-        padding: 8px 12px;
+    .search-result-item {
+        padding: 8px 10px;
     }
     
-    .theme-text {
+    .search-result-question {
         font-size: 0.8rem;
+    }
+    
+    .search-result-section {
+        font-size: 0.7rem;
+    }
+}
+
+/* Theme dropdown responsive */
+@media (max-width: 480px) {
+    .theme-dropdown-menu {
+        min-width: 120px;
+    }
+    
+    .theme-option {
+        padding: 10px 12px;
+    }
+    
+    .theme-emoji {
+        font-size: 1rem;
+    }
+    
+    .theme-name {
+        font-size: 0.8rem;
+    }
+}
+
+/* Exit button responsive */
+@media (max-width: 768px) {
+    .back-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .back-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        border-radius: 8px;
+    }
+}
+
+/* Loading screen responsive */
+@media (max-width: 768px) {
+    .loading-content {
+        padding: 20px;
+    }
+    
+    .loading-title {
+        font-size: 2rem;
+    }
+    
+    .loading-subtitle {
+        font-size: 1rem;
+    }
+    
+    .fact-container {
+        margin: 20px 0;
+        padding: 15px;
+    }
+    
+    .fact-label {
+        font-size: 0.9rem;
+    }
+    
+    .fact-text {
+        font-size: 0.9rem;
+    }
+    
+    .progress-container {
+        margin-top: 20px;
+    }
+    
+    .progress-bar {
+        height: 6px;
+    }
+    
+    .progress-text {
+        font-size: 1rem;
+    }
+    
+    .loading-status {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-content {
+        padding: 15px;
+    }
+    
+    .loading-title {
+        font-size: 1.5rem;
+    }
+    
+    .loading-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .fact-container {
+        margin: 15px 0;
+        padding: 12px;
+    }
+    
+    .fact-label {
+        font-size: 0.8rem;
+    }
+    
+    .fact-text {
+        font-size: 0.8rem;
+    }
+    
+    .progress-container {
+        margin-top: 15px;
+    }
+    
+    .progress-bar {
+        height: 5px;
+    }
+    
+    .progress-text {
+        font-size: 0.9rem;
+    }
+    
+    .loading-status {
+        font-size: 0.8rem;
+    }
+}
+
+/* Prevent horizontal overflow */
+.page {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.revision-container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.question-card {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+    /* Mobile/touch devices */
+    .big-btn:hover,
+    .theme-btn:hover,
+    .back-btn:hover {
+        transform: none;
+    }
+    
+    .big-btn:active,
+    .theme-btn:active,
+    .back-btn:active {
+        transform: scale(0.98);
     }
 }
 /* Enhanced Progress Indicator */
