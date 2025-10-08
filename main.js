@@ -210,6 +210,15 @@ function performGlobalSearch(query) {
     const searchResults = document.getElementById('searchResults');
     const results = [];
     
+    // Check if data is loaded
+    if (!state.allQuestions || Object.keys(state.allQuestions).length === 0) {
+        if (searchResults) {
+            searchResults.innerHTML = '<div class="no-results">Loading questions...</div>';
+            searchResults.classList.add('show');
+        }
+        return;
+    }
+    
     // Search through all sections
     Object.keys(state.allQuestions).forEach(sectionName => {
         state.allQuestions[sectionName].forEach((question, index) => {

@@ -92,163 +92,195 @@ body[data-theme="dark"] .big-btn:hover {
     background: #2980b9;
 }
 
-/* Red Theme - Darker Palette */
+/* Red Theme - More Pronounced */
 body[data-theme="red"] {
-    background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+    background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 25%, #991b1b 50%, #b91c1c 75%, #dc2626 100%);
     color: var(--text-on-dark);
 }
 
 body[data-theme="red"] .section-card,
 body[data-theme="red"] .question-card,
 body[data-theme="red"] .question-item {
-    background: #450a0a;
+    background: rgba(185, 28, 28, 0.2);
     color: var(--text-on-dark);
-    box-shadow: 0 4px 6px rgba(185, 28, 28, 0.4);
-    border: 1px solid var(--color-red-darker);
+    box-shadow: 0 8px 32px rgba(185, 28, 28, 0.3);
+    border: 2px solid var(--color-red);
+    backdrop-filter: blur(20px);
 }
 
 body[data-theme="red"] .big-btn {
-    background: var(--color-red);
+    background: linear-gradient(135deg, var(--color-red), var(--color-red-dark));
     color: var(--text-on-dark);
+    border: 2px solid var(--color-red-darker);
+    box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4);
 }
 
 body[data-theme="red"] .big-btn:hover {
-    background: var(--color-red-dark);
+    background: linear-gradient(135deg, var(--color-red-dark), var(--color-red-darker));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(185, 28, 28, 0.5);
 }
 
 body[data-theme="red"] .big-btn:active {
     background: var(--color-red-darker);
+    transform: translateY(0);
 }
 
 body[data-theme="red"] header h1,
 body[data-theme="red"] .section-card h2 {
-    color: var(--text-on-dark);
+    color: #fef2f2;
+    text-shadow: 0 2px 8px rgba(185, 28, 28, 0.5);
 }
 
-/* Blue Theme - Darker Palette */
+/* Blue Theme - More Pronounced */
 body[data-theme="blue"] {
-    background: linear-gradient(135deg, #0c1e47 0%, #1e3a8a 100%);
+    background: linear-gradient(135deg, #0c1220 0%, #1e3a8a 25%, #1e40af 50%, #2563eb 75%, #3b82f6 100%);
     color: var(--text-on-dark);
 }
 
 body[data-theme="blue"] .section-card,
 body[data-theme="blue"] .question-card,
 body[data-theme="blue"] .question-item {
-    background: #0c1e47;
+    background: rgba(30, 58, 138, 0.2);
     color: var(--text-on-dark);
-    box-shadow: 0 4px 6px rgba(30, 58, 138, 0.4);
-    border: 1px solid var(--color-blue-darker);
+    box-shadow: 0 8px 32px rgba(30, 58, 138, 0.3);
+    border: 2px solid var(--color-blue);
+    backdrop-filter: blur(20px);
 }
 
 body[data-theme="blue"] .big-btn {
-    background: var(--color-blue);
+    background: linear-gradient(135deg, var(--color-blue), var(--color-blue-dark));
     color: var(--text-on-dark);
+    border: 2px solid var(--color-blue-darker);
+    box-shadow: 0 4px 16px rgba(30, 58, 138, 0.4);
 }
 
 body[data-theme="blue"] .big-btn:hover {
-    background: var(--color-blue-dark);
+    background: linear-gradient(135deg, var(--color-blue-dark), var(--color-blue-darker));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 58, 138, 0.5);
 }
 
 body[data-theme="blue"] .big-btn:active {
     background: var(--color-blue-darker);
+    transform: translateY(0);
 }
 
 body[data-theme="blue"] header h1,
 body[data-theme="blue"] .section-card h2 {
-    color: var(--text-on-dark);
+    color: #eff6ff;
+    text-shadow: 0 2px 8px rgba(30, 58, 138, 0.5);
 }
 
-/* Purple Theme */
+/* Purple Theme - More Pronounced */
 body[data-theme="purple"] {
-    background: linear-gradient(135deg, #1a0b2e 0%, #2d1b69 50%, #4c1d95 100%);
+    background: linear-gradient(135deg, #0f0a1a 0%, #1a0b2e 25%, #2d1b69 50%, #4c1d95 75%, #7c3aed 100%);
 }
 
 body[data-theme="purple"] .section-card,
 body[data-theme="purple"] .question-card,
 body[data-theme="purple"] .question-item {
-    background: rgba(124, 58, 237, 0.1);
-    border: 1px solid var(--color-purple-darker);
+    background: rgba(124, 58, 237, 0.2);
+    border: 2px solid var(--color-purple);
     backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3);
 }
 
 body[data-theme="purple"] .big-btn {
-    background: var(--color-purple);
-    border: 1px solid var(--color-purple-darker);
+    background: linear-gradient(135deg, var(--color-purple), var(--color-purple-dark));
+    border: 2px solid var(--color-purple-darker);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
 }
 
 body[data-theme="purple"] .big-btn:hover {
-    background: var(--color-purple-dark);
+    background: linear-gradient(135deg, var(--color-purple-dark), var(--color-purple-darker));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
 }
 
 body[data-theme="purple"] .big-btn:active {
     background: var(--color-purple-darker);
+    transform: translateY(0);
 }
 
 body[data-theme="purple"] header h1,
 body[data-theme="purple"] .section-card h2 {
-    color: var(--text-on-dark);
+    color: #f3e8ff;
+    text-shadow: 0 2px 8px rgba(124, 58, 237, 0.5);
 }
 
-/* Green Theme */
+/* Green Theme - More Pronounced */
 body[data-theme="green"] {
-    background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);
+    background: linear-gradient(135deg, #022c22 0%, #064e3b 25%, #065f46 50%, #047857 75%, #059669 100%);
 }
 
 body[data-theme="green"] .section-card,
 body[data-theme="green"] .question-card,
 body[data-theme="green"] .question-item {
-    background: rgba(5, 150, 105, 0.1);
-    border: 1px solid var(--color-green-darker);
+    background: rgba(5, 150, 105, 0.2);
+    border: 2px solid var(--color-green);
     backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(5, 150, 105, 0.3);
 }
 
 body[data-theme="green"] .big-btn {
-    background: var(--color-green);
-    border: 1px solid var(--color-green-darker);
+    background: linear-gradient(135deg, var(--color-green), var(--color-green-dark));
+    border: 2px solid var(--color-green-darker);
+    box-shadow: 0 4px 16px rgba(5, 150, 105, 0.4);
 }
 
 body[data-theme="green"] .big-btn:hover {
-    background: var(--color-green-dark);
+    background: linear-gradient(135deg, var(--color-green-dark), var(--color-green-darker));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.5);
 }
 
 body[data-theme="green"] .big-btn:active {
     background: var(--color-green-darker);
+    transform: translateY(0);
 }
 
 body[data-theme="green"] header h1,
 body[data-theme="green"] .section-card h2 {
-    color: var(--text-on-dark);
+    color: #ecfdf5;
+    text-shadow: 0 2px 8px rgba(5, 150, 105, 0.5);
 }
 
-/* Orange Theme */
+/* Orange Theme - More Pronounced */
 body[data-theme="orange"] {
-    background: linear-gradient(135deg, #7c2d12 0%, #ea580c 50%, #f97316 100%);
+    background: linear-gradient(135deg, #431407 0%, #7c2d12 25%, #ea580c 50%, #f97316 75%, #fb923c 100%);
 }
 
 body[data-theme="orange"] .section-card,
 body[data-theme="orange"] .question-card,
 body[data-theme="orange"] .question-item {
-    background: rgba(234, 88, 12, 0.1);
-    border: 1px solid var(--color-orange-darker);
+    background: rgba(234, 88, 12, 0.2);
+    border: 2px solid var(--color-orange);
     backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(234, 88, 12, 0.3);
 }
 
 body[data-theme="orange"] .big-btn {
-    background: var(--color-orange);
-    border: 1px solid var(--color-orange-darker);
+    background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+    border: 2px solid var(--color-orange-darker);
+    box-shadow: 0 4px 16px rgba(234, 88, 12, 0.4);
 }
 
 body[data-theme="orange"] .big-btn:hover {
-    background: var(--color-orange-dark);
+    background: linear-gradient(135deg, var(--color-orange-dark), var(--color-orange-darker));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5);
 }
 
 body[data-theme="orange"] .big-btn:active {
     background: var(--color-orange-darker);
+    transform: translateY(0);
 }
 
 body[data-theme="orange"] header h1,
 body[data-theme="orange"] .section-card h2 {
-    color: var(--text-on-dark);
+    color: #fff7ed;
+    text-shadow: 0 2px 8px rgba(234, 88, 12, 0.5);
 }
 
 /* Header Layout */
@@ -402,16 +434,94 @@ h1 {
     left: 0;
     top: 0;
     padding: 12px 24px;
-    background: rgba(0, 0, 0, 0.1);
-    border: none;
-    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
     font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    color: var(--text-color);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .back-btn:hover {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Theme-specific exit button styling */
+body[data-theme="red"] .back-btn {
+    background: rgba(185, 28, 28, 0.2);
+    border-color: var(--color-red);
+    color: #fef2f2;
+    box-shadow: 0 4px 16px rgba(185, 28, 28, 0.3);
+}
+
+body[data-theme="red"] .back-btn:hover {
+    background: rgba(185, 28, 28, 0.3);
+    border-color: var(--color-red-dark);
+    box-shadow: 0 6px 20px rgba(185, 28, 28, 0.4);
+}
+
+body[data-theme="blue"] .back-btn {
+    background: rgba(30, 58, 138, 0.2);
+    border-color: var(--color-blue);
+    color: #eff6ff;
+    box-shadow: 0 4px 16px rgba(30, 58, 138, 0.3);
+}
+
+body[data-theme="blue"] .back-btn:hover {
+    background: rgba(30, 58, 138, 0.3);
+    border-color: var(--color-blue-dark);
+    box-shadow: 0 6px 20px rgba(30, 58, 138, 0.4);
+}
+
+body[data-theme="purple"] .back-btn {
+    background: rgba(124, 58, 237, 0.2);
+    border-color: var(--color-purple);
+    color: #f3e8ff;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+}
+
+body[data-theme="purple"] .back-btn:hover {
+    background: rgba(124, 58, 237, 0.3);
+    border-color: var(--color-purple-dark);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+body[data-theme="green"] .back-btn {
+    background: rgba(5, 150, 105, 0.2);
+    border-color: var(--color-green);
+    color: #ecfdf5;
+    box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+}
+
+body[data-theme="green"] .back-btn:hover {
+    background: rgba(5, 150, 105, 0.3);
+    border-color: var(--color-green-dark);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+}
+
+body[data-theme="orange"] .back-btn {
+    background: rgba(234, 88, 12, 0.2);
+    border-color: var(--color-orange);
+    color: #fff7ed;
+    box-shadow: 0 4px 16px rgba(234, 88, 12, 0.3);
+}
+
+body[data-theme="orange"] .back-btn:hover {
+    background: rgba(234, 88, 12, 0.3);
+    border-color: var(--color-orange-dark);
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
 }
 
 /* ==================== THEME DROPDOWN ==================== */
