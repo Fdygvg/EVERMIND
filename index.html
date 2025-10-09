@@ -214,6 +214,36 @@
                     <span class="bookmark-count" id="country_flags-bookmarks">0 bookmarked</span>
                 </div>
             </div>
+
+            <div class="section-card" onclick="openSection('new_words')">
+                <div class="card-icon">📝</div>
+                <h2>New Words</h2>
+                <p>Expand your vocabulary</p>
+                <div class="section-stats">
+                    <span class="question-count" id="new_words-count">0 words</span>
+                    <span class="bookmark-count" id="new_words-bookmarks">0 bookmarked</span>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="openSection('youtube_knowledge')">
+                <div class="card-icon">🎥</div>
+                <h2>YouTube Knowledge</h2>
+                <p>Interesting facts from videos</p>
+                <div class="section-stats">
+                    <span class="question-count" id="youtube_knowledge-count">0 facts</span>
+                    <span class="bookmark-count" id="youtube_knowledge-bookmarks">0 bookmarked</span>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="openSection('memes_brainrot')">
+                <div class="card-icon">🧠</div>
+                <h2>Memes & Brain Rot</h2>
+                <p>Stay current with Gen Z slang</p>
+                <div class="section-stats">
+                    <span class="question-count" id="memes_brainrot-count">0 terms</span>
+                    <span class="bookmark-count" id="memes_brainrot-bookmarks">0 bookmarked</span>
+                </div>
+            </div>
             
             <div class="section-card" onclick="openBookmarkedQuestions()">
                 <div class="card-icon">📌</div>
@@ -246,6 +276,9 @@
                 <label><input type="checkbox" value="history" checked> History</label>
                 <label><input type="checkbox" value="facts" checked> Random Facts</label>
                 <label><input type="checkbox" value="country_flags" checked> Country Flags</label>
+                <label><input type="checkbox" value="new_words" checked> New Words</label>
+                <label><input type="checkbox" value="youtube_knowledge" checked> YouTube Knowledge</label>
+                <label><input type="checkbox" value="memes_brainrot" checked> Memes & Brain Rot</label>
             </div>
             <button class="big-btn primary-btn" onclick="startGlobalRevision()">Start Global Revision</button>
         </div>
@@ -254,12 +287,12 @@
     <!-- Section View -->
     <div id="sectionView" class="page">
         <header>
-            <button class="back-btn" onclick="backToHome()">← Back</button>
+            <button class="btn btn--nav" onclick="backToHome()">Back</button>
             <h1 id="sectionTitle">Section</h1>
         </header>
 
         <div class="section-actions">
-            <button class="big-btn primary-btn" onclick="startSectionRevision()">Start Revision Mode</button>
+            <button class="btn btn--primary" onclick="startSectionRevision()">Start Revision Mode</button>
         </div>
 
         <div class="questions-list" id="questionsList">
@@ -270,7 +303,7 @@
     <!-- Revision Mode -->
     <div id="revisionMode" class="page">
         <header>
-            <button class="back-btn" onclick="exitRevision()">← Exit</button>
+            <button class="btn btn--nav" onclick="exitRevision()">Exit</button>
             <h1>Revision Mode</h1>
             <div class="progress-indicator" id="progressIndicator">
                 <div class="progress-stats">
@@ -303,16 +336,58 @@
             </div>
 
             <div class="revision-controls">
-                <button class="big-btn nav-btn" onclick="previousQuestion()">⬅️ Back</button>
-                <button class="big-btn secondary-btn" onclick="skipQuestion()">⏭️ Skip</button>
-                <button class="big-btn primary-btn" id="showAnswerBtn" onclick="showAnswer()">👁️ Show Answer</button>
-                <button class="big-btn nav-btn" onclick="nextQuestion()">➡️ Next</button>
+                <button class="btn btn--nav" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn--nav" onclick="skipQuestion()">Skip</button>
+                <button class="btn btn--primary" id="showAnswerBtn" onclick="showAnswer()">Show Answer</button>
+                <button class="btn btn--nav" onclick="nextQuestion()">Next</button>
             </div>
 
             <div class="answer-controls" id="answerControls" style="display: none;">
-                <button class="big-btn wrong-btn" onclick="markWrong()">✗ Wrong</button>
-                <button class="big-btn correct-btn" onclick="markCorrect()">✓ Correct</button>
+                <button class="btn btn--danger" onclick="markWrong()">Wrong</button>
+                <button class="btn btn--success" onclick="markCorrect()">Correct</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Quick Launch Sidebar -->
+    <button class="quick-launch-toggle" id="quickLaunchToggle" title="Quick Launch">
+        <span class="toggle-icon">☰</span>
+    </button>
+    
+    <div class="quick-launch-sidebar" id="quickLaunchSidebar">
+        <div class="quick-launch-header">
+            <h3>Quick Launch</h3>
+            <button class="close-sidebar" id="closeSidebar">✕</button>
+        </div>
+        <div class="quick-launch-apps">
+            <button class="quick-launch-btn" data-app="youtube">
+                <span class="app-icon">📺</span>
+                <span class="app-name">YouTube</span>
+            </button>
+            <button class="quick-launch-btn" data-app="chatgpt">
+                <span class="app-icon">🤖</span>
+                <span class="app-name">ChatGPT</span>
+            </button>
+            <button class="quick-launch-btn" data-app="gemini">
+                <span class="app-icon">✨</span>
+                <span class="app-name">Gemini</span>
+            </button>
+            <button class="quick-launch-btn" data-app="claude">
+                <span class="app-icon">🧠</span>
+                <span class="app-name">Claude</span>
+            </button>
+            <button class="quick-launch-btn" data-app="perplexity">
+                <span class="app-icon">🔍</span>
+                <span class="app-name">Perplexity</span>
+            </button>
+            <button class="quick-launch-btn" data-app="w3schools">
+                <span class="app-icon">📚</span>
+                <span class="app-name">W3Schools</span>
+            </button>
+            <button class="quick-launch-btn" data-app="newtab">
+                <span class="app-icon">➕</span>
+                <span class="app-name">New Tab</span>
+            </button>
         </div>
     </div>
 

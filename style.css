@@ -8,6 +8,23 @@
     /* Darker Blue Palette */
     --color-blue: #1E3A8A;
     --color-blue-dark: #1E40AF;
+    
+    /* Button Colors */
+    --btn-primary: #F59E0B;     /* Orange */
+    --btn-success: #10B981;     /* Green */
+    --btn-danger: #EF4444;      /* Red */
+    --btn-nav: #3B82F6;         /* Blue */
+    
+    /* Hover States (10% brighter) */
+    --btn-primary-hover: #FBBF24;
+    --btn-success-hover: #34D399;
+    --btn-danger-hover: #F87171;
+    --btn-nav-hover: #60A5FA;
+    
+    /* Button Text Colors */
+    --btn-text-primary: #FFFFFF;
+    --btn-text-nav: #3B82F6;
+    --btn-text-nav-hover: #FFFFFF;
     --color-blue-darker: #0B3D91;
     
     /* Purple Palette */
@@ -43,6 +60,136 @@ body {
     transition: background-color 0.3s, color 0.3s;
     min-height: 100vh;
     padding: 20px;
+}
+
+/* ==================== NEW BUTTON SYSTEM ==================== */
+/* Base Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 200ms ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--btn-nav);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn:disabled:hover {
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Variants */
+.btn--primary {
+    background-color: var(--btn-primary);
+    color: var(--btn-text-primary);
+    border-color: var(--btn-primary);
+}
+
+.btn--primary:hover {
+    background-color: var(--btn-primary-hover);
+    border-color: var(--btn-primary-hover);
+}
+
+.btn--success {
+    background-color: var(--btn-success);
+    color: var(--btn-text-primary);
+    border-color: var(--btn-success);
+}
+
+.btn--success:hover {
+    background-color: var(--btn-success-hover);
+    border-color: var(--btn-success-hover);
+}
+
+.btn--danger {
+    background-color: var(--btn-danger);
+    color: var(--btn-text-primary);
+    border-color: var(--btn-danger);
+}
+
+.btn--danger:hover {
+    background-color: var(--btn-danger-hover);
+    border-color: var(--btn-danger-hover);
+}
+
+.btn--nav {
+    background-color: transparent;
+    color: var(--btn-text-nav);
+    border-color: var(--btn-nav);
+}
+
+.btn--nav:hover {
+    background-color: var(--btn-nav);
+    color: var(--btn-text-nav-hover);
+    border-color: var(--btn-nav);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .btn {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* Loading State */
+.btn--loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn--loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: btn-spin 1s linear infinite;
+}
+
+@keyframes btn-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* ==================== THEME COLORS ==================== */
@@ -2897,5 +3044,218 @@ body[aria-busy="true"] {
         height: 60px;
         font-size: 1.8rem;
     }
+}
+
+/* Bookmark section info styling */
+.bookmark-section-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+/* ==================== QUICK LAUNCH SIDEBAR ==================== */
+.quick-launch-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-blue);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quick-launch-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.quick-launch-toggle .toggle-icon {
+    display: block;
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.quick-launch-sidebar {
+    position: fixed;
+    top: 0;
+    right: -220px;
+    height: 100vh;
+    width: 200px;
+    background: var(--bg-secondary);
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.3);
+    transition: right 0.3s ease;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.quick-launch-sidebar.open {
+    right: 0;
+}
+
+.quick-launch-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quick-launch-header h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.close-sidebar {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.close-sidebar:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+.quick-launch-apps {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.quick-launch-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.quick-launch-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.quick-launch-btn .app-icon {
+    font-size: 1.3rem;
+    width: 28px;
+    text-align: center;
+}
+
+.quick-launch-btn .app-name {
+    font-weight: 500;
+}
+
+/* Dark mode */
+[data-theme="dark"] .quick-launch-sidebar {
+    background: #1a1a1a;
+}
+
+[data-theme="dark"] .quick-launch-header {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Light mode */
+[data-theme="light"] .quick-launch-sidebar {
+    background: #ffffff;
+}
+
+[data-theme="light"] .quick-launch-header {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .quick-launch-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .close-sidebar:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Theme-specific toggle button colors */
+[data-theme="red"] .quick-launch-toggle {
+    background: var(--color-red);
+}
+
+[data-theme="purple"] .quick-launch-toggle {
+    background: var(--color-purple);
+}
+
+[data-theme="green"] .quick-launch-toggle {
+    background: var(--color-green);
+}
+
+[data-theme="orange"] .quick-launch-toggle {
+    background: var(--color-orange);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .quick-launch-sidebar {
+        width: 180px;
+        right: -200px;
+    }
+    
+    .quick-launch-toggle {
+        width: 50px;
+        height: 50px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+/* Section label badge in revision mode */
+.question-section-label {
+    display: inline-block;
+    padding: 6px 12px;
+    background: var(--color-blue);
+    color: white;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+[data-theme="red"] .question-section-label {
+    background: var(--color-red);
+}
+
+[data-theme="purple"] .question-section-label {
+    background: var(--color-purple);
+}
+
+[data-theme="green"] .question-section-label {
+    background: var(--color-green);
+}
+
+[data-theme="orange"] .question-section-label {
+    background: var(--color-orange);
 }
 

@@ -164,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadBookmarks(); // Initialize bookmark system
             registerServiceWorker(); // Register PWA service worker
             initBookmarkButton(); // Initialize bookmark button event listener
+            initQuickLaunch(); // Initialize Quick Launch sidebar
         }, 1000);
         
         // Small delay to ensure all elements are rendered
@@ -298,6 +299,151 @@ function updateSectionBookmarkButtons(section) {
     });
 }
 
+function displayBookmarkedQuestions() {
+    console.log('📌 Displaying bookmarked questions...');
+    
+    if (state.bookmarks.length === 0) {
+        const questionsList = document.getElementById('questionsList');
+        questionsList.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <h3>No bookmarked questions yet!</h3>
+                <p>Click the ⭐ star on any question to bookmark it for later review.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Create bookmarked questions array
+    const bookmarkedQuestions = [];
+    state.bookmarks.forEach(bookmark => {
+        const sectionQuestions = state.allQuestions[bookmark.section];
+        if (sectionQuestions && sectionQuestions[bookmark.index]) {
+            bookmarkedQuestions.push({
+                ...sectionQuestions[bookmark.index],
+                section: bookmark.section,
+                originalIndex: bookmark.index,
+                bookmarkId: bookmark.id
+            });
+        }
+    });
+    
+    if (bookmarkedQuestions.length === 0) {
+        const questionsList = document.getElementById('questionsList');
+        questionsList.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <h3>Bookmarked questions not found</h3>
+                <p>They may have been removed from the data.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Display bookmarked questions like regular section
+    const questionsList = document.getElementById('questionsList');
+    questionsList.innerHTML = '';
+    
+    bookmarkedQuestions.forEach((q, index) => {
+        const questionItem = document.createElement('div');
+        questionItem.className = 'question-item';
+        questionItem.onclick = () => toggleAnswer(index);
+        
+        let content = `<h3>Q${index + 1}: ${escapeHtml(q.question)}</h3>`;
+        content += `<div class="bookmark-section-info">From: ${q.section.charAt(0).toUpperCase() + q.section.slice(1)}</div>`;
+        
+        if (q.image) {
+            content += `<img src="${q.image}" alt="Question image" class="question-image">`;
+        }
+        
+        content += `<div class="answer">`;
+        
+        if (q.answer) {
+            if (q.answer.includes('\n') && (q.answer.includes('{') || q.answer.includes('<') || q.answer.includes('def ') || q.answer.includes('function'))) {
+                content += `<pre><code>${escapeHtml(q.answer)}</code></pre>`;
+            } else {
+                content += `<strong>Answer:</strong><br>${escapeHtml(q.answer)}`;
+            }
+        }
+        
+        content += `</div>`;
+        
+        questionItem.innerHTML = content;
+        
+        // Add remove bookmark button
+        const h3 = questionItem.querySelector('h3');
+        const removeBookmarkBtn = document.createElement('button');
+        removeBookmarkBtn.className = 'bookmark-btn-section';
+        removeBookmarkBtn.innerHTML = '★';
+        removeBookmarkBtn.title = 'Remove bookmark';
+        removeBookmarkBtn.onclick = (e) => {
+            e.stopPropagation();
+            toggleBookmarkForSection(q.section, q.originalIndex);
+            // Refresh the display
+            displayBookmarkedQuestions();
+        };
+        h3.appendChild(removeBookmarkBtn);
+        
+        questionsList.appendChild(questionItem);
+    });
+    
+    console.log(`📌 Displayed ${bookmarkedQuestions.length} bookmarked questions`);
+}
+
+function startBookmarkedRevision() {
+    console.log('📌 Starting bookmarked revision...');
+    
+    if (state.bookmarks.length === 0) {
+        alert('No bookmarked questions to revise!');
+        return;
+    }
+    
+    // Create bookmarked questions array
+    const bookmarkedQuestions = [];
+    state.bookmarks.forEach(bookmark => {
+        const sectionQuestions = state.allQuestions[bookmark.section];
+        if (sectionQuestions && sectionQuestions[bookmark.index]) {
+            bookmarkedQuestions.push({
+                ...sectionQuestions[bookmark.index],
+                section: bookmark.section,
+                originalIndex: bookmark.index,
+                bookmarkId: bookmark.id
+            });
+        }
+    });
+    
+    if (bookmarkedQuestions.length === 0) {
+        alert('Bookmarked questions not found. They may have been removed from the data.');
+        return;
+    }
+    
+    // Set up revision mode for bookmarked questions
+    state.revisionQuestions = bookmarkedQuestions;
+    state.currentQuestionIndex = 0;
+    state.revisionMode = 'bookmarked';
+    state.currentSection = 'bookmarked';
+    state.isAnswerShown = false;
+    
+    // Show revision interface
+    showPage('revisionMode');
+    
+    // Update header
+    document.getElementById('revisionTitle').textContent = '📌 Bookmarked Questions';
+    document.getElementById('revisionSubtitle').textContent = `Review your flagged questions (${bookmarkedQuestions.length} total)`;
+    
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+        // Show first question
+        displayCurrentQuestion();
+        updateProgress();
+    }, 100);
+    
+    // Play sound effect
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('next');
+    }
+    
+    console.log('📌 Bookmarked revision started');
+}
+
 // ==================== BOOKMARK SYSTEM ====================
 function loadBookmarks() {
     const saved = localStorage.getItem('evermind-bookmarks');
@@ -355,6 +501,10 @@ function toggleBookmark() {
 }
 
 function updateBookmarkButton() {
+    console.log('🔍 Looking for bookmark button...');
+    console.log('🔍 Current page:', document.querySelector('.page.active')?.id);
+    console.log('🔍 Revision mode visible:', document.getElementById('revisionMode')?.style.display);
+    
     const bookmarkBtn = document.getElementById('bookmarkBtn');
     console.log('🔍 Looking for bookmark button:', bookmarkBtn);
     
@@ -411,53 +561,32 @@ function updateBookmarkCounts() {
 }
 
 function openBookmarkedQuestions() {
+    console.log('📌 Opening bookmarked questions section...');
+    
     if (state.bookmarks.length === 0) {
         alert('No bookmarked questions yet! Click the ⭐ on any question to bookmark it.');
         return;
     }
     
-    // Create bookmarked questions array
-    const bookmarkedQuestions = [];
-    state.bookmarks.forEach(bookmark => {
-        const sectionQuestions = state.allQuestions[bookmark.section];
-        if (sectionQuestions && sectionQuestions[bookmark.index]) {
-            bookmarkedQuestions.push({
-                ...sectionQuestions[bookmark.index],
-                section: bookmark.section,
-                originalIndex: bookmark.index,
-                bookmarkId: bookmark.id
-            });
-        }
-    });
-    
-    if (bookmarkedQuestions.length === 0) {
-        alert('Bookmarked questions not found. They may have been removed from the data.');
-        return;
-    }
-    
-    // Set up revision mode for bookmarked questions
-    state.revisionQuestions = bookmarkedQuestions;
-    state.currentQuestionIndex = 0;
-    state.revisionMode = 'bookmarked';
+    // Set up section view for bookmarks
     state.currentSection = 'bookmarked';
-    state.isAnswerShown = false;
+    const section = { id: 'bookmarked', name: 'Bookmarked Questions', icon: '📌' };
     
-    // Show revision interface
-    document.getElementById('homepage').style.display = 'none';
-    document.getElementById('revisionMode').style.display = 'block';
+    document.getElementById('sectionTitle').textContent = `${section.icon} ${section.name}`;
+    showPage('sectionView');
     
-    // Update header
-    document.getElementById('revisionTitle').textContent = '📌 Bookmarked Questions';
-    document.getElementById('revisionSubtitle').textContent = `Review your flagged questions (${bookmarkedQuestions.length} total)`;
-    
-    // Show first question
-    showQuestion();
-    updateProgress();
-    
-    // Play sound effect
-    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
-        window.SoundEffects.playSound('next');
+    // Update the section actions button to use the correct function
+    const sectionActions = document.querySelector('.section-actions');
+    if (sectionActions) {
+        sectionActions.innerHTML = `
+            <button class="btn btn--primary" onclick="startBookmarkedRevision()">Start Revision Mode</button>
+        `;
     }
+    
+    // Display bookmarked questions in list format
+    displayBookmarkedQuestions();
+    
+    console.log('📌 Bookmarked questions section opened');
 }
 
 function updateHomepageCounts() {
@@ -562,6 +691,23 @@ function performGlobalSearch(query) {
         console.log('🔍 Sample question structure:', state.allQuestions[firstSection][0]);
     }
     
+    const searchQuery = query.toLowerCase();
+    
+    // Search Quick Launch apps first
+    quickLaunchApps.forEach(app => {
+        const matchesName = app.name.toLowerCase().includes(searchQuery);
+        const matchesTerms = app.searchTerms.some(term => term.includes(searchQuery));
+        
+        if (matchesName || matchesTerms) {
+            results.push({
+                type: 'app',
+                app: app,
+                name: app.name,
+                icon: app.icon
+            });
+        }
+    });
+    
     // Search through all sections
     Object.keys(state.allQuestions).forEach(sectionName => {
         state.allQuestions[sectionName].forEach((question, index) => {
@@ -571,16 +717,29 @@ function performGlobalSearch(query) {
                 return;
             }
             
-            // Handle both old format (q/a) and new format (question/answer)
-            const questionText = (question.q || question.question || '').toLowerCase();
-            const answerText = (question.a || question.answer || '').toLowerCase();
-            const searchQuery = query.toLowerCase();
+            // Handle all question formats
+            const questionText = (
+                question.q || 
+                question.question || 
+                question.word || 
+                question.title || 
+                question.term || 
+                ''
+            ).toLowerCase();
+            const answerText = (
+                question.a || 
+                question.answer || 
+                question.meaning || 
+                question.summary || 
+                ''
+            ).toLowerCase();
             
             if (questionText.includes(searchQuery) || answerText.includes(searchQuery)) {
                 results.push({
+                    type: 'question',
                     section: sectionName,
-                    question: question.q || question.question || 'No question text',
-                    answer: question.a || question.answer || 'No answer text',
+                    question: question.q || question.question || question.word || question.title || question.term || 'No question text',
+                    answer: question.a || question.answer || question.meaning || question.summary || 'No answer text',
                     index: index,
                     sectionDisplayName: getSectionDisplayName(sectionName)
                 });
@@ -596,18 +755,43 @@ function displaySearchResults(results, query) {
     const searchResults = document.getElementById('searchResults');
     
     if (results.length === 0) {
-        searchResults.innerHTML = '<div class="no-results">No questions found matching "' + query + '"</div>';
+        searchResults.innerHTML = '<div class="no-results">No results found matching "' + query + '"</div>';
     } else {
-        searchResults.innerHTML = results.slice(0, 10).map(result => `
-            <div class="search-result-item" onclick="jumpToQuestion('${result.section}', ${result.index})">
-                <div class="search-result-question">${highlightText(result.question, query)}</div>
-                <div class="search-result-section">${result.sectionDisplayName}</div>
-            </div>
-        `).join('');
+        searchResults.innerHTML = results.slice(0, 10).map(result => {
+            if (result.type === 'app') {
+                // Quick Launch app result
+                return `
+                    <div class="search-result-item" onclick="launchAppFromSearch('${result.name}')">
+                        <div class="search-result-question">${result.icon} <strong>Launch ${escapeHtml(result.name)}</strong></div>
+                        <div class="search-result-section">Quick Launch</div>
+                    </div>
+                `;
+            } else {
+                // Regular question result
+                return `
+                    <div class="search-result-item" onclick="jumpToQuestion('${result.section}', ${result.index})">
+                        <div class="search-result-question">${highlightText(result.question, query)}</div>
+                        <div class="search-result-section">${result.sectionDisplayName}</div>
+                    </div>
+                `;
+            }
+        }).join('');
     }
     
     searchResults.classList.add('show');
 }
+
+function launchAppFromSearch(appName) {
+    const app = quickLaunchApps.find(a => a.name === appName);
+    if (app) {
+        launchApp(app);
+        // Close search results
+        document.getElementById('searchResults').classList.remove('show');
+        document.getElementById('globalSearchInput').value = '';
+    }
+}
+
+window.launchAppFromSearch = launchAppFromSearch;
 
 function highlightText(text, query) {
     const regex = new RegExp(`(${query})`, 'gi');
@@ -788,6 +972,9 @@ const sections = [
     { id: 'history', name: 'History', icon: '🏛️' },
     { id: 'facts', name: 'Random Facts', icon: '💡' },
     { id: 'country_flags', name: 'Country Flags', icon: '🚩' },
+    { id: 'new_words', name: 'New Words', icon: '📝' },
+    { id: 'youtube_knowledge', name: 'YouTube Knowledge', icon: '🎥' },
+    { id: 'memes_brainrot', name: 'Memes & Brain Rot', icon: '🧠' },
 ];
 
 async function loadAllSections() {
@@ -837,11 +1024,24 @@ function backToHome() {
 }
 
 function exitRevision() {
-    if (state.revisionMode === 'section') {
+    console.log('🚪 Exiting revision mode:', state.revisionMode);
+    
+    if (state.revisionMode === 'bookmarked') {
+        // Return to bookmark section view (not homepage)
+        showPage('sectionView');
+        state.currentSection = 'bookmarked';
+        displayBookmarkedQuestions();
+        console.log('📌 Returned to bookmark section view');
+    } else if (state.revisionMode === 'section') {
+        // Return to section view
         openSection(state.currentSection);
+        console.log('📚 Returned to section view');
     } else {
+        // Return to homepage
         backToHome();
+        console.log('🏠 Returned to homepage');
     }
+    
     resetRevision();
 }
 
@@ -851,6 +1051,14 @@ async function openSection(sectionId) {
     const section = sections.find(s => s.id === sectionId);
     
     document.getElementById('sectionTitle').textContent = `${section.icon} ${section.name}`;
+    
+    // Restore the regular section actions button
+    const sectionActions = document.querySelector('.section-actions');
+    if (sectionActions) {
+        sectionActions.innerHTML = `
+            <button class="btn btn--primary" onclick="startSectionRevision()">Start Revision Mode</button>
+        `;
+    }
     
     const questions = await loadSectionData(sectionId);
     console.log(`🔍 Opening ${sectionId} section with ${questions ? questions.length : 0} questions`);
@@ -889,25 +1097,59 @@ function displayQuestions(questions) {
         questionItem.className = 'question-item';
         questionItem.onclick = () => toggleAnswer(index);
         
-        let content = `<h3>Q${index + 1}: ${escapeHtml(q.question)}</h3>`;
+        let content = '';
         
-        if (q.image) {
-            content += `<img src="${q.image}" alt="Question image" class="question-image">`;
-        }
-        
-        content += `<div class="answer">`;
-        
-        if (q.answer) {
-            // Check if answer contains code (multiple lines with special characters)
-            if (q.answer.includes('\n') && (q.answer.includes('{') || q.answer.includes('<') || q.answer.includes('def ') || q.answer.includes('function'))) {
-                content += `<pre><code>${escapeHtml(q.answer)}</code></pre>`;
-            } else {
-                content += `<strong>Answer:</strong><br>${escapeHtml(q.answer)}`;
+        // Handle different section types
+        if (q.word) {
+            // New Words section
+            content += `<h3 style="font-size: 1.8rem; margin-bottom: 10px;">${escapeHtml(q.word)}</h3>`;
+            content += `<p style="font-style: italic; opacity: 0.8;">Pronunciation: ${escapeHtml(q.pronunciation)}</p>`;
+            content += `<div class="answer">`;
+            content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
+            content += `<p style="margin-top: 10px;"><em>"${escapeHtml(q.example)}"</em></p>`;
+        } else if (q.title && q.summary) {
+            // YouTube Knowledge section
+            content += `<h3 style="font-size: 1.3rem; margin-bottom: 10px;">🎥 ${escapeHtml(q.title)}</h3>`;
+            content += `<div class="answer">`;
+            content += `<p>${escapeHtml(q.summary)}</p>`;
+            if (q.source) {
+                content += `<p style="margin-top: 10px; opacity: 0.7;"><strong>Source:</strong> ${escapeHtml(q.source)}</p>`;
             }
-        }
-        
-        if (q.audio) {
-            content += `<br><audio controls src="${q.audio}"></audio>`;
+            if (q.videoLink && q.videoLink.trim()) {
+                content += `<br><a href="${escapeHtml(q.videoLink)}" target="_blank" class="btn btn--primary">Watch Video 🔗</a>`;
+            }
+        } else if (q.term) {
+            // Memes & Brain Rot section
+            content += `<h3 style="font-size: 1.8rem; margin-bottom: 10px;">💀 ${escapeHtml(q.term)}</h3>`;
+            content += `<div class="answer">`;
+            content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
+            content += `<p style="margin-top: 10px;"><strong>When to use:</strong> ${escapeHtml(q.usage)}</p>`;
+            content += `<p style="margin-top: 10px;"><em>"${escapeHtml(q.example)}"</em></p>`;
+            if (q.origin) {
+                content += `<p style="margin-top: 10px; opacity: 0.7; font-size: 0.9rem;"><strong>Origin:</strong> ${escapeHtml(q.origin)}</p>`;
+            }
+        } else {
+            // Standard question format
+            content += `<h3>Q${index + 1}: ${escapeHtml(q.question || q.q || '')}</h3>`;
+            
+            if (q.image) {
+                content += `<img src="${q.image}" alt="Question image" class="question-image">`;
+            }
+            
+            content += `<div class="answer">`;
+            
+            if (q.answer) {
+                // Check if answer contains code (multiple lines with special characters)
+                if (q.answer.includes('\n') && (q.answer.includes('{') || q.answer.includes('<') || q.answer.includes('def ') || q.answer.includes('function'))) {
+                    content += `<pre><code>${escapeHtml(q.answer)}</code></pre>`;
+                } else {
+                    content += `<strong>Answer:</strong><br>${escapeHtml(q.answer)}`;
+                }
+            }
+            
+            if (q.audio) {
+                content += `<br><audio controls src="${q.audio}"></audio>`;
+            }
         }
         
         content += `</div>`;
@@ -939,22 +1181,10 @@ function displayQuestions(questions) {
             h3.appendChild(codeBtn);
         }
         
-        // Add bookmark button to every question
-        const bookmarkBtn = document.createElement('button');
-        bookmarkBtn.className = 'bookmark-btn-section';
-        bookmarkBtn.innerHTML = '⭐';
-        bookmarkBtn.title = 'Bookmark this question';
-        bookmarkBtn.onclick = (e) => {
-            e.stopPropagation();
-            toggleBookmarkForSection(state.currentSection, index);
-        };
-        h3.appendChild(bookmarkBtn);
+        // Don't add bookmark buttons in section view - only in revision mode
         
         questionsList.appendChild(questionItem);
     });
-    
-    // Update bookmark button states
-    updateSectionBookmarkButtons(state.currentSection);
 }
 
 function addTagFilterUI(questions) {
@@ -1084,8 +1314,12 @@ function startGlobalRevision() {
 
 function startRevision() {
     showPage('revisionMode');
+    
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
     displayCurrentQuestion();
     updateProgress();
+    }, 100);
     
     // Initialize swipe gestures for mobile
     initSwipeGestures();
@@ -1109,21 +1343,59 @@ function displayCurrentQuestion() {
     console.log('📝 Question object:', question);
     console.log('📝 Question content element:', questionContent);
     
-    // Display question
-    let questionHtml = escapeHtml(question.question);
-    
-    // Add speaker button for language questions in revision mode (only Web Speech API languages)
-    if (question.language && question.word) {
-        const webSpeechLanguages = ['french', 'spanish', 'japanese'];
-        if (webSpeechLanguages.includes(question.language.toLowerCase())) {
-            const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
-            const safeLang = question.language.replace(/'/g, "\\'").replace(/"/g, '\\"');
-            questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${safeWord}', '${safeLang}')" title="Play pronunciation">🔊</button>`;
-        }
+    // Add section label for global and bookmark revision modes
+    let questionHtml = '';
+    if (state.revisionMode === 'global' || state.revisionMode === 'bookmarked') {
+        const sectionInfo = getSectionInfo(question.section || state.currentSection);
+        questionHtml += `<div class="question-section-label">${sectionInfo.icon} From ${sectionInfo.name}</div>`;
     }
     
-    if (question.image) {
-        questionHtml += `<br><img src="${question.image}" alt="Question" class="question-image">`;
+    // Handle different question types
+    if (question.word) {
+        // New Words section
+        questionHtml += `<h3 style="font-size: 2rem; margin-bottom: 10px;">${escapeHtml(question.word)}</h3>`;
+        questionHtml += `<p style="font-style: italic; opacity: 0.8; margin-bottom: 15px;">Pronunciation: ${escapeHtml(question.pronunciation)}</p>`;
+        questionHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
+        questionHtml += `<p style="margin-top: 10px;"><em>"${escapeHtml(question.example)}"</em></p>`;
+        
+        // Add speaker button for new words
+        questionHtml = `<button class="speaker-btn" onclick="speakWord('${escapeHtml(question.word)}')" title="Hear pronunciation">🔊</button>` + questionHtml;
+    } else if (question.title && question.summary) {
+        // YouTube Knowledge section
+        questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">🎥 ${escapeHtml(question.title)}</h3>`;
+        questionHtml += `<p style="line-height: 1.8;">${escapeHtml(question.summary)}</p>`;
+        if (question.source) {
+            questionHtml += `<p style="margin-top: 15px; opacity: 0.7;"><strong>Source:</strong> ${escapeHtml(question.source)}</p>`;
+        }
+        if (question.videoLink && question.videoLink.trim()) {
+            questionHtml += `<br><a href="${escapeHtml(question.videoLink)}" target="_blank" class="btn btn--primary" style="margin-top: 10px;">Watch Video 🔗</a>`;
+        }
+    } else if (question.term) {
+        // Memes & Brain Rot section
+        questionHtml += `<h3 style="font-size: 2rem; margin-bottom: 15px;">💀 ${escapeHtml(question.term)}</h3>`;
+        questionHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
+        questionHtml += `<p style="margin-top: 10px;"><strong>When to use:</strong> ${escapeHtml(question.usage)}</p>`;
+        questionHtml += `<p style="margin-top: 10px;"><em>"${escapeHtml(question.example)}"</em></p>`;
+        if (question.origin) {
+            questionHtml += `<p style="margin-top: 15px; opacity: 0.7; font-size: 0.9rem;"><strong>Origin:</strong> ${escapeHtml(question.origin)}</p>`;
+        }
+    } else {
+        // Standard question format
+        questionHtml += escapeHtml(question.question || question.q || '');
+        
+        // Add speaker button for language questions in revision mode (only Web Speech API languages)
+        if (question.language && question.word) {
+            const webSpeechLanguages = ['french', 'spanish', 'japanese'];
+            if (webSpeechLanguages.includes(question.language.toLowerCase())) {
+                const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                const safeLang = question.language.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${safeWord}', '${safeLang}')" title="Play pronunciation">🔊</button>`;
+            }
+        }
+        
+        if (question.image) {
+            questionHtml += `<br><img src="${question.image}" alt="Question" class="question-image">`;
+        }
     }
     
     questionContent.innerHTML = questionHtml;
@@ -1375,6 +1647,154 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+// ==================== QUICK LAUNCH SIDEBAR ====================
+const quickLaunchApps = [
+    {
+        name: 'YouTube',
+        icon: '📺',
+        appScheme: 'youtube://',
+        webUrl: 'https://www.youtube.com',
+        searchTerms: ['you', 'youtube']
+    },
+    {
+        name: 'ChatGPT',
+        icon: '🤖',
+        appScheme: 'chatgpt://',
+        webUrl: 'https://chat.openai.com',
+        searchTerms: ['chat', 'chatgpt']
+    },
+    {
+        name: 'Gemini',
+        icon: '✨',
+        appScheme: 'gemini://',
+        webUrl: 'https://gemini.google.com',
+        searchTerms: ['gemini']
+    },
+    {
+        name: 'Claude',
+        icon: '🧠',
+        appScheme: 'claude://',
+        webUrl: 'https://claude.ai',
+        searchTerms: ['claude']
+    },
+    {
+        name: 'Perplexity',
+        icon: '🔍',
+        appScheme: 'perplexity://',
+        webUrl: 'https://www.perplexity.ai',
+        searchTerms: ['perplexity']
+    },
+    {
+        name: 'W3Schools',
+        icon: '📚',
+        appScheme: null,
+        webUrl: 'https://www.w3schools.com',
+        searchTerms: ['w3', 'w3schools']
+    },
+    {
+        name: 'New Tab',
+        icon: '➕',
+        appScheme: null,
+        webUrl: 'about:blank',
+        searchTerms: ['new tab', 'newtab']
+    }
+];
+
+function initQuickLaunch() {
+    const toggleBtn = document.getElementById('quickLaunchToggle');
+    const sidebar = document.getElementById('quickLaunchSidebar');
+    const closeBtn = document.getElementById('closeSidebar');
+    const launchButtons = document.querySelectorAll('.quick-launch-btn');
+    
+    if (!toggleBtn || !sidebar || !closeBtn) {
+        console.warn('⚠️ Quick Launch elements not found');
+        return;
+    }
+    
+    // Toggle sidebar
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    });
+    
+    // Close sidebar
+    closeBtn.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    });
+    
+    // Launch app buttons
+    launchButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const appId = button.getAttribute('data-app');
+            const app = quickLaunchApps.find(a => 
+                a.name.toLowerCase().replace(/\s/g, '') === appId
+            );
+            
+            if (app) {
+                launchApp(app);
+                sidebar.classList.remove('open');
+            }
+        });
+    });
+    
+    console.log('✅ Quick Launch initialized');
+}
+
+function launchApp(appConfig) {
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('correct');
+    }
+    
+    if (appConfig.appScheme) {
+        // Try app scheme first with fallback
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = appConfig.appScheme;
+        document.body.appendChild(iframe);
+        
+        // Fallback to web after 1 second if app didn't open
+        setTimeout(() => {
+            window.open(appConfig.webUrl, '_blank');
+            if (iframe.parentNode) {
+                document.body.removeChild(iframe);
+            }
+        }, 1000);
+    } else {
+        // Direct web link
+        window.open(appConfig.webUrl, '_blank');
+    }
+    
+    console.log(`🚀 Launched ${appConfig.name}`);
+}
+
+// Helper function to get section info
+function getSectionInfo(sectionId) {
+    return sections.find(s => s.id === sectionId) || { name: sectionId, icon: '📚' };
+}
+
+// Speak word using Web Speech API for New Words section
+function speakWord(word) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+        
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    } else {
+        console.warn('⚠️ Speech synthesis not supported');
+    }
+}
+
+window.speakWord = speakWord;
 
 // ==================== EXPORT FUNCTIONS TO GLOBAL SCOPE ====================
 window.toggleThemeDropdown = toggleThemeDropdown;

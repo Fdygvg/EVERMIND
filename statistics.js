@@ -174,6 +174,37 @@ class StudyStatistics {
             achievements.push('dedicated_learner');
             this.showAchievement('📚 Dedicated Learner', '30-day study streak!');
         }
+        
+        // Knowledge Seeker (100 total questions answered)
+        const totalAnswered = this.stats.weekly.totalCorrect + this.stats.weekly.totalWrong;
+        if (totalAnswered >= 100 && !achievements.includes('knowledge_seeker')) {
+            achievements.push('knowledge_seeker');
+            this.showAchievement('🎓 Knowledge Seeker', 'You answered 100+ questions!');
+        }
+        
+        // Rising Star (5-day streak)
+        if (this.stats.weekly.currentStreak >= 5 && !achievements.includes('rising_star')) {
+            achievements.push('rising_star');
+            this.showAchievement('🌟 Rising Star', '5-day study streak!');
+        }
+        
+        // Diamond Mind (200 total questions answered)
+        if (totalAnswered >= 200 && !achievements.includes('diamond_mind')) {
+            achievements.push('diamond_mind');
+            this.showAchievement('💎 Diamond Mind', 'You answered 200+ questions!');
+        }
+        
+        // On Fire (10-day streak)
+        if (this.stats.weekly.currentStreak >= 10 && !achievements.includes('on_fire')) {
+            achievements.push('on_fire');
+            this.showAchievement('🔥 On Fire', '10-day study streak!');
+        }
+        
+        // Master Mind (500 total questions answered)
+        if (totalAnswered >= 500 && !achievements.includes('master_mind')) {
+            achievements.push('master_mind');
+            this.showAchievement('🏆 Master Mind', 'You answered 500+ questions!');
+        }
     }
 
     showAchievement(title, description) {
@@ -247,8 +278,16 @@ class StudyStatistics {
         const sectionStats = {};
         const today = this.getTodayString();
         
+        // Only include valid sections
+        const validSections = ['languages', 'programming', 'bible', 'science', 'history', 'facts', 'country_flags'];
+        
         if (this.stats.daily[today] && this.stats.daily[today].sections) {
             Object.keys(this.stats.daily[today].sections).forEach(section => {
+                // Skip invalid sections
+                if (!validSections.includes(section) || section === 'null' || section === 'undefined') {
+                    return;
+                }
+                
                 const sectionData = this.stats.daily[today].sections[section];
                 const total = sectionData.correct + sectionData.wrong;
                 const accuracy = total > 0 ? (sectionData.correct / total) * 100 : 0;
@@ -400,7 +439,12 @@ class StudyStatistics {
             { id: 'perfect_week', name: 'Perfect Week', desc: '95%+ accuracy', icon: '🎯' },
             { id: 'section_master', name: 'Section Master', desc: '100% in any section', icon: '💯' },
             { id: 'speed_demon', name: 'Speed Demon', desc: '50+ questions/day', icon: '⚡' },
-            { id: 'dedicated_learner', name: 'Dedicated Learner', desc: '30-day streak', icon: '📚' }
+            { id: 'dedicated_learner', name: 'Dedicated Learner', desc: '30-day streak', icon: '📚' },
+            { id: 'knowledge_seeker', name: 'Knowledge Seeker', desc: '100+ questions', icon: '🎓' },
+            { id: 'rising_star', name: 'Rising Star', desc: '5-day streak', icon: '🌟' },
+            { id: 'diamond_mind', name: 'Diamond Mind', desc: '200+ questions', icon: '💎' },
+            { id: 'on_fire', name: 'On Fire', desc: '10-day streak', icon: '🔥' },
+            { id: 'master_mind', name: 'Master Mind', desc: '500+ questions', icon: '🏆' }
         ];
         
         return achievements.map(achievement => {
