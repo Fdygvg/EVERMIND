@@ -1,0 +1,36 @@
+<!-- EVERMIND Icon - 192x192 -->
+<!-- This is a placeholder. In production, convert this SVG to PNG -->
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1E3A8A;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#0B1220;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="brain" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="192" height="192" rx="30" fill="url(#bg)"/>
+    
+    <!-- Brain -->
+    <g transform="translate(96, 96)">
+        <!-- Main brain shape -->
+        <path d="M-30,-22 C-37,-15 -37,0 -30,7 C-22,15 -7,15 0,7 C7,15 22,15 30,7 C37,0 37,-15 30,-22 C22,-30 7,-30 0,-22 C-7,-30 -22,-30 -30,-22 Z" fill="url(#brain)" stroke="#FFF" stroke-width="2"/>
+        
+        <!-- Brain details -->
+        <circle cx="-15" cy="-7" r="3" fill="#FFF" opacity="0.8"/>
+        <circle cx="15" cy="-7" r="3" fill="#FFF" opacity="0.8"/>
+        <circle cx="-7" cy="0" r="2" fill="#FFF" opacity="0.6"/>
+        <circle cx="7" cy="0" r="2" fill="#FFF" opacity="0.6"/>
+        
+        <!-- Neural connections -->
+        <path d="M-15,-7 Q-7,-4 0,-7 Q7,-4 15,-7" stroke="#FFF" stroke-width="1" fill="none" opacity="0.7"/>
+        <path d="M-7,0 Q0,4 7,0" stroke="#FFF" stroke-width="1" fill="none" opacity="0.7"/>
+    </g>
+    
+    <!-- Text -->
+    <text x="96" y="150" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#FFD700">EVERMIND</text>
+</svg>

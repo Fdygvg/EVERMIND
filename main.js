@@ -10,7 +10,10 @@ const state = {
     // Enhanced progress tracking
     correctCount: 0,
     wrongCount: 0,
-    totalQuestions: 0
+    totalQuestions: 0,
+    // Bookmark system
+    bookmarks: [],
+    currentQuestionId: null
 };
 
 // ==================== ENHANCED LOADING SCREEN ====================
@@ -158,6 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize global search after data is loaded
         setTimeout(() => {
             initGlobalSearch();
+            loadBookmarks(); // Initialize bookmark system
+            registerServiceWorker(); // Register PWA service worker
+            initBookmarkButton(); // Initialize bookmark button event listener
         }, 1000);
         
         // Small delay to ensure all elements are rendered
@@ -166,6 +172,304 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }, 200);
 });
+
+// ==================== PWA SERVICE WORKER ====================
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((registration) => {
+                    console.log('✅ Service Worker registered successfully:', registration.scope);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New content is available, show update notification
+                                showUpdateNotification();
+                            }
+                        });
+                    });
+                })
+                .catch((error) => {
+                    console.error('❌ Service Worker registration failed:', error);
+                });
+        });
+    } else {
+        console.log('❌ Service Worker not supported');
+    }
+}
+
+function showUpdateNotification() {
+    // Create update notification
+    const notification = document.createElement('div');
+    notification.className = 'update-notification';
+    notification.innerHTML = `
+        <div class="update-content">
+            <div class="update-icon">🔄</div>
+            <div class="update-text">
+                <div class="update-title">Update Available</div>
+                <div class="update-desc">New version of EVERMIND is ready!</div>
+            </div>
+            <button class="update-btn" onclick="updateApp()">Update</button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 10000);
+}
+
+function updateApp() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration().then((registration) => {
+            if (registration && registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                window.location.reload();
+            }
+        });
+    }
+}
+
+function initBookmarkButton() {
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    if (bookmarkBtn) {
+        bookmarkBtn.addEventListener('click', toggleBookmark);
+        console.log('✅ Bookmark button event listener added');
+    } else {
+        console.warn('⚠️ Bookmark button not found');
+    }
+}
+
+function toggleBookmarkForSection(section, index) {
+    const questionId = generateQuestionId(section, index);
+    const bookmarkIndex = state.bookmarks.findIndex(b => b.id === questionId);
+    
+    if (bookmarkIndex >= 0) {
+        // Remove bookmark
+        state.bookmarks.splice(bookmarkIndex, 1);
+        console.log('📌 Bookmark removed:', questionId);
+    } else {
+        // Add bookmark
+        state.bookmarks.push({
+            id: questionId,
+            section: section,
+            index: index,
+            timestamp: Date.now()
+        });
+        console.log('⭐ Bookmark added:', questionId);
+    }
+    
+    saveBookmarks();
+    updateBookmarkCounts();
+    updateSectionBookmarkButtons(section);
+    
+    // Play sound effect
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('click');
+    }
+}
+
+function updateSectionBookmarkButtons(section) {
+    const questionsList = document.getElementById('questionsList');
+    if (!questionsList) return;
+    
+    const bookmarkButtons = questionsList.querySelectorAll('.bookmark-btn-section');
+    bookmarkButtons.forEach((btn, index) => {
+        const questionId = generateQuestionId(section, index);
+        const isBookmarked = state.bookmarks.some(b => b.id === questionId);
+        
+        btn.innerHTML = isBookmarked ? '★' : '⭐';
+        btn.classList.toggle('bookmarked', isBookmarked);
+    });
+}
+
+// ==================== BOOKMARK SYSTEM ====================
+function loadBookmarks() {
+    const saved = localStorage.getItem('evermind-bookmarks');
+    if (saved) {
+        try {
+            state.bookmarks = JSON.parse(saved);
+        } catch (e) {
+            console.error('Error loading bookmarks:', e);
+            state.bookmarks = [];
+        }
+    }
+    updateBookmarkCounts();
+}
+
+function saveBookmarks() {
+    localStorage.setItem('evermind-bookmarks', JSON.stringify(state.bookmarks));
+}
+
+function generateQuestionId(section, index) {
+    return `${section}-${index}`;
+}
+
+function toggleBookmark() {
+    if (!state.currentSection || state.currentQuestionIndex === null) {
+        console.warn('No current question to bookmark');
+        return;
+    }
+    
+    const questionId = generateQuestionId(state.currentSection, state.currentQuestionIndex);
+    const bookmarkIndex = state.bookmarks.findIndex(b => b.id === questionId);
+    
+    if (bookmarkIndex >= 0) {
+        // Remove bookmark
+        state.bookmarks.splice(bookmarkIndex, 1);
+        console.log('📌 Bookmark removed:', questionId);
+    } else {
+        // Add bookmark
+        state.bookmarks.push({
+            id: questionId,
+            section: state.currentSection,
+            index: state.currentQuestionIndex,
+            timestamp: Date.now()
+        });
+        console.log('⭐ Bookmark added:', questionId);
+    }
+    
+    saveBookmarks();
+    updateBookmarkButton();
+    updateBookmarkCounts();
+    
+    // Play sound effect
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('click');
+    }
+}
+
+function updateBookmarkButton() {
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    console.log('🔍 Looking for bookmark button:', bookmarkBtn);
+    
+    if (!bookmarkBtn) {
+        console.warn('⚠️ Bookmark button not found in DOM');
+        return;
+    }
+    
+    if (!state.currentSection || state.currentQuestionIndex === null) {
+        console.log('📌 Hiding bookmark button - no current question');
+        bookmarkBtn.style.display = 'none';
+        return;
+    }
+    
+    console.log('📌 Showing bookmark button for section:', state.currentSection, 'index:', state.currentQuestionIndex);
+    bookmarkBtn.style.display = 'flex';
+    
+    const questionId = generateQuestionId(state.currentSection, state.currentQuestionIndex);
+    const isBookmarked = state.bookmarks.some(b => b.id === questionId);
+    
+    console.log('📌 Question ID:', questionId, 'Is bookmarked:', isBookmarked);
+    
+    const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+    if (bookmarkIcon) {
+        bookmarkIcon.textContent = isBookmarked ? '★' : '⭐';
+        bookmarkBtn.classList.toggle('bookmarked', isBookmarked);
+        console.log('📌 Updated bookmark icon to:', bookmarkIcon.textContent);
+    } else {
+        console.warn('⚠️ Bookmark icon not found');
+    }
+}
+
+function updateBookmarkCounts() {
+    // Count bookmarks per section
+    const counts = {};
+    state.bookmarks.forEach(bookmark => {
+        counts[bookmark.section] = (counts[bookmark.section] || 0) + 1;
+    });
+    
+    // Update homepage badges
+    Object.keys(state.allQuestions).forEach(section => {
+        const countElement = document.getElementById(`${section}-bookmarks`);
+        if (countElement) {
+            const count = counts[section] || 0;
+            countElement.textContent = `${count} bookmarked`;
+        }
+    });
+    
+    // Update bookmarked section count
+    const bookmarkedCountElement = document.getElementById('bookmarked-count');
+    if (bookmarkedCountElement) {
+        bookmarkedCountElement.textContent = `${state.bookmarks.length} bookmarked`;
+    }
+}
+
+function openBookmarkedQuestions() {
+    if (state.bookmarks.length === 0) {
+        alert('No bookmarked questions yet! Click the ⭐ on any question to bookmark it.');
+        return;
+    }
+    
+    // Create bookmarked questions array
+    const bookmarkedQuestions = [];
+    state.bookmarks.forEach(bookmark => {
+        const sectionQuestions = state.allQuestions[bookmark.section];
+        if (sectionQuestions && sectionQuestions[bookmark.index]) {
+            bookmarkedQuestions.push({
+                ...sectionQuestions[bookmark.index],
+                section: bookmark.section,
+                originalIndex: bookmark.index,
+                bookmarkId: bookmark.id
+            });
+        }
+    });
+    
+    if (bookmarkedQuestions.length === 0) {
+        alert('Bookmarked questions not found. They may have been removed from the data.');
+        return;
+    }
+    
+    // Set up revision mode for bookmarked questions
+    state.revisionQuestions = bookmarkedQuestions;
+    state.currentQuestionIndex = 0;
+    state.revisionMode = 'bookmarked';
+    state.currentSection = 'bookmarked';
+    state.isAnswerShown = false;
+    
+    // Show revision interface
+    document.getElementById('homepage').style.display = 'none';
+    document.getElementById('revisionMode').style.display = 'block';
+    
+    // Update header
+    document.getElementById('revisionTitle').textContent = '📌 Bookmarked Questions';
+    document.getElementById('revisionSubtitle').textContent = `Review your flagged questions (${bookmarkedQuestions.length} total)`;
+    
+    // Show first question
+    showQuestion();
+    updateProgress();
+    
+    // Play sound effect
+    if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+        window.SoundEffects.playSound('next');
+    }
+}
+
+function updateHomepageCounts() {
+    // Update question counts for each section
+    Object.keys(state.allQuestions).forEach(section => {
+        const countElement = document.getElementById(`${section}-count`);
+        if (countElement) {
+            const count = state.allQuestions[section].length;
+            countElement.textContent = `${count} questions`;
+        }
+    });
+}
 
 // ==================== GLOBAL SEARCH ====================
 function initGlobalSearch() {
@@ -503,6 +807,7 @@ async function loadAllSections() {
         }
     }
     console.log('📊 All sections loaded:', state.allQuestions);
+    updateHomepageCounts(); // Update homepage question counts
 }
 
 async function loadSectionData(sectionId) {
@@ -634,8 +939,22 @@ function displayQuestions(questions) {
             h3.appendChild(codeBtn);
         }
         
+        // Add bookmark button to every question
+        const bookmarkBtn = document.createElement('button');
+        bookmarkBtn.className = 'bookmark-btn-section';
+        bookmarkBtn.innerHTML = '⭐';
+        bookmarkBtn.title = 'Bookmark this question';
+        bookmarkBtn.onclick = (e) => {
+            e.stopPropagation();
+            toggleBookmarkForSection(state.currentSection, index);
+        };
+        h3.appendChild(bookmarkBtn);
+        
         questionsList.appendChild(questionItem);
     });
+    
+    // Update bookmark button states
+    updateSectionBookmarkButtons(state.currentSection);
 }
 
 function addTagFilterUI(questions) {
@@ -773,6 +1092,11 @@ function startRevision() {
 }
 
 function displayCurrentQuestion() {
+    console.log('📝 Displaying current question...');
+    console.log('📝 Revision questions length:', state.revisionQuestions.length);
+    console.log('📝 Current section:', state.currentSection);
+    console.log('📝 Current question index:', state.currentQuestionIndex);
+    
     if (state.revisionQuestions.length === 0) {
         showCompletionMessage();
         return;
@@ -781,6 +1105,9 @@ function displayCurrentQuestion() {
     const question = state.revisionQuestions[0];
     const questionContent = document.getElementById('questionContent');
     const answerContent = document.getElementById('answerContent');
+    
+    console.log('📝 Question object:', question);
+    console.log('📝 Question content element:', questionContent);
     
     // Display question
     let questionHtml = escapeHtml(question.question);
@@ -800,6 +1127,10 @@ function displayCurrentQuestion() {
     }
     
     questionContent.innerHTML = questionHtml;
+    
+    // Update bookmark button
+    console.log('📝 Updating bookmark button...');
+    updateBookmarkButton();
     
     // Prepare answer
     let answerHtml = '';
@@ -848,6 +1179,11 @@ function markCorrect() {
     // Increment correct counter
     state.correctCount++;
     
+    // Record statistics
+    if (window.StudyStatistics && typeof window.StudyStatistics.recordAnswer === 'function') {
+        window.StudyStatistics.recordAnswer(state.currentSection, true);
+    }
+    
     // Award points through gamification system
     if (window.Gamification && typeof window.Gamification.awardPoints === 'function') {
         window.Gamification.awardPoints('correct', true);
@@ -867,6 +1203,11 @@ function markCorrect() {
 function markWrong() {
     // Increment wrong counter
     state.wrongCount++;
+    
+    // Record statistics
+    if (window.StudyStatistics && typeof window.StudyStatistics.recordAnswer === 'function') {
+        window.StudyStatistics.recordAnswer(state.currentSection, false);
+    }
     
     // Reset streak through gamification system
     if (window.Gamification && typeof window.Gamification.awardPoints === 'function') {
