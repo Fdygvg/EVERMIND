@@ -1,4 +1,4 @@
-﻿/* ==================== CSS VARIABLES ==================== */
+/* ==================== CSS VARIABLES ==================== */
 :root {
     /* Darker Red Palette */
     --color-red: #B91C1C;
@@ -3055,6 +3055,58 @@ body[aria-busy="true"] {
     opacity: 0.8;
 }
 
+/* Language section special styling */
+.language-info-box {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.1), rgba(59, 130, 246, 0.1));
+    border: 2px solid rgba(30, 58, 138, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(30, 58, 138, 0.1);
+}
+
+.language-translation {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.language-pronunciation {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* Theme-specific language box styling */
+[data-theme="red"] .language-info-box {
+    background: linear-gradient(135deg, rgba(185, 28, 28, 0.1), rgba(239, 68, 68, 0.1));
+    border-color: rgba(185, 28, 28, 0.3);
+    box-shadow: 0 4px 20px rgba(185, 28, 28, 0.1);
+}
+
+[data-theme="purple"] .language-info-box {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(147, 51, 234, 0.1));
+    border-color: rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.1);
+}
+
+[data-theme="green"] .language-info-box {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(16, 185, 129, 0.1));
+    border-color: rgba(5, 150, 105, 0.3);
+    box-shadow: 0 4px 20px rgba(5, 150, 105, 0.1);
+}
+
+[data-theme="orange"] .language-info-box {
+    background: linear-gradient(135deg, rgba(234, 88, 12, 0.1), rgba(249, 115, 22, 0.1));
+    border-color: rgba(234, 88, 12, 0.3);
+    box-shadow: 0 4px 20px rgba(234, 88, 12, 0.1);
+}
+
 /* ==================== QUICK LAUNCH SIDEBAR ==================== */
 .quick-launch-toggle {
     position: fixed;
@@ -3257,5 +3309,208 @@ body[aria-busy="true"] {
 
 [data-theme="orange"] .question-section-label {
     background: var(--color-orange);
+}
+
+/* ==================== ASK AI MODAL ==================== */
+.ask-ai-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ask-ai-modal.show {
+    display: flex;
+}
+
+.ask-ai-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.ask-ai-container {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.ask-ai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+}
+
+.ask-ai-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+}
+
+.close-ai-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.close-ai-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.ask-ai-content {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+}
+
+.ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ai-message {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.ai-message-user {
+    justify-content: flex-end;
+}
+
+.ai-message-bot {
+    justify-content: flex-start;
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.ai-message-user .message-content {
+    background: var(--color-blue);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.ai-message-bot .message-content {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 4px;
+}
+
+.ai-input-container {
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    gap: 10px;
+}
+
+.ai-input-container input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.ai-input-container input:focus {
+    border-color: var(--color-blue);
+}
+
+.ai-input-container input::placeholder {
+    color: var(--text-secondary);
+}
+
+#aiSendBtn {
+    padding: 12px 24px;
+    background: var(--color-blue);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+#aiSendBtn:hover {
+    background: var(--color-blue-dark);
+    transform: translateY(-1px);
+}
+
+#aiSendBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Mobile responsiveness for Ask AI */
+@media (max-width: 768px) {
+    .ask-ai-container {
+        max-height: 90vh;
+        margin: 10px;
+    }
+    
+    .ask-ai-content {
+        height: 400px;
+    }
+    
+    .ai-messages {
+        padding: 15px;
+    }
+    
+    .message-content {
+        max-width: 90%;
+        font-size: 0.9rem;
+    }
+    
+    .ai-input-container {
+        padding: 15px;
+        flex-direction: column;
+    }
+    
+    .ai-input-container input {
+        margin-bottom: 10px;
+    }
+    
+    #aiSendBtn {
+        width: 100%;
+    }
 }
 

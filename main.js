@@ -1,4 +1,4 @@
-﻿// ==================== STATE MANAGEMENT ====================
+// ==================== STATE MANAGEMENT ====================
 const state = {
     currentSection: null,
     allQuestions: {},
@@ -396,6 +396,9 @@ function startBookmarkedRevision() {
         return;
     }
     
+    // Reset revision state completely
+    resetRevision();
+    
     // Create bookmarked questions array
     const bookmarkedQuestions = [];
     state.bookmarks.forEach(bookmark => {
@@ -415,6 +418,9 @@ function startBookmarkedRevision() {
         return;
     }
     
+    // Shuffle the questions for variety
+    shuffleArray(bookmarkedQuestions);
+    
     // Set up revision mode for bookmarked questions
     state.revisionQuestions = bookmarkedQuestions;
     state.currentQuestionIndex = 0;
@@ -422,12 +428,19 @@ function startBookmarkedRevision() {
     state.currentSection = 'bookmarked';
     state.isAnswerShown = false;
     
+    // Initialize progress tracking for bookmarked questions
+    state.correctCount = 0;
+    state.wrongCount = 0;
+    state.totalQuestions = bookmarkedQuestions.length;
+    
     // Show revision interface
     showPage('revisionMode');
     
     // Update header
-    document.getElementById('revisionTitle').textContent = '📌 Bookmarked Questions';
-    document.getElementById('revisionSubtitle').textContent = `Review your flagged questions (${bookmarkedQuestions.length} total)`;
+    const revisionTitle = document.querySelector('#revisionMode h1');
+    if (revisionTitle) {
+        revisionTitle.textContent = '📌 Bookmarked Questions';
+    }
     
     // Small delay to ensure DOM is ready
     setTimeout(() => {
@@ -441,7 +454,7 @@ function startBookmarkedRevision() {
         window.SoundEffects.playSound('next');
     }
     
-    console.log('📌 Bookmarked revision started');
+    console.log('📌 Bookmarked revision started with', bookmarkedQuestions.length, 'questions');
 }
 
 // ==================== BOOKMARK SYSTEM ====================
@@ -510,6 +523,37 @@ function updateBookmarkButton() {
     
     if (!bookmarkBtn) {
         console.warn('⚠️ Bookmark button not found in DOM');
+        return;
+    }
+    
+    // Always show bookmark button in revision mode
+    const currentPage = document.querySelector('.page.active');
+    if (currentPage && currentPage.id === 'revisionMode') {
+        console.log('📌 Showing bookmark button in revision mode');
+        bookmarkBtn.style.display = 'flex';
+        
+        // Generate question ID based on current revision question
+        if (state.revisionQuestions && state.revisionQuestions.length > 0) {
+            const currentQuestion = state.revisionQuestions[0];
+            let questionId;
+            
+            if (state.revisionMode === 'bookmarked') {
+                // For bookmarked questions, use the bookmark ID
+                questionId = currentQuestion.bookmarkId || generateQuestionId(currentQuestion.section, currentQuestion.originalIndex);
+            } else {
+                // For section/global revision, generate ID based on current question
+                questionId = generateQuestionId(state.currentSection || currentQuestion.section, state.currentQuestionIndex);
+            }
+            
+            const isBookmarked = state.bookmarks.some(b => b.id === questionId);
+            
+            const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+            if (bookmarkIcon) {
+                bookmarkIcon.textContent = isBookmarked ? '★' : '⭐';
+                bookmarkBtn.classList.toggle('bookmarked', isBookmarked);
+                console.log('📌 Updated bookmark icon to:', bookmarkIcon.textContent);
+            }
+        }
         return;
     }
     
@@ -1107,6 +1151,15 @@ function displayQuestions(questions) {
             content += `<div class="answer">`;
             content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
             content += `<p style="margin-top: 10px;"><em>"${escapeHtml(q.example)}"</em></p>`;
+        } else if (q.language && q.word) {
+            // Languages section - special styling
+            content += `<h3 style="font-size: 2rem; margin-bottom: 15px; font-weight: 700;">${escapeHtml(q.word)}</h3>`;
+            content += `<div class="language-info-box">`;
+            content += `<div class="language-translation"><strong>Translation:</strong> ${escapeHtml(q.answer || q.translation || '')}</div>`;
+            if (q.pronunciation) {
+                content += `<div class="language-pronunciation"><strong>Pronunciation:</strong> ${escapeHtml(q.pronunciation)}</div>`;
+            }
+            content += `</div>`;
         } else if (q.title && q.summary) {
             // YouTube Knowledge section
             content += `<h3 style="font-size: 1.3rem; margin-bottom: 10px;">🎥 ${escapeHtml(q.title)}</h3>`;
@@ -1342,6 +1395,13 @@ function displayCurrentQuestion() {
     
     console.log('📝 Question object:', question);
     console.log('📝 Question content element:', questionContent);
+    
+    // Ensure we have a valid question
+    if (!question) {
+        console.error('❌ No question found at index 0');
+        showCompletionMessage();
+        return;
+    }
     
     // Add section label for global and bookmark revision modes
     let questionHtml = '';
@@ -1582,11 +1642,19 @@ function resetRevision() {
     state.revisionQuestions = [];
     state.currentQuestionIndex = 0;
     state.isAnswerShown = false;
+    state.correctCount = 0;
+    state.wrongCount = 0;
+    state.totalQuestions = 0;
     
     // Clear any completion message from previous sessions
     const questionCard = document.getElementById('questionCard');
     if (questionCard) {
         questionCard.innerHTML = `
+            <div class="question-header">
+                <button class="bookmark-btn" id="bookmarkBtn" title="Bookmark this question">
+                    <span class="bookmark-icon">⭐</span>
+                </button>
+            </div>
             <div class="question-content" id="questionContent">
                 <!-- Question will be displayed here -->
             </div>
@@ -1594,6 +1662,9 @@ function resetRevision() {
                 <!-- Answer will be displayed here -->
             </div>
         `;
+        
+        // Re-initialize bookmark button
+        initBookmarkButton();
     }
 }
 
@@ -1796,6 +1867,155 @@ function speakWord(word) {
 
 window.speakWord = speakWord;
 
+// ==================== ASK AI FUNCTIONALITY ====================
+function openAskAI() {
+    const modal = document.getElementById('askAIModal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus on input
+        setTimeout(() => {
+            const input = document.getElementById('aiInput');
+            if (input) {
+                input.focus();
+            }
+        }, 100);
+        
+        // Play sound effect
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    }
+}
+
+function closeAskAI() {
+    const modal = document.getElementById('askAIModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        
+        // Play sound effect
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    }
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('aiInput');
+    const sendBtn = document.getElementById('aiSendBtn');
+    const messagesContainer = document.getElementById('aiMessages');
+    
+    if (!input || !sendBtn || !messagesContainer) return;
+    
+    const message = input.value.trim();
+    if (!message) return;
+    
+    // Disable input and button
+    input.disabled = true;
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+    
+    // Add user message
+    addAIMessage(message, 'user');
+    
+    // Clear input
+    input.value = '';
+    
+    // Simulate AI response (in a real app, this would call an AI API)
+    setTimeout(() => {
+        const response = generateAIResponse(message);
+        addAIMessage(response, 'bot');
+        
+        // Re-enable input and button
+        input.disabled = false;
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+        input.focus();
+    }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds
+}
+
+function addAIMessage(content, sender) {
+    const messagesContainer = document.getElementById('aiMessages');
+    if (!messagesContainer) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ai-message ai-message-${sender}`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    contentDiv.textContent = content;
+    
+    messageDiv.appendChild(contentDiv);
+    messagesContainer.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function generateAIResponse(userMessage) {
+    const message = userMessage.toLowerCase();
+    
+    // Language-related responses
+    if (message.includes('language') || message.includes('translate') || message.includes('pronunciation')) {
+        return "I can help you with language learning! EVERMIND has sections for various languages including Igbo, Yoruba, French, Spanish, and Japanese. Each language section includes pronunciation guides and example sentences. Would you like me to explain any specific language concepts?";
+    }
+    
+    // Programming-related responses
+    if (message.includes('programming') || message.includes('code') || message.includes('html') || message.includes('css') || message.includes('javascript')) {
+        return "Great question about programming! EVERMIND's programming section covers HTML, CSS, JavaScript, Python, and more. Each question includes code examples and explanations. You can also use the code editor to practice writing code. What specific programming concept would you like help with?";
+    }
+    
+    // Science-related responses
+    if (message.includes('science') || message.includes('physics') || message.includes('chemistry') || message.includes('biology')) {
+        return "Science is fascinating! EVERMIND's science section covers various scientific concepts, facts, and principles. The questions are designed to help you understand complex scientific ideas in simple terms. Is there a particular scientific topic you'd like to explore?";
+    }
+    
+    // General learning advice
+    if (message.includes('learn') || message.includes('study') || message.includes('remember') || message.includes('memorize')) {
+        return "Learning effectively is all about practice and repetition! EVERMIND uses spaced repetition, which is scientifically proven to help you remember information better. Try to study regularly, use the revision modes, and don't forget to bookmark questions you find challenging. What subject are you trying to master?";
+    }
+    
+    // Bible-related responses
+    if (message.includes('bible') || message.includes('verse') || message.includes('scripture')) {
+        return "The Bible section in EVERMIND contains various verses and biblical knowledge questions. It's designed to help you learn and remember important biblical concepts and verses. Would you like help with any specific biblical topics?";
+    }
+    
+    // History-related responses
+    if (message.includes('history') || message.includes('historical') || message.includes('past')) {
+        return "History helps us understand the present! EVERMIND's history section covers important historical events, figures, and concepts. The questions are designed to make history engaging and memorable. What historical period or event interests you?";
+    }
+    
+    // General help
+    if (message.includes('help') || message.includes('how') || message.includes('what')) {
+        return "I'm here to help! EVERMIND is designed to make learning fun and effective. You can explore different sections like Languages, Programming, Science, History, and more. Each section has revision modes to test your knowledge. Is there something specific you'd like to know about how to use EVERMIND?";
+    }
+    
+    // Default response
+    const responses = [
+        "That's an interesting question! EVERMIND covers many topics including languages, programming, science, history, and more. Could you be more specific about what you'd like to learn?",
+        "I'd be happy to help! EVERMIND has sections for various subjects. Which topic are you most interested in exploring?",
+        "Great question! Try exploring the different sections in EVERMIND - each one is designed to help you learn and remember new information effectively.",
+        "I'm here to help you learn! EVERMIND uses spaced repetition and interactive features to make learning engaging. What subject would you like to focus on?"
+    ];
+    
+    return responses[Math.floor(Math.random() * responses.length)];
+}
+
+// Handle Enter key in AI input
+document.addEventListener('DOMContentLoaded', () => {
+    const aiInput = document.getElementById('aiInput');
+    if (aiInput) {
+        aiInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendAIMessage();
+            }
+        });
+    }
+});
+
 // ==================== EXPORT FUNCTIONS TO GLOBAL SCOPE ====================
 window.toggleThemeDropdown = toggleThemeDropdown;
 window.openSection = openSection;
@@ -1812,4 +2032,7 @@ window.previousQuestion = previousQuestion;
 window.filterByTag = filterByTag;
 window.searchTags = searchTags;
 window.openRevisionCodeEditor = openRevisionCodeEditor;
+window.openAskAI = openAskAI;
+window.closeAskAI = closeAskAI;
+window.sendAIMessage = sendAIMessage;
 
