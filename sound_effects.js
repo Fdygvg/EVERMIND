@@ -50,6 +50,9 @@ class SoundEffects {
                 case 'click':
                     this.playClickSound();
                     break;
+                case 'showAnswer':
+                    this.playShowAnswerSound();
+                    break;
                 case 'next':
                     this.playNextSound();
                     break;
@@ -78,15 +81,41 @@ class SoundEffects {
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
         
-        oscillator.frequency.setValueAtTime(800, this.audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(600, this.audioContext.currentTime + 0.1);
+        // Neutral, subtle click sound
+        oscillator.frequency.setValueAtTime(1000, this.audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(800, this.audioContext.currentTime + 0.05);
+        
+        oscillator.type = 'sine';
         
         gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(this.volume * 0.3, this.audioContext.currentTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.1);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.2, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.08);
         
         oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + 0.1);
+        oscillator.stop(this.audioContext.currentTime + 0.08);
+    }
+    
+    playShowAnswerSound() {
+        // Neutral, subtle sound that signals information delivery
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        // Gentle bell-like tone
+        oscillator.frequency.setValueAtTime(880, this.audioContext.currentTime); // A5
+        oscillator.frequency.setValueAtTime(1046.50, this.audioContext.currentTime + 0.05); // C6
+        oscillator.frequency.setValueAtTime(880, this.audioContext.currentTime + 0.1); // A5
+        
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.25, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.2);
+        
+        oscillator.start(this.audioContext.currentTime);
+        oscillator.stop(this.audioContext.currentTime + 0.2);
     }
     
     playNextSound() {
@@ -134,46 +163,50 @@ class SoundEffects {
     }
     
     playCorrectSound() {
+        // Bright, ascending tone that conveys success
         const oscillator = this.audioContext.createOscillator();
         const gainNode = this.audioContext.createGain();
         
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
         
-        // Pleasant ascending tone
+        // Pleasant ascending major chord progression
         oscillator.frequency.setValueAtTime(523.25, this.audioContext.currentTime); // C5
-        oscillator.frequency.setValueAtTime(659.25, this.audioContext.currentTime + 0.1); // E5
-        oscillator.frequency.setValueAtTime(783.99, this.audioContext.currentTime + 0.2); // G5
+        oscillator.frequency.setValueAtTime(659.25, this.audioContext.currentTime + 0.08); // E5
+        oscillator.frequency.setValueAtTime(783.99, this.audioContext.currentTime + 0.16); // G5
+        oscillator.frequency.setValueAtTime(1046.50, this.audioContext.currentTime + 0.24); // C6
         
         oscillator.type = 'sine';
         
         gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(this.volume * 0.4, this.audioContext.currentTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.3);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.5, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.4);
         
         oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + 0.3);
+        oscillator.stop(this.audioContext.currentTime + 0.4);
     }
     
     playWrongSound() {
+        // Soft, descending chime that indicates correction without discouragement
         const oscillator = this.audioContext.createOscillator();
         const gainNode = this.audioContext.createGain();
         
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
         
-        // Descending buzz sound
-        oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(100, this.audioContext.currentTime + 0.3);
+        // Gentle descending tone
+        oscillator.frequency.setValueAtTime(440, this.audioContext.currentTime); // A4
+        oscillator.frequency.setValueAtTime(392, this.audioContext.currentTime + 0.1); // G4
+        oscillator.frequency.setValueAtTime(349.23, this.audioContext.currentTime + 0.2); // F4
         
-        oscillator.type = 'sawtooth';
+        oscillator.type = 'sine';
         
         gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(this.volume * 0.2, this.audioContext.currentTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.3);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.3, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.35);
         
         oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + 0.3);
+        oscillator.stop(this.audioContext.currentTime + 0.35);
     }
     
     playCompleteSound() {
