@@ -148,7 +148,7 @@ class StudyStatistics {
             this.stats.weekly.currentStreak = 0;
         }
     }
-    
+
     resetWeeklyStats() {
         // Reset weekly totals but keep streaks
         this.stats.weekly.totalCorrect = 0;

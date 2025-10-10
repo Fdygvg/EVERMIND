@@ -313,6 +313,7 @@
             <h1>Revision Mode</h1>
             <div class="progress-indicator" id="progressIndicator">
                 <div class="progress-stats">
+                    <span class="stat timer">⏱️ <span id="revisionTimer">00:00</span></span>
                     <span class="stat correct">✓ <span id="correctCount">0</span> correct</span>
                     <span class="stat wrong">✗ <span id="wrongCount">0</span> wrong</span>
                     <span class="stat remaining">⏳ <span id="remainingCount">0</span> left</span>
@@ -397,29 +398,6 @@
         </div>
     </div>
 
-    <!-- Ask AI Modal -->
-    <div id="askAIModal" class="ask-ai-modal">
-        <div class="ask-ai-overlay" onclick="closeAskAI()"></div>
-        <div class="ask-ai-container">
-            <div class="ask-ai-header">
-                <h3>🤖 Ask AI Assistant</h3>
-                <button class="close-ai-btn" onclick="closeAskAI()">✕</button>
-            </div>
-            <div class="ask-ai-content">
-                <div class="ai-messages" id="aiMessages">
-                    <div class="ai-message ai-message-bot">
-                        <div class="message-content">
-                            Hello! I'm your AI learning assistant. Ask me anything about the topics in EVERMIND, and I'll help you understand them better!
-                        </div>
-                    </div>
-                </div>
-                <div class="ai-input-container">
-                    <input type="text" id="aiInput" placeholder="Ask me anything about languages, programming, science, etc..." autocomplete="off">
-                    <button id="aiSendBtn" onclick="sendAIMessage()">Send</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="sound_effects.js"></script>
     <script src="gamification.js"></script>

@@ -11,6 +11,12 @@ const state = {
     correctCount: 0,
     wrongCount: 0,
     totalQuestions: 0,
+    // Timer for all revision modes
+    revisionStartTime: null,
+    revisionEndTime: null,
+    revisionTimerInterval: null,
+    // Auto-save for global revision
+    autoSaveInterval: null,
     // Bookmark system
     bookmarks: [],
     currentQuestionId: null
@@ -165,6 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
             registerServiceWorker(); // Register PWA service worker
             initBookmarkButton(); // Initialize bookmark button event listener
             initQuickLaunch(); // Initialize Quick Launch sidebar
+            
+            // Check for saved global revision on page load
+            setTimeout(() => {
+                showResumePrompt();
+            }, 500);
         }, 1000);
         
         // Small delay to ensure all elements are rendered
@@ -1071,6 +1082,9 @@ function backToHome() {
 function exitRevision() {
     console.log('🚪 Exiting revision mode:', state.revisionMode);
     
+    // Stop timer
+    stopRevisionTimer();
+    
     if (state.revisionMode === 'bookmarked') {
         // Return to bookmark section view (not homepage)
         showPage('sectionView');
@@ -1180,6 +1194,11 @@ function displayQuestions(questions) {
         } else if (q.word && !q.language) {
             // New Words section - show the question initially
             content += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(q.question || '')}</h3>`;
+            
+            // Add speaker button for new words on homepage
+            const safeWord = q.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            content += ` <button class="speaker-btn" onclick="speakWord('${safeWord}')" title="Hear pronunciation">🔊</button>`;
+            
             content += `<div class="answer">`;
             content += `<h3 style="font-size: 2rem; margin-bottom: 10px; font-weight: 700;">${escapeHtml(q.word)}</h3>`;
             content += `<p style="font-style: italic; opacity: 0.8;">Pronunciation: ${escapeHtml(q.pronunciation)}</p>`;
@@ -1199,6 +1218,11 @@ function displayQuestions(questions) {
         } else if (q.term) {
             // Memes & Brain Rot section - show the question initially
             content += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(q.question || '')}</h3>`;
+            
+            // Add speaker button for memes & brain rot terms on homepage
+            const safeTerm = q.term.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            content += ` <button class="speaker-btn" onclick="speakTerm('${safeTerm}')" title="Hear term">🔊</button>`;
+            
             content += `<div class="answer">`;
             content += `<h3 style="font-size: 2rem; margin-bottom: 10px; font-weight: 700;">💀 ${escapeHtml(q.term)}</h3>`;
             content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
@@ -1395,10 +1419,22 @@ function startGlobalRevision() {
     state.revisionMode = 'global';
     state.revisionQuestions = [];
     
+    // Start timer for global revision
+    state.revisionStartTime = Date.now();
+    
+    // Get selected sections for auto-save
+    const selectedSections = Array.from(checkboxes).map(cb => cb.value);
+    
     checkboxes.forEach(checkbox => {
         const sectionId = checkbox.value;
         if (state.allQuestions[sectionId]) {
-            state.revisionQuestions.push(...state.allQuestions[sectionId]);
+            // Add section information to each question for global revision
+            const sectionQuestions = state.allQuestions[sectionId].map(q => ({
+                ...q,
+                section: sectionId
+            }));
+            state.revisionQuestions.push(...sectionQuestions);
+            console.log(`📚 DEBUG: Added ${sectionQuestions.length} questions from ${sectionId} section`);
         }
     });
     
@@ -1410,6 +1446,14 @@ function startGlobalRevision() {
     state.wrongCount = 0;
     state.totalQuestions = state.revisionQuestions.length;
     
+    // Save initial state to localStorage
+    saveRevisionState();
+    
+    // Start auto-save interval (every 30 seconds)
+    state.autoSaveInterval = setInterval(() => {
+        saveRevisionState();
+    }, 30000);
+    
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('click');
     }
@@ -1419,6 +1463,9 @@ function startGlobalRevision() {
 function startRevision() {
     showPage('revisionMode');
     
+    // Start timer for all revision modes
+    startRevisionTimer();
+    
     // Small delay to ensure DOM is ready
     setTimeout(() => {
     displayCurrentQuestion();
@@ -1427,6 +1474,42 @@ function startRevision() {
     
     // Initialize swipe gestures for mobile
     initSwipeGestures();
+}
+
+function startRevisionTimer() {
+    state.revisionStartTime = Date.now();
+    
+    // Clear any existing timer
+    if (state.revisionTimerInterval) {
+        clearInterval(state.revisionTimerInterval);
+    }
+    
+    // Update timer every second
+    state.revisionTimerInterval = setInterval(() => {
+        updateRevisionTimer();
+    }, 1000);
+    
+    // Initial update
+    updateRevisionTimer();
+}
+
+function updateRevisionTimer() {
+    const timerElement = document.getElementById('revisionTimer');
+    if (!timerElement || !state.revisionStartTime) return;
+    
+    const elapsed = Math.floor((Date.now() - state.revisionStartTime) / 1000);
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    
+    const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    timerElement.textContent = timeString;
+}
+
+function stopRevisionTimer() {
+    if (state.revisionTimerInterval) {
+        clearInterval(state.revisionTimerInterval);
+        state.revisionTimerInterval = null;
+    }
 }
 
 function displayCurrentQuestion() {
@@ -1456,12 +1539,35 @@ function displayCurrentQuestion() {
     
     // Add section label for global and bookmark revision modes
     let questionHtml = '';
+    console.log('🔍 DEBUG: displayCurrentQuestion called with:', {
+        revisionMode: state.revisionMode,
+        questionData: question,
+        hasQuestion: !!question,
+        questionKeys: question ? Object.keys(question) : 'no question'
+    });
+    
     if (state.revisionMode === 'global' || state.revisionMode === 'bookmarked') {
+        console.log('✅ DEBUG: In global/bookmarked mode, checking for section label...');
+        
         const sectionId = question.section || state.currentSection;
+        console.log('🔍 DEBUG: Section label check:', { 
+            sectionId, 
+            hasSection: !!question.section, 
+            currentSection: state.currentSection,
+            questionSection: question.section,
+            revisionMode: state.revisionMode
+        });
+        
         if (sectionId && sectionId !== 'null' && sectionId !== 'undefined') {
             const sectionInfo = getSectionInfo(sectionId);
+            console.log('🏷️ DEBUG: Adding section label:', sectionInfo);
         questionHtml += `<div class="question-section-label">${sectionInfo.icon} From ${sectionInfo.name}</div>`;
+            console.log('✅ DEBUG: Section label HTML added:', questionHtml);
+        } else {
+            console.log('⚠️ DEBUG: No section label added - sectionId:', sectionId);
         }
+    } else {
+        console.log('❌ DEBUG: Not in global/bookmarked mode, revisionMode:', state.revisionMode);
     }
     
     // Handle different question types
@@ -1489,6 +1595,10 @@ function displayCurrentQuestion() {
     } else if (question.term) {
         // Memes & Brain Rot section - show the question initially
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
+        
+        // Add speaker button for memes & brain rot terms
+        const safeTerm = question.term.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        questionHtml += ` <button class="speaker-btn" onclick="speakTerm('${safeTerm}')" title="Hear term">🔊</button>`;
     } else {
         // Standard question format
         questionHtml += escapeHtml(question.question || question.q || '');
@@ -1498,7 +1608,17 @@ function displayCurrentQuestion() {
         }
     }
     
+    console.log('🔍 DEBUG: Final question HTML before setting innerHTML:', questionHtml);
     questionContent.innerHTML = questionHtml;
+    
+    // Check if section label was actually added to DOM
+    const sectionLabel = document.querySelector('.question-section-label');
+    console.log('🔍 DEBUG: Section label element in DOM:', sectionLabel);
+    if (sectionLabel) {
+        console.log('✅ DEBUG: Section label found in DOM:', sectionLabel.textContent);
+    } else {
+        console.log('❌ DEBUG: No section label found in DOM');
+    }
     
     // Update bookmark button
     console.log('📝 Updating bookmark button...');
@@ -1635,6 +1755,9 @@ function markCorrect() {
     state.revisionQuestions.shift();
     state.currentQuestionIndex = 0;
     
+    // Auto-save progress for revision
+    saveRevisionState();
+    
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('correct');
     }
@@ -1664,6 +1787,10 @@ function markWrong() {
     state.revisionQuestions.splice(insertPosition, 0, question);
     
     state.currentQuestionIndex = 0;
+    
+    // Auto-save progress for revision
+    saveRevisionState();
+    
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('wrong');
     }
@@ -1732,15 +1859,92 @@ function updateProgress() {
 
 function showCompletionMessage() {
     const questionCard = document.getElementById('questionCard');
-    questionCard.innerHTML = `
+    
+    // Calculate stats for global revision
+    let completionHTML = '';
+    
+    if (state.revisionMode === 'global' && state.revisionStartTime) {
+        const endTime = Date.now();
+        const elapsedTime = Math.floor((endTime - state.revisionStartTime) / 1000);
+        const minutes = Math.floor(elapsedTime / 60);
+        const seconds = elapsedTime % 60;
+        const timeFormatted = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+        
+        const totalAnswered = state.correctCount + state.wrongCount;
+        const accuracy = totalAnswered > 0 ? Math.round((state.correctCount / totalAnswered) * 100) : 0;
+        
+        // Motivational quotes based on accuracy
+        let motivationalQuote = '';
+        if (accuracy >= 90) {
+            motivationalQuote = "Excellent work! You're mastering EVERMIND! 🌟";
+        } else if (accuracy >= 75) {
+            motivationalQuote = "Great progress! Keep learning and evolving! 🚀";
+        } else if (accuracy >= 60) {
+            motivationalQuote = "Good effort! Practice makes perfect in EVERMIND! 💪";
+        } else {
+            motivationalQuote = "Every question is a step forward. Keep growing! 🌱";
+        }
+        
+        completionHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 30px;">🎉 Session Complete!</h2>
+                
+                <div style="background: var(--card-bg); border-radius: 15px; padding: 30px; margin: 20px 0; border: 1px solid var(--border-color);">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 5px;">⏱️</div>
+                            <div style="font-size: 1.2rem; font-weight: 600;">Time</div>
+                            <div style="font-size: 1.5rem; color: var(--color-blue);">${timeFormatted}</div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 5px;">✅</div>
+                            <div style="font-size: 1.2rem; font-weight: 600;">Correct</div>
+                            <div style="font-size: 1.5rem; color: var(--color-green);">${state.correctCount}</div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 5px;">❌</div>
+                            <div style="font-size: 1.2rem; font-weight: 600;">Wrong</div>
+                            <div style="font-size: 1.5rem; color: var(--color-red);">${state.wrongCount}</div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 5px;">📊</div>
+                            <div style="font-size: 1.2rem; font-weight: 600;">Accuracy</div>
+                            <div style="font-size: 1.5rem; color: var(--color-purple);">${accuracy}%</div>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 1.3rem; font-style: italic; color: var(--text-secondary); margin-top: 20px;">
+                        ${motivationalQuote}
+                    </div>
+                </div>
+                
+                <p style="font-size: 1.2rem; opacity: 0.8;">You've completed all questions in this revision session!</p>
+            </div>
+        `;
+    } else {
+        // Regular completion message for non-global revisions
+        completionHTML = `
         <div style="text-align: center; padding: 40px;">
             <h2 style="font-size: 3rem; margin-bottom: 20px;">🎉 Congratulations!</h2>
             <p style="font-size: 1.5rem;">You've completed all questions in this revision session!</p>
         </div>
     `;
+    }
+    
+    questionCard.innerHTML = completionHTML;
     
     document.getElementById('answerControls').style.display = 'none';
     document.getElementById('showAnswerBtn').style.display = 'none';
+    
+    // Clear auto-save state when revision completes
+    if (state.revisionMode === 'global') {
+        clearGlobalRevisionState();
+    } else if (state.revisionMode === 'section') {
+        clearSectionRevisionState();
+    }
     
     // Optionally auto-exit after a few seconds
     setTimeout(() => {
@@ -1755,6 +1959,10 @@ function resetRevision() {
     state.correctCount = 0;
     state.wrongCount = 0;
     state.totalQuestions = 0;
+    
+    // Stop timer
+    stopRevisionTimer();
+    state.revisionStartTime = null;
     
     // Clear any completion message from previous sessions
     const questionCard = document.getElementById('questionCard');
@@ -1921,7 +2129,7 @@ function initQuickLaunch() {
             
             // Handle special cases
             if (appId === 'askai') {
-                openAskAI();
+                // AI chat removed
                 sidebar.classList.remove('open');
                 return;
             }
@@ -2011,258 +2219,220 @@ function speakWord(word) {
     }
 }
 
+function speakTerm(term) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(term);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        
+        speechSynthesis.speak(utterance);
+        
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    } else {
+        console.warn('⚠️ Speech synthesis not supported');
+    }
+}
+
 window.speakWord = speakWord;
+window.speakTerm = speakTerm;
 
-// ==================== ASK AI FUNCTIONALITY ====================
-function openAskAI() {
-    const modal = document.getElementById('askAIModal');
-    if (modal) {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-        
-        // Focus on input
-        setTimeout(() => {
-            const input = document.getElementById('aiInput');
-            if (input) {
-                input.focus();
-            }
-        }, 100);
-        
-        // Play sound effect
-        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
-            window.SoundEffects.playSound('click');
-        }
+// ==================== AUTO-SAVE FOR GLOBAL REVISION ====================
+function saveRevisionState() {
+    if (state.revisionMode !== 'global' && state.revisionMode !== 'section') return;
+    
+    const saveData = {
+        revisionMode: state.revisionMode,
+        currentSection: state.currentSection,
+        revisionQuestions: state.revisionQuestions,
+        currentQuestionIndex: state.currentQuestionIndex,
+        correctCount: state.correctCount,
+        wrongCount: state.wrongCount,
+        totalQuestions: state.totalQuestions,
+        startTime: state.revisionStartTime,
+        answeredQuestions: [], // Track which questions have been answered
+        bookmarkedInSession: [] // Questions bookmarked during this session
+    };
+    
+    // Add answered questions tracking
+    for (let i = 0; i < state.currentQuestionIndex; i++) {
+        saveData.answeredQuestions.push(i);
     }
-}
-
-function closeAskAI() {
-    const modal = document.getElementById('askAIModal');
-    if (modal) {
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-        
-        // Play sound effect
-        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
-            window.SoundEffects.playSound('click');
-        }
-    }
-}
-
-function sendAIMessage() {
-    const input = document.getElementById('aiInput');
-    const sendBtn = document.getElementById('aiSendBtn');
-    const messagesContainer = document.getElementById('aiMessages');
     
-    if (!input || !sendBtn || !messagesContainer) return;
-    
-    const message = input.value.trim();
-    if (!message) return;
-    
-    // Disable input and button
-    input.disabled = true;
-    sendBtn.disabled = true;
-    sendBtn.textContent = 'Sending...';
-    
-    // Add user message
-    addAIMessage(message, 'user');
-    
-    // Clear input
-    input.value = '';
-    
-    // Generate AI response using Hugging Face API
-    generateAIResponse(message).then(response => {
-        addAIMessage(response, 'bot');
-        
-        // Re-enable input and button
-        input.disabled = false;
-        sendBtn.disabled = false;
-        sendBtn.textContent = 'Send';
-        input.focus();
-    }).catch(error => {
-        console.error('AI API Error:', error);
-        addAIMessage("Sorry, I'm having trouble connecting right now. Please try again later.", 'bot');
-        
-        // Re-enable input and button
-        input.disabled = false;
-        sendBtn.disabled = false;
-        sendBtn.textContent = 'Send';
-        input.focus();
-    });
-}
-
-function addAIMessage(content, sender) {
-    const messagesContainer = document.getElementById('aiMessages');
-    if (!messagesContainer) return;
-    
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `ai-message ai-message-${sender}`;
-    
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'message-content';
-    contentDiv.textContent = content;
-    
-    messageDiv.appendChild(contentDiv);
-    messagesContainer.appendChild(messageDiv);
-    
-    // Scroll to bottom
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
-
-async function generateAIResponse(userMessage) {
-    const message = userMessage.toLowerCase().trim();
-    
-    // Handle math questions locally (faster than API)
-    if (message.match(/^\d+\s*[+\-*/]\s*\d+/) || message.includes('+') || message.includes('-') || message.includes('*') || message.includes('/')) {
-        try {
-            const result = Function('"use strict"; return (' + userMessage + ')')();
-            return `The answer is: ${result}`;
-        } catch (e) {
-            return "I can help with basic math! Try asking something like '1+1' or '5*3'. For more complex calculations, I'd recommend using a calculator.";
+    // For global revision, also save selected sections
+    if (state.revisionMode === 'global') {
+        const savedState = loadGlobalRevisionState();
+        if (savedState && savedState.selectedSections) {
+            saveData.selectedSections = savedState.selectedSections;
         }
     }
     
-    // Use Hugging Face API for other questions
+    const storageKey = state.revisionMode === 'global' ? 'evermind-global-revision' : 'evermind-section-revision';
+    localStorage.setItem(storageKey, JSON.stringify(saveData));
+    console.log(`💾 Auto-saved ${state.revisionMode} revision progress`);
+}
+
+function loadGlobalRevisionState() {
+    const saved = localStorage.getItem('evermind-global-revision');
+    if (!saved) return null;
+    
     try {
-        console.log('🤖 Sending to Hugging Face API:', userMessage);
-        
-        const response = await fetch('https://api-inference.huggingface.co/models/distilgpt2', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                inputs: userMessage,
-                parameters: {
-                    max_length: 50,
-                    temperature: 0.7,
-                    do_sample: true
-                }
-            })
-        });
-        
-        console.log('📡 API Response Status:', response.status);
-        
-        if (!response.ok) {
-            console.log('❌ API request failed:', response.status);
-            throw new Error(`API request failed: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('📊 API Response Data:', data);
-        
-        if (data.error) {
-            console.log('🚨 API Error:', data.error);
-            throw new Error(data.error);
-        }
-        
-        if (data && data.length > 0 && data[0].generated_text) {
-            const generatedText = data[0].generated_text;
-            console.log('✅ Generated text:', generatedText);
-            
-            // Remove the original input from the response
-            const responseText = generatedText.replace(userMessage, '').trim();
-            console.log('🎯 Final response:', responseText);
-            
-            return responseText || "I'm here to help with your learning questions! What would you like to know about EVERMIND topics?";
-        }
-        
-        console.log('⚠️ No response generated from API');
-        throw new Error('No response generated');
-        
-    } catch (error) {
-        console.error('🚨 Hugging Face API Error:', error);
-        console.log('🔄 Falling back to rule-based responses');
-        
-        // Fallback to rule-based responses
-        return generateFallbackResponse(userMessage);
+        return JSON.parse(saved);
+    } catch (e) {
+        console.error('Error loading saved revision state:', e);
+        return null;
     }
 }
 
-function generateFallbackResponse(userMessage) {
-    const message = userMessage.toLowerCase().trim();
+function loadSectionRevisionState() {
+    const saved = localStorage.getItem('evermind-section-revision');
+    if (!saved) return null;
     
-    // Handle greetings
-    if (message.includes('hi') || message.includes('hello') || message.includes('hey')) {
-        return "Hello! I'm your AI learning assistant. I can help you with questions about the topics in EVERMIND, including languages, programming, science, history, and more. What would you like to learn about?";
+    try {
+        return JSON.parse(saved);
+    } catch (e) {
+        console.error('Error loading saved section revision state:', e);
+        return null;
     }
-    
-    // Programming-related responses
-    if (message.includes('javascript') || message.includes('js')) {
-        return "JavaScript is a programming language used to make websites interactive! In EVERMIND's programming section, you'll find questions about JavaScript syntax, functions, variables, and more. You can also practice coding with the built-in code editor. What specific JavaScript concept would you like to learn about?";
+}
+
+function clearGlobalRevisionState() {
+    localStorage.removeItem('evermind-global-revision');
+    if (state.autoSaveInterval) {
+        clearInterval(state.autoSaveInterval);
+        state.autoSaveInterval = null;
     }
+    console.log('🗑️ Cleared global revision state');
+}
+
+function clearSectionRevisionState() {
+    localStorage.removeItem('evermind-section-revision');
+    console.log('🗑️ Cleared section revision state');
+}
+
+function resumeGlobalRevision() {
+    const savedState = loadGlobalRevisionState();
+    if (!savedState) return false;
     
-    if (message.includes('grep') || message.includes('grepping')) {
-        return "Grep is a command-line tool used to search for text patterns in files! It's very useful for programmers. In EVERMIND's programming section, you can learn about grep commands and other terminal tools. Would you like to explore the programming section to learn more about command-line tools?";
+    // Restore state
+    state.revisionMode = 'global';
+    state.revisionQuestions = savedState.revisionQuestions;
+    state.currentQuestionIndex = savedState.currentQuestionIndex;
+    state.correctCount = savedState.correctCount;
+    state.wrongCount = savedState.wrongCount;
+    state.totalQuestions = savedState.totalQuestions;
+    state.revisionStartTime = savedState.startTime;
+    
+    // Restart auto-save
+    state.autoSaveInterval = setInterval(() => {
+        saveRevisionState();
+    }, 30000);
+    
+    console.log(`🔄 Resumed global revision from question ${state.currentQuestionIndex + 1}/${state.totalQuestions}`);
+    startRevision();
+    return true;
+}
+
+function resumeSectionRevision() {
+    const savedState = loadSectionRevisionState();
+    if (!savedState) return false;
+    
+    // Restore state
+    state.revisionMode = 'section';
+    state.currentSection = savedState.currentSection;
+    state.revisionQuestions = savedState.revisionQuestions;
+    state.currentQuestionIndex = savedState.currentQuestionIndex;
+    state.correctCount = savedState.correctCount;
+    state.wrongCount = savedState.wrongCount;
+    state.totalQuestions = savedState.totalQuestions;
+    state.revisionStartTime = savedState.startTime;
+    
+    console.log(`🔄 Resumed section revision from question ${state.currentQuestionIndex + 1}/${state.totalQuestions}`);
+    startRevision();
+    return true;
+}
+
+function showResumePrompt() {
+    const globalState = loadGlobalRevisionState();
+    const sectionState = loadSectionRevisionState();
+    
+    if (!globalState && !sectionState) return;
+    
+    // Prioritize global revision if both exist
+    const savedState = globalState || sectionState;
+    const isGlobal = !!globalState;
+    
+    const elapsedTime = Math.floor((Date.now() - savedState.startTime) / 1000);
+    const minutes = Math.floor(elapsedTime / 60);
+    const timeFormatted = minutes > 0 ? `${minutes}m` : `${elapsedTime}s`;
+    
+    const answeredCount = savedState.answeredQuestions.length;
+    const progressText = `${answeredCount}/${savedState.totalQuestions} questions answered`;
+    
+    const title = isGlobal ? '📚 Resume Global Revision?' : '📖 Resume Section Revision?';
+    const sectionInfo = isGlobal ? 
+        `Sections: ${savedState.selectedSections.map(s => getSectionInfo(s).name).join(', ')}` :
+        `Section: ${getSectionInfo(savedState.currentSection).name}`;
+    
+    const resumeHTML = `
+        <div style="text-align: center; padding: 40px;">
+            <h2 style="font-size: 2rem; margin-bottom: 20px;">${title}</h2>
+            
+            <div style="background: var(--card-bg); border-radius: 15px; padding: 25px; margin: 20px 0; border: 1px solid var(--border-color);">
+                <div style="margin-bottom: 15px;">
+                    <strong>Progress:</strong> ${progressText}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong>Time elapsed:</strong> ${timeFormatted}
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <strong>${sectionInfo}</strong>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button onclick="${isGlobal ? 'resumeGlobalRevision' : 'resumeSectionRevision'}(); hideResumePrompt();" class="btn btn--primary">
+                    ✅ Resume
+                </button>
+                <button onclick="${isGlobal ? 'clearGlobalRevisionState' : 'clearSectionRevisionState'}(); hideResumePrompt();" class="btn btn--secondary">
+                    🗑️ Start Fresh
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Show as overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'resumePrompt';
+    overlay.style.cssText = `
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10001;
+        padding: 20px;
+    `;
+    overlay.innerHTML = resumeHTML;
+    document.body.appendChild(overlay);
+}
+
+function hideResumePrompt() {
+    const overlay = document.getElementById('resumePrompt');
+    if (overlay) {
+        overlay.remove();
     }
-    
-    if (message.includes('bitcoin') || message.includes('crypto') || message.includes('cryptocurrency')) {
-        return "Bitcoin is a digital cryptocurrency! It's a decentralized digital currency that operates without a central bank. In EVERMIND's science section, you can learn about blockchain technology and digital currencies. Would you like to explore the science section to learn more about technology concepts?";
-    }
-    
-    if (message.includes('davido') || message.includes('david adeleke')) {
-        return "Davido is a Nigerian singer, songwriter, and record producer! He's one of Africa's biggest music stars. While EVERMIND focuses on educational content, you can explore our various sections for learning about different topics. What subject would you like to learn about?";
-    }
-    
-    if (message.includes('wizkid') || message.includes('ayodeji ibilola')) {
-        return "Wizkid is a Nigerian singer and songwriter! He's one of Africa's most successful music artists and has gained international recognition. While EVERMIND focuses on educational content, you can explore our various sections for learning about different topics. What subject would you like to learn about?";
-    }
-    
-    if (message.includes('programming') || message.includes('code') || message.includes('html') || message.includes('css') || message.includes('python')) {
-        return "Great question about programming! EVERMIND's programming section covers HTML, CSS, JavaScript, Python, and more. Each question includes code examples and explanations. You can also use the code editor to practice writing code. What specific programming concept would you like help with?";
-    }
-    
-    // Language-related responses
-    if (message.includes('language') || message.includes('translate') || message.includes('pronunciation')) {
-        return "I can help you with language learning! EVERMIND has sections for various languages including Igbo, Yoruba, French, Spanish, and Japanese. Each language section includes pronunciation guides and example sentences. Would you like me to explain any specific language concepts?";
-    }
-    
-    // Science-related responses
-    if (message.includes('science') || message.includes('physics') || message.includes('chemistry') || message.includes('biology')) {
-        return "Science is fascinating! EVERMIND's science section covers various scientific concepts, facts, and principles. The questions are designed to help you understand complex scientific ideas in simple terms. Is there a particular scientific topic you'd like to explore?";
-    }
-    
-    // General learning advice
-    if (message.includes('learn') || message.includes('study') || message.includes('remember') || message.includes('memorize')) {
-        return "Learning effectively is all about practice and repetition! EVERMIND uses spaced repetition, which is scientifically proven to help you remember information better. Try to study regularly, use the revision modes, and don't forget to bookmark questions you find challenging. What subject are you trying to master?";
-    }
-    
-    // Bible-related responses
-    if (message.includes('bible') || message.includes('verse') || message.includes('scripture')) {
-        return "The Bible section in EVERMIND contains various verses and biblical knowledge questions. It's designed to help you learn and remember important biblical concepts and verses. Would you like help with any specific biblical topics?";
-    }
-    
-    // History-related responses
-    if (message.includes('history') || message.includes('historical') || message.includes('past')) {
-        return "History helps us understand the present! EVERMIND's history section covers important historical events, figures, and concepts. The questions are designed to make history engaging and memorable. What historical period or event interests you?";
-    }
-    
-    // General help
-    if (message.includes('help') || message.includes('how') || message.includes('what')) {
-        return "I'm here to help! EVERMIND is designed to make learning fun and effective. You can explore different sections like Languages, Programming, Science, History, and more. Each section has revision modes to test your knowledge. Is there something specific you'd like to know about how to use EVERMIND?";
-    }
-    
-    // Default response
-    const responses = [
-        "That's an interesting question! EVERMIND covers many topics including languages, programming, science, history, and more. Could you be more specific about what you'd like to learn?",
-        "I'd be happy to help! EVERMIND has sections for various subjects. Which topic are you most interested in exploring?",
-        "Great question! Try exploring the different sections in EVERMIND - each one is designed to help you learn and remember new information effectively.",
-        "I'm here to help you learn! EVERMIND uses spaced repetition and interactive features to make learning engaging. What subject would you like to focus on?"
-    ];
-    
-    return responses[Math.floor(Math.random() * responses.length)];
 }
 
 
-// Handle Enter key in AI input
-document.addEventListener('DOMContentLoaded', () => {
-    const aiInput = document.getElementById('aiInput');
-    if (aiInput) {
-        aiInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendAIMessage();
-            }
-        });
+
+// Auto-save on page unload
+window.addEventListener('beforeunload', () => {
+    if (state.revisionMode === 'global' || state.revisionMode === 'section') {
+        saveRevisionState();
     }
 });
 
@@ -2283,9 +2453,6 @@ window.previousQuestion = previousQuestion;
 window.filterByTag = filterByTag;
 window.searchTags = searchTags;
 window.openRevisionCodeEditor = openRevisionCodeEditor;
-window.openAskAI = openAskAI;
-window.closeAskAI = closeAskAI;
-window.sendAIMessage = sendAIMessage;
 // ==================== STATISTICS FUNCTION ====================
 function openStatistics() {
     console.log('🔍 DEBUG: openStatistics called');
