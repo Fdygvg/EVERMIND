@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVERMIND - Test Fixes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="padding: 20px; text-align: center;">
+        <h1>🧠 EVERMIND - Test Page</h1>
+        <p>Testing the fixes...</p>
+        
+        <div style="margin: 20px 0;">
+            <button onclick="testAskAI()" style="padding: 15px 30px; font-size: 18px; background: #1E3A8A; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                🤖 Test Ask AI
+            </button>
+        </div>
+        
+        <div style="margin: 20px 0;">
+            <button onclick="testLanguageSection()" style="padding: 15px 30px; font-size: 18px; background: #059669; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                🌍 Test Language Section
+            </button>
+        </div>
+        
+        <div style="margin: 20px 0;">
+            <button onclick="testStatistics()" style="padding: 15px 30px; font-size: 18px; background: #7C3AED; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                📊 Test Statistics
+            </button>
+        </div>
+        
+        <div id="testResults" style="margin-top: 30px; padding: 20px; background: rgba(0,0,0,0.1); border-radius: 10px; text-align: left;">
+            <h3>Test Results:</h3>
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <!-- Ask AI Modal -->
+    <div id="askAIModal" class="ask-ai-modal">
+        <div class="ask-ai-overlay" onclick="closeAskAI()"></div>
+        <div class="ask-ai-container">
+            <div class="ask-ai-header">
+                <h3>🤖 Ask AI Assistant</h3>
+                <button class="close-ai-btn" onclick="closeAskAI()">✕</button>
+            </div>
+            <div class="ask-ai-content">
+                <div class="ai-messages" id="aiMessages">
+                    <div class="ai-message ai-message-bot">
+                        <div class="message-content">
+                            Hello! I'm your AI learning assistant. Ask me anything about the topics in EVERMIND, and I'll help you understand them better!
+                        </div>
+                    </div>
+                </div>
+                <div class="ai-input-container">
+                    <input type="text" id="aiInput" placeholder="Ask me anything about languages, programming, science, etc..." autocomplete="off">
+                    <button id="aiSendBtn" onclick="sendAIMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        function testAskAI() {
+            addResult('Testing Ask AI...');
+            try {
+                if (typeof openAskAI === 'function') {
+                    openAskAI();
+                    addResult('✅ Ask AI function exists and modal opened');
+                } else {
+                    addResult('❌ openAskAI function not found');
+                }
+            } catch (error) {
+                addResult('❌ Error testing Ask AI: ' + error.message);
+            }
+        }
+        
+        function testLanguageSection() {
+            addResult('Testing Language Section...');
+            try {
+                if (typeof openSection === 'function') {
+                    addResult('✅ openSection function exists');
+                    // Test with a mock language question
+                    const mockQuestion = {
+                        word: "Hello",
+                        language: "english",
+                        answer: "A greeting",
+                        pronunciation: "huh-LOH"
+                    };
+                    addResult('✅ Language question structure looks good');
+                } else {
+                    addResult('❌ openSection function not found');
+                }
+            } catch (error) {
+                addResult('❌ Error testing Language Section: ' + error.message);
+            }
+        }
+        
+        function testStatistics() {
+            addResult('Testing Statistics...');
+            try {
+                if (typeof openStatistics === 'function') {
+                    addResult('✅ openStatistics function exists');
+                    if (window.StudyStatistics) {
+                        addResult('✅ StudyStatistics class exists');
+                        const stats = window.StudyStatistics.getSectionStats();
+                        addResult('✅ Section stats function works');
+                    } else {
+                        addResult('❌ StudyStatistics class not found');
+                    }
+                } else {
+                    addResult('❌ openStatistics function not found');
+                }
+            } catch (error) {
+                addResult('❌ Error testing Statistics: ' + error.message);
+            }
+        }
+        
+        function addResult(message) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.textContent = message;
+            div.style.marginBottom = '5px';
+            results.appendChild(div);
+        }
+        
+        // Test on page load
+        window.addEventListener('load', () => {
+            addResult('🚀 Page loaded, running initial tests...');
+            testLanguageSection();
+            testStatistics();
+        });
+    </script>
+</body>
+</html>

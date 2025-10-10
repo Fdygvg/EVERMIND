@@ -25,6 +25,7 @@
     <meta name="msapplication-config" content="browserconfig.xml">
     <title>EVERMIND - Personal Learning System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="logos.css">
 </head>
 <body>
     <!-- Enhanced Loading Screen -->
@@ -57,7 +58,9 @@
                     </div>
                 </div>
                 <div class="progress-text" id="progressText" aria-live="polite">0%</div>
-                <div class="loading-status" id="loadingStatus">Initializing...</div>
+                <div class="loading-status" id="loadingStatus">
+                    <span class="loading-animated-text" id="loadingAnimatedText">Learn</span>
+                </div>
             </div>
         </div>
         
@@ -92,7 +95,9 @@
             </div>
             <div class="header-center">
                 <h1>🧠 EVERMIND</h1>
-            <p class="subtitle">Your Personal Learning System</p>
+                <div class="animated-subtitle" id="animatedSubtitle">
+                    <span class="animated-word active" data-text="Learning 📚">Learning 📚</span>
+                </div>
             </div>
                 <div class="header-right">
                     <div class="global-search">
@@ -145,7 +150,7 @@
         </header>
 
         <div class="sections-grid">
-            <div class="section-card" onclick="openSection('languages')">
+            <div class="section-card" onclick="console.log('🔍 DEBUG: Languages clicked'); openSection('languages')">
                 <div class="card-icon">🌍</div>
                 <h2>Languages</h2>
                 <p>Learn translations and pronunciation</p>
@@ -255,7 +260,7 @@
                 </div>
             </div>
             
-            <div class="section-card" onclick="openStatistics()">
+            <div class="section-card" onclick="console.log('🔍 DEBUG: Statistics clicked'); openStatistics()">
                 <div class="card-icon">📊</div>
                 <h2>Study Statistics</h2>
                 <p>View your learning progress</p>
@@ -264,6 +269,7 @@
                     <span class="bookmark-count">View dashboard</span>
                 </div>
             </div>
+            
         </div>
 
         <div class="global-revision">
@@ -361,33 +367,57 @@
         </div>
         <div class="quick-launch-apps">
             <button class="quick-launch-btn" data-app="youtube">
-                <span class="app-icon">📺</span>
+                <span class="app-icon youtube"></span>
                 <span class="app-name">YouTube</span>
             </button>
             <button class="quick-launch-btn" data-app="chatgpt">
-                <span class="app-icon">🤖</span>
+                <span class="app-icon chatgpt"></span>
                 <span class="app-name">ChatGPT</span>
             </button>
             <button class="quick-launch-btn" data-app="gemini">
-                <span class="app-icon">✨</span>
+                <span class="app-icon gemini"></span>
                 <span class="app-name">Gemini</span>
             </button>
-            <button class="quick-launch-btn" data-app="claude">
-                <span class="app-icon">🧠</span>
-                <span class="app-name">Claude</span>
-            </button>
-            <button class="quick-launch-btn" data-app="perplexity">
-                <span class="app-icon">🔍</span>
-                <span class="app-name">Perplexity</span>
-            </button>
             <button class="quick-launch-btn" data-app="w3schools">
-                <span class="app-icon">📚</span>
+                <span class="app-icon w3schools"></span>
                 <span class="app-name">W3Schools</span>
             </button>
             <button class="quick-launch-btn" data-app="newtab">
-                <span class="app-icon">➕</span>
+                <span class="app-icon newtab"></span>
                 <span class="app-name">New Tab</span>
             </button>
+            <button class="quick-launch-btn" data-app="home">
+                <span class="app-icon">🏠</span>
+                <span class="app-name">Home</span>
+            </button>
+            <button class="quick-launch-btn" data-app="askai">
+                <span class="app-icon">🤖</span>
+                <span class="app-name">Ask AI</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Ask AI Modal -->
+    <div id="askAIModal" class="ask-ai-modal">
+        <div class="ask-ai-overlay" onclick="closeAskAI()"></div>
+        <div class="ask-ai-container">
+            <div class="ask-ai-header">
+                <h3>🤖 Ask AI Assistant</h3>
+                <button class="close-ai-btn" onclick="closeAskAI()">✕</button>
+            </div>
+            <div class="ask-ai-content">
+                <div class="ai-messages" id="aiMessages">
+                    <div class="ai-message ai-message-bot">
+                        <div class="message-content">
+                            Hello! I'm your AI learning assistant. Ask me anything about the topics in EVERMIND, and I'll help you understand them better!
+                        </div>
+                    </div>
+                </div>
+                <div class="ai-input-container">
+                    <input type="text" id="aiInput" placeholder="Ask me anything about languages, programming, science, etc..." autocomplete="off">
+                    <button id="aiSendBtn" onclick="sendAIMessage()">Send</button>
+                </div>
+            </div>
         </div>
     </div>
 

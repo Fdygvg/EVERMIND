@@ -106,5 +106,149 @@
     "word": "genki desu",
     "language": "japanese",
     "answer": "Translated: 元気です | Pronounced: gen-kee dess"
+  },
+  {
+    "question": "How do you say 'bread' in Igbo?",
+    "word": "achịcha",
+    "language": "igbo",
+    "answer": "Translated: achịcha | Pronounced: ah-CHEE-chah"
+  },
+  {
+    "question": "How do you say 'bread' in Yoruba?",
+    "word": "búrẹ́dì",
+    "language": "yoruba",
+    "answer": "Translated: búrẹ́dì | Pronounced: boo-REH-dee"
+  },
+  {
+    "question": "How do you say 'bread' in Hausa?",
+    "word": "burodi",
+    "language": "hausa",
+    "answer": "Translated: burodi | Pronounced: boo-RO-dee"
+  },
+  {
+    "question": "How do you say 'bread' in Spanish?",
+    "word": "pan",
+    "language": "spanish",
+    "answer": "Translated: pan | Pronounced: pahn"
+  },
+  {
+    "question": "How do you say 'bread' in French?",
+    "word": "pain",
+    "language": "french",
+    "answer": "Translated: pain | Pronounced: panh"
+  },
+  {
+    "question": "How do you say 'bread' in Japanese?",
+    "word": "パン",
+    "language": "japanese",
+    "answer": "Translated: パン | Pronounced: pahn"
+  },
+  {
+    "question": "How do you say 'rice' in Igbo?",
+    "word": "osikapa",
+    "language": "igbo",
+    "answer": "Translated: osikapa | Pronounced: oh-see-KAH-pah"
+  },
+  {
+    "question": "How do you say 'rice' in Yoruba?",
+    "word": "iresi",
+    "language": "yoruba",
+    "answer": "Translated: iresi | Pronounced: ee-REH-see"
+  },
+  {
+    "question": "How do you say 'rice' in Hausa?",
+    "word": "shinkafa",
+    "language": "hausa",
+    "answer": "Translated: shinkafa | Pronounced: sheen-KAH-fah"
+  },
+  {
+    "question": "How do you say 'rice' in Spanish?",
+    "word": "arroz",
+    "language": "spanish",
+    "answer": "Translated: arroz | Pronounced: ah-ROHS"
+  },
+  {
+    "question": "How do you say 'rice' in French?",
+    "word": "riz",
+    "language": "french",
+    "answer": "Translated: riz | Pronounced: ree"
+  },
+  {
+    "question": "How do you say 'rice' in Japanese?",
+    "word": "ご飯",
+    "language": "japanese",
+    "answer": "Translated: ご飯 | Pronounced: go-han"
+  },
+  {
+    "question": "How do you say 'egg' in Igbo?",
+    "word": "àkwa",
+    "language": "igbo",
+    "answer": "Translated: àkwa | Pronounced: AH-kwah"
+  },
+  {
+    "question": "How do you say 'egg' in Yoruba?",
+    "word": "ẹyin",
+    "language": "yoruba",
+    "answer": "Translated: ẹyin | Pronounced: eh-YIN"
+  },
+  {
+    "question": "How do you say 'egg' in Hausa?",
+    "word": "ƙwai",
+    "language": "hausa",
+    "answer": "Translated: ƙwai | Pronounced: KWAI"
+  },
+  {
+    "question": "How do you say 'egg' in Spanish?",
+    "word": "huevo",
+    "language": "spanish",
+    "answer": "Translated: huevo | Pronounced: WEH-voh"
+  },
+  {
+    "question": "How do you say 'egg' in French?",
+    "word": "œuf",
+    "language": "french",
+    "answer": "Translated: œuf | Pronounced: uhf"
+  },
+  {
+    "question": "How do you say 'egg' in Japanese?",
+    "word": "卵",
+    "language": "japanese",
+    "answer": "Translated: 卵 | Pronounced: tah-mah-goh"
+  },
+  {
+    "question": "How do you say 'I want to eat' in Igbo?",
+    "word": "achọrọ m iri nri",
+    "language": "igbo",
+    "answer": "Translated: achọrọ m iri nri | Pronounced: ah-CHAW-raw m ee-REE NREE"
+  },
+  {
+    "question": "How do you say 'I want to eat' in Yoruba?",
+    "word": "mo fẹ jeun",
+    "language": "yoruba",
+    "answer": "Translated: mo fẹ jeun | Pronounced: moh FEH JEH-oon"
+  },
+  {
+    "question": "How do you say 'I want to eat' in Hausa?",
+    "word": "ina son cin abinci",
+    "language": "hausa",
+    "answer": "Translated: ina son cin abinci | Pronounced: EE-nah son cheen ah-BEEN-chee"
+  },
+  {
+    "question": "How do you say 'I want to eat' in Spanish?",
+    "word": "quiero comer",
+    "language": "spanish",
+    "answer": "Translated: quiero comer | Pronounced: kyeh-roh koh-MER"
+  },
+  {
+    "question": "How do you say 'I want to eat' in French?",
+    "word": "je veux manger",
+    "language": "french",
+    "answer": "Translated: je veux manger | Pronounced: zhuh vuh mon-ZHAY"
+  },
+  {
+    "question": "How do you say 'I want to eat' in Japanese?",
+    "word": "食べたい",
+    "language": "japanese",
+    "answer": "Translated: 食べたい | Pronounced: tah-beh-tai"
   }
 ]

@@ -100,5 +100,137 @@
     "answer": "git branch\n\n# Or just the current branch:\ngit branch --show-current",
     "type": "shell",
     "tags": ["git"]
+  },
+  {
+    "question": "How do you open Command Prompt directly from File Explorer in a directory?",
+    "answer": "Go to the folder location in File Explorer, click the address/search bar, type `cmd`, and press Enter.",
+    "type": "shell",
+    "tags": ["cmd", "windows"]
+  },
+  {
+    "question": "How do you run scrcpy?",
+    "answer": "Use the following steps:\n\n1. Run `adb kill-server`\n2. Run `adb start-server`\n3. Connect your device using `adb connect <ip-address>`\n4. Launch scrcpy by typing `scrcpy`",
+    "type": "shell",
+    "tags": ["adb", "scrcpy", "android"]
+  },
+  {
+    "question": "How do you start a localhost server on port 8000 using Python and Node.js?",
+    "answer": "* Python (Works for both Python 2 and 3):\n  Run: `python -m http.server 8000`\n  Then visit: http://localhost:8000\n\n* Node.js:\n  First install: `npm install -g http-server`\n  Then run: `http-server -p 8000`",
+    "type": "shell",
+    "tags": ["python", "nodejs", "server", "localhost"]
+  },
+  {
+    "question": "How do you verify if port 8000 is running?",
+    "answer": "Open Command Prompt and run: `netstat -ano | findstr :8000`",
+    "type": "shell",
+    "tags": ["netstat", "port", "cmd"]
+  },
+  {
+    "question": "What does IP stand for?",
+    "answer": "Internet Protocol.",
+    "type": "networking",
+    "tags": ["ip", "protocol"]
+  },
+  {
+    "question": "What does HTTP stand for?",
+    "answer": "HyperText Transfer Protocol.",
+    "type": "networking",
+    "tags": ["http", "protocol"]
+  },
+  {
+    "question": "What does URL stand for?",
+    "answer": "Uniform Resource Locator.",
+    "type": "networking",
+    "tags": ["url", "web"]
+  },
+  {
+    "question": "What does DNS stand for, and what does it mean?",
+    "answer": "Domain Name System — it translates human-readable domain names (like google.com) into IP addresses that computers use to identify each other.",
+    "type": "networking",
+    "tags": ["dns", "domain"]
+  },
+  {
+    "question": "What does HTML stand for, and what does it mean?",
+    "answer": "HyperText Markup Language — the standard language used to structure and display content on the web.",
+    "type": "html",
+    "tags": ["html", "markup"]
+  },
+  {
+    "question": "Explain how localhost works and give examples.",
+    "answer": "Localhost refers to your own computer acting as a server for testing or development. Example: visiting localhost:8000 or opening indexed.html runs the website locally.",
+    "type": "networking",
+    "tags": ["localhost", "development"]
+  },
+  {
+    "question": "Why should you run an HTTP server (like port 8000) for localhost to work?",
+    "answer": "Because web browsers require a running HTTP service to handle requests and serve files correctly, simulating how a real server operates.",
+    "type": "networking",
+    "tags": ["http", "server", "localhost"]
+  },
+  {
+    "question": "Why is HTML wrapped in tags?",
+    "answer": "To give semantic meaning — tags describe the purpose of content (like <header>, <main>, <footer>), making structure and accessibility clearer.",
+    "type": "html",
+    "tags": ["html", "semantic"]
+  },
+  {
+    "question": "What does CSS stand for, and what does it mean?",
+    "answer": "Cascading Style Sheets — it controls the layout, colors, and overall appearance of a webpage.",
+    "type": "css",
+    "tags": ["css", "styling"]
+  },
+  {
+    "question": "What was the previous name of JavaScript?",
+    "answer": "ECMAScript.",
+    "type": "javascript",
+    "tags": ["javascript", "history"]
+  },
+  {
+    "question": "What does DOM stand for?",
+    "answer": "Document Object Model.",
+    "type": "javascript",
+    "tags": ["dom", "web"]
+  },
+  {
+    "question": "What does NPM stand for?",
+    "answer": "Node Package Manager — it's used to install and manage packages in Node.js projects.",
+    "type": "javascript",
+    "tags": ["npm", "nodejs"]
+  },
+  {
+    "question": "What does SaaS stand for, and what does it mean?",
+    "answer": "Software as a Service — software delivered over the internet, usually through a subscription, like Google Docs or Slack.",
+    "type": "concepts",
+    "tags": ["saas", "cloud"]
+  },
+  {
+    "question": "What does JSON mean?",
+    "answer": "JavaScript Object Notation — a lightweight format for storing and transferring data between systems.",
+    "type": "javascript",
+    "tags": ["json", "data"]
+  },
+  {
+    "question": "Give an example of how systems communicate.",
+    "answer": "The client sends a GET request to the server. The server responds with status codes like 200 (OK), 400 (client error), or 500 (server error).",
+    "type": "networking",
+    "tags": ["http", "communication"]
+  },
+  {
+    "question": "What is a tech stack, what does it stand for, and give examples.",
+    "answer": "A combination of technologies used to build an application. Examples include:\n\n* LAMP: Linux, Apache, MySQL, PHP\n* MEAN: MongoDB, Express, Angular, Node.js\n  It usually includes a front-end framework, an API, and a backend layer.",
+    "type": "concepts",
+    "tags": ["stack", "architecture"]
+  },
+  {
+    "question": "How do you start a localhost HTML file on Chrome?",
+    "answer": "Save your file (e.g., index.html), then run a local server using a tool like VS Code's Live Server, or open it via http://localhost:8000.",
+    "type": "html",
+    "tags": ["html", "localhost", "development"]
+  },
+  {
+    "question": "What does LLM stand for?",
+    "answer": "Large Language Model — an AI model trained on vast amounts of text data to understand and generate human-like language.",
+    "type": "ai",
+    "tags": ["llm", "ai", "machine-learning"]
   }
 ]

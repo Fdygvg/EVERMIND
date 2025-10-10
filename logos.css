@@ -1,0 +1,75 @@
+/* ==================== QUICK LAUNCH LOGOS ==================== */
+
+.app-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+/* YouTube Logo - Official YouTube logo */
+.app-icon.youtube {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}
+
+/* ChatGPT Logo */
+.app-icon.chatgpt {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}
+
+/* Gemini Logo - Google Gemini logo */
+.app-icon.gemini {
+    background-image: url("https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}
+
+/* W3Schools Logo - Official W3Schools logo */
+.app-icon.w3schools {
+    background-image: url("https://www.w3schools.com/favicon.ico");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}
+
+/* Chrome Logo - Official Google Chrome logo */
+.app-icon.newtab {
+    background-image: url("https://www.google.com/chrome/static/images/chrome-logo.svg");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}
+
+/* Home Logo - Simple house icon */
+.app-icon.home {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234285F4' d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}
+
+/* Ask AI Logo - Simple chat bubble icon */
+.app-icon.askai {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234285F4' d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}

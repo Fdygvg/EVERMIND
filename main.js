@@ -70,9 +70,9 @@ async function initLoadingScreen() {
     
     // Loading status messages
     const statusMessages = [
-        'Initializing...',
-        'Loading questions...',
-        'Preparing interface...',
+        'Learn 📚',
+        'Evolve 🚀',
+        'Grow 🌱',
         'Almost ready...',
         'Welcome to EVERMIND!'
     ];
@@ -348,7 +348,8 @@ function displayBookmarkedQuestions() {
         questionItem.onclick = () => toggleAnswer(index);
         
         let content = `<h3>Q${index + 1}: ${escapeHtml(q.question)}</h3>`;
-        content += `<div class="bookmark-section-info">From: ${q.section.charAt(0).toUpperCase() + q.section.slice(1)}</div>`;
+        const sectionInfo = getSectionInfo(q.section);
+        content += `<div class="bookmark-section-info">From: ${sectionInfo.name}</div>`;
         
         if (q.image) {
             content += `<img src="${q.image}" alt="Question image" class="question-image">`;
@@ -396,6 +397,9 @@ function startBookmarkedRevision() {
         return;
     }
     
+    // Reset revision state completely
+    resetRevision();
+    
     // Create bookmarked questions array
     const bookmarkedQuestions = [];
     state.bookmarks.forEach(bookmark => {
@@ -415,6 +419,9 @@ function startBookmarkedRevision() {
         return;
     }
     
+    // Shuffle the questions for variety
+    shuffleArray(bookmarkedQuestions);
+    
     // Set up revision mode for bookmarked questions
     state.revisionQuestions = bookmarkedQuestions;
     state.currentQuestionIndex = 0;
@@ -422,12 +429,19 @@ function startBookmarkedRevision() {
     state.currentSection = 'bookmarked';
     state.isAnswerShown = false;
     
+    // Initialize progress tracking for bookmarked questions
+    state.correctCount = 0;
+    state.wrongCount = 0;
+    state.totalQuestions = bookmarkedQuestions.length;
+    
     // Show revision interface
     showPage('revisionMode');
     
     // Update header
-    document.getElementById('revisionTitle').textContent = '📌 Bookmarked Questions';
-    document.getElementById('revisionSubtitle').textContent = `Review your flagged questions (${bookmarkedQuestions.length} total)`;
+    const revisionTitle = document.querySelector('#revisionMode h1');
+    if (revisionTitle) {
+        revisionTitle.textContent = '📌 Bookmarked Questions';
+    }
     
     // Small delay to ensure DOM is ready
     setTimeout(() => {
@@ -441,7 +455,7 @@ function startBookmarkedRevision() {
         window.SoundEffects.playSound('next');
     }
     
-    console.log('📌 Bookmarked revision started');
+    console.log('📌 Bookmarked revision started with', bookmarkedQuestions.length, 'questions');
 }
 
 // ==================== BOOKMARK SYSTEM ====================
@@ -510,6 +524,37 @@ function updateBookmarkButton() {
     
     if (!bookmarkBtn) {
         console.warn('⚠️ Bookmark button not found in DOM');
+        return;
+    }
+    
+    // Always show bookmark button in revision mode
+    const currentPage = document.querySelector('.page.active');
+    if (currentPage && currentPage.id === 'revisionMode') {
+        console.log('📌 Showing bookmark button in revision mode');
+        bookmarkBtn.style.display = 'flex';
+        
+        // Generate question ID based on current revision question
+        if (state.revisionQuestions && state.revisionQuestions.length > 0) {
+            const currentQuestion = state.revisionQuestions[0];
+            let questionId;
+            
+            if (state.revisionMode === 'bookmarked') {
+                // For bookmarked questions, use the bookmark ID
+                questionId = currentQuestion.bookmarkId || generateQuestionId(currentQuestion.section, currentQuestion.originalIndex);
+            } else {
+                // For section/global revision, generate ID based on current question
+                questionId = generateQuestionId(state.currentSection || currentQuestion.section, state.currentQuestionIndex);
+            }
+            
+            const isBookmarked = state.bookmarks.some(b => b.id === questionId);
+            
+            const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+            if (bookmarkIcon) {
+                bookmarkIcon.textContent = isBookmarked ? '★' : '⭐';
+                bookmarkBtn.classList.toggle('bookmarked', isBookmarked);
+                console.log('📌 Updated bookmark icon to:', bookmarkIcon.textContent);
+            }
+        }
         return;
     }
     
@@ -1047,10 +1092,30 @@ function exitRevision() {
 
 // ==================== SECTION VIEW ====================
 async function openSection(sectionId) {
+    console.log(`🔍 DEBUG: openSection called with sectionId: "${sectionId}"`);
+    
+    if (!sectionId) {
+        console.error('❌ DEBUG: sectionId is undefined or null');
+        return;
+    }
+    
     state.currentSection = sectionId;
     const section = sections.find(s => s.id === sectionId);
     
-    document.getElementById('sectionTitle').textContent = `${section.icon} ${section.name}`;
+    if (!section) {
+        console.error(`❌ DEBUG: Section "${sectionId}" not found in sections array:`, sections.map(s => s.id));
+        return;
+    }
+    
+    console.log(`✅ DEBUG: Found section:`, section);
+    
+    const titleElement = document.getElementById('sectionTitle');
+    if (!titleElement) {
+        console.error('❌ DEBUG: sectionTitle element not found');
+        return;
+    }
+    
+    titleElement.textContent = `${section.icon} ${section.name}`;
     
     // Restore the regular section actions button
     const sectionActions = document.querySelector('.section-actions');
@@ -1099,16 +1164,29 @@ function displayQuestions(questions) {
         
         let content = '';
         
+        
         // Handle different section types
-        if (q.word) {
-            // New Words section
-            content += `<h3 style="font-size: 1.8rem; margin-bottom: 10px;">${escapeHtml(q.word)}</h3>`;
-            content += `<p style="font-style: italic; opacity: 0.8;">Pronunciation: ${escapeHtml(q.pronunciation)}</p>`;
+        if (q.language && q.word) {
+            // Languages section - special styling
+            // Show only the English question initially, hide translation and pronunciation until clicked
+            content += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(q.question || '')}</h3>`;
             content += `<div class="answer">`;
+            content += `<div class="language-info-box">`;
+            content += `<h3 style="font-size: 2rem; margin-bottom: 15px; font-weight: 700;">${escapeHtml(q.word)}</h3>`;
+            content += `<div class="language-translation"><strong>Translation:</strong> ${escapeHtml(q.word)}</div>`;
+            content += `<div class="language-pronunciation"><strong>Pronunciation:</strong> ${escapeHtml(q.answer || '')}</div>`;
+            content += `</div>`;
+            content += `</div>`;
+        } else if (q.word && !q.language) {
+            // New Words section - show the question initially
+            content += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(q.question || '')}</h3>`;
+            content += `<div class="answer">`;
+            content += `<h3 style="font-size: 2rem; margin-bottom: 10px; font-weight: 700;">${escapeHtml(q.word)}</h3>`;
+            content += `<p style="font-style: italic; opacity: 0.8;">Pronunciation: ${escapeHtml(q.pronunciation)}</p>`;
             content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
             content += `<p style="margin-top: 10px;"><em>"${escapeHtml(q.example)}"</em></p>`;
         } else if (q.title && q.summary) {
-            // YouTube Knowledge section
+            // YouTube Knowledge section - show only the title initially
             content += `<h3 style="font-size: 1.3rem; margin-bottom: 10px;">🎥 ${escapeHtml(q.title)}</h3>`;
             content += `<div class="answer">`;
             content += `<p>${escapeHtml(q.summary)}</p>`;
@@ -1119,9 +1197,10 @@ function displayQuestions(questions) {
                 content += `<br><a href="${escapeHtml(q.videoLink)}" target="_blank" class="btn btn--primary">Watch Video 🔗</a>`;
             }
         } else if (q.term) {
-            // Memes & Brain Rot section
-            content += `<h3 style="font-size: 1.8rem; margin-bottom: 10px;">💀 ${escapeHtml(q.term)}</h3>`;
+            // Memes & Brain Rot section - show the question initially
+            content += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(q.question || '')}</h3>`;
             content += `<div class="answer">`;
+            content += `<h3 style="font-size: 2rem; margin-bottom: 10px; font-weight: 700;">💀 ${escapeHtml(q.term)}</h3>`;
             content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
             content += `<p style="margin-top: 10px;"><strong>When to use:</strong> ${escapeHtml(q.usage)}</p>`;
             content += `<p style="margin-top: 10px;"><em>"${escapeHtml(q.example)}"</em></p>`;
@@ -1139,9 +1218,34 @@ function displayQuestions(questions) {
             content += `<div class="answer">`;
             
             if (q.answer) {
-                // Check if answer contains code (multiple lines with special characters)
-                if (q.answer.includes('\n') && (q.answer.includes('{') || q.answer.includes('<') || q.answer.includes('def ') || q.answer.includes('function'))) {
+                // Check if this is a code question (contains commands, terminal syntax, etc.)
+                const isCodeQuestion = q.answer.includes('\n') && (
+                    q.answer.includes('git ') || 
+                    q.answer.includes('npm ') || 
+                    q.answer.includes('node ') || 
+                    q.answer.includes('python') || 
+                    q.answer.includes('gcc ') || 
+                    q.answer.includes('g++ ') || 
+                    q.answer.includes('cd ') || 
+                    q.answer.includes('./') || 
+                    q.answer.includes('npx ') || 
+                    q.answer.includes('// ') || 
+                    q.answer.includes('# ') ||
+                    q.answer.includes('{') || 
+                    q.answer.includes('<') || 
+                    q.answer.includes('def ') || 
+                    q.answer.includes('function')
+                );
+                
+                if (isCodeQuestion) {
                     content += `<pre><code>${escapeHtml(q.answer)}</code></pre>`;
+                    
+                    // Add code editor button only for actual code questions
+                    if (state.currentSection === 'programming') {
+                        const questionId = `${state.currentSection}_${index}`;
+                        const codeType = q.type || 'html';
+                        content += `<br><button class="code-editor-btn" onclick="CodeEditor.openEditor('${escapeHtml(q.answer).replace(/'/g, "\\'")}', '${codeType}', '${state.currentSection}', ${index})">💻 Try This Code</button>`;
+                    }
                 } else {
                     content += `<strong>Answer:</strong><br>${escapeHtml(q.answer)}`;
                 }
@@ -1343,55 +1447,51 @@ function displayCurrentQuestion() {
     console.log('📝 Question object:', question);
     console.log('📝 Question content element:', questionContent);
     
+    // Ensure we have a valid question
+    if (!question) {
+        console.error('❌ No question found at index 0');
+        showCompletionMessage();
+        return;
+    }
+    
     // Add section label for global and bookmark revision modes
     let questionHtml = '';
     if (state.revisionMode === 'global' || state.revisionMode === 'bookmarked') {
-        const sectionInfo = getSectionInfo(question.section || state.currentSection);
+        const sectionId = question.section || state.currentSection;
+        if (sectionId && sectionId !== 'null' && sectionId !== 'undefined') {
+            const sectionInfo = getSectionInfo(sectionId);
         questionHtml += `<div class="question-section-label">${sectionInfo.icon} From ${sectionInfo.name}</div>`;
+        }
     }
     
     // Handle different question types
-    if (question.word) {
-        // New Words section
-        questionHtml += `<h3 style="font-size: 2rem; margin-bottom: 10px;">${escapeHtml(question.word)}</h3>`;
-        questionHtml += `<p style="font-style: italic; opacity: 0.8; margin-bottom: 15px;">Pronunciation: ${escapeHtml(question.pronunciation)}</p>`;
-        questionHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
-        questionHtml += `<p style="margin-top: 10px;"><em>"${escapeHtml(question.example)}"</em></p>`;
+    if (question.language && question.word) {
+        // Languages section - special styling for revision mode
+        // Show only the English question, hide the translation and pronunciation until answer is revealed
+        questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
+        
+        // Add speaker button for language questions in revision mode (only Web Speech API languages)
+        const webSpeechLanguages = ['french', 'spanish', 'japanese'];
+        if (webSpeechLanguages.includes(question.language.toLowerCase())) {
+            const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            const safeLang = question.language.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${safeWord}', '${safeLang}')" title="Play pronunciation">🔊</button>`;
+        }
+    } else if (question.word && !question.language) {
+        // New Words section - show the question initially
+        questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
         
         // Add speaker button for new words
         questionHtml = `<button class="speaker-btn" onclick="speakWord('${escapeHtml(question.word)}')" title="Hear pronunciation">🔊</button>` + questionHtml;
     } else if (question.title && question.summary) {
-        // YouTube Knowledge section
+        // YouTube Knowledge section - show only the title initially
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">🎥 ${escapeHtml(question.title)}</h3>`;
-        questionHtml += `<p style="line-height: 1.8;">${escapeHtml(question.summary)}</p>`;
-        if (question.source) {
-            questionHtml += `<p style="margin-top: 15px; opacity: 0.7;"><strong>Source:</strong> ${escapeHtml(question.source)}</p>`;
-        }
-        if (question.videoLink && question.videoLink.trim()) {
-            questionHtml += `<br><a href="${escapeHtml(question.videoLink)}" target="_blank" class="btn btn--primary" style="margin-top: 10px;">Watch Video 🔗</a>`;
-        }
     } else if (question.term) {
-        // Memes & Brain Rot section
-        questionHtml += `<h3 style="font-size: 2rem; margin-bottom: 15px;">💀 ${escapeHtml(question.term)}</h3>`;
-        questionHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
-        questionHtml += `<p style="margin-top: 10px;"><strong>When to use:</strong> ${escapeHtml(question.usage)}</p>`;
-        questionHtml += `<p style="margin-top: 10px;"><em>"${escapeHtml(question.example)}"</em></p>`;
-        if (question.origin) {
-            questionHtml += `<p style="margin-top: 15px; opacity: 0.7; font-size: 0.9rem;"><strong>Origin:</strong> ${escapeHtml(question.origin)}</p>`;
-        }
+        // Memes & Brain Rot section - show the question initially
+        questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
     } else {
         // Standard question format
         questionHtml += escapeHtml(question.question || question.q || '');
-        
-        // Add speaker button for language questions in revision mode (only Web Speech API languages)
-        if (question.language && question.word) {
-            const webSpeechLanguages = ['french', 'spanish', 'japanese'];
-            if (webSpeechLanguages.includes(question.language.toLowerCase())) {
-                const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
-                const safeLang = question.language.replace(/'/g, "\\'").replace(/"/g, '\\"');
-                questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${safeWord}', '${safeLang}')" title="Play pronunciation">🔊</button>`;
-            }
-        }
         
         if (question.image) {
             questionHtml += `<br><img src="${question.image}" alt="Question" class="question-image">`;
@@ -1407,21 +1507,91 @@ function displayCurrentQuestion() {
     // Prepare answer
     let answerHtml = '';
     
-    if (question.answer) {
-        if (question.answer.includes('\n') && (question.answer.includes('{') || question.answer.includes('<') || question.answer.includes('def ') || question.answer.includes('function'))) {
+    if (question.language && question.word) {
+        // Languages section - show translation and pronunciation in answer
+        answerHtml += `<div class="language-info-box">`;
+        answerHtml += `<h3 style="font-size: 2rem; margin-bottom: 15px; font-weight: 700;">${escapeHtml(question.word)}</h3>`;
+        answerHtml += `<div class="language-translation"><strong>Translation:</strong> ${escapeHtml(question.word)}</div>`;
+        answerHtml += `<div class="language-pronunciation"><strong>Pronunciation:</strong> ${escapeHtml(question.answer || '')}</div>`;
+        answerHtml += `</div>`;
+    } else if (question.word && !question.language) {
+        // New Words section - show word, pronunciation, meaning, and example
+        answerHtml += `<h3 style="font-size: 2rem; margin-bottom: 10px; font-weight: 700;">${escapeHtml(question.word)}</h3>`;
+        answerHtml += `<p style="font-style: italic; opacity: 0.8; margin-bottom: 15px;">Pronunciation: ${escapeHtml(question.pronunciation)}</p>`;
+        answerHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
+        answerHtml += `<p style="margin-top: 10px;"><em>"${escapeHtml(question.example)}"</em></p>`;
+    } else if (question.title && question.summary) {
+        // YouTube Knowledge section - show summary, source, and video link
+        answerHtml += `<p style="line-height: 1.8;">${escapeHtml(question.summary)}</p>`;
+        if (question.source) {
+            answerHtml += `<p style="margin-top: 15px; opacity: 0.7;"><strong>Source:</strong> ${escapeHtml(question.source)}</p>`;
+        }
+        if (question.videoLink && question.videoLink.trim()) {
+            answerHtml += `<br><a href="${escapeHtml(question.videoLink)}" target="_blank" class="btn btn--primary" style="margin-top: 10px;">Watch Video 🔗</a>`;
+        }
+    } else if (question.term) {
+        // Memes & Brain Rot section - show term, meaning, usage, example, and origin
+        answerHtml += `<h3 style="font-size: 2rem; margin-bottom: 10px; font-weight: 700;">💀 ${escapeHtml(question.term)}</h3>`;
+        answerHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
+        answerHtml += `<p style="margin-top: 10px;"><strong>When to use:</strong> ${escapeHtml(question.usage)}</p>`;
+        answerHtml += `<p style="margin-top: 10px;"><em>"${escapeHtml(question.example)}"</em></p>`;
+        if (question.origin) {
+            answerHtml += `<p style="margin-top: 15px; opacity: 0.7; font-size: 0.9rem;"><strong>Origin:</strong> ${escapeHtml(question.origin)}</p>`;
+        }
+    } else if (question.answer) {
+        // Check if this is a code question (contains commands, terminal syntax, etc.)
+        const isCodeQuestion = question.answer.includes('\n') && (
+            question.answer.includes('git ') || 
+            question.answer.includes('npm ') || 
+            question.answer.includes('node ') || 
+            question.answer.includes('python') || 
+            question.answer.includes('gcc ') || 
+            question.answer.includes('g++ ') || 
+            question.answer.includes('cd ') || 
+            question.answer.includes('./') || 
+            question.answer.includes('npx ') || 
+            question.answer.includes('// ') || 
+            question.answer.includes('# ') ||
+            question.answer.includes('{') || 
+            question.answer.includes('<') || 
+            question.answer.includes('def ') || 
+            question.answer.includes('function')
+        );
+        
+        if (isCodeQuestion) {
             answerHtml = `<pre><code>${escapeHtml(question.answer)}</code></pre>`;
         } else {
             answerHtml = escapeHtml(question.answer);
         }
     }
     
-    // Add code editor button for programming questions in revision mode
-    if (question.answer && (question.answer.includes('{') || question.answer.includes('<') || question.answer.includes('function'))) {
+    // Add code editor button for programming questions in revision mode (only for actual code questions)
+    if (question.answer && state.currentSection === 'programming') {
+        const isCodeQuestion = question.answer.includes('\n') && (
+            question.answer.includes('git ') || 
+            question.answer.includes('npm ') || 
+            question.answer.includes('node ') || 
+            question.answer.includes('python') || 
+            question.answer.includes('gcc ') || 
+            question.answer.includes('g++ ') || 
+            question.answer.includes('cd ') || 
+            question.answer.includes('./') || 
+            question.answer.includes('npx ') || 
+            question.answer.includes('// ') || 
+            question.answer.includes('# ') ||
+            question.answer.includes('{') || 
+            question.answer.includes('<') || 
+            question.answer.includes('def ') || 
+            question.answer.includes('function')
+        );
+        
+        if (isCodeQuestion) {
         const questionId = `revision_${state.revisionMode}_${state.revisionQuestions.indexOf(question)}`;
         const savedCode = localStorage.getItem(`code_${questionId}`);
         const codeToUse = savedCode || question.answer;
         const codeType = question.type || 'html';
         answerHtml += `<br><button class="code-editor-btn" onclick="openRevisionCodeEditor('${questionId}', '${codeType}')">💻 Try This Code</button>`;
+        }
     }
     
     if (question.audio) {
@@ -1582,11 +1752,19 @@ function resetRevision() {
     state.revisionQuestions = [];
     state.currentQuestionIndex = 0;
     state.isAnswerShown = false;
+    state.correctCount = 0;
+    state.wrongCount = 0;
+    state.totalQuestions = 0;
     
     // Clear any completion message from previous sessions
     const questionCard = document.getElementById('questionCard');
     if (questionCard) {
         questionCard.innerHTML = `
+            <div class="question-header">
+                <button class="bookmark-btn" id="bookmarkBtn" title="Bookmark this question">
+                    <span class="bookmark-icon">⭐</span>
+                </button>
+            </div>
             <div class="question-content" id="questionContent">
                 <!-- Question will be displayed here -->
             </div>
@@ -1594,6 +1772,9 @@ function resetRevision() {
                 <!-- Answer will be displayed here -->
             </div>
         `;
+        
+        // Re-initialize bookmark button
+        initBookmarkButton();
     }
 }
 
@@ -1607,6 +1788,11 @@ function shuffleArray(array) {
 }
 
 function escapeHtml(text) {
+    // Handle undefined, null, or non-string values
+    if (text === undefined || text === null || typeof text !== 'string') {
+        return '';
+    }
+    
     const map = {
         '&': '&amp;',
         '<': '&lt;',
@@ -1732,6 +1918,20 @@ function initQuickLaunch() {
     launchButtons.forEach(button => {
         button.addEventListener('click', () => {
             const appId = button.getAttribute('data-app');
+            
+            // Handle special cases
+            if (appId === 'askai') {
+                openAskAI();
+                sidebar.classList.remove('open');
+                return;
+            }
+            
+            if (appId === 'home') {
+                showPage('home');
+                sidebar.classList.remove('open');
+                return;
+            }
+            
             const app = quickLaunchApps.find(a => 
                 a.name.toLowerCase().replace(/\s/g, '') === appId
             );
@@ -1775,7 +1975,24 @@ function launchApp(appConfig) {
 
 // Helper function to get section info
 function getSectionInfo(sectionId) {
-    return sections.find(s => s.id === sectionId) || { name: sectionId, icon: '📚' };
+    const section = sections.find(s => s.id === sectionId);
+    if (section) {
+        return section;
+    }
+    
+    // Handle special cases and format section names
+    const nameMap = {
+        'memes_brainrot': 'Memes & Brain Rot',
+        'youtube_knowledge': 'YouTube Knowledge',
+        'country_flags': 'Country Flags',
+        'new_words': 'New Words',
+        'bookmarked': 'Bookmarked Questions'
+    };
+    
+    const formattedName = nameMap[sectionId] || 
+        sectionId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    
+    return { name: formattedName, icon: '📚' };
 }
 
 // Speak word using Web Speech API for New Words section
@@ -1796,6 +2013,260 @@ function speakWord(word) {
 
 window.speakWord = speakWord;
 
+// ==================== ASK AI FUNCTIONALITY ====================
+function openAskAI() {
+    const modal = document.getElementById('askAIModal');
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus on input
+        setTimeout(() => {
+            const input = document.getElementById('aiInput');
+            if (input) {
+                input.focus();
+            }
+        }, 100);
+        
+        // Play sound effect
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    }
+}
+
+function closeAskAI() {
+    const modal = document.getElementById('askAIModal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        
+        // Play sound effect
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    }
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('aiInput');
+    const sendBtn = document.getElementById('aiSendBtn');
+    const messagesContainer = document.getElementById('aiMessages');
+    
+    if (!input || !sendBtn || !messagesContainer) return;
+    
+    const message = input.value.trim();
+    if (!message) return;
+    
+    // Disable input and button
+    input.disabled = true;
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+    
+    // Add user message
+    addAIMessage(message, 'user');
+    
+    // Clear input
+    input.value = '';
+    
+    // Generate AI response using Hugging Face API
+    generateAIResponse(message).then(response => {
+        addAIMessage(response, 'bot');
+        
+        // Re-enable input and button
+        input.disabled = false;
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+        input.focus();
+    }).catch(error => {
+        console.error('AI API Error:', error);
+        addAIMessage("Sorry, I'm having trouble connecting right now. Please try again later.", 'bot');
+        
+        // Re-enable input and button
+        input.disabled = false;
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+        input.focus();
+    });
+}
+
+function addAIMessage(content, sender) {
+    const messagesContainer = document.getElementById('aiMessages');
+    if (!messagesContainer) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ai-message ai-message-${sender}`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    contentDiv.textContent = content;
+    
+    messageDiv.appendChild(contentDiv);
+    messagesContainer.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+async function generateAIResponse(userMessage) {
+    const message = userMessage.toLowerCase().trim();
+    
+    // Handle math questions locally (faster than API)
+    if (message.match(/^\d+\s*[+\-*/]\s*\d+/) || message.includes('+') || message.includes('-') || message.includes('*') || message.includes('/')) {
+        try {
+            const result = Function('"use strict"; return (' + userMessage + ')')();
+            return `The answer is: ${result}`;
+        } catch (e) {
+            return "I can help with basic math! Try asking something like '1+1' or '5*3'. For more complex calculations, I'd recommend using a calculator.";
+        }
+    }
+    
+    // Use Hugging Face API for other questions
+    try {
+        console.log('🤖 Sending to Hugging Face API:', userMessage);
+        
+        const response = await fetch('https://api-inference.huggingface.co/models/distilgpt2', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                inputs: userMessage,
+                parameters: {
+                    max_length: 50,
+                    temperature: 0.7,
+                    do_sample: true
+                }
+            })
+        });
+        
+        console.log('📡 API Response Status:', response.status);
+        
+        if (!response.ok) {
+            console.log('❌ API request failed:', response.status);
+            throw new Error(`API request failed: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('📊 API Response Data:', data);
+        
+        if (data.error) {
+            console.log('🚨 API Error:', data.error);
+            throw new Error(data.error);
+        }
+        
+        if (data && data.length > 0 && data[0].generated_text) {
+            const generatedText = data[0].generated_text;
+            console.log('✅ Generated text:', generatedText);
+            
+            // Remove the original input from the response
+            const responseText = generatedText.replace(userMessage, '').trim();
+            console.log('🎯 Final response:', responseText);
+            
+            return responseText || "I'm here to help with your learning questions! What would you like to know about EVERMIND topics?";
+        }
+        
+        console.log('⚠️ No response generated from API');
+        throw new Error('No response generated');
+        
+    } catch (error) {
+        console.error('🚨 Hugging Face API Error:', error);
+        console.log('🔄 Falling back to rule-based responses');
+        
+        // Fallback to rule-based responses
+        return generateFallbackResponse(userMessage);
+    }
+}
+
+function generateFallbackResponse(userMessage) {
+    const message = userMessage.toLowerCase().trim();
+    
+    // Handle greetings
+    if (message.includes('hi') || message.includes('hello') || message.includes('hey')) {
+        return "Hello! I'm your AI learning assistant. I can help you with questions about the topics in EVERMIND, including languages, programming, science, history, and more. What would you like to learn about?";
+    }
+    
+    // Programming-related responses
+    if (message.includes('javascript') || message.includes('js')) {
+        return "JavaScript is a programming language used to make websites interactive! In EVERMIND's programming section, you'll find questions about JavaScript syntax, functions, variables, and more. You can also practice coding with the built-in code editor. What specific JavaScript concept would you like to learn about?";
+    }
+    
+    if (message.includes('grep') || message.includes('grepping')) {
+        return "Grep is a command-line tool used to search for text patterns in files! It's very useful for programmers. In EVERMIND's programming section, you can learn about grep commands and other terminal tools. Would you like to explore the programming section to learn more about command-line tools?";
+    }
+    
+    if (message.includes('bitcoin') || message.includes('crypto') || message.includes('cryptocurrency')) {
+        return "Bitcoin is a digital cryptocurrency! It's a decentralized digital currency that operates without a central bank. In EVERMIND's science section, you can learn about blockchain technology and digital currencies. Would you like to explore the science section to learn more about technology concepts?";
+    }
+    
+    if (message.includes('davido') || message.includes('david adeleke')) {
+        return "Davido is a Nigerian singer, songwriter, and record producer! He's one of Africa's biggest music stars. While EVERMIND focuses on educational content, you can explore our various sections for learning about different topics. What subject would you like to learn about?";
+    }
+    
+    if (message.includes('wizkid') || message.includes('ayodeji ibilola')) {
+        return "Wizkid is a Nigerian singer and songwriter! He's one of Africa's most successful music artists and has gained international recognition. While EVERMIND focuses on educational content, you can explore our various sections for learning about different topics. What subject would you like to learn about?";
+    }
+    
+    if (message.includes('programming') || message.includes('code') || message.includes('html') || message.includes('css') || message.includes('python')) {
+        return "Great question about programming! EVERMIND's programming section covers HTML, CSS, JavaScript, Python, and more. Each question includes code examples and explanations. You can also use the code editor to practice writing code. What specific programming concept would you like help with?";
+    }
+    
+    // Language-related responses
+    if (message.includes('language') || message.includes('translate') || message.includes('pronunciation')) {
+        return "I can help you with language learning! EVERMIND has sections for various languages including Igbo, Yoruba, French, Spanish, and Japanese. Each language section includes pronunciation guides and example sentences. Would you like me to explain any specific language concepts?";
+    }
+    
+    // Science-related responses
+    if (message.includes('science') || message.includes('physics') || message.includes('chemistry') || message.includes('biology')) {
+        return "Science is fascinating! EVERMIND's science section covers various scientific concepts, facts, and principles. The questions are designed to help you understand complex scientific ideas in simple terms. Is there a particular scientific topic you'd like to explore?";
+    }
+    
+    // General learning advice
+    if (message.includes('learn') || message.includes('study') || message.includes('remember') || message.includes('memorize')) {
+        return "Learning effectively is all about practice and repetition! EVERMIND uses spaced repetition, which is scientifically proven to help you remember information better. Try to study regularly, use the revision modes, and don't forget to bookmark questions you find challenging. What subject are you trying to master?";
+    }
+    
+    // Bible-related responses
+    if (message.includes('bible') || message.includes('verse') || message.includes('scripture')) {
+        return "The Bible section in EVERMIND contains various verses and biblical knowledge questions. It's designed to help you learn and remember important biblical concepts and verses. Would you like help with any specific biblical topics?";
+    }
+    
+    // History-related responses
+    if (message.includes('history') || message.includes('historical') || message.includes('past')) {
+        return "History helps us understand the present! EVERMIND's history section covers important historical events, figures, and concepts. The questions are designed to make history engaging and memorable. What historical period or event interests you?";
+    }
+    
+    // General help
+    if (message.includes('help') || message.includes('how') || message.includes('what')) {
+        return "I'm here to help! EVERMIND is designed to make learning fun and effective. You can explore different sections like Languages, Programming, Science, History, and more. Each section has revision modes to test your knowledge. Is there something specific you'd like to know about how to use EVERMIND?";
+    }
+    
+    // Default response
+    const responses = [
+        "That's an interesting question! EVERMIND covers many topics including languages, programming, science, history, and more. Could you be more specific about what you'd like to learn?",
+        "I'd be happy to help! EVERMIND has sections for various subjects. Which topic are you most interested in exploring?",
+        "Great question! Try exploring the different sections in EVERMIND - each one is designed to help you learn and remember new information effectively.",
+        "I'm here to help you learn! EVERMIND uses spaced repetition and interactive features to make learning engaging. What subject would you like to focus on?"
+    ];
+    
+    return responses[Math.floor(Math.random() * responses.length)];
+}
+
+
+// Handle Enter key in AI input
+document.addEventListener('DOMContentLoaded', () => {
+    const aiInput = document.getElementById('aiInput');
+    if (aiInput) {
+        aiInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendAIMessage();
+            }
+        });
+    }
+});
+
+
 // ==================== EXPORT FUNCTIONS TO GLOBAL SCOPE ====================
 window.toggleThemeDropdown = toggleThemeDropdown;
 window.openSection = openSection;
@@ -1812,4 +2283,19 @@ window.previousQuestion = previousQuestion;
 window.filterByTag = filterByTag;
 window.searchTags = searchTags;
 window.openRevisionCodeEditor = openRevisionCodeEditor;
+window.openAskAI = openAskAI;
+window.closeAskAI = closeAskAI;
+window.sendAIMessage = sendAIMessage;
+// ==================== STATISTICS FUNCTION ====================
+function openStatistics() {
+    console.log('🔍 DEBUG: openStatistics called');
+    if (window.StudyStatistics && typeof window.StudyStatistics.openStatistics === 'function') {
+        window.StudyStatistics.openStatistics();
+    } else {
+        console.error('❌ DEBUG: StudyStatistics not available');
+        console.log('Available on window:', Object.keys(window).filter(k => k.includes('Statistics')));
+    }
+}
+
+window.openStatistics = openStatistics;
 

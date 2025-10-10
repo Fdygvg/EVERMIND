@@ -26,10 +26,29 @@ class StudyStatistics {
         if (saved) {
             try {
                 this.stats = JSON.parse(saved);
+                // Ensure all required properties exist
+                if (!this.stats.achievements) {
+                    this.stats.achievements = [];
+                }
+                if (!this.stats.weekly) {
+                    this.stats.weekly = {
+                        currentStreak: 0,
+                        maxStreak: 0,
+                        totalCorrect: 0,
+                        totalWrong: 0,
+                        totalSessions: 0
+                    };
+                }
+                if (!this.stats.daily) {
+                    this.stats.daily = {};
+                }
             } catch (e) {
                 console.error('Error loading statistics:', e);
                 this.stats = this.getDefaultStats();
             }
+        } else {
+            // No saved stats, use defaults
+            this.stats = this.getDefaultStats();
         }
     }
 
@@ -89,7 +108,6 @@ class StudyStatistics {
         this.stats.daily[today].sessions.push(Date.now());
 
         this.updateDailyStats();
-        this.checkAchievements();
         this.saveStats();
         this.updateUI();
     }
@@ -97,6 +115,12 @@ class StudyStatistics {
     updateDailyStats() {
         const today = this.getTodayString();
         const yesterday = this.getYesterdayString();
+        
+        // Check if it's Sunday (day 0) for weekly reset
+        const todayDate = new Date();
+        if (todayDate.getDay() === 0) { // Sunday
+            this.resetWeeklyStats();
+        }
         
         // Check if user studied yesterday
         const studiedYesterday = this.stats.daily[yesterday] && 
@@ -124,123 +148,17 @@ class StudyStatistics {
             this.stats.weekly.currentStreak = 0;
         }
     }
-
-    checkAchievements() {
-        const achievements = this.stats.achievements;
+    
+    resetWeeklyStats() {
+        // Reset weekly totals but keep streaks
+        this.stats.weekly.totalCorrect = 0;
+        this.stats.weekly.totalWrong = 0;
+        this.stats.weekly.totalSessions = 0;
         
-        // Week Warrior (7-day streak)
-        if (this.stats.weekly.currentStreak >= 7 && !achievements.includes('week_warrior')) {
-            achievements.push('week_warrior');
-            this.showAchievement('🔥 Week Warrior', 'You studied for 7 days in a row!');
-        }
-        
-        // Perfect Week (95%+ accuracy)
-        const today = this.getTodayString();
-        if (this.stats.daily[today]) {
-            const total = this.stats.daily[today].correct + this.stats.daily[today].wrong;
-            const accuracy = total > 0 ? (this.stats.daily[today].correct / total) * 100 : 0;
-            
-            if (accuracy >= 95 && total >= 10 && !achievements.includes('perfect_week')) {
-                achievements.push('perfect_week');
-                this.showAchievement('🎯 Perfect Week', 'You achieved 95%+ accuracy!');
-            }
-        }
-        
-        // Section Master (100% in any section)
-        if (this.stats.daily[today] && this.stats.daily[today].sections) {
-            Object.keys(this.stats.daily[today].sections).forEach(section => {
-                const sectionData = this.stats.daily[today].sections[section];
-                const total = sectionData.correct + sectionData.wrong;
-                const accuracy = total > 0 ? (sectionData.correct / total) * 100 : 0;
-                
-                if (accuracy === 100 && total >= 5 && !achievements.includes(`section_master_${section}`)) {
-                    achievements.push(`section_master_${section}`);
-                    this.showAchievement('💯 Section Master', `Perfect score in ${section}!`);
-                }
-            });
-        }
-        
-        // Speed Demon (50+ questions in one day)
-        const todayTotal = this.stats.daily[today] ? 
-            this.stats.daily[today].correct + this.stats.daily[today].wrong : 0;
-        
-        if (todayTotal >= 50 && !achievements.includes('speed_demon')) {
-            achievements.push('speed_demon');
-            this.showAchievement('⚡ Speed Demon', 'You answered 50+ questions today!');
-        }
-        
-        // Dedicated Learner (30-day streak)
-        if (this.stats.weekly.currentStreak >= 30 && !achievements.includes('dedicated_learner')) {
-            achievements.push('dedicated_learner');
-            this.showAchievement('📚 Dedicated Learner', '30-day study streak!');
-        }
-        
-        // Knowledge Seeker (100 total questions answered)
-        const totalAnswered = this.stats.weekly.totalCorrect + this.stats.weekly.totalWrong;
-        if (totalAnswered >= 100 && !achievements.includes('knowledge_seeker')) {
-            achievements.push('knowledge_seeker');
-            this.showAchievement('🎓 Knowledge Seeker', 'You answered 100+ questions!');
-        }
-        
-        // Rising Star (5-day streak)
-        if (this.stats.weekly.currentStreak >= 5 && !achievements.includes('rising_star')) {
-            achievements.push('rising_star');
-            this.showAchievement('🌟 Rising Star', '5-day study streak!');
-        }
-        
-        // Diamond Mind (200 total questions answered)
-        if (totalAnswered >= 200 && !achievements.includes('diamond_mind')) {
-            achievements.push('diamond_mind');
-            this.showAchievement('💎 Diamond Mind', 'You answered 200+ questions!');
-        }
-        
-        // On Fire (10-day streak)
-        if (this.stats.weekly.currentStreak >= 10 && !achievements.includes('on_fire')) {
-            achievements.push('on_fire');
-            this.showAchievement('🔥 On Fire', '10-day study streak!');
-        }
-        
-        // Master Mind (500 total questions answered)
-        if (totalAnswered >= 500 && !achievements.includes('master_mind')) {
-            achievements.push('master_mind');
-            this.showAchievement('🏆 Master Mind', 'You answered 500+ questions!');
-        }
+        console.log('📅 Weekly stats reset (Sunday)');
     }
 
-    showAchievement(title, description) {
-        // Create achievement notification
-        const notification = document.createElement('div');
-        notification.className = 'achievement-notification';
-        notification.innerHTML = `
-            <div class="achievement-content">
-                <div class="achievement-icon">🏆</div>
-                <div class="achievement-text">
-                    <div class="achievement-title">${title}</div>
-                    <div class="achievement-desc">${description}</div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Animate in
-        setTimeout(() => {
-            notification.classList.add('show');
-        }, 100);
-        
-        // Remove after 5 seconds
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 5000);
-        
-        // Play sound effect
-        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
-            window.SoundEffects.playSound('correct');
-        }
-    }
+
 
     getTodayString() {
         return new Date().toISOString().split('T')[0];
@@ -256,9 +174,16 @@ class StudyStatistics {
         const weekData = [];
         const today = new Date();
         
-        for (let i = 6; i >= 0; i--) {
-            const date = new Date(today);
-            date.setDate(date.getDate() - i);
+        // Get the most recent Sunday
+        const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+        const daysSinceSunday = currentDay;
+        const sunday = new Date(today);
+        sunday.setDate(today.getDate() - daysSinceSunday);
+        
+        // Generate data for Sunday through Friday (6 days)
+        for (let i = 0; i < 6; i++) {
+            const date = new Date(sunday);
+            date.setDate(sunday.getDate() + i);
             const dateString = date.toISOString().split('T')[0];
             const dayData = this.stats.daily[dateString] || { correct: 0, wrong: 0 };
             
@@ -356,19 +281,6 @@ class StudyStatistics {
                             </div>
                         </div>
                         
-                        <div class="stats-section">
-                            <h3>📊 By Section</h3>
-                            <div class="section-stats">
-                                ${this.createSectionStats()}
-                            </div>
-                        </div>
-                        
-                        <div class="stats-section">
-                            <h3>🏆 Achievements</h3>
-                            <div class="achievements-grid">
-                                ${this.createAchievementsGrid()}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -410,54 +322,7 @@ class StudyStatistics {
         }).join('');
     }
 
-    createSectionStats() {
-        const sectionStats = this.getSectionStats();
-        const sections = Object.keys(sectionStats);
-        
-        if (sections.length === 0) {
-            return '<p style="text-align: center; opacity: 0.7;">No section data yet</p>';
-        }
-        
-        return sections.map(section => {
-            const stats = sectionStats[section];
-            return `
-                <div class="section-stat">
-                    <div class="section-name">${section.charAt(0).toUpperCase() + section.slice(1)}</div>
-                    <div class="section-bar">
-                        <div class="section-fill" style="width: ${stats.accuracy}%"></div>
-                    </div>
-                    <div class="section-accuracy">${Math.round(stats.accuracy)}%</div>
-                    <div class="section-count">${stats.total} questions</div>
-                </div>
-            `;
-        }).join('');
-    }
 
-    createAchievementsGrid() {
-        const achievements = [
-            { id: 'week_warrior', name: 'Week Warrior', desc: '7-day streak', icon: '🔥' },
-            { id: 'perfect_week', name: 'Perfect Week', desc: '95%+ accuracy', icon: '🎯' },
-            { id: 'section_master', name: 'Section Master', desc: '100% in any section', icon: '💯' },
-            { id: 'speed_demon', name: 'Speed Demon', desc: '50+ questions/day', icon: '⚡' },
-            { id: 'dedicated_learner', name: 'Dedicated Learner', desc: '30-day streak', icon: '📚' },
-            { id: 'knowledge_seeker', name: 'Knowledge Seeker', desc: '100+ questions', icon: '🎓' },
-            { id: 'rising_star', name: 'Rising Star', desc: '5-day streak', icon: '🌟' },
-            { id: 'diamond_mind', name: 'Diamond Mind', desc: '200+ questions', icon: '💎' },
-            { id: 'on_fire', name: 'On Fire', desc: '10-day streak', icon: '🔥' },
-            { id: 'master_mind', name: 'Master Mind', desc: '500+ questions', icon: '🏆' }
-        ];
-        
-        return achievements.map(achievement => {
-            const unlocked = this.stats.achievements.some(a => a.includes(achievement.id));
-            return `
-                <div class="achievement-item ${unlocked ? 'unlocked' : 'locked'}">
-                    <div class="achievement-icon">${achievement.icon}</div>
-                    <div class="achievement-name">${achievement.name}</div>
-                    <div class="achievement-desc">${achievement.desc}</div>
-                </div>
-            `;
-        }).join('');
-    }
 }
 
 // Initialize statistics system
