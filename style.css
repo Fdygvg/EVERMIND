@@ -3986,3 +3986,91 @@ body[aria-busy="true"] {
     background: var(--color-orange);
 }
 
+
+/* Animated Subtitle Styles */
+.animated-subtitle {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.animated-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: wordFadeIn 2s ease-in-out infinite;
+    animation-fill-mode: both;
+}
+
+.animated-word:nth-child(1) { animation-delay: 0s; }
+.animated-word:nth-child(2) { animation-delay: 2s; }
+.animated-word:nth-child(3) { animation-delay: 4s; }
+.animated-word:nth-child(4) { animation-delay: 6s; }
+
+@keyframes wordFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Theme-specific colors for animated words */
+[data-theme="light"] .animated-word {
+    color: #2c3e50;
+    text-shadow: 0 2px 8px rgba(44, 62, 80, 0.3);
+}
+
+[data-theme="dark"] .animated-word {
+    color: #ecf0f1;
+    text-shadow: 0 2px 8px rgba(236, 240, 241, 0.5);
+}
+
+[data-theme="red"] .animated-word {
+    color: #fef2f2;
+    text-shadow: 0 2px 8px rgba(185, 28, 28, 0.5);
+}
+
+[data-theme="blue"] .animated-word {
+    color: #eff6ff;
+    text-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
+}
+
+[data-theme="purple"] .animated-word {
+    color: #faf5ff;
+    text-shadow: 0 2px 8px rgba(147, 51, 234, 0.5);
+}
+
+[data-theme="green"] .animated-word {
+    color: #f0fdf4;
+    text-shadow: 0 2px 8px rgba(34, 197, 94, 0.5);
+}
+
+[data-theme="orange"] .animated-word {
+    color: #fff7ed;
+    text-shadow: 0 2px 8px rgba(249, 115, 22, 0.5);
+}
+
+/* Loading Screen Pulse Animation */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+}
