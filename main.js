@@ -1,4 +1,4 @@
-﻿// ==================== STATE MANAGEMENT ====================
+// ==================== STATE MANAGEMENT ====================
 const state = {
     currentSection: null,
     allQuestions: {},
@@ -77,6 +77,13 @@ async function initLoadingScreen() {
         'Welcome to EVERMIND!'
     ];
     
+    // Animated text sequence
+    const animatedTexts = [
+        { text: 'Learn', progress: 33 },
+        { text: 'Evolving', progress: 66 },
+        { text: 'Grow', progress: 100 }
+    ];
+    
     // Load data in parallel with animation
     loadAllSections().then(() => {
         dataLoaded = true;
@@ -111,11 +118,25 @@ async function initLoadingScreen() {
             progressText.textContent = `${roundedProgress}%`;
         }
         
-        // Update loading status
+        // Update loading status with animated text
         if (loadingStatus) {
-            const statusIndex = Math.floor((progress / 100) * statusMessages.length);
-            if (statusIndex < statusMessages.length) {
-                loadingStatus.textContent = statusMessages[statusIndex];
+            // Show animated text based on progress
+            let currentText = '';
+            for (let i = animatedTexts.length - 1; i >= 0; i--) {
+                if (progress >= animatedTexts[i].progress) {
+                    currentText = animatedTexts[i].text;
+                    break;
+                }
+            }
+            
+            if (currentText) {
+                loadingStatus.textContent = currentText;
+                loadingStatus.style.animation = 'pulse 0.5s ease-in-out';
+            } else {
+                const statusIndex = Math.floor((progress / 100) * statusMessages.length);
+                if (statusIndex < statusMessages.length) {
+                    loadingStatus.textContent = statusMessages[statusIndex];
+                }
             }
         }
         
@@ -165,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             registerServiceWorker(); // Register PWA service worker
             initBookmarkButton(); // Initialize bookmark button event listener
             initQuickLaunch(); // Initialize Quick Launch sidebar
+            initAnimatedSubtitle(); // Initialize animated subtitle
         }, 1000);
         
         // Small delay to ensure all elements are rendered
@@ -1101,16 +1123,18 @@ function displayQuestions(questions) {
         
         // Handle different section types
         if (q.word) {
-            // New Words section
+            // New Words section - hide answer by default
             content += `<h3 style="font-size: 1.8rem; margin-bottom: 10px;">${escapeHtml(q.word)}</h3>`;
             content += `<p style="font-style: italic; opacity: 0.8;">Pronunciation: ${escapeHtml(q.pronunciation)}</p>`;
-            content += `<div class="answer">`;
+            content += `<div class="answer" style="display: none;">`;
             content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
             content += `<p style="margin-top: 10px;"><em>"${escapeHtml(q.example)}"</em></p>`;
+            content += `</div>`;
+            content += `<button class="btn btn--primary reveal-answer-btn" onclick="revealAnswer(${index})" style="margin-top: 15px;">Reveal Answer</button>`;
         } else if (q.title && q.summary) {
-            // YouTube Knowledge section
+            // YouTube Knowledge section - hide answer by default
             content += `<h3 style="font-size: 1.3rem; margin-bottom: 10px;">🎥 ${escapeHtml(q.title)}</h3>`;
-            content += `<div class="answer">`;
+            content += `<div class="answer" style="display: none;">`;
             content += `<p>${escapeHtml(q.summary)}</p>`;
             if (q.source) {
                 content += `<p style="margin-top: 10px; opacity: 0.7;"><strong>Source:</strong> ${escapeHtml(q.source)}</p>`;
@@ -1118,16 +1142,20 @@ function displayQuestions(questions) {
             if (q.videoLink && q.videoLink.trim()) {
                 content += `<br><a href="${escapeHtml(q.videoLink)}" target="_blank" class="btn btn--primary">Watch Video 🔗</a>`;
             }
+            content += `</div>`;
+            content += `<button class="btn btn--primary reveal-answer-btn" onclick="revealAnswer(${index})" style="margin-top: 15px;">Reveal Answer</button>`;
         } else if (q.term) {
-            // Memes & Brain Rot section
-            content += `<h3 style="font-size: 1.8rem; margin-bottom: 10px;">💀 ${escapeHtml(q.term)}</h3>`;
-            content += `<div class="answer">`;
+            // Memes & Brain Rot section - hide answer by default
+            content += `<h3 style="font-size: 1.8rem; margin-bottom: 10px;">💀 ${escapeHtml(q.term)} <button class="speaker-btn" onclick="speakBrainRotTerm('${escapeHtml(q.term)}')" title="Hear pronunciation">🔊</button></h3>`;
+            content += `<div class="answer" style="display: none;">`;
             content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
             content += `<p style="margin-top: 10px;"><strong>When to use:</strong> ${escapeHtml(q.usage)}</p>`;
             content += `<p style="margin-top: 10px;"><em>"${escapeHtml(q.example)}"</em></p>`;
             if (q.origin) {
                 content += `<p style="margin-top: 10px; opacity: 0.7; font-size: 0.9rem;"><strong>Origin:</strong> ${escapeHtml(q.origin)}</p>`;
             }
+            content += `</div>`;
+            content += `<button class="btn btn--primary reveal-answer-btn" onclick="revealAnswer(${index})" style="margin-top: 15px;">Reveal Answer</button>`;
         } else {
             // Standard question format
             content += `<h3>Q${index + 1}: ${escapeHtml(q.question || q.q || '')}</h3>`;
@@ -1181,7 +1209,16 @@ function displayQuestions(questions) {
             h3.appendChild(codeBtn);
         }
         
-        // Don't add bookmark buttons in section view - only in revision mode
+        // Add bookmark buttons for section view
+        const bookmarkBtn = document.createElement('button');
+        bookmarkBtn.className = 'bookmark-btn-section';
+        bookmarkBtn.innerHTML = '⭐';
+        bookmarkBtn.title = 'Bookmark this question';
+        bookmarkBtn.onclick = (e) => {
+            e.stopPropagation();
+            toggleBookmarkForSection(state.currentSection, index);
+        };
+        h3.appendChild(bookmarkBtn);
         
         questionsList.appendChild(questionItem);
     });
@@ -1254,6 +1291,30 @@ function toggleAnswer(index) {
     items[index].classList.toggle('revealed');
 }
 
+function revealAnswer(index) {
+    const items = document.querySelectorAll('.question-item');
+    const item = items[index];
+    const answer = item.querySelector('.answer');
+    const button = item.querySelector('.reveal-answer-btn');
+    
+    if (answer && button) {
+        answer.style.display = 'block';
+        button.style.display = 'none';
+        
+        // Add smooth fade-in animation
+        answer.style.opacity = '0';
+        answer.style.transition = 'opacity 0.3s ease-in-out';
+        setTimeout(() => {
+            answer.style.opacity = '1';
+        }, 10);
+        
+        // Play sound effect
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('showAnswer');
+        }
+    }
+}
+
 // ==================== REVISION MODE ====================
 function startSectionRevision() {
     if (!state.currentSection) return;
@@ -1262,7 +1323,11 @@ function startSectionRevision() {
     resetRevision();
     
     state.revisionMode = 'section';
-    state.revisionQuestions = [...state.allQuestions[state.currentSection]];
+    // Add section information to each question
+    state.revisionQuestions = state.allQuestions[state.currentSection].map(q => ({
+        ...q,
+        section: state.currentSection
+    }));
     shuffleArray(state.revisionQuestions);
     state.currentQuestionIndex = 0;
     
@@ -1294,7 +1359,12 @@ function startGlobalRevision() {
     checkboxes.forEach(checkbox => {
         const sectionId = checkbox.value;
         if (state.allQuestions[sectionId]) {
-            state.revisionQuestions.push(...state.allQuestions[sectionId]);
+            // Add section information to each question
+            const sectionQuestions = state.allQuestions[sectionId].map(q => ({
+                ...q,
+                section: sectionId
+            }));
+            state.revisionQuestions.push(...sectionQuestions);
         }
     });
     
@@ -1351,7 +1421,17 @@ function displayCurrentQuestion() {
     }
     
     // Handle different question types
-    if (question.word) {
+    if (question.language && question.word) {
+        // Languages section
+        questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || question.q || '')}</h3>`;
+        questionHtml += `<div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">`;
+        questionHtml += `<p style="font-size: 1.8rem; font-weight: bold; margin-bottom: 10px;">${escapeHtml(question.word)}</p>`;
+        questionHtml += `<p style="font-style: italic; opacity: 0.8;">Language: ${escapeHtml(question.language.charAt(0).toUpperCase() + question.language.slice(1))}</p>`;
+        questionHtml += `</div>`;
+        
+        // Add speaker button for language words
+        questionHtml += `<button class="speaker-btn" onclick="AudioPlayer.playAudio('${escapeHtml(question.word)}', '${escapeHtml(question.language)}')" title="Hear pronunciation">🔊</button>`;
+    } else if (question.word && !question.language) {
         // New Words section
         questionHtml += `<h3 style="font-size: 2rem; margin-bottom: 10px;">${escapeHtml(question.word)}</h3>`;
         questionHtml += `<p style="font-style: italic; opacity: 0.8; margin-bottom: 15px;">Pronunciation: ${escapeHtml(question.pronunciation)}</p>`;
@@ -1443,7 +1523,7 @@ function showAnswer() {
     document.getElementById('answerControls').style.display = 'flex';
     state.isAnswerShown = true;
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
-        window.SoundEffects.playSound('click');
+        window.SoundEffects.playSound('showAnswer');
     }
 }
 
@@ -1696,8 +1776,22 @@ const quickLaunchApps = [
         name: 'New Tab',
         icon: '➕',
         appScheme: null,
-        webUrl: 'about:blank',
-        searchTerms: ['new tab', 'newtab']
+        webUrl: 'https://www.google.com',
+        searchTerms: ['new tab', 'newtab', 'google']
+    },
+    {
+        name: 'Home',
+        icon: '🏠',
+        appScheme: null,
+        webUrl: null, // Special case - handled in launchApp
+        searchTerms: ['home', 'main', 'dashboard']
+    },
+    {
+        name: 'Ask AI',
+        icon: '🤖',
+        appScheme: null,
+        webUrl: null, // Special case - handled in launchApp
+        searchTerms: ['ask', 'ai', 'chat', 'help']
     }
 ];
 
@@ -1751,6 +1845,20 @@ function launchApp(appConfig) {
         window.SoundEffects.playSound('correct');
     }
     
+    // Special case for Home button
+    if (appConfig.name === 'Home') {
+        backToHome();
+        console.log(`🏠 Navigated to Home`);
+        return;
+    }
+    
+    // Special case for Ask AI button
+    if (appConfig.name === 'Ask AI') {
+        openAIChat();
+        console.log(`🤖 Opened AI Chat`);
+        return;
+    }
+    
     if (appConfig.appScheme) {
         // Try app scheme first with fallback
         const iframe = document.createElement('iframe');
@@ -1794,7 +1902,229 @@ function speakWord(word) {
     }
 }
 
+// Speak Brain Rot term using Web Speech API
+function speakBrainRotTerm(term) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(term);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.8; // Slightly slower for slang terms
+        utterance.pitch = 1.1; // Slightly higher pitch for fun effect
+        window.speechSynthesis.speak(utterance);
+        
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    } else {
+        console.warn('⚠️ Speech synthesis not supported');
+    }
+}
+
 window.speakWord = speakWord;
+window.speakBrainRotTerm = speakBrainRotTerm;
+
+// ==================== AI CHAT FUNCTIONALITY ====================
+let aiChatSession = {
+    isOpen: false,
+    messages: [],
+    isTyping: false
+};
+
+function openAIChat() {
+    if (aiChatSession.isOpen) {
+        showAIChat();
+        return;
+    }
+    
+    // Create chat popup
+    const chatPopup = document.createElement('div');
+    chatPopup.id = 'aiChatPopup';
+    chatPopup.className = 'ai-chat-popup';
+    chatPopup.innerHTML = `
+        <div class="ai-chat-container">
+            <div class="ai-chat-header">
+                <h3>Ask AI</h3>
+                <button class="ai-chat-close" onclick="closeAIChat()">✕</button>
+            </div>
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="ai-message">
+                    <div class="ai-avatar">🤖</div>
+                    <div class="ai-text">Hello! I'm your AI learning assistant. How can I help you today?</div>
+                </div>
+            </div>
+            <div class="ai-chat-input-container">
+                <input type="text" id="aiChatInput" placeholder="Ask me anything..." autocomplete="off">
+                <button id="aiChatSend" onclick="sendAIMessage()">📤</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(chatPopup);
+    aiChatSession.isOpen = true;
+    
+    // Focus on input
+    setTimeout(() => {
+        document.getElementById('aiChatInput').focus();
+    }, 100);
+    
+    // Add event listeners
+    document.getElementById('aiChatInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendAIMessage();
+        }
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && aiChatSession.isOpen) {
+            closeAIChat();
+        }
+    });
+    
+    console.log('🤖 AI Chat opened');
+}
+
+function showAIChat() {
+    const chatPopup = document.getElementById('aiChatPopup');
+    if (chatPopup) {
+        chatPopup.style.display = 'flex';
+        document.getElementById('aiChatInput').focus();
+    }
+}
+
+function closeAIChat() {
+    const chatPopup = document.getElementById('aiChatPopup');
+    if (chatPopup) {
+        chatPopup.style.display = 'none';
+    }
+    console.log('🤖 AI Chat closed');
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('aiChatInput');
+    const message = input.value.trim();
+    
+    if (!message || aiChatSession.isTyping) return;
+    
+    // Add user message to chat
+    addMessageToChat('user', message);
+    input.value = '';
+    
+    // Add to session
+    aiChatSession.messages.push({ role: 'user', content: message });
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Send to AI
+    sendToAI(message);
+}
+
+function addMessageToChat(role, content) {
+    const messagesContainer = document.getElementById('aiChatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `${role}-message`;
+    
+    if (role === 'user') {
+        messageDiv.innerHTML = `
+            <div class="user-avatar">👤</div>
+            <div class="user-text">${escapeHtml(content)}</div>
+        `;
+    } else {
+        messageDiv.innerHTML = `
+            <div class="ai-avatar">🤖</div>
+            <div class="ai-text">${escapeHtml(content)}</div>
+        `;
+    }
+    
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function showTypingIndicator() {
+    const messagesContainer = document.getElementById('aiChatMessages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'ai-message typing';
+    typingDiv.innerHTML = `
+        <div class="ai-avatar">🤖</div>
+        <div class="ai-text typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+    
+    messagesContainer.appendChild(typingDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    aiChatSession.isTyping = true;
+}
+
+function removeTypingIndicator() {
+    const typingIndicator = document.querySelector('.typing');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+    aiChatSession.isTyping = false;
+}
+
+async function sendToAI(message) {
+    try {
+        // For now, we'll simulate an AI response
+        // In a real implementation, you would call the OpenAI API here
+        setTimeout(() => {
+            removeTypingIndicator();
+            
+            // Simulate AI response
+            const responses = [
+                "That's a great question! Let me help you with that.",
+                "I understand what you're asking. Here's what I think...",
+                "Based on your question, I'd suggest...",
+                "That's an interesting topic! Here's my perspective...",
+                "I'm here to help you learn! Let me explain..."
+            ];
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            addMessageToChat('assistant', randomResponse);
+            aiChatSession.messages.push({ role: 'assistant', content: randomResponse });
+        }, 1500);
+        
+    } catch (error) {
+        console.error('Error sending message to AI:', error);
+        removeTypingIndicator();
+        addMessageToChat('assistant', 'Sorry, I encountered an error. Please try again.');
+    }
+}
+
+// ==================== ANIMATED SUBTITLE ====================
+function initAnimatedSubtitle() {
+    const animatedSubtitle = document.getElementById('animatedSubtitle');
+    if (!animatedSubtitle) return;
+    
+    // Function to restart animation
+    function restartAnimation() {
+        const words = animatedSubtitle.querySelectorAll('.animated-word');
+        words.forEach((word, index) => {
+            word.style.animation = 'none';
+            word.style.opacity = '0';
+            word.style.transform = 'translateY(20px)';
+            
+            // Force reflow
+            word.offsetHeight;
+            
+            // Restart animation
+            word.style.animation = `wordFadeIn 0.8s ease-in-out forwards`;
+            word.style.animationDelay = `${index * 1}s`;
+        });
+    }
+    
+    // Start the animation
+    restartAnimation();
+    
+    // Restart animation every 8 seconds
+    setInterval(restartAnimation, 8000);
+    
+    console.log('🎬 Animated subtitle initialized');
+}
 
 // ==================== EXPORT FUNCTIONS TO GLOBAL SCOPE ====================
 window.toggleThemeDropdown = toggleThemeDropdown;
@@ -1812,4 +2142,8 @@ window.previousQuestion = previousQuestion;
 window.filterByTag = filterByTag;
 window.searchTags = searchTags;
 window.openRevisionCodeEditor = openRevisionCodeEditor;
+window.revealAnswer = revealAnswer;
+window.openAIChat = openAIChat;
+window.closeAIChat = closeAIChat;
+window.sendAIMessage = sendAIMessage;
 

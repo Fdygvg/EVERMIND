@@ -9,8 +9,7 @@ class StudyStatistics {
                 totalCorrect: 0,
                 totalWrong: 0,
                 totalSessions: 0
-            },
-            achievements: []
+            }
         };
         this.init();
     }
@@ -46,8 +45,7 @@ class StudyStatistics {
                 totalCorrect: 0,
                 totalWrong: 0,
                 totalSessions: 0
-            },
-            achievements: []
+            }
         };
     }
 
@@ -256,9 +254,15 @@ class StudyStatistics {
         const weekData = [];
         const today = new Date();
         
-        for (let i = 6; i >= 0; i--) {
-            const date = new Date(today);
-            date.setDate(date.getDate() - i);
+        // Get the start of the week (Sunday)
+        const startOfWeek = new Date(today);
+        const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+        startOfWeek.setDate(today.getDate() - dayOfWeek);
+        
+        // Generate 7 days starting from Sunday
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(startOfWeek);
+            date.setDate(startOfWeek.getDate() + i);
             const dateString = date.toISOString().split('T')[0];
             const dayData = this.stats.daily[dateString] || { correct: 0, wrong: 0 };
             
@@ -276,30 +280,42 @@ class StudyStatistics {
 
     getSectionStats() {
         const sectionStats = {};
-        const today = this.getTodayString();
         
         // Only include valid sections
-        const validSections = ['languages', 'programming', 'bible', 'science', 'history', 'facts', 'country_flags'];
+        const validSections = ['languages', 'programming', 'bible', 'science', 'history', 'facts', 'country_flags', 'new_words', 'youtube_knowledge', 'memes_brainrot'];
         
-        if (this.stats.daily[today] && this.stats.daily[today].sections) {
-            Object.keys(this.stats.daily[today].sections).forEach(section => {
-                // Skip invalid sections
-                if (!validSections.includes(section) || section === 'null' || section === 'undefined') {
-                    return;
-                }
-                
-                const sectionData = this.stats.daily[today].sections[section];
-                const total = sectionData.correct + sectionData.wrong;
-                const accuracy = total > 0 ? (sectionData.correct / total) * 100 : 0;
-                
-                sectionStats[section] = {
-                    correct: sectionData.correct,
-                    wrong: sectionData.wrong,
-                    total: total,
-                    accuracy: accuracy
-                };
-            });
-        }
+        // Initialize all valid sections
+        validSections.forEach(section => {
+            sectionStats[section] = {
+                correct: 0,
+                wrong: 0,
+                total: 0,
+                accuracy: 0
+            };
+        });
+        
+        // Aggregate data from all days
+        Object.keys(this.stats.daily).forEach(date => {
+            if (this.stats.daily[date].sections) {
+                Object.keys(this.stats.daily[date].sections).forEach(section => {
+                    // Skip invalid sections
+                    if (!validSections.includes(section) || section === 'null' || section === 'undefined') {
+                        return;
+                    }
+                    
+                    const sectionData = this.stats.daily[date].sections[section];
+                    sectionStats[section].correct += sectionData.correct || 0;
+                    sectionStats[section].wrong += sectionData.wrong || 0;
+                });
+            }
+        });
+        
+        // Calculate totals and accuracy
+        Object.keys(sectionStats).forEach(section => {
+            const stats = sectionStats[section];
+            stats.total = stats.correct + stats.wrong;
+            stats.accuracy = stats.total > 0 ? (stats.correct / stats.total) * 100 : 0;
+        });
         
         return sectionStats;
     }
@@ -363,12 +379,6 @@ class StudyStatistics {
                             </div>
                         </div>
                         
-                        <div class="stats-section">
-                            <h3>🏆 Achievements</h3>
-                            <div class="achievements-grid">
-                                ${this.createAchievementsGrid()}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -433,31 +443,6 @@ class StudyStatistics {
         }).join('');
     }
 
-    createAchievementsGrid() {
-        const achievements = [
-            { id: 'week_warrior', name: 'Week Warrior', desc: '7-day streak', icon: '🔥' },
-            { id: 'perfect_week', name: 'Perfect Week', desc: '95%+ accuracy', icon: '🎯' },
-            { id: 'section_master', name: 'Section Master', desc: '100% in any section', icon: '💯' },
-            { id: 'speed_demon', name: 'Speed Demon', desc: '50+ questions/day', icon: '⚡' },
-            { id: 'dedicated_learner', name: 'Dedicated Learner', desc: '30-day streak', icon: '📚' },
-            { id: 'knowledge_seeker', name: 'Knowledge Seeker', desc: '100+ questions', icon: '🎓' },
-            { id: 'rising_star', name: 'Rising Star', desc: '5-day streak', icon: '🌟' },
-            { id: 'diamond_mind', name: 'Diamond Mind', desc: '200+ questions', icon: '💎' },
-            { id: 'on_fire', name: 'On Fire', desc: '10-day streak', icon: '🔥' },
-            { id: 'master_mind', name: 'Master Mind', desc: '500+ questions', icon: '🏆' }
-        ];
-        
-        return achievements.map(achievement => {
-            const unlocked = this.stats.achievements.some(a => a.includes(achievement.id));
-            return `
-                <div class="achievement-item ${unlocked ? 'unlocked' : 'locked'}">
-                    <div class="achievement-icon">${achievement.icon}</div>
-                    <div class="achievement-name">${achievement.name}</div>
-                    <div class="achievement-desc">${achievement.desc}</div>
-                </div>
-            `;
-        }).join('');
-    }
 }
 
 // Initialize statistics system

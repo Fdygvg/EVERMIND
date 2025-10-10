@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,6 +25,7 @@
     <meta name="msapplication-config" content="browserconfig.xml">
     <title>EVERMIND - Personal Learning System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="logos.css">
 </head>
 <body>
     <!-- Enhanced Loading Screen -->
@@ -92,7 +93,12 @@
             </div>
             <div class="header-center">
                 <h1>🧠 EVERMIND</h1>
-            <p class="subtitle">Your Personal Learning System</p>
+                <div class="animated-subtitle" id="animatedSubtitle">
+                    <span class="animated-word" data-text="Learning 📚">Learning 📚</span>
+                    <span class="animated-word" data-text="Evolving 🌱">Evolving 🌱</span>
+                    <span class="animated-word" data-text="Growing 🌻">Growing 🌻</span>
+                    <span class="animated-word" data-text="Daily 🔁">Daily 🔁</span>
+                </div>
             </div>
                 <div class="header-right">
                     <div class="global-search">
@@ -361,32 +367,40 @@
         </div>
         <div class="quick-launch-apps">
             <button class="quick-launch-btn" data-app="youtube">
-                <span class="app-icon">📺</span>
+                <span class="app-icon youtube"></span>
                 <span class="app-name">YouTube</span>
             </button>
             <button class="quick-launch-btn" data-app="chatgpt">
-                <span class="app-icon">🤖</span>
+                <span class="app-icon chatgpt"></span>
                 <span class="app-name">ChatGPT</span>
             </button>
             <button class="quick-launch-btn" data-app="gemini">
-                <span class="app-icon">✨</span>
+                <span class="app-icon gemini"></span>
                 <span class="app-name">Gemini</span>
             </button>
             <button class="quick-launch-btn" data-app="claude">
-                <span class="app-icon">🧠</span>
+                <span class="app-icon claude"></span>
                 <span class="app-name">Claude</span>
             </button>
             <button class="quick-launch-btn" data-app="perplexity">
-                <span class="app-icon">🔍</span>
+                <span class="app-icon perplexity"></span>
                 <span class="app-name">Perplexity</span>
             </button>
             <button class="quick-launch-btn" data-app="w3schools">
-                <span class="app-icon">📚</span>
+                <span class="app-icon w3schools"></span>
                 <span class="app-name">W3Schools</span>
             </button>
             <button class="quick-launch-btn" data-app="newtab">
-                <span class="app-icon">➕</span>
+                <span class="app-icon newtab"></span>
                 <span class="app-name">New Tab</span>
+            </button>
+            <button class="quick-launch-btn" data-app="home">
+                <span class="app-icon">🏠</span>
+                <span class="app-name">Home</span>
+            </button>
+            <button class="quick-launch-btn" data-app="askai">
+                <span class="app-icon">🤖</span>
+                <span class="app-name">Ask AI</span>
             </button>
         </div>
     </div>
