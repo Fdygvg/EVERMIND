@@ -45,6 +45,13 @@
     /* Text Colors */
     --text-on-dark: #F3F4F6;
     --text-on-light: #1F2937;
+    
+    /* Additional CSS Variables for Components */
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --bg-secondary: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.2);
+    --text-primary: #F3F4F6;
+    --text-secondary: rgba(243, 244, 246, 0.7);
 }
 
 /* ==================== RESET & BASE ==================== */
