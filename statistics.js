@@ -415,16 +415,20 @@ class StudyStatistics {
         const sections = Object.keys(sectionStats);
         
         if (sections.length === 0) {
-            return '<p style="text-align: center; opacity: 0.7;">No section data yet</p>';
+            return '<p style="text-align: center; opacity: 0.7;">No section data yet. Start answering questions to see your progress!</p>';
         }
+        
+        // Calculate max total for proper bar scaling
+        const maxTotal = Math.max(...sections.map(s => sectionStats[s].total), 1);
         
         return sections.map(section => {
             const stats = sectionStats[section];
+            const barWidth = (stats.total / maxTotal) * 100;
             return `
                 <div class="section-stat">
                     <div class="section-name">${section.charAt(0).toUpperCase() + section.slice(1)}</div>
                     <div class="section-bar">
-                        <div class="section-fill" style="width: ${stats.accuracy}%"></div>
+                        <div class="section-fill" style="width: ${barWidth}%"></div>
                     </div>
                     <div class="section-accuracy">${Math.round(stats.accuracy)}%</div>
                     <div class="section-count">${stats.total} questions</div>

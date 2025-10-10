@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -264,6 +264,16 @@
                     <span class="bookmark-count">View dashboard</span>
                 </div>
             </div>
+            
+            <div class="section-card" onclick="openAskAI()">
+                <div class="card-icon">🤖</div>
+                <h2>Ask AI</h2>
+                <p>Get help with any question</p>
+                <div class="section-stats">
+                    <span class="question-count">AI Assistant</span>
+                    <span class="bookmark-count">Click to chat</span>
+                </div>
+            </div>
         </div>
 
         <div class="global-revision">
@@ -388,6 +398,30 @@
                 <span class="app-icon">➕</span>
                 <span class="app-name">New Tab</span>
             </button>
+        </div>
+    </div>
+
+    <!-- Ask AI Modal -->
+    <div id="askAIModal" class="ask-ai-modal">
+        <div class="ask-ai-overlay" onclick="closeAskAI()"></div>
+        <div class="ask-ai-container">
+            <div class="ask-ai-header">
+                <h3>🤖 Ask AI Assistant</h3>
+                <button class="close-ai-btn" onclick="closeAskAI()">✕</button>
+            </div>
+            <div class="ask-ai-content">
+                <div class="ai-messages" id="aiMessages">
+                    <div class="ai-message ai-message-bot">
+                        <div class="message-content">
+                            Hello! I'm your AI learning assistant. Ask me anything about the topics in EVERMIND, and I'll help you understand them better!
+                        </div>
+                    </div>
+                </div>
+                <div class="ai-input-container">
+                    <input type="text" id="aiInput" placeholder="Ask me anything about languages, programming, science, etc..." autocomplete="off">
+                    <button id="aiSendBtn" onclick="sendAIMessage()">Send</button>
+                </div>
+            </div>
         </div>
     </div>
 
