@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Groq Chatbot Test</title>
+</head>
+<body>
+  <h2>Groq Chatbot Test</h2>
+  <textarea id="userInput" rows="4" cols="50" placeholder="Type your message..."></textarea><br>
+  <button onclick="sendMessage()">Send</button>
+
+  <h3>Response:</h3>
+  <div id="responseBox" style="white-space: pre-wrap;"></div>
+
+  <script>
+    async function sendMessage() {
+      const userMessage = document.getElementById('userInput').value;
+      const responseBox = document.getElementById('responseBox');
+
+      // Clear old response
+      responseBox.textContent = 'Loading...';
+
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer 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'
+          },
+          body: JSON.stringify({
+            model: 'llama-3.1-8b-instant', // or whatever Groq model you want
+            messages: [
+              { role: 'user', content: userMessage }
+            ]
+          })
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          responseBox.textContent = 'Error: ' + (errorData.error?.message || 'Unknown error');
+          return;
+        }
+
+        const data = await res.json();
+        const reply = data.choices[0].message.content;
+        responseBox.textContent = reply;
+
+      } catch (error) {
+        responseBox.textContent = 'Request failed: ' + error;
+      }
+    }
+  </script>
+</body>
+</html>
+

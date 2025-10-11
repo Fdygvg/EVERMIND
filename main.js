@@ -174,8 +174,33 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Check for saved global revision on page load
             setTimeout(() => {
-                showResumePrompt();
+                // Only show resume prompt if there's no continue button functionality
+                // The continue button replaces the resume prompt
+                const globalState = loadGlobalRevisionState();
+                const sectionState = loadSectionRevisionState();
+                const bookmarkState = loadBookmarkRevisionState();
+                
+                // If there's saved progress, don't show resume prompt - let continue button handle it
+                if (!globalState && !sectionState && !bookmarkState) {
+                    // No saved progress, so no need to show resume prompt
+                } else {
+                    // There is saved progress, but we'll handle it with continue button instead
+                    console.log('📋 Saved progress detected - using continue button instead of resume prompt');
+                }
             }, 500);
+            
+            // Check for saved progress after all initialization is complete
+            setTimeout(() => {
+                // Clear any existing resume prompt first
+                const existingPrompt = document.getElementById('resumePrompt');
+                if (existingPrompt) {
+                    existingPrompt.remove();
+                    console.log('🧹 Removed existing resume prompt');
+                }
+                
+                checkSavedProgress();
+                initAnimatedWords();
+            }, 2000);
         }, 1000);
         
         // Small delay to ensure all elements are rendered
@@ -917,6 +942,11 @@ function setTheme(theme) {
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('click');
     }
+    
+    // Check for saved progress after theme change
+    setTimeout(() => {
+        checkSavedProgress();
+    }, 100);
 }
 
 // ==================== THEME DROPDOWN ====================
@@ -1085,6 +1115,7 @@ function showPage(pageId) {
 function backToHome() {
     showPage('homepage');
     state.currentSection = null;
+    checkSavedProgress(); // Check for saved progress when returning to homepage
 }
 
 function exitRevision() {
@@ -1394,6 +1425,9 @@ function toggleAnswer(index) {
 function startSectionRevision() {
     if (!state.currentSection) return;
     
+    // Clear any previous section revision state before starting new one
+    clearSectionRevisionState();
+    
     // Reset revision state
     resetRevision();
     
@@ -1420,6 +1454,9 @@ function startGlobalRevision() {
         alert('Please select at least one section for revision!');
         return;
     }
+    
+    // Clear any previous global revision state before starting new one
+    clearGlobalRevisionState();
     
     // Reset revision state
     resetRevision();
@@ -1527,7 +1564,16 @@ function displayCurrentQuestion() {
     console.log('📝 Current question index:', state.currentQuestionIndex);
     
     if (state.revisionQuestions.length === 0) {
-        showCompletionMessage();
+        // Check if we actually completed all questions or if this is a resume issue
+        const totalAnswered = state.correctCount + state.wrongCount;
+        if (totalAnswered >= state.totalQuestions) {
+            showCompletionMessage();
+        } else {
+            // This shouldn't happen - if we have no questions but haven't answered all, something went wrong
+            console.error('❌ No questions left but not all answered. Resetting revision.');
+            resetRevision();
+            backToHome();
+        }
         return;
     }
     
@@ -1608,8 +1654,8 @@ function displayCurrentQuestion() {
         const safeTerm = question.term.replace(/'/g, "\\'").replace(/"/g, '\\"');
         questionHtml += ` <button class="speaker-btn" onclick="speakTerm('${safeTerm}')" title="Hear term">🔊</button>`;
     } else {
-        // Standard question format
-        questionHtml += escapeHtml(question.question || question.q || '');
+        // Standard question format - apply consistent styling to all sections
+        questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px; font-weight: 600;">${escapeHtml(question.question || question.q || '')}</h3>`;
         
         if (question.image) {
             questionHtml += `<br><img src="${question.image}" alt="Question" class="question-image">`;
@@ -1644,12 +1690,15 @@ function displayCurrentQuestion() {
         answerHtml += `</div>`;
     } else if (question.word && !question.language) {
         // New Words section - show word, pronunciation, meaning, and example
+        answerHtml += `<div class="language-info-box">`;
         answerHtml += `<h3 style="font-size: 2rem; margin-bottom: 10px; font-weight: 700;">${escapeHtml(question.word)}</h3>`;
         answerHtml += `<p style="font-style: italic; opacity: 0.8; margin-bottom: 15px;">Pronunciation: ${escapeHtml(question.pronunciation)}</p>`;
         answerHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
         answerHtml += `<p style="margin-top: 10px;"><em>"${escapeHtml(question.example)}"</em></p>`;
+        answerHtml += `</div>`;
     } else if (question.title && question.summary) {
         // YouTube Knowledge section - show summary, source, and video link
+        answerHtml += `<div class="language-info-box">`;
         answerHtml += `<p style="line-height: 1.8;">${escapeHtml(question.summary)}</p>`;
         if (question.source) {
             answerHtml += `<p style="margin-top: 15px; opacity: 0.7;"><strong>Source:</strong> ${escapeHtml(question.source)}</p>`;
@@ -1657,8 +1706,10 @@ function displayCurrentQuestion() {
         if (question.videoLink && question.videoLink.trim()) {
             answerHtml += `<br><a href="${escapeHtml(question.videoLink)}" target="_blank" class="btn btn--primary" style="margin-top: 10px;">Watch Video 🔗</a>`;
         }
+        answerHtml += `</div>`;
     } else if (question.term) {
         // Memes & Brain Rot section - show term, meaning, usage, example, and origin
+        answerHtml += `<div class="language-info-box">`;
         answerHtml += `<h3 style="font-size: 2rem; margin-bottom: 10px; font-weight: 700;">💀 ${escapeHtml(question.term)}</h3>`;
         answerHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
         answerHtml += `<p style="margin-top: 10px;"><strong>When to use:</strong> ${escapeHtml(question.usage)}</p>`;
@@ -1666,6 +1717,7 @@ function displayCurrentQuestion() {
         if (question.origin) {
             answerHtml += `<p style="margin-top: 15px; opacity: 0.7; font-size: 0.9rem;"><strong>Origin:</strong> ${escapeHtml(question.origin)}</p>`;
         }
+        answerHtml += `</div>`;
     } else if (question.answer) {
         // Check if this is a code question (contains commands, terminal syntax, etc.)
         const isCodeQuestion = question.answer.includes('\n') && (
@@ -1689,7 +1741,8 @@ function displayCurrentQuestion() {
         if (isCodeQuestion) {
             answerHtml = `<pre><code>${escapeHtml(question.answer)}</code></pre>`;
         } else {
-            answerHtml = escapeHtml(question.answer);
+            // Apply language-info-box styling to non-code answers
+            answerHtml = `<div class="language-info-box"><p style="line-height: 1.8; font-size: 1.1rem;">${escapeHtml(question.answer)}</p></div>`;
         }
     }
     
@@ -2139,13 +2192,13 @@ function initQuickLaunch() {
             
             // Handle special cases
             if (appId === 'askai') {
-                // AI chat removed
+                openAIChat();
                 sidebar.classList.remove('open');
                 return;
             }
             
             if (appId === 'home') {
-                showPage('home');
+                showPage('homepage');
                 sidebar.classList.remove('open');
                 return;
             }
@@ -2190,6 +2243,125 @@ function launchApp(appConfig) {
     
     console.log(`🚀 Launched ${appConfig.name}`);
 }
+
+// ==================== GROQ AI CHAT ====================
+const GROQ_API_KEY = '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';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+
+let conversationHistory = [];
+let previousPage = 'homepage'; // Track the page before opening AI chat
+
+function openAIChat() {
+    // Store the current active page before opening AI chat
+    const activePage = document.querySelector('.page.active');
+    if (activePage) {
+        previousPage = activePage.id;
+    }
+    
+    showPage('aiChatPage');
+    if (window.SoundEffects) window.SoundEffects.playSound('click');
+    
+    // Add welcome message if empty
+    const messagesContainer = document.getElementById('aiChatMessages');
+    if (messagesContainer.children.length === 0) {
+        addAIMessage('assistant', 'Hello! I\'m your AI study assistant. I can help you with:\n\n• Explaining study questions and answers\n• Generating practice questions\n• General Q&A about any topic\n• Study tips and learning strategies\n\nHow can I help you today?');
+    }
+}
+
+function closeAIChat() {
+    // Return to the previous page instead of always going to homepage
+    showPage(previousPage);
+    if (window.SoundEffects) window.SoundEffects.playSound('click');
+}
+
+function addAIMessage(role, content) {
+    const messagesContainer = document.getElementById('aiChatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ai-message ${role}`;
+    messageDiv.textContent = content;
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+async function sendAIMessage() {
+    const input = document.getElementById('aiChatInput');
+    const userMessage = input.value.trim();
+    
+    if (!userMessage) return;
+    
+    // Add user message to UI
+    addAIMessage('user', userMessage);
+    input.value = '';
+    
+    // Add to conversation history
+    conversationHistory.push({ role: 'user', content: userMessage });
+    
+    // Show loading indicator
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'ai-message assistant loading';
+    loadingDiv.textContent = 'Thinking...';
+    loadingDiv.id = 'ai-loading';
+    document.getElementById('aiChatMessages').appendChild(loadingDiv);
+    
+    try {
+        const response = await fetch(GROQ_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${GROQ_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'llama-3.1-8b-instant',
+                messages: conversationHistory,
+                temperature: 0.7,
+                max_tokens: 1024
+            })
+        });
+        
+        // Remove loading indicator
+        document.getElementById('ai-loading')?.remove();
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            addAIMessage('assistant', `Error: ${errorData.error?.message || 'Failed to get response'}`);
+            return;
+        }
+        
+        const data = await response.json();
+        const aiReply = data.choices[0].message.content;
+        
+        // Add AI response to conversation history
+        conversationHistory.push({ role: 'assistant', content: aiReply });
+        
+        // Add AI response to UI
+        addAIMessage('assistant', aiReply);
+        
+        if (window.SoundEffects) window.SoundEffects.playSound('correct');
+        
+    } catch (error) {
+        document.getElementById('ai-loading')?.remove();
+        addAIMessage('assistant', `Request failed: ${error.message}`);
+        console.error('AI Chat error:', error);
+    }
+}
+
+// Handle Enter key in chat input
+document.addEventListener('DOMContentLoaded', () => {
+    const chatInput = document.getElementById('aiChatInput');
+    if (chatInput) {
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendAIMessage();
+            }
+        });
+    }
+});
+
+// Export functions
+window.openAIChat = openAIChat;
+window.closeAIChat = closeAIChat;
+window.sendAIMessage = sendAIMessage;
 
 // Helper function to get section info
 function getSectionInfo(sectionId) {
@@ -2354,6 +2526,27 @@ function resumeGlobalRevision() {
     state.totalQuestions = savedState.totalQuestions;
     state.revisionStartTime = savedState.startTime;
     
+    // If no questions left but we haven't completed all, regenerate questions
+    if (state.revisionQuestions.length === 0 && (state.correctCount + state.wrongCount) < state.totalQuestions) {
+        console.log('🔄 Regenerating questions for global revision...');
+        // Regenerate questions from selected sections
+        const selectedSections = savedState.selectedSections || [];
+        state.revisionQuestions = [];
+        
+        selectedSections.forEach(sectionId => {
+            if (state.allQuestions[sectionId]) {
+                const sectionQuestions = state.allQuestions[sectionId].map(q => ({
+                    ...q,
+                    section: sectionId
+                }));
+                state.revisionQuestions.push(...sectionQuestions);
+            }
+        });
+        
+        shuffleArray(state.revisionQuestions);
+        console.log(`🔄 Regenerated ${state.revisionQuestions.length} questions`);
+    }
+    
     // Restart auto-save
     state.autoSaveInterval = setInterval(() => {
         saveRevisionState();
@@ -2378,6 +2571,16 @@ function resumeSectionRevision() {
     state.totalQuestions = savedState.totalQuestions;
     state.revisionStartTime = savedState.startTime;
     
+    // If no questions left but we haven't completed all, regenerate questions
+    if (state.revisionQuestions.length === 0 && (state.correctCount + state.wrongCount) < state.totalQuestions) {
+        console.log('🔄 Regenerating questions for section revision...');
+        if (state.allQuestions[state.currentSection]) {
+            state.revisionQuestions = [...state.allQuestions[state.currentSection]];
+            shuffleArray(state.revisionQuestions);
+            console.log(`🔄 Regenerated ${state.revisionQuestions.length} questions`);
+        }
+    }
+    
     console.log(`🔄 Resumed section revision from question ${state.currentQuestionIndex + 1}/${state.totalQuestions}`);
     startRevision();
     return true;
@@ -2396,6 +2599,28 @@ function resumeBookmarkRevision() {
     state.wrongCount = savedState.wrongCount;
     state.totalQuestions = savedState.totalQuestions;
     state.revisionStartTime = savedState.startTime;
+    
+    // If no questions left but we haven't completed all, regenerate questions
+    if (state.revisionQuestions.length === 0 && (state.correctCount + state.wrongCount) < state.totalQuestions) {
+        console.log('🔄 Regenerating questions for bookmark revision...');
+        // Regenerate bookmarked questions
+        const bookmarkedQuestions = [];
+        state.bookmarks.forEach(bookmark => {
+            const sectionQuestions = state.allQuestions[bookmark.section];
+            if (sectionQuestions && sectionQuestions[bookmark.index]) {
+                bookmarkedQuestions.push({
+                    ...sectionQuestions[bookmark.index],
+                    section: bookmark.section,
+                    originalIndex: bookmark.index,
+                    bookmarkId: bookmark.id
+                });
+            }
+        });
+        
+        state.revisionQuestions = bookmarkedQuestions;
+        shuffleArray(state.revisionQuestions);
+        console.log(`🔄 Regenerated ${state.revisionQuestions.length} bookmarked questions`);
+    }
     
     console.log(`🔄 Resumed bookmark revision from question ${state.currentQuestionIndex + 1}/${state.totalQuestions}`);
     startRevision();
@@ -2490,6 +2715,46 @@ window.addEventListener('beforeunload', () => {
 });
 
 
+// ==================== ANIMATED WORDS ====================
+function initAnimatedWords() {
+    const words = [
+        "Learning 📚",
+        "Growing 🌱", 
+        "Evolving 🚀",
+        "Mastering 🎯",
+        "Exploring 🔍",
+        "Discovering 💡",
+        "Achieving ⭐",
+        "Progressing 📈"
+    ];
+    
+    const animatedSubtitle = document.getElementById('animatedSubtitle');
+    if (!animatedSubtitle) return;
+    
+    // Clear existing content
+    animatedSubtitle.innerHTML = '';
+    
+    // Create all word elements
+    words.forEach((word, index) => {
+        const span = document.createElement('span');
+        span.className = 'animated-word';
+        span.textContent = word;
+        span.setAttribute('data-text', word);
+        if (index === 0) span.classList.add('active');
+        animatedSubtitle.appendChild(span);
+    });
+    
+    // Start cycling through words
+    let currentIndex = 0;
+    setInterval(() => {
+        const words = animatedSubtitle.querySelectorAll('.animated-word');
+        words.forEach(word => word.classList.remove('active'));
+        
+        currentIndex = (currentIndex + 1) % words.length;
+        words[currentIndex].classList.add('active');
+    }, 3000); // Change every 3 seconds
+}
+
 // ==================== EXPORT FUNCTIONS TO GLOBAL SCOPE ====================
 window.toggleThemeDropdown = toggleThemeDropdown;
 window.openSection = openSection;
@@ -2518,4 +2783,89 @@ function openStatistics() {
 }
 
 window.openStatistics = openStatistics;
+window.resumeSavedProgress = resumeSavedProgress;
+
+// ==================== SAVED PROGRESS CONTINUE BUTTON ====================
+function checkSavedProgress() {
+    const globalState = loadGlobalRevisionState();
+    const sectionState = loadSectionRevisionState();
+    const bookmarkState = loadBookmarkRevisionState();
+    
+    const continueBtn = document.getElementById('continueBtn');
+    console.log('🔍 Continue button element:', continueBtn);
+    if (!continueBtn) return;
+    
+    // Prioritize global revision if multiple exist
+    const savedState = globalState || sectionState || bookmarkState;
+    console.log('🔍 Saved states:', { globalState, sectionState, bookmarkState, savedState });
+    
+    if (!savedState) {
+        // No saved progress - hide button
+        console.log('🔍 No saved progress - hiding button');
+        continueBtn.style.display = 'none';
+        return;
+    }
+    
+    // Check for corrupted saved state (like 0/0 questions or invalid time)
+    const answeredCount = savedState.correctCount + savedState.wrongCount;
+    const totalCount = savedState.totalQuestions;
+    const timeElapsed = savedState.startTime ? Math.floor((Date.now() - savedState.startTime) / 1000) : 0;
+    
+    // If state is corrupted (0/0 questions or extremely long time), clear it
+    if (totalCount === 0 || timeElapsed > 86400) { // More than 24 hours
+        console.log('🧹 Clearing corrupted saved state');
+        if (globalState) clearGlobalRevisionState();
+        if (sectionState) clearSectionRevisionState();
+        if (bookmarkState) clearBookmarkRevisionState();
+        continueBtn.style.display = 'none';
+        return;
+    }
+    
+    console.log('📋 Valid saved state found:', { answeredCount, totalCount, timeElapsed });
+    
+    // Determine revision type and section info
+    let revisionType, sectionName;
+    
+    if (globalState) {
+        revisionType = 'Global';
+        const sections = savedState.selectedSections || [];
+        sectionName = sections.length > 0 ? sections.map(s => getSectionInfo(s).name).join(', ') : 'Multiple Sections';
+    } else if (sectionState) {
+        revisionType = getSectionInfo(savedState.currentSection).name;
+        sectionName = getSectionInfo(savedState.currentSection).name;
+    } else if (bookmarkState) {
+        revisionType = 'Bookmark';
+        sectionName = 'Bookmarked';
+    }
+    
+    // Update button text and show
+    const continueText = continueBtn.querySelector('.continue-text');
+    continueText.textContent = `${revisionType} ${answeredCount}/${totalCount}`;
+    
+    // Add tooltip with detailed info
+    continueBtn.title = `Continue ${revisionType} - ${sectionName} (${answeredCount}/${totalCount} questions)`;
+    
+    continueBtn.style.display = 'flex';
+}
+
+function resumeSavedProgress() {
+    const globalState = loadGlobalRevisionState();
+    const sectionState = loadSectionRevisionState();
+    const bookmarkState = loadBookmarkRevisionState();
+    
+    // Prioritize global revision if multiple exist
+    if (globalState) {
+        resumeGlobalRevision();
+    } else if (sectionState) {
+        resumeSectionRevision();
+    } else if (bookmarkState) {
+        resumeBookmarkRevision();
+    }
+    
+    // Hide the continue button since we're now in revision mode
+    const continueBtn = document.getElementById('continueBtn');
+    if (continueBtn) {
+        continueBtn.style.display = 'none';
+    }
+}
 

@@ -40,7 +40,6 @@
         <div class="loading-content">
             <div class="loading-brand">
                 <h1 class="loading-title">🧠 EVERMIND</h1>
-                <p class="loading-subtitle">Your Personal Learning System</p>
             </div>
             
             <!-- Did You Know Facts -->
@@ -104,7 +103,7 @@
                         <input type="text" id="globalSearchInput" placeholder="Search all questions..." autocomplete="off">
                         <div class="search-results" id="searchResults"></div>
                     </div>
-            <div class="theme-switcher">
+                    <div class="theme-switcher">
                         <div class="theme-dropdown">
                             <button class="theme-dropdown-btn" onclick="toggleThemeDropdown()">
                                 <span class="theme-icon">🎨</span>
@@ -143,6 +142,10 @@
                             </div>
                         </div>
                     </div>
+                    <button id="continueBtn" class="continue-btn" onclick="resumeSavedProgress()" style="display: none;">
+                        <span class="continue-icon">▶️</span>
+                        <span class="continue-text">Continue</span>
+                    </button>
                     <button id="muteBtn" class="mute-btn" onclick="if(window.SoundEffects) window.SoundEffects.toggleMute()" title="Toggle Sound Effects">
                         <span class="mute-icon">🔊</span>
                     </button>
@@ -275,16 +278,16 @@
         <div class="global-revision">
             <h3>Global Revision Mode</h3>
             <div class="section-checkboxes" id="sectionCheckboxes">
-                <label><input type="checkbox" value="languages" checked> Languages</label>
-                <label><input type="checkbox" value="programming" checked> Programming</label>
-                <label><input type="checkbox" value="bible" checked> Bible</label>
-                <label><input type="checkbox" value="science" checked> Science</label>
-                <label><input type="checkbox" value="history" checked> History</label>
-                <label><input type="checkbox" value="facts" checked> Random Facts</label>
-                <label><input type="checkbox" value="country_flags" checked> Country Flags</label>
-                <label><input type="checkbox" value="new_words" checked> New Words</label>
-                <label><input type="checkbox" value="youtube_knowledge" checked> YouTube Knowledge</label>
-                <label><input type="checkbox" value="memes_brainrot" checked> Memes & Brain Rot</label>
+                <label><input type="checkbox" value="languages" checked> 🌍 Languages</label>
+                <label><input type="checkbox" value="programming" checked> 💻 Programming</label>
+                <label><input type="checkbox" value="bible" checked> 📖 Bible</label>
+                <label><input type="checkbox" value="science" checked> 🔬 Science</label>
+                <label><input type="checkbox" value="history" checked> 🏛️ History</label>
+                <label><input type="checkbox" value="facts" checked> 🎯 Random Facts</label>
+                <label><input type="checkbox" value="country_flags" checked> 🏳️ Country Flags</label>
+                <label><input type="checkbox" value="new_words" checked> 📚 New Words</label>
+                <label><input type="checkbox" value="youtube_knowledge" checked> 📺 YouTube Knowledge</label>
+                <label><input type="checkbox" value="memes_brainrot" checked> 🧠 Memes & Brain Rot</label>
             </div>
             <button class="big-btn primary-btn" onclick="startGlobalRevision()">Start Global Revision</button>
         </div>
@@ -352,6 +355,21 @@
             <div class="answer-controls" id="answerControls" style="display: none;">
                 <button class="btn btn--danger" onclick="markWrong()">Wrong</button>
                 <button class="btn btn--success" onclick="markCorrect()">Correct</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Page -->
+    <div id="aiChatPage" class="page">
+        <header>
+            <button class="btn btn--nav" onclick="closeAIChat()">Back</button>
+            <h1>🤖 AI Assistant</h1>
+        </header>
+        <div class="ai-chat-container">
+            <div class="ai-chat-messages" id="aiChatMessages"></div>
+            <div class="ai-chat-input-container">
+                <textarea id="aiChatInput" placeholder="Ask me anything..." rows="3"></textarea>
+                <button class="btn btn--primary" onclick="sendAIMessage()">Send</button>
             </div>
         </div>
     </div>

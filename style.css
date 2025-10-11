@@ -1328,23 +1328,76 @@ body[data-theme="orange"] .back-btn:hover {
 .section-checkboxes label {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 1.1rem;
+    gap: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
     cursor: pointer;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    transition: background 0.3s;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.section-checkboxes label::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.section-checkboxes label:hover::before {
+    left: 100%;
 }
 
 .section-checkboxes label:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .section-checkboxes input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.section-checkboxes input[type="checkbox"]:checked {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    border-color: #16a34a;
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
+}
+
+.section-checkboxes input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.section-checkboxes input[type="checkbox"]:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* ==================== BUTTONS ==================== */
@@ -1352,13 +1405,43 @@ body[data-theme="orange"] .back-btn:hover {
     padding: 24px 48px;
     font-size: 1.4rem;
     border: none;
-    border-radius: 10px;
+    border-radius: 16px;
     cursor: pointer;
-    transition: all 0.3s;
-    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 700;
     min-width: 220px;
     min-height: 60px;
     touch-action: manipulation;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.big-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.big-btn:hover::before {
+    left: 100%;
+}
+
+.big-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.big-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .primary-btn {
@@ -3309,6 +3392,42 @@ audio {
     display: block;
 }
 
+.continue-btn {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.continue-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.continue-btn:active {
+    transform: translateY(0);
+}
+
+.continue-icon {
+    font-size: 1rem;
+    display: block;
+}
+
+.continue-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
     .gradient-orb {
@@ -4234,8 +4353,86 @@ body[aria-busy="true"] {
     text-align: center;
 }
 
+.quick-launch-btn .app-icon.w3schools::before {
+    content: '📚';
+}
+
 .quick-launch-btn .app-name {
     font-weight: 500;
+}
+
+/* AI Chat Interface */
+.ai-chat-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 120px);
+    padding: 20px;
+    gap: 20px;
+}
+
+.ai-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ai-message {
+    padding: 15px 20px;
+    border-radius: 12px;
+    max-width: 80%;
+    animation: fadeIn 0.3s ease;
+}
+
+.ai-message.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.ai-message.assistant {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ai-message.loading {
+    opacity: 0.6;
+}
+
+.ai-chat-input-container {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#aiChatInput {
+    flex: 1;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    resize: none;
+}
+
+.ai-chat-input-container .btn {
+    padding: 15px 30px;
+    white-space: nowrap;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Dark mode */
