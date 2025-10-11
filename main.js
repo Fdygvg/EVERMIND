@@ -632,27 +632,34 @@ function updateBookmarkButton() {
         bookmarkBtn.style.display = 'flex';
         
         // Generate question ID based on current revision question
-        if (state.revisionQuestions && state.revisionQuestions.length > 0 && state.currentQuestionIndex !== null) {
-            const currentQuestion = state.revisionQuestions[state.currentQuestionIndex];
+        if (state.revisionQuestions && state.revisionQuestions.length > 0) {
+            // Always use the first question in the array (current question being displayed)
+            const currentQuestion = state.revisionQuestions[0];
             let questionId;
             
             console.log('📌 Current question:', currentQuestion);
             console.log('📌 Current question index:', state.currentQuestionIndex);
             console.log('📌 Revision mode:', state.revisionMode);
+            console.log('📌 Questions remaining:', state.revisionQuestions.length);
             
             if (state.revisionMode === 'bookmarked') {
                 // For bookmarked questions, use the bookmark ID
                 questionId = currentQuestion.bookmarkId || generateQuestionId(currentQuestion.section, currentQuestion.originalIndex);
             } else {
                 // For section/global revision, generate ID based on current question
-                questionId = generateQuestionId(state.currentSection || currentQuestion.section, state.currentQuestionIndex);
+                // Use the original index from the question data, not the current array index
+                const originalIndex = currentQuestion.originalIndex !== undefined ? currentQuestion.originalIndex : state.currentQuestionIndex;
+                questionId = generateQuestionId(state.currentSection || currentQuestion.section, originalIndex);
             }
             
             console.log('📌 Generated question ID:', questionId);
+            console.log('📌 Question section:', currentQuestion.section);
+            console.log('📌 Question originalIndex:', currentQuestion.originalIndex);
             
             const isBookmarked = state.bookmarks.some(b => b.id === questionId);
             console.log('📌 Is bookmarked:', isBookmarked);
             console.log('📌 Current bookmarks:', state.bookmarks);
+            console.log('📌 Looking for bookmark with ID:', questionId);
             
             const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
             if (bookmarkIcon) {
@@ -1494,7 +1501,11 @@ function startSectionRevision() {
     resetRevision();
     
     state.revisionMode = 'section';
-    state.revisionQuestions = [...state.allQuestions[state.currentSection]];
+    // Add originalIndex to each question for proper bookmark tracking
+    state.revisionQuestions = state.allQuestions[state.currentSection].map((q, index) => ({
+        ...q,
+        originalIndex: index
+    }));
     shuffleArray(state.revisionQuestions);
     state.currentQuestionIndex = 0;
     
@@ -1535,10 +1546,11 @@ function startGlobalRevision() {
     checkboxes.forEach(checkbox => {
         const sectionId = checkbox.value;
         if (state.allQuestions[sectionId]) {
-            // Add section information to each question for global revision
-            const sectionQuestions = state.allQuestions[sectionId].map(q => ({
+            // Add section information and originalIndex to each question for global revision
+            const sectionQuestions = state.allQuestions[sectionId].map((q, index) => ({
                 ...q,
-                section: sectionId
+                section: sectionId,
+                originalIndex: index
             }));
             state.revisionQuestions.push(...sectionQuestions);
             console.log(`📚 DEBUG: Added ${sectionQuestions.length} questions from ${sectionId} section`);
@@ -1572,6 +1584,16 @@ function startRevision() {
     
     // Start timer for all revision modes
     startRevisionTimer();
+    
+    // Reset bookmark button state
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    if (bookmarkBtn) {
+        const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+        if (bookmarkIcon) {
+            bookmarkIcon.textContent = '⭐'; // Reset to unstarred state
+            bookmarkBtn.classList.remove('bookmarked');
+        }
+    }
     
     // Small delay to ensure DOM is ready
     setTimeout(() => {
@@ -1629,7 +1651,7 @@ function displayCurrentQuestion() {
         // Check if we actually completed all questions or if this is a resume issue
         const totalAnswered = state.correctCount + state.wrongCount;
         if (totalAnswered >= state.totalQuestions) {
-            showCompletionMessage();
+        showCompletionMessage();
         } else {
             // This shouldn't happen - if we have no questions but haven't answered all, something went wrong
             console.error('❌ No questions left but not all answered. Resetting revision.');
@@ -1739,6 +1761,12 @@ function displayCurrentQuestion() {
     // Update bookmark button
     console.log('📝 Updating bookmark button...');
     updateBookmarkButton();
+    
+    // Force bookmark button reset by clearing and re-checking
+    setTimeout(() => {
+        console.log('📝 Force updating bookmark button after delay...');
+        updateBookmarkButton();
+    }, 100);
     
     // Prepare answer
     let answerHtml = '';
@@ -1884,6 +1912,17 @@ function markCorrect() {
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('correct');
     }
+    
+    // Reset bookmark button before displaying new question
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    if (bookmarkBtn) {
+        const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+        if (bookmarkIcon) {
+            bookmarkIcon.textContent = '⭐'; // Reset to unstarred state
+            bookmarkBtn.classList.remove('bookmarked');
+        }
+    }
+    
     updateProgress();
     displayCurrentQuestion();
 }
@@ -1917,6 +1956,17 @@ function markWrong() {
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('wrong');
     }
+    
+    // Reset bookmark button before displaying new question
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    if (bookmarkBtn) {
+        const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+        if (bookmarkIcon) {
+            bookmarkIcon.textContent = '⭐'; // Reset to unstarred state
+            bookmarkBtn.classList.remove('bookmarked');
+        }
+    }
+    
     updateProgress();
     displayCurrentQuestion();
 }
@@ -1931,6 +1981,16 @@ function skipQuestion() {
         window.SoundEffects.playSound('skip');
     }
     
+    // Reset bookmark button before displaying new question
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    if (bookmarkBtn) {
+        const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+        if (bookmarkIcon) {
+            bookmarkIcon.textContent = '⭐'; // Reset to unstarred state
+            bookmarkBtn.classList.remove('bookmarked');
+        }
+    }
+    
     displayCurrentQuestion();
 }
 
@@ -1940,6 +2000,17 @@ function nextQuestion() {
         const question = state.revisionQuestions.shift();
         state.revisionQuestions.push(question);
         state.currentQuestionIndex = 0;
+        
+        // Reset bookmark button before displaying new question
+        const bookmarkBtn = document.getElementById('bookmarkBtn');
+        if (bookmarkBtn) {
+            const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+            if (bookmarkIcon) {
+                bookmarkIcon.textContent = '⭐'; // Reset to unstarred state
+                bookmarkBtn.classList.remove('bookmarked');
+            }
+        }
+        
         if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('next');
     }
@@ -1953,6 +2024,17 @@ function previousQuestion() {
         const question = state.revisionQuestions.pop();
         state.revisionQuestions.unshift(question);
         state.currentQuestionIndex = 0;
+        
+        // Reset bookmark button before displaying new question
+        const bookmarkBtn = document.getElementById('bookmarkBtn');
+        if (bookmarkBtn) {
+            const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
+            if (bookmarkIcon) {
+                bookmarkIcon.textContent = '⭐'; // Reset to unstarred state
+                bookmarkBtn.classList.remove('bookmarked');
+            }
+        }
+        
         if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('next');
     }
@@ -2597,9 +2679,10 @@ function resumeGlobalRevision() {
         
         selectedSections.forEach(sectionId => {
             if (state.allQuestions[sectionId]) {
-                const sectionQuestions = state.allQuestions[sectionId].map(q => ({
+                const sectionQuestions = state.allQuestions[sectionId].map((q, index) => ({
                     ...q,
-                    section: sectionId
+                    section: sectionId,
+                    originalIndex: index
                 }));
                 state.revisionQuestions.push(...sectionQuestions);
             }
@@ -2637,7 +2720,10 @@ function resumeSectionRevision() {
     if (state.revisionQuestions.length === 0 && (state.correctCount + state.wrongCount) < state.totalQuestions) {
         console.log('🔄 Regenerating questions for section revision...');
         if (state.allQuestions[state.currentSection]) {
-            state.revisionQuestions = [...state.allQuestions[state.currentSection]];
+            state.revisionQuestions = state.allQuestions[state.currentSection].map((q, index) => ({
+                ...q,
+                originalIndex: index
+            }));
             shuffleArray(state.revisionQuestions);
             console.log(`🔄 Regenerated ${state.revisionQuestions.length} questions`);
         }
