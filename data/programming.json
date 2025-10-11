@@ -232,5 +232,11 @@
     "answer": "Large Language Model — an AI model trained on vast amounts of text data to understand and generate human-like language.",
     "type": "ai",
     "tags": ["llm", "ai", "machine-learning"]
+  },
+  {
+    "question": "What does 'grepped' mean? How to pronounce it and when to use it?",
+    "answer": "It refers to using the command-line tool `grep` to search through text or files for specific patterns. Informally used as a verb by developers (e.g., \"I grepped the logs to find the error\").\n\n**Pronunciation:** /grɛpt/ — phonetic: grept\n\n**Example:** I grepped the codebase to find every reference to that function.",
+    "type": "command-line",
+    "tags": ["grep", "command-line", "search", "terminal"]
   }
 ]

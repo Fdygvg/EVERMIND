@@ -2001,14 +2001,14 @@ body {
         padding: 10px;
         overflow-x: auto;
         justify-content: flex-start;
-    }
+}
     
     .fact-text {
         font-size: 0.8rem;
     }
     
     .progress-container {
-        margin-top: 15px;
+    margin-top: 15px;
     }
     
     .progress-bar {
@@ -2194,7 +2194,7 @@ body {
     cursor: pointer;
     padding: 8px;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-size: 24px;
     display: flex;
     align-items: center;
@@ -2207,31 +2207,68 @@ body {
     visibility: visible;
 }
 
+.bookmark-btn:active {
+    transform: scale(0.9);
+    transition: all 0.1s ease;
+}
+
 .bookmark-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.15);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.bookmark-btn.bookmarked:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 30px rgba(255, 215, 0, 0.2);
+    transform: scale(1.2);
+}
+
+.bookmark-btn:not(.bookmarked):hover {
     background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.15);
 }
 
 .bookmark-btn.bookmarked .bookmark-icon {
     color: #FFD700;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 25px rgba(255, 215, 0, 0.4);
-    font-size: 28px;
-    animation: bookmarkPulse 2s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4);
+    font-size: 32px;
+    animation: bookmarkPulse 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
 }
 
 .bookmark-btn:not(.bookmarked) .bookmark-icon {
     font-size: 24px;
-    opacity: 0.7;
+    opacity: 0.4;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: none;
+    filter: none;
+}
+
+.bookmark-btn.bookmarked {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid rgba(255, 215, 0, 0.6);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 215, 0, 0.1);
+}
+
+.bookmark-btn:not(.bookmarked) {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: none;
 }
 
 @keyframes bookmarkPulse {
     0%, 100% {
         transform: scale(1);
-        text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 25px rgba(255, 215, 0, 0.4);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4);
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
     }
     50% {
-        transform: scale(1.05);
-        text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 215, 0, 0.6);
+        transform: scale(1.1);
+        text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 50px rgba(255, 215, 0, 1), 0 0 80px rgba(255, 215, 0, 0.6);
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1));
     }
 }
 
@@ -2825,13 +2862,59 @@ body {
 }
 
 .question-content {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: var(--text-primary);
 }
 
 .answer-content {
     margin-top: 30px;
-    padding-top: 30px;
-    border-top: 3px solid rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-top: none;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.1), rgba(59, 130, 246, 0.1));
+    border-radius: 15px;
+    border: 2px solid rgba(30, 58, 138, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(30, 58, 138, 0.1);
+    position: relative;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.answer-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.8s ease;
+}
+
+.answer-content:hover::before {
+    left: 100%;
+}
+
+/* Make answer text bold and properly styled */
+.answer-content p {
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.8;
+}
+
+.answer-content strong {
+    font-weight: 700;
+}
+
+.answer-content em {
+    font-style: italic;
+    opacity: 0.9;
 }
 
 .revision-controls,
@@ -4215,6 +4298,289 @@ body[aria-busy="true"] {
     opacity: 0.9;
 }
 
+/* Programming section answer styling - ensure visibility in all themes */
+.language-info-box p {
+    color: var(--text-primary) !important;
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+/* Ensure ALL language section text is visible in white theme */
+[data-theme="light"] .language-info-box {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.03));
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .language-info-box * {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .language-info-box p {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .language-info-box h3 {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .language-info-box strong {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .language-info-box div {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .language-info-box em {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .language-info-box span {
+    color: #1a1a1a !important;
+}
+
+/* Language section specific elements */
+[data-theme="light"] .language-translation {
+    color: #1a1a1a !important;
+}
+
+/* Ensure answer content is visible in white theme */
+[data-theme="light"] .answer-content {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .answer-content * {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .answer-content p {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .answer-content h3 {
+    color: #1a1a1a !important;
+}
+
+/* Ensure question content is visible in white theme */
+[data-theme="light"] .question-content {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] .question-content h3 {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .question-content p {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .question-content div {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .question-content span {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .question-content strong {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .question-content em {
+    color: #1a1a1a !important;
+}
+
+/* Fix white theme visibility in Quick Launch */
+[data-theme="light"] .quick-launch-sidebar {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)) !important;
+    border-left: 2px solid rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="light"] .quick-launch-header {
+    color: #ffffff !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .quick-launch-header h3 {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .close-sidebar {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)) !important;
+    border: 2px solid rgba(0, 0, 0, 0.3) !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .quick-launch-btn {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)) !important;
+    border: 2px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .quick-launch-btn:hover {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)) !important;
+    border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="light"] .app-name {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .app-icon {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)) !important;
+    border: 2px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .app-icon::before {
+    color: #ffffff !important;
+}
+
+/* Fix white theme visibility for search bar and global elements */
+[data-theme="light"] .global-search input {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border: 2px solid rgba(0, 0, 0, 0.3) !important;
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .global-search input:focus {
+    background: rgba(0, 0, 0, 0.15) !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3) !important;
+}
+
+[data-theme="light"] .global-search input::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+[data-theme="light"] .search-results {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border: 2px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .search-result-item {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .search-result-item:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .search-result-question {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .search-result-section {
+    color: #666666 !important;
+}
+
+[data-theme="light"] .search-highlight {
+    background: rgba(59, 130, 246, 0.2) !important;
+    color: #1a1a1a !important;
+}
+
+/* Fix header elements in white theme */
+[data-theme="light"] header {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .header-center h1 {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .header-center .subtitle {
+    color: #666666 !important;
+}
+
+[data-theme="light"] .btn {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border: 2px solid rgba(0, 0, 0, 0.2) !important;
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .btn:hover {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="light"] .btn--primary {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .btn--primary:hover {
+    background: linear-gradient(135deg, #2563eb, #1e40af) !important;
+}
+
+/* Fix AI Chat white theme visibility */
+[data-theme="light"] .ai-chat-container {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .ai-chat-messages {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .ai-message {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .ai-message.user {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .ai-message.assistant {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .ai-chat-input-container {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] #aiChatInput {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 2px solid rgba(0, 0, 0, 0.2) !important;
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] #aiChatInput:focus {
+    background: rgba(0, 0, 0, 0.08) !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+[data-theme="light"] #aiChatInput::placeholder {
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="light"] .ai-chat-header {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .ai-chat-header h3 {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .ai-chat-close {
+    color: #1a1a1a !important;
+}
+
+[data-theme="light"] .ai-chat-close:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
+    color: #1a1a1a !important;
+}
+
 /* Theme-specific language box styling */
 [data-theme="red"] .language-info-box {
     background: linear-gradient(135deg, rgba(185, 28, 28, 0.1), rgba(239, 68, 68, 0.1));
@@ -4332,19 +4698,50 @@ body[aria-busy="true"] {
 .quick-launch-btn {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 20px;
-    border: none;
-    background: transparent;
+    gap: 15px;
+    padding: 18px 25px;
+    margin: 8px 0;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.05));
+    border-radius: 16px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-primary);
     text-align: left;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
+}
+
+.quick-launch-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.6s ease;
+}
+
+.quick-launch-btn:hover::before {
+    left: 100%;
 }
 
 .quick-launch-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px) scale(1.02);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.15));
+    border-color: rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+}
+
+.quick-launch-btn:active {
+    transform: translateY(0) scale(0.98);
+    transition: all 0.1s ease;
 }
 
 .quick-launch-btn .app-icon {
@@ -4353,12 +4750,224 @@ body[aria-busy="true"] {
     text-align: center;
 }
 
+/* Quick Launch App Icons - Real Brand Logos */
+.quick-launch-btn .app-icon.youtube::before {
+    content: '';
+    background: #FF0000;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+}
+
+.quick-launch-btn .app-icon.youtube::after {
+    content: '▶';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.quick-launch-btn .app-icon.chatgpt::before {
+    content: '';
+    background: linear-gradient(135deg, #10A37F, #1a7f64);
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+}
+
+.quick-launch-btn .app-icon.chatgpt::after {
+    content: 'C';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 900;
+    font-family: 'Arial', sans-serif;
+}
+
+.quick-launch-btn .app-icon.gemini::before {
+    content: '';
+    background: linear-gradient(135deg, #4285F4, #34A853, #FBBC04, #EA4335);
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+}
+
+.quick-launch-btn .app-icon.gemini::after {
+    content: 'G';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 900;
+    font-family: 'Arial', sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.quick-launch-btn .app-icon.w3schools {
+    font-size: 1.4rem;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #04AA6D;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
 .quick-launch-btn .app-icon.w3schools::before {
-    content: '📚';
+    content: 'W';
+    font-size: 16px;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 0px;
+    line-height: 1;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.quick-launch-btn:hover .app-icon.w3schools {
+    background: #059862;
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 4px 15px rgba(4, 170, 109, 0.3);
+}
+
+/* Mobile-specific W3Schools text fix */
+@media (max-width: 768px) {
+    .quick-launch-btn .app-icon.w3schools::before {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-launch-btn .app-icon.w3schools::before {
+        font-size: 12px;
+    }
+}
+
+.quick-launch-btn .app-icon.newtab::before {
+    content: '';
+    background: linear-gradient(135deg, #4285F4, #34A853, #FBBC04, #EA4335);
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+}
+
+.quick-launch-btn .app-icon.newtab::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #ffffff 0%, #ffffff 15%, transparent 15%);
+    box-shadow: 
+        /* Horizontal line */
+        0 0 0 1px rgba(255, 255, 255, 0.8),
+        /* Vertical line */
+        0 0 0 1px rgba(255, 255, 255, 0.8),
+        /* Inner glow */
+        inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.quick-launch-btn .app-icon.home::before {
+    content: '';
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+}
+
+.quick-launch-btn .app-icon.home::after {
+    content: '🏠';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.quick-launch-btn .app-icon.askai::before {
+    content: '';
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+}
+
+.quick-launch-btn .app-icon.askai::after {
+    content: '🤖';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.quick-launch-btn .app-icon:not(.w3schools) {
+    font-size: 1.4rem;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.quick-launch-btn:hover .app-icon:not(.w3schools) {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .quick-launch-btn .app-name {
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.quick-launch-btn:hover .app-name {
+    transform: translateX(3px);
+    text-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
 }
 
 /* AI Chat Interface */
@@ -4537,5 +5146,132 @@ body[aria-busy="true"] {
     background: var(--color-orange);
 }
 
+/* ==================== FLOATING BUBBLES BACKGROUND ==================== */
+.floating-bubbles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -10;
+    overflow: hidden;
+}
 
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.1));
+    animation: bubbleFloat 20s linear infinite;
+    opacity: 0.4;
+    backdrop-filter: blur(1px);
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bubble:nth-child(1) {
+    width: 40px;
+    height: 40px;
+    left: 5%;
+    animation-delay: 0s;
+    animation-duration: 25s;
+}
+
+.bubble:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    left: 15%;
+    animation-delay: -3s;
+    animation-duration: 30s;
+}
+
+.bubble:nth-child(3) {
+    width: 30px;
+    height: 30px;
+    left: 25%;
+    animation-delay: -6s;
+    animation-duration: 22s;
+}
+
+.bubble:nth-child(4) {
+    width: 50px;
+    height: 50px;
+    left: 35%;
+    animation-delay: -9s;
+    animation-duration: 28s;
+}
+
+.bubble:nth-child(5) {
+    width: 45px;
+    height: 45px;
+    left: 45%;
+    animation-delay: -12s;
+    animation-duration: 26s;
+}
+
+.bubble:nth-child(6) {
+    width: 35px;
+    height: 35px;
+    left: 55%;
+    animation-delay: -15s;
+    animation-duration: 24s;
+}
+
+.bubble:nth-child(7) {
+    width: 55px;
+    height: 55px;
+    left: 65%;
+    animation-delay: -18s;
+    animation-duration: 32s;
+}
+
+.bubble:nth-child(8) {
+    width: 25px;
+    height: 25px;
+    left: 75%;
+    animation-delay: -21s;
+    animation-duration: 20s;
+}
+
+.bubble:nth-child(9) {
+    width: 65px;
+    height: 65px;
+    left: 85%;
+    animation-delay: -24s;
+    animation-duration: 35s;
+}
+
+.bubble:nth-child(10) {
+    width: 40px;
+    height: 40px;
+    left: 95%;
+    animation-delay: -27s;
+    animation-duration: 27s;
+}
+
+@keyframes bubbleFloat {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.8;
+        transform: translateY(95vh) translateX(10px) scale(0.3);
+    }
+    15% {
+        opacity: 0.8;
+        transform: translateY(85vh) translateX(15px) scale(0.6);
+    }
+    85% {
+        opacity: 0.8;
+        transform: translateY(15vh) translateX(-20px) scale(1);
+    }
+    95% {
+        opacity: 0.8;
+        transform: translateY(5vh) translateX(25px) scale(0.8);
+    }
+    100% {
+        transform: translateY(-5vh) translateX(30px) scale(0);
+        opacity: 0;
+    }
 }

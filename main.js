@@ -525,6 +525,60 @@ function generateQuestionId(section, index) {
 }
 
 function toggleBookmark() {
+    // Check if we're in revision mode
+    const currentPage = document.querySelector('.page.active');
+    if (currentPage && currentPage.id === 'revisionMode') {
+        // In revision mode, use the current revision question
+        if (!state.revisionQuestions || state.revisionQuestions.length === 0 || state.currentQuestionIndex === null) {
+            console.warn('No current revision question to bookmark');
+            return;
+        }
+        
+        const currentQuestion = state.revisionQuestions[state.currentQuestionIndex];
+        let questionId;
+        let section, index;
+        
+        if (state.revisionMode === 'bookmarked') {
+            // For bookmarked questions, use the bookmark ID
+            questionId = currentQuestion.bookmarkId || generateQuestionId(currentQuestion.section, currentQuestion.originalIndex);
+            section = currentQuestion.section;
+            index = currentQuestion.originalIndex;
+        } else {
+            // For section/global revision, generate ID based on current question
+            questionId = generateQuestionId(state.currentSection || currentQuestion.section, state.currentQuestionIndex);
+            section = state.currentSection || currentQuestion.section;
+            index = state.currentQuestionIndex;
+        }
+        
+        const bookmarkIndex = state.bookmarks.findIndex(b => b.id === questionId);
+        
+        if (bookmarkIndex >= 0) {
+            // Remove bookmark
+            state.bookmarks.splice(bookmarkIndex, 1);
+            console.log('📌 Bookmark removed:', questionId);
+        } else {
+            // Add bookmark
+            state.bookmarks.push({
+                id: questionId,
+                section: section,
+                index: index,
+                timestamp: Date.now()
+            });
+            console.log('⭐ Bookmark added:', questionId);
+        }
+        
+        saveBookmarks();
+        updateBookmarkButton();
+        updateBookmarkCounts();
+        
+        // Play sound effect
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+        return;
+    }
+    
+    // Original logic for non-revision mode
     if (!state.currentSection || state.currentQuestionIndex === null) {
         console.warn('No current question to bookmark');
         return;
@@ -578,9 +632,13 @@ function updateBookmarkButton() {
         bookmarkBtn.style.display = 'flex';
         
         // Generate question ID based on current revision question
-        if (state.revisionQuestions && state.revisionQuestions.length > 0) {
-            const currentQuestion = state.revisionQuestions[0];
+        if (state.revisionQuestions && state.revisionQuestions.length > 0 && state.currentQuestionIndex !== null) {
+            const currentQuestion = state.revisionQuestions[state.currentQuestionIndex];
             let questionId;
+            
+            console.log('📌 Current question:', currentQuestion);
+            console.log('📌 Current question index:', state.currentQuestionIndex);
+            console.log('📌 Revision mode:', state.revisionMode);
             
             if (state.revisionMode === 'bookmarked') {
                 // For bookmarked questions, use the bookmark ID
@@ -590,13 +648,17 @@ function updateBookmarkButton() {
                 questionId = generateQuestionId(state.currentSection || currentQuestion.section, state.currentQuestionIndex);
             }
             
+            console.log('📌 Generated question ID:', questionId);
+            
             const isBookmarked = state.bookmarks.some(b => b.id === questionId);
+            console.log('📌 Is bookmarked:', isBookmarked);
+            console.log('📌 Current bookmarks:', state.bookmarks);
             
             const bookmarkIcon = bookmarkBtn.querySelector('.bookmark-icon');
             if (bookmarkIcon) {
                 bookmarkIcon.textContent = isBookmarked ? '★' : '⭐';
                 bookmarkBtn.classList.toggle('bookmarked', isBookmarked);
-                console.log('📌 Updated bookmark icon to:', bookmarkIcon.textContent);
+                console.log('📌 Updated bookmark icon to:', bookmarkIcon.textContent, 'for question ID:', questionId);
             }
         }
         return;
