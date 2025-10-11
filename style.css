@@ -2382,15 +2382,15 @@ body {
 }
 
 .progress-bar-inner.low {
-    background: linear-gradient(to top, #ef4444, #f87171);
+    background: linear-gradient(to top, #ef4444, #f87171, #fca5a5);
 }
 
 .progress-bar-inner.medium {
-    background: linear-gradient(to top, #f59e0b, #fbbf24);
+    background: linear-gradient(to top, #f59e0b, #fbbf24, #fde047);
 }
 
 .progress-bar-inner.high {
-    background: linear-gradient(to top, #10b981, #34d399);
+    background: linear-gradient(to top, #10b981, #34d399, #6ee7b7);
 }
 
 .progress-bar-day {
@@ -2406,21 +2406,75 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+.progress-bar-count {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    z-index: 2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    min-width: 20px;
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
     .week-progress-bars {
-        gap: 8px;
+        gap: 6px;
         height: 200px;
+        padding: 15px 10px;
+        max-width: 100%;
+        overflow-x: auto;
     }
     
     .progress-bar-outer {
-        width: 40px;
+        width: 35px;
         height: 160px;
+        min-width: 35px;
     }
     
     .progress-bar-day {
         font-size: 0.7rem;
         bottom: 6px;
+    }
+    
+    .progress-bar-count {
+        font-size: 0.8rem;
+        top: 6px;
+        padding: 1px 4px;
+        min-width: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .week-progress-bars {
+        gap: 4px;
+        height: 180px;
+        padding: 10px 5px;
+    }
+    
+    .progress-bar-outer {
+        width: 30px;
+        height: 140px;
+        min-width: 30px;
+    }
+    
+    .progress-bar-day {
+        font-size: 0.65rem;
+        bottom: 5px;
+    }
+    
+    .progress-bar-count {
+        font-size: 0.7rem;
+        top: 5px;
+        padding: 1px 3px;
+        min-width: 14px;
     }
 }
 

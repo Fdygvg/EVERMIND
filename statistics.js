@@ -325,6 +325,7 @@ class StudyStatistics {
                              data-fill="${fillPercentage}%"
                              data-index="${index}">
                         </div>
+                        <div class="progress-bar-count">${questionsAnswered}</div>
                         <div class="progress-bar-day">${day.day}</div>
                     </div>
                 </div>
