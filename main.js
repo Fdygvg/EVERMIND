@@ -445,6 +445,14 @@ function startBookmarkedRevision() {
     state.wrongCount = 0;
     state.totalQuestions = bookmarkedQuestions.length;
     
+    // Save initial state to localStorage
+    saveRevisionState();
+    
+    // Start auto-save interval (every 30 seconds)
+    state.autoSaveInterval = setInterval(() => {
+        saveRevisionState();
+    }, 30000);
+    
     // Show revision interface
     showPage('revisionMode');
     
@@ -1944,6 +1952,8 @@ function showCompletionMessage() {
         clearGlobalRevisionState();
     } else if (state.revisionMode === 'section') {
         clearSectionRevisionState();
+    } else if (state.revisionMode === 'bookmarked') {
+        clearBookmarkRevisionState();
     }
     
     // Optionally auto-exit after a few seconds
@@ -2241,7 +2251,7 @@ window.speakTerm = speakTerm;
 
 // ==================== AUTO-SAVE FOR GLOBAL REVISION ====================
 function saveRevisionState() {
-    if (state.revisionMode !== 'global' && state.revisionMode !== 'section') return;
+    if (state.revisionMode !== 'global' && state.revisionMode !== 'section' && state.revisionMode !== 'bookmarked') return;
     
     const saveData = {
         revisionMode: state.revisionMode,
@@ -2269,7 +2279,9 @@ function saveRevisionState() {
         }
     }
     
-    const storageKey = state.revisionMode === 'global' ? 'evermind-global-revision' : 'evermind-section-revision';
+    const storageKey = state.revisionMode === 'global' ? 'evermind-global-revision' : 
+                      state.revisionMode === 'section' ? 'evermind-section-revision' : 
+                      'evermind-bookmark-revision';
     localStorage.setItem(storageKey, JSON.stringify(saveData));
     console.log(`💾 Auto-saved ${state.revisionMode} revision progress`);
 }
@@ -2298,6 +2310,18 @@ function loadSectionRevisionState() {
     }
 }
 
+function loadBookmarkRevisionState() {
+    const saved = localStorage.getItem('evermind-bookmark-revision');
+    if (!saved) return null;
+    
+    try {
+        return JSON.parse(saved);
+    } catch (e) {
+        console.error('Error loading saved bookmark revision state:', e);
+        return null;
+    }
+}
+
 function clearGlobalRevisionState() {
     localStorage.removeItem('evermind-global-revision');
     if (state.autoSaveInterval) {
@@ -2310,6 +2334,11 @@ function clearGlobalRevisionState() {
 function clearSectionRevisionState() {
     localStorage.removeItem('evermind-section-revision');
     console.log('🗑️ Cleared section revision state');
+}
+
+function clearBookmarkRevisionState() {
+    localStorage.removeItem('evermind-bookmark-revision');
+    console.log('🗑️ Cleared bookmark revision state');
 }
 
 function resumeGlobalRevision() {
@@ -2354,15 +2383,37 @@ function resumeSectionRevision() {
     return true;
 }
 
+function resumeBookmarkRevision() {
+    const savedState = loadBookmarkRevisionState();
+    if (!savedState) return false;
+    
+    // Restore state
+    state.revisionMode = 'bookmarked';
+    state.currentSection = savedState.currentSection;
+    state.revisionQuestions = savedState.revisionQuestions;
+    state.currentQuestionIndex = savedState.currentQuestionIndex;
+    state.correctCount = savedState.correctCount;
+    state.wrongCount = savedState.wrongCount;
+    state.totalQuestions = savedState.totalQuestions;
+    state.revisionStartTime = savedState.startTime;
+    
+    console.log(`🔄 Resumed bookmark revision from question ${state.currentQuestionIndex + 1}/${state.totalQuestions}`);
+    startRevision();
+    return true;
+}
+
 function showResumePrompt() {
     const globalState = loadGlobalRevisionState();
     const sectionState = loadSectionRevisionState();
+    const bookmarkState = loadBookmarkRevisionState();
     
-    if (!globalState && !sectionState) return;
+    if (!globalState && !sectionState && !bookmarkState) return;
     
-    // Prioritize global revision if both exist
-    const savedState = globalState || sectionState;
+    // Prioritize global revision if multiple exist
+    const savedState = globalState || sectionState || bookmarkState;
     const isGlobal = !!globalState;
+    const isSection = !!sectionState && !globalState;
+    const isBookmark = !!bookmarkState && !globalState && !sectionState;
     
     const elapsedTime = Math.floor((Date.now() - savedState.startTime) / 1000);
     const minutes = Math.floor(elapsedTime / 60);
@@ -2371,7 +2422,9 @@ function showResumePrompt() {
     const answeredCount = savedState.answeredQuestions.length;
     const progressText = `${answeredCount}/${savedState.totalQuestions} questions answered`;
     
-    const title = isGlobal ? '📚 Resume Global Revision?' : '📖 Resume Section Revision?';
+    const title = isGlobal ? '📚 Resume Global Revision?' : 
+                 isSection ? '📖 Resume Section Revision?' : 
+                 '⭐ Resume Bookmark Revision?';
     const sectionInfo = isGlobal ? 
         `Sections: ${savedState.selectedSections.map(s => getSectionInfo(s).name).join(', ')}` :
         `Section: ${getSectionInfo(savedState.currentSection).name}`;
@@ -2393,10 +2446,10 @@ function showResumePrompt() {
             </div>
             
             <div style="display: flex; gap: 15px; justify-content: center;">
-                <button onclick="${isGlobal ? 'resumeGlobalRevision' : 'resumeSectionRevision'}(); hideResumePrompt();" class="btn btn--primary">
+                <button onclick="${isGlobal ? 'resumeGlobalRevision' : isSection ? 'resumeSectionRevision' : 'resumeBookmarkRevision'}(); hideResumePrompt();" class="btn btn--primary">
                     ✅ Resume
                 </button>
-                <button onclick="${isGlobal ? 'clearGlobalRevisionState' : 'clearSectionRevisionState'}(); hideResumePrompt();" class="btn btn--secondary">
+                <button onclick="${isGlobal ? 'clearGlobalRevisionState' : isSection ? 'clearSectionRevisionState' : 'clearBookmarkRevisionState'}(); hideResumePrompt();" class="btn btn--secondary">
                     🗑️ Start Fresh
                 </button>
             </div>
@@ -2431,7 +2484,7 @@ function hideResumePrompt() {
 
 // Auto-save on page unload
 window.addEventListener('beforeunload', () => {
-    if (state.revisionMode === 'global' || state.revisionMode === 'section') {
+    if (state.revisionMode === 'global' || state.revisionMode === 'section' || state.revisionMode === 'bookmarked') {
         saveRevisionState();
     }
 });

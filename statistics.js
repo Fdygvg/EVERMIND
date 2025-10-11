@@ -180,8 +180,8 @@ class StudyStatistics {
         const sunday = new Date(today);
         sunday.setDate(today.getDate() - daysSinceSunday);
         
-        // Generate data for Sunday through Friday (6 days)
-        for (let i = 0; i < 6; i++) {
+        // Generate data for Sunday through Saturday (7 days)
+        for (let i = 0; i < 7; i++) {
             const date = new Date(sunday);
             date.setDate(sunday.getDate() + i);
             const dateString = date.toISOString().split('T')[0];
@@ -291,6 +291,7 @@ class StudyStatistics {
         // Animate in
         setTimeout(() => {
             dashboard.classList.add('show');
+            this.animateBars();
         }, 100);
         
         // Play sound effect
@@ -308,18 +309,41 @@ class StudyStatistics {
         const weekData = this.getWeekData();
         const maxQuestions = Math.max(...weekData.map(d => d.total), 1);
         
-        return weekData.map(day => {
+        return weekData.map((day, index) => {
             const height = (day.total / maxQuestions) * 100;
             return `
                 <div class="day-bar">
                     <div class="bar-container">
-                        <div class="bar-fill" style="height: ${height}%"></div>
+                        <div class="bar-fill" 
+                             data-height="${height}%"
+                             data-index="${index}"></div>
                     </div>
                     <div class="day-label">${day.day}</div>
                     <div class="day-count">${day.total}</div>
                 </div>
             `;
         }).join('');
+    }
+
+    animateBars() {
+        // Animate bars with staggered delays
+        setTimeout(() => {
+            const bars = document.querySelectorAll('.bar-fill');
+            console.log('🎯 Found bars:', bars.length);
+            
+            bars.forEach((bar, index) => {
+                const height = bar.getAttribute('data-height');
+                console.log(`🎯 Bar ${index}: height = ${height}`);
+                
+                if (height) {
+                    // Set the height with transition
+                    setTimeout(() => {
+                        bar.style.height = height;
+                        console.log(`🎯 Animating bar ${index} to ${height}`);
+                    }, index * 150); // 150ms delay between each bar
+                }
+            });
+        }, 500); // Increased delay to ensure DOM is ready
     }
 
 

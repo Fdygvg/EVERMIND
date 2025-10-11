@@ -1911,6 +1911,35 @@ body {
         font-size: 0.8rem;
     }
     
+    /* Week chart mobile fixes */
+    .week-chart {
+        gap: 4px;
+        height: 180px;
+        padding: 10px;
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+    
+    .day-bar {
+        min-width: 20px;
+        max-width: 30px;
+        gap: 6px;
+    }
+    
+    .bar-container {
+        width: 25px;
+        height: 100px;
+    }
+    
+    .day-label {
+        font-size: 0.7rem;
+    }
+    
+    .day-count {
+        font-size: 0.7rem;
+    }
+}
+    
     .fact-text {
         font-size: 0.8rem;
     }
@@ -2336,23 +2365,27 @@ body {
 
 .week-chart {
     display: flex;
-    gap: 25px;
+    gap: 15px;
     align-items: end;
     height: 280px;
-    padding: 35px;
+    padding: 20px;
     background: var(--bg-secondary);
     border-radius: 15px;
     border: 1px solid var(--border-color);
-    justify-content: space-between;
+    justify-content: flex-start;
+    overflow-x: auto;
+    min-width: 0;
+    scrollbar-width: thin;
 }
 
 .day-bar {
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    min-width: 40px;
+    min-width: 35px;
+    max-width: 50px;
 }
 
 .bar-container {
@@ -2362,15 +2395,17 @@ body {
     border-radius: 15px;
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .bar-fill {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 0%;
     background: linear-gradient(to top, var(--color-primary), var(--color-secondary));
     border-radius: 15px;
-    transition: height 0.3s ease;
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .day-label {
@@ -2612,9 +2647,15 @@ body {
     }
     
     .week-chart {
-        gap: 15px;
+        gap: 8px;
         height: 200px;
-        padding: 25px;
+        padding: 15px;
+        overflow-x: auto;
+    }
+    
+    .day-bar {
+        min-width: 25px;
+        max-width: 35px;
     }
     
     .bar-container {
@@ -2725,6 +2766,32 @@ body {
         min-height: 40px;
         max-width: calc(50% - 1.5px);
         flex-basis: calc(50% - 1.5px);
+    }
+    
+    /* Week chart extra small screens */
+    .week-chart {
+        gap: 3px;
+        height: 160px;
+        padding: 8px;
+    }
+    
+    .day-bar {
+        min-width: 18px;
+        max-width: 25px;
+        gap: 4px;
+    }
+    
+    .bar-container {
+        width: 20px;
+        height: 80px;
+    }
+    
+    .day-label {
+        font-size: 0.6rem;
+    }
+    
+    .day-count {
+        font-size: 0.6rem;
     }
 }
 
