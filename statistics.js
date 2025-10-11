@@ -275,9 +275,9 @@ class StudyStatistics {
                         </div>
                         
                         <div class="stats-section">
-                            <h3>📈 This Week</h3>
-                            <div class="week-chart">
-                                ${this.createWeekChart()}
+                            <h3>This Week</h3>
+                            <div class="week-progress-bars">
+                                ${this.createWeekProgressBars()}
                             </div>
                         </div>
                         
@@ -291,7 +291,7 @@ class StudyStatistics {
         // Animate in
         setTimeout(() => {
             dashboard.classList.add('show');
-            this.animateBars();
+            this.animateProgressBars();
         }, 100);
         
         // Play sound effect
@@ -305,46 +305,55 @@ class StudyStatistics {
         return total > 0 ? Math.round((this.stats.weekly.totalCorrect / total) * 100) : 0;
     }
 
-    createWeekChart() {
+    createWeekProgressBars() {
         const weekData = this.getWeekData();
-        const maxQuestions = Math.max(...weekData.map(d => d.total), 1);
+        const maxQuestions = 200; // 200 questions = 100% fill
         
         return weekData.map((day, index) => {
-            const height = (day.total / maxQuestions) * 100;
+            const questionsAnswered = day.total;
+            const fillPercentage = Math.min(100, (questionsAnswered / maxQuestions) * 100);
+            
+            // Determine color based on fill level
+            let colorClass = 'low';
+            if (fillPercentage >= 67) colorClass = 'high';
+            else if (fillPercentage >= 34) colorClass = 'medium';
+            
             return `
-                <div class="day-bar">
-                    <div class="bar-container">
-                        <div class="bar-fill" 
-                             data-height="${height}%"
-                             data-index="${index}"></div>
+                <div class="progress-bar-column">
+                    <div class="progress-bar-outer">
+                        <div class="progress-bar-inner ${colorClass}" 
+                             data-fill="${fillPercentage}%"
+                             data-index="${index}">
+                        </div>
+                        <div class="progress-bar-day">${day.day}</div>
                     </div>
-                    <div class="day-label">${day.day}</div>
-                    <div class="day-count">${day.total}</div>
                 </div>
             `;
         }).join('');
     }
 
-    animateBars() {
+    animateProgressBars() {
         // Animate bars with staggered delays
         setTimeout(() => {
-            const bars = document.querySelectorAll('.bar-fill');
-            console.log('🎯 Found bars:', bars.length);
+            const bars = document.querySelectorAll('.progress-bar-inner');
+            console.log('🎯 Found progress bars:', bars.length);
             
             bars.forEach((bar, index) => {
-                const height = bar.getAttribute('data-height');
-                console.log(`🎯 Bar ${index}: height = ${height}`);
+                const fillPercentage = bar.getAttribute('data-fill');
+                console.log(`🎯 Bar ${index}: fill = ${fillPercentage}`);
                 
-                if (height) {
+                if (fillPercentage) {
                     // Set the height with transition
                     setTimeout(() => {
-                        bar.style.height = height;
-                        console.log(`🎯 Animating bar ${index} to ${height}`);
+                        bar.style.height = fillPercentage;
+                        console.log(`🎯 Animating bar ${index} to ${fillPercentage}`);
                     }, index * 150); // 150ms delay between each bar
                 }
             });
-        }, 500); // Increased delay to ensure DOM is ready
+        }, 500); // Delay to ensure DOM is ready
     }
+
+
 
 
 }
