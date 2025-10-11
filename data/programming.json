@@ -245,55 +245,55 @@
     "question": "How do you kill an active port like localhost:8000?",
     "answer": "Use one of these methods:\n\n**Windows:**\n`netstat -ano | findstr :8000` (find the PID)\n`taskkill /PID <PID> /F` (kill the process)\n\n**Mac/Linux:**\n`lsof -ti:8000 | xargs kill -9`\n\n**Alternative:**\n`npx kill-port 8000` (if you have kill-port installed)",
     "type": "command-line",
-    "tags": ["port", "kill", "localhost", "terminal"]
+    "tags": ["port", "kill", "terminal"]
   },
   {
     "question": "What is the git command to delete a commit?",
     "answer": "**To delete the last commit (keeps changes):**\n`git reset --soft HEAD~1`\n\n**To delete the last commit (removes changes):**\n`git reset --hard HEAD~1`\n\n**To delete a specific commit:**\n`git rebase -i HEAD~n` (interactive rebase)\n\n**To delete commits from remote:**\n`git push --force-with-lease origin branch-name`",
     "type": "git",
-    "tags": ["git", "commit", "delete", "reset"]
+    "tags": ["git", "commit"]
   },
   {
     "question": "What is a CPU made up of?",
     "answer": "A CPU (Central Processing Unit) is made up of:\n\n• **Control Unit (CU)** - Manages instruction execution\n• **Arithmetic Logic Unit (ALU)** - Performs calculations and logic operations\n• **Registers** - Small, fast storage locations\n• **Cache Memory** - High-speed memory for frequently used data\n• **Clock** - Synchronizes operations\n• **Bus Interface** - Connects to other computer components",
     "type": "hardware",
-    "tags": ["cpu", "hardware", "computer", "components"]
+    "tags": ["hardware"]
   },
   {
     "question": "What is the smallest form of data?",
     "answer": "A **bit** (binary digit) is the smallest form of data. It can only have two values: 0 or 1.",
     "type": "data",
-    "tags": ["bit", "data", "binary", "smallest"]
+    "tags": ["data"]
   },
   {
     "question": "How many bits make up 1 byte and how many combinations can it make?",
     "answer": "1 byte is made up of **8 bits** and can make **256 different combinations** (2^8 = 256).",
     "type": "data",
-    "tags": ["byte", "bit", "combinations", "data"]
+    "tags": ["data"]
   },
   {
     "question": "What are OS kernels?",
     "answer": "OS kernels are the core components of operating systems that:\n\n• **Manage hardware resources** (CPU, memory, storage)\n• **Provide system services** to applications\n• **Handle process scheduling** and multitasking\n• **Manage memory allocation** and protection\n• **Control device drivers** and hardware communication\n• **Enforce security** and access control\n\nExamples: Linux kernel, Windows NT kernel, macOS XNU kernel",
     "type": "operating-system",
-    "tags": ["kernel", "os", "operating-system", "core"]
+    "tags": ["os"]
   },
   {
     "question": "What does SSH stand for and what does it mean?",
     "answer": "SSH stands for **Secure Shell**.\n\nIt's a network protocol that provides secure, encrypted communication between computers over an unsecured network. SSH allows you to:\n\n• **Remotely access** another computer\n• **Execute commands** on remote systems\n• **Transfer files** securely\n• **Tunnel network traffic**\n\nExample: `ssh username@hostname`",
     "type": "networking",
-    "tags": ["ssh", "secure-shell", "remote", "encryption"]
+    "tags": ["ssh"]
   },
   {
     "question": "Explain the difference between interpreter and compiler.",
     "answer": "**Interpreter:**\n• Translates and executes code line by line\n• No separate compilation step\n• Slower execution but faster development\n• Examples: Python, JavaScript, Ruby\n\n**Compiler:**\n• Translates entire program to machine code before execution\n• Creates executable file\n• Faster execution but slower development\n• Examples: C, C++, Go, Rust\n\n**Hybrid (JIT):**\n• Compiles code at runtime\n• Examples: Java, C#",
     "type": "programming-concepts",
-    "tags": ["interpreter", "compiler", "programming", "execution"]
+    "tags": ["programming"]
   },
   {
     "question": "What does EXE stand for?",
     "answer": "EXE stands for **Executable**.\n\nIt's a file extension used in Windows for executable files that contain machine code instructions that can be directly executed by the operating system.",
     "type": "file-formats",
-    "tags": ["exe", "executable", "windows", "file-extension"]
+    "tags": ["windows"]
   },
   {
     "question": "What does HTML stand for?",
@@ -312,140 +312,140 @@
     "question": "Why do we name files index.html?",
     "answer": "We name files `index.html` because:\n\n• **Default behavior** - Web servers automatically serve `index.html` when no specific file is requested\n• **Convention** - It's the standard name for the main/home page of a website\n• **User-friendly** - Visitors can access your site with just the domain name (e.g., `example.com` instead of `example.com/index.html`)\n• **SEO benefits** - Search engines recognize it as the primary page",
     "type": "html",
-    "tags": ["html", "index", "naming", "convention"]
+    "tags": ["html", "naming"]
   },
   {
     "question": "Explain how HTML indentation works with parent, sibling, child, and grandparent tags.",
     "answer": "**HTML Indentation Structure:**\n\n```html\n<html>                    <!-- Grandparent -->\n  <head>                  <!-- Parent of title -->\n    <title>Title</title>  <!-- Child of head, sibling of meta -->\n    <meta charset=\"UTF-8\"> <!-- Child of head, sibling of title -->\n  </head>                 <!-- Parent of title, child of html -->\n  <body>                  <!-- Parent of div, child of html -->\n    <div>                 <!-- Child of body, parent of p -->\n      <p>Text</p>         <!-- Child of div, grandchild of body -->\n    </div>\n  </body>\n</html>\n```\n\n• **Parent**: Contains other elements\n• **Child**: Nested inside another element\n• **Sibling**: Elements at the same level\n• **Grandparent**: Two levels up in the hierarchy",
     "type": "html",
-    "tags": ["html", "indentation", "parent", "child", "sibling"]
+    "tags": ["html", "structure"]
   },
   {
     "question": "What is the title tag used for and write a short code example?",
     "answer": "The `<title>` tag is used to:\n\n• **Set the browser tab title**\n• **Define the page title** for search engines\n• **Provide the title** when bookmarking\n• **Display in search results**\n\n**Example:**\n```html\n<title>Chuks Test</title>\n```\n\nThis will show \"Chuks Test\" in the browser tab and search results.",
     "type": "html",
-    "tags": ["html", "title", "seo", "browser"]
+    "tags": ["html", "seo"]
   },
   {
     "question": "What are meta charset and meta description used for and how do you write them?",
     "answer": "**Meta Charset:**\n• Defines the character encoding for the page\n• Prevents character display issues\n• **Code:** `<meta charset=\"UTF-8\">`\n\n**Meta Description:**\n• Provides a summary of the page content\n• Used by search engines in search results\n• **Code:** `<meta name=\"description\" content=\"Your page description here\">`\n\n**Example:**\n```html\n<meta charset=\"UTF-8\">\n<meta name=\"description\" content=\"Learn HTML basics with practical examples\">\n```",
     "type": "html",
-    "tags": ["html", "meta", "charset", "description", "seo"]
+    "tags": ["html", "meta", "seo"]
   },
   {
     "question": "How many types of headers are there in HTML and give an example?",
     "answer": "There are **6 types of headers** in HTML: `<h1>` through `<h6>`\n\n• `<h1>` - Most important (largest)\n• `<h2>` - Second level\n• `<h3>` - Third level\n• `<h4>` - Fourth level\n• `<h5>` - Fifth level\n• `<h6>` - Least important (smallest)\n\n**Example:**\n```html\n<h1>Main Title</h1>\n<h2>Section Title</h2>\n<h3>Subsection Title</h3>\n```",
     "type": "html",
-    "tags": ["html", "headers", "h1", "h2", "h3", "h4", "h5", "h6"]
+    "tags": ["html", "headers"]
   },
   {
     "question": "How do you write a paragraph in HTML?",
     "answer": "Use the `<p>` tag to create paragraphs:\n\n```html\n<p>This is a paragraph of text.</p>\n<p>This is another paragraph.</p>\n```\n\nEach `<p>` tag creates a new paragraph with automatic spacing between them.",
     "type": "html",
-    "tags": ["html", "paragraph", "p", "text"],
+    "tags": ["html", "text"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Paragraph Example</title>\n</head>\n<body>\n    <p>This is the first paragraph of text.</p>\n    <p>This is the second paragraph with more content.</p>\n    <p>Each paragraph appears on a new line with spacing.</p>\n</body>\n</html>"
   },
   {
     "question": "How do you make text both italic and bold in a paragraph?",
     "answer": "Use nested `<b>` and `<i>` tags:\n\n```html\n<p>This is <b><i>italic and bolded text</i></b> in a paragraph.</p>\n```\n\n**Alternative modern approach:**\n```html\n<p>This is <strong><em>italic and bolded text</em></strong> in a paragraph.</p>\n```\n\nNote: `<strong>` and `<em>` are preferred for semantic meaning.",
     "type": "html",
-    "tags": ["html", "bold", "italic", "formatting", "b", "i"],
+    "tags": ["html", "formatting"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Text Formatting</title>\n</head>\n<body>\n    <p>This is <b><i>italic and bolded text</i></b> in a paragraph.</p>\n    <p>This is <strong><em>modern semantic formatting</em></strong>.</p>\n    <p>Regular text with <b>bold</b> and <i>italic</i> separately.</p>\n</body>\n</html>"
   },
   {
     "question": "How do you create a new line in HTML?",
     "answer": "Use the `<br>` or `<br/>` tag:\n\n```html\n<p>This is the first line.<br>This is the second line.</p>\n```\n\n**Note:** `<br>` is a self-closing tag, so both `<br>` and `<br/>` work the same way.",
     "type": "html",
-    "tags": ["html", "line-break", "br", "new-line"],
+    "tags": ["html", "formatting"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Line Breaks</title>\n</head>\n<body>\n    <p>This is the first line.<br>This is the second line.</p>\n    <p>Line 1<br/>Line 2<br/>Line 3</p>\n    <p>Without br tags, everything stays on one line.</p>\n</body>\n</html>"
   },
   {
     "question": "How do you create a horizontal line in HTML?",
     "answer": "Use the `<hr>` or `<hr/>` tag:\n\n```html\n<p>Content above the line</p>\n<hr>\n<p>Content below the line</p>\n```\n\nThis creates a horizontal line that spans the width of its container.",
     "type": "html",
-    "tags": ["html", "horizontal-line", "hr", "divider"],
+    "tags": ["html", "formatting"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Horizontal Lines</title>\n</head>\n<body>\n    <h1>Section 1</h1>\n    <p>Content above the line</p>\n    <hr>\n    <h2>Section 2</h2>\n    <p>Content below the line</p>\n    <hr/>\n    <h3>Section 3</h3>\n    <p>Another section after another line</p>\n</body>\n</html>"
   },
   {
     "question": "What is the git command to create a new branch?",
     "answer": "Use the `git switch -c` command:\n\n```bash\ngit switch -c <name-of-new-branch>\n```\n\n**Alternative methods:**\n```bash\n# Create and switch to new branch\ngit checkout -b <branch-name>\n\n# Just create branch (stay on current)\ngit branch <branch-name>\n```\n\n**Example:**\n```bash\ngit switch -c feature-login\n```",
     "type": "git",
-    "tags": ["git", "branch", "create", "switch"],
+    "tags": ["git", "branch"],
     "code": "# Create and switch to new branch\ngit switch -c feature-login\n\n# Alternative method\ngit checkout -b feature-login\n\n# Just create branch (stay on current)\ngit branch feature-login\n\n# Check current branch\ngit branch\n\n# Switch to existing branch\ngit switch main"
   },
   {
     "question": "How do you merge git branches?",
     "answer": "**To merge your branch into main:**\n\n```bash\n# Switch to main branch\ngit checkout main\n\n# Merge your branch\ngit merge new-branch-name\n\n# Push the changes\ngit push origin main\n```\n\n**Alternative (if using git switch):**\n```bash\ngit switch main\ngit merge feature-branch\ngit push origin main\n```",
     "type": "git",
-    "tags": ["git", "merge", "branch", "main"],
+    "tags": ["git", "merge"],
     "code": "# Switch to main branch\ngit checkout main\n\n# Merge your branch\ngit merge feature-login\n\n# Push the changes\ngit push origin main\n\n# Alternative using git switch\ngit switch main\ngit merge feature-login\ngit push origin main\n\n# Check merge status\ngit status"
   },
   {
     "question": "How do you make text big or small in HTML?",
     "answer": "Use the `<big>` and `<small>` tags:\n\n```html\n<p>This is <big>big text</big> and this is <small>small text</small>.</p>\n```\n\n**Note:** These tags are deprecated in HTML5. Modern approach uses CSS:\n```html\n<p>This is <span style=\"font-size: larger;\">big text</span> and this is <span style=\"font-size: smaller;\">small text</span>.</p>\n```",
     "type": "html",
-    "tags": ["html", "big", "small", "text-size", "formatting"],
+    "tags": ["html", "formatting"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Text Size</title>\n</head>\n<body>\n    <p>This is <big>big text</big> and this is <small>small text</small>.</p>\n    <p>Modern approach: <span style=\"font-size: larger;\">larger text</span> and <span style=\"font-size: smaller;\">smaller text</span>.</p>\n    <p>Normal size text for comparison.</p>\n</body>\n</html>"
   },
   {
     "question": "What are subscript and superscript in HTML and give examples?",
     "answer": "**Subscript** (`<sub>`) - Text below the baseline\n**Superscript** (`<sup>`) - Text above the baseline\n\n**Examples:**\n```html\n<p>H<sub>2</sub>O (water molecule)</p>\n<p>E=mc<sup>2</sup> (Einstein's equation)</p>\n<p>2<sup>3</sup> = 8 (2 to the power of 3)</p>\n<p>CO<sub>2</sub> (carbon dioxide)</p>\n```",
     "type": "html",
-    "tags": ["html", "subscript", "superscript", "sub", "sup", "math"],
+    "tags": ["html", "formatting"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Subscript and Superscript</title>\n</head>\n<body>\n    <h2>Chemistry Examples</h2>\n    <p>Water: H<sub>2</sub>O</p>\n    <p>Carbon dioxide: CO<sub>2</sub></p>\n    <p>Sulfuric acid: H<sub>2</sub>SO<sub>4</sub></p>\n    \n    <h2>Math Examples</h2>\n    <p>Einstein's equation: E=mc<sup>2</sup></p>\n    <p>Power of 2: 2<sup>3</sup> = 8</p>\n    <p>Square root: √<sup>2</sup></p>\n</body>\n</html>"
   },
   {
     "question": "How do you return to a previous commit in git?",
     "answer": "Use the `git reset --hard` command:\n\n```bash\ngit reset --hard <commit-hash>\n```\n\n**Example:**\n```bash\ngit reset --hard cef8caf\n```\n\n**Warning:** This permanently deletes all changes after that commit.\n\n**Safer alternative:**\n```bash\ngit reset --soft <commit-hash>  # Keeps changes staged\ngit reset --mixed <commit-hash>  # Keeps changes unstaged\n```",
     "type": "git",
-    "tags": ["git", "reset", "commit", "previous", "hard"]
+    "tags": ["git", "reset"]
   },
   {
     "question": "How do you write comments in HTML?",
     "answer": "Use the `<!-- -->` syntax:\n\n```html\n<!-- This is a single-line comment -->\n\n<!--\n  This is a\n  multi-line comment\n-->\n\n<p>Visible content</p> <!-- Inline comment -->\n```\n\n**Note:** Comments are not displayed in the browser but are visible in the HTML source code.",
     "type": "html",
-    "tags": ["html", "comments", "syntax", "documentation"]
+    "tags": ["html", "syntax"]
   },
   {
     "question": "How do you change the color of a paragraph in HTML?",
     "answer": "Use the `style` attribute with `color`:\n\n```html\n<p style=\"color: red;\">This text is red</p>\n<p style=\"color: blue;\">This text is blue</p>\n<p style=\"color: #ff0000;\">This text is red (hex)</p>\n```\n\n**Common colors:** red, blue, green, yellow, purple, orange, black, white",
     "type": "html",
-    "tags": ["html", "color", "style", "paragraph", "css"]
+    "tags": ["html", "css"]
   },
   {
     "question": "How do you change the background color of a paragraph in HTML?",
     "answer": "Use the `style` attribute with `background-color`:\n\n```html\n<p style=\"background-color: green;\">This paragraph has a green background</p>\n<p style=\"background-color: yellow;\">This paragraph has a yellow background</p>\n<p style=\"background-color: #00ff00;\">This paragraph has a green background (hex)</p>\n```\n\n**Note:** The correct property is `background-color`, not `backgrounf-color`.",
     "type": "html",
-    "tags": ["html", "background-color", "style", "paragraph", "css"]
+    "tags": ["html", "css"]
   },
   {
     "question": "How do you change the entire background color of a website?",
     "answer": "Add the `background-color` style to the `<body>` tag:\n\n```html\n<body style=\"background-color: lightblue;\">\n  <h1>My Website</h1>\n  <p>Content here</p>\n</body>\n```\n\n**Alternative using CSS:**\n```html\n<style>\n  body {\n    background-color: lightblue;\n  }\n</style>\n```",
     "type": "html",
-    "tags": ["html", "background-color", "body", "website", "css"]
+    "tags": ["html", "css"]
   },
   {
     "question": "What is the proper format of HTML code with header, main, and footer?",
     "answer": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Document</title>\n</head>\n<body>\n    <header>\n        <h1>Website Header</h1>\n        <nav>Navigation links</nav>\n    </header>\n    \n    <main>\n        <h2>Main Content</h2>\n        <p>Your main content goes here</p>\n    </main>\n    \n    <footer>\n        <p>&copy; 2024 Your Website</p>\n    </footer>\n</body>\n</html>\n```",
     "type": "html",
-    "tags": ["html", "structure", "header", "main", "footer", "semantic"]
+    "tags": ["html", "semantic"]
   },
   {
     "question": "What HTML tag do you use for navigation items in the header?",
     "answer": "Use the `<nav>` tag for navigation items:\n\n```html\n<header>\n    <h1>My Website</h1>\n    <nav>\n        <a href=\"#home\">Home</a>\n        <a href=\"#about\">About</a>\n        <a href=\"#contact\">Contact</a>\n    </nav>\n</header>\n```\n\nThe `<nav>` tag semantically indicates that the content is for navigation purposes.",
     "type": "html",
-    "tags": ["html", "nav", "navigation", "header", "semantic"]
+    "tags": ["html", "semantic"]
   },
   {
     "question": "What HTML tag do you use for blog posts and how do you divide into sections?",
     "answer": "Use the `<article>` tag for blog posts and `<section>` tags to divide into sections:\n\n```html\n<article>\n    <h2>Blog Post Title</h2>\n    \n    <section>\n        <h3>Introduction</h3>\n        <p>Introduction content...</p>\n    </section>\n    \n    <section>\n        <h3>Main Content</h3>\n        <p>Main content...</p>\n    </section>\n    \n    <section>\n        <h3>Conclusion</h3>\n        <p>Conclusion content...</p>\n    </section>\n</article>\n```",
     "type": "html",
-    "tags": ["html", "article", "section", "blog", "semantic"]
+    "tags": ["html", "semantic"]
   },
   {
     "question": "What HTML tag do you use to show content that's not directly related to the main site?",
     "answer": "Use the `<aside>` tag for content not directly related to the main site:\n\n```html\n<main>\n    <article>\n        <h2>Main Article</h2>\n        <p>Main content...</p>\n    </article>\n    \n    <aside>\n        <h3>Related Links</h3>\n        <ul>\n            <li><a href=\"#\">Related Article 1</a></li>\n            <li><a href=\"#\">Related Article 2</a></li>\n        </ul>\n        \n        <h3>Advertisement</h3>\n        <p>Ad content...</p>\n    </aside>\n</main>\n```\n\nCommon uses: sidebars, advertisements, related links, author info.",
     "type": "html",
-    "tags": ["html", "aside", "sidebar", "semantic", "related-content"]
+    "tags": ["html", "semantic"]
   }
 ]
