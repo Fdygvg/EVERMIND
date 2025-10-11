@@ -18,6 +18,22 @@
   {
     "question": "What is the smallest country in the world?",
     "answer": "Vatican City (0.44 square kilometers)"
+  },
+  {
+    "question": "How hot is lightning compared to the sun?",
+    "answer": "Lightning is hotter than the sun! A lightning bolt can reach 30,000°C (54,000°F) — five times hotter than the surface of the Sun."
+  },
+  {
+    "question": "Can dogs smell time?",
+    "answer": "Yes! Dogs can smell time. They can sense how long ago something happened by detecting how scent particles fade in the air."
+  },
+  {
+    "question": "Are bananas radioactive?",
+    "answer": "Yes, bananas are radioactive! They contain potassium-40, a naturally radioactive isotope — but you'd need to eat 10 million bananas at once to get sick."
+  },
+  {
+    "question": "Is there a place on Earth where sound can kill you?",
+    "answer": "Yes! There's a 'quiet place' on Earth where sound can kill you. The world's quietest room (an anechoic chamber at Microsoft) absorbs 99.99% of sound — people start hallucinating after a few minutes inside."
   }
 ]
 

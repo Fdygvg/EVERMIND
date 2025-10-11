@@ -250,5 +250,77 @@
     "word": "食べたい",
     "language": "japanese",
     "answer": "Translated: 食べたい | Pronounced: tah-beh-tai"
+  },
+  {
+    "question": "How do you say 'shut up' in Igbo?",
+    "word": "kwụsị ikwu",
+    "language": "igbo",
+    "answer": "Translated: kwụsị ikwu | Pronounced: kwee-SEE ee-KWOO"
+  },
+  {
+    "question": "How do you say 'shut up' in Yoruba?",
+    "word": "dakẹ́",
+    "language": "yoruba",
+    "answer": "Translated: dakẹ́ | Pronounced: dah-KEH"
+  },
+  {
+    "question": "How do you say 'shut up' in Hausa?",
+    "word": "yi shiru",
+    "language": "hausa",
+    "answer": "Translated: yi shiru | Pronounced: yee SHEE-roo"
+  },
+  {
+    "question": "How do you say 'shut up' in Spanish?",
+    "word": "cállate",
+    "language": "spanish",
+    "answer": "Translated: cállate | Pronounced: KAH-yah-teh"
+  },
+  {
+    "question": "How do you say 'shut up' in French?",
+    "word": "tais-toi",
+    "language": "french",
+    "answer": "Translated: tais-toi | Pronounced: teh-TWAH"
+  },
+  {
+    "question": "How do you say 'shut up' in Japanese?",
+    "word": "黙れ",
+    "language": "japanese",
+    "answer": "Translated: 黙れ | Pronounced: dah-mah-reh"
+  },
+  {
+    "question": "How do you say 'don't worry' in Igbo?",
+    "word": "echegbula",
+    "language": "igbo",
+    "answer": "Translated: echegbula | Pronounced: eh-CHAY-boo-lah"
+  },
+  {
+    "question": "How do you say 'don't worry' in Yoruba?",
+    "word": "má ṣàníyàn",
+    "language": "yoruba",
+    "answer": "Translated: má ṣàníyàn | Pronounced: mah SHAH-nee-yahn"
+  },
+  {
+    "question": "How do you say 'don't worry' in Hausa?",
+    "word": "kar ka damu / kar ki damu",
+    "language": "hausa",
+    "answer": "Translated: kar ka damu / kar ki damu | Pronounced: kar kah DAH-moo / kar kee DAH-moo"
+  },
+  {
+    "question": "How do you say 'don't worry' in Spanish?",
+    "word": "no te preocupes",
+    "language": "spanish",
+    "answer": "Translated: no te preocupes | Pronounced: noh teh preh-oh-KOO-pehs"
+  },
+  {
+    "question": "How do you say 'don't worry' in French?",
+    "word": "ne t'en fais pas",
+    "language": "french",
+    "answer": "Translated: ne t'en fais pas | Pronounced: nuh-tawn-FEH-pah"
+  },
+  {
+    "question": "How do you say 'don't worry' in Japanese?",
+    "word": "心配しないで",
+    "language": "japanese",
+    "answer": "Translated: 心配しないで | Pronounced: sheen-pai shee-NAI-deh"
   }
 ]
