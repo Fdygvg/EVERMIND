@@ -1141,19 +1141,49 @@ const sections = [
 ];
 
 async function loadAllSections() {
+    const API_BASE_URL = 'http://localhost:5000/api';
+    
     for (const section of sections) {
         try {
-            const response = await fetch(`data/${section.id}.json`);
+            // Try to load from API first
+            console.log(`🔄 Attempting to load ${section.id} from API...`);
+            const response = await fetch(`${API_BASE_URL}/questions?section=${section.id}`);
+            console.log(`📡 API response for ${section.id}:`, response.status, response.ok);
             if (response.ok) {
-                state.allQuestions[section.id] = await response.json();
-                console.log(`✅ Loaded ${section.id}: ${state.allQuestions[section.id].length} questions`);
+                const data = await response.json();
+                console.log(`📊 API data for ${section.id}:`, data.success, data.count, 'questions');
+                if (data.success) {
+                    state.allQuestions[section.id] = data.data;
+                    console.log(`✅ Loaded ${section.id} from API: ${state.allQuestions[section.id].length} questions`);
+                    continue;
+                }
+            }
+            
+            // Fallback to local JSON if API fails
+            console.log(`⚠️ API failed for ${section.id}, trying local JSON...`);
+            const localResponse = await fetch(`data/${section.id}.json`);
+            if (localResponse.ok) {
+                state.allQuestions[section.id] = await localResponse.json();
+                console.log(`✅ Loaded ${section.id} from local JSON: ${state.allQuestions[section.id].length} questions`);
             } else {
                 state.allQuestions[section.id] = [];
-                console.warn(`⚠️ Could not load ${section.id}.json - Status: ${response.status}`);
+                console.warn(`⚠️ Could not load ${section.id}.json - Status: ${localResponse.status}`);
             }
         } catch (error) {
-            state.allQuestions[section.id] = [];
             console.error(`❌ Error loading ${section.id}:`, error);
+            // Try local JSON as last resort
+            try {
+                const localResponse = await fetch(`data/${section.id}.json`);
+                if (localResponse.ok) {
+                    state.allQuestions[section.id] = await localResponse.json();
+                    console.log(`✅ Fallback loaded ${section.id} from local JSON: ${state.allQuestions[section.id].length} questions`);
+                } else {
+                    state.allQuestions[section.id] = [];
+                }
+            } catch (fallbackError) {
+                console.error(`❌ Fallback also failed for ${section.id}:`, fallbackError);
+                state.allQuestions[section.id] = [];
+            }
         }
     }
     console.log('📊 All sections loaded:', state.allQuestions);
@@ -1162,9 +1192,24 @@ async function loadAllSections() {
 
 async function loadSectionData(sectionId) {
     if (!state.allQuestions[sectionId]) {
+        const API_BASE_URL = 'http://localhost:5000/api';
+        
         try {
-            const response = await fetch(`data/${sectionId}.json`);
-            state.allQuestions[sectionId] = await response.json();
+            // Try to load from API first
+            const response = await fetch(`${API_BASE_URL}/questions?section=${sectionId}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    state.allQuestions[sectionId] = data.data;
+                    console.log(`✅ Loaded ${sectionId} from API: ${state.allQuestions[sectionId].length} questions`);
+                    return state.allQuestions[sectionId];
+                }
+            }
+            
+            // Fallback to local JSON
+            const localResponse = await fetch(`data/${sectionId}.json`);
+            state.allQuestions[sectionId] = await localResponse.json();
+            console.log(`✅ Loaded ${sectionId} from local JSON: ${state.allQuestions[sectionId].length} questions`);
         } catch (error) {
             console.error(`Error loading ${sectionId}:`, error);
             state.allQuestions[sectionId] = [];
@@ -1384,7 +1429,8 @@ function displayQuestions(questions) {
             }
             
             if (q.audio) {
-                content += `<br><audio controls src="${q.audio}"></audio>`;
+                // Remove audio player - only show speaker button
+                // content += `<br><audio controls src="${q.audio}"></audio>`;
             }
         }
         
@@ -1681,7 +1727,12 @@ function displayCurrentQuestion() {
         revisionMode: state.revisionMode,
         questionData: question,
         hasQuestion: !!question,
-        questionKeys: question ? Object.keys(question) : 'no question'
+        questionKeys: question ? Object.keys(question) : 'no question',
+        hasWord: question ? !!question.word : false,
+        hasLanguage: question ? !!question.language : false,
+        wordValue: question ? question.word : 'no word',
+        languageValue: question ? question.language : 'no language',
+        typeValue: question ? question.type : 'no type'
     });
     
     if (state.revisionMode === 'global' || state.revisionMode === 'bookmarked') {
@@ -1709,41 +1760,80 @@ function displayCurrentQuestion() {
     }
     
     // Handle different question types
-    if (question.language && question.word) {
+    console.log('🔍 DEBUG: Checking question type conditions...');
+    
+    // Extract word and language from database structure for language questions
+    let extractedWord = null;
+    let extractedLanguage = null;
+    
+    if (question.type === 'languages' && question.answer) {
+        // Extract the translated word from the answer field
+        // Format: "Translated: お元気ですか | Pronounced: oh-gen-kee dess ka"
+        const translatedMatch = question.answer.match(/Translated:\s*([^|]+)/);
+        if (translatedMatch) {
+            extractedWord = translatedMatch[1].trim();
+        }
+        
+        // Extract language from the question text
+        // Format: "How do you say 'How are you?' in Japanese?"
+        const languageMatch = question.question.match(/in\s+(\w+)\?/i);
+        if (languageMatch) {
+            extractedLanguage = languageMatch[1].toLowerCase();
+        }
+        
+        console.log('🔍 DEBUG: Extracted from database:', { 
+            extractedWord, 
+            extractedLanguage, 
+            originalAnswer: question.answer,
+            originalQuestion: question.question 
+        });
+    }
+    
+    if (question.type === 'languages' && extractedWord && extractedLanguage) {
+        console.log('✅ DEBUG: Language question detected - extracted word and language');
         // Languages section - special styling for revision mode
         // Show only the English question, hide the translation and pronunciation until answer is revealed
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
         
-        // Add speaker button for language questions in revision mode (only Web Speech API languages)
-        const webSpeechLanguages = ['french', 'spanish', 'japanese'];
-        if (webSpeechLanguages.includes(question.language.toLowerCase())) {
-            const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
-            const safeLang = question.language.replace(/'/g, "\\'").replace(/"/g, '\\"');
-            questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${safeWord}', '${safeLang}')" title="Play pronunciation">🔊</button>`;
-        }
+        // Add speaker button for language questions in revision mode
+        console.log('🔊 Adding speaker button for language question:', extractedWord, extractedLanguage);
+        const safeWord = extractedWord.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        const safeLang = extractedLanguage.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${safeWord}', '${safeLang}')" title="Play pronunciation">🔊</button>`;
     } else if (question.word && !question.language) {
+        console.log('✅ DEBUG: New words question detected - word present, no language');
         // New Words section - show the question initially
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
         
         // Add speaker button for new words
-        questionHtml = `<button class="speaker-btn" onclick="speakWord('${escapeHtml(question.word)}')" title="Hear pronunciation">🔊</button>` + questionHtml;
+        if (question.word) {
+            const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            questionHtml += ` <button class="speaker-btn" onclick="speakWord('${safeWord}')" title="Hear pronunciation">🔊</button>`;
+        }
     } else if (question.title && question.summary) {
+        console.log('✅ DEBUG: YouTube question detected - title and summary present');
         // YouTube Knowledge section - show only the title initially
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">🎥 ${escapeHtml(question.title)}</h3>`;
     } else if (question.term) {
+        console.log('✅ DEBUG: Memes question detected - term present');
         // Memes & Brain Rot section - show the question initially
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
         
         // Add speaker button for memes & brain rot terms
-        const safeTerm = question.term.replace(/'/g, "\\'").replace(/"/g, '\\"');
-        questionHtml += ` <button class="speaker-btn" onclick="speakTerm('${safeTerm}')" title="Hear term">🔊</button>`;
+        if (question.term) {
+            const safeTerm = question.term.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            questionHtml += ` <button class="speaker-btn" onclick="speakTerm('${safeTerm}')" title="Hear term">🔊</button>`;
+        }
     } else {
+        console.log('✅ DEBUG: Standard question detected - using default format');
         // Standard question format - apply consistent styling to all sections
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px; font-weight: 600;">${escapeHtml(question.question || question.q || '')}</h3>`;
         
         if (question.image) {
             questionHtml += `<br><img src="${question.image}" alt="Question" class="question-image">`;
         }
+        
+        // Audio handled by specific question types above
     }
     
     console.log('🔍 DEBUG: Final question HTML before setting innerHTML:', questionHtml);
@@ -1865,9 +1955,10 @@ function displayCurrentQuestion() {
         }
     }
     
-    if (question.audio) {
-        answerHtml += `<br><audio controls src="${question.audio}"></audio>`;
-    }
+        // Remove audio player from answer - only show speaker button
+        // if (question.audio) {
+        //     answerHtml += `<br><audio controls src="${question.audio}"></audio>`;
+        // }
     
     answerContent.innerHTML = answerHtml;
     
@@ -2562,8 +2653,70 @@ function speakTerm(term) {
     }
 }
 
+/**
+ * Play audio from URL (for database audio field) - Use Web Speech API with translated word
+ */
+function playQuestionAudio(audioUrl) {
+    try {
+        // Use Web Speech API to speak the translated word from the answer
+        if ('speechSynthesis' in window) {
+            // Get the current question from state
+            const question = state.revisionQuestions[0];
+            if (!question) return;
+            
+            // Extract the translated word from the answer
+            let wordToSpeak = '';
+            let languageCode = 'en-US'; // Default
+            
+            if (question.word && question.language) {
+                // For language questions, use the translated word
+                wordToSpeak = question.word;
+                
+                // Set language code based on the language
+                const lang = question.language.toLowerCase();
+                if (lang === 'spanish') {
+                    languageCode = 'es-ES';
+                } else if (lang === 'french') {
+                    languageCode = 'fr-FR';
+                } else if (lang === 'japanese') {
+                    languageCode = 'ja-JP';
+                } else if (lang === 'igbo') {
+                    languageCode = 'ig-NG';
+                } else if (lang === 'yoruba') {
+                    languageCode = 'yo-NG';
+                } else if (lang === 'hausa') {
+                    languageCode = 'ha-NG';
+                }
+            } else if (question.word && !question.language) {
+                // For new words, speak the word
+                wordToSpeak = question.word;
+                languageCode = 'en-US';
+            } else if (question.term) {
+                // For memes, speak the term
+                wordToSpeak = question.term;
+                languageCode = 'en-US';
+            }
+            
+            if (wordToSpeak) {
+                const utterance = new SpeechSynthesisUtterance(wordToSpeak);
+                utterance.lang = languageCode;
+                utterance.rate = 0.8;
+                utterance.pitch = 1.0;
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
+            window.SoundEffects.playSound('click');
+        }
+    } catch (error) {
+        console.error('Error playing audio:', error);
+    }
+}
+
 window.speakWord = speakWord;
 window.speakTerm = speakTerm;
+window.playQuestionAudio = playQuestionAudio;
 
 // ==================== AUTO-SAVE FOR GLOBAL REVISION ====================
 function saveRevisionState() {
