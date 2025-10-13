@@ -1,4 +1,4 @@
-﻿// ==================== STATE MANAGEMENT ====================
+// ==================== STATE MANAGEMENT ====================
 const state = {
     currentSection: null,
     allQuestions: {},
@@ -1238,6 +1238,9 @@ function exitRevision() {
     // Stop timer
     stopRevisionTimer();
     
+    // Stop the persistent timer
+    stopTimer();
+    
     if (state.revisionMode === 'bookmarked') {
         // Return to bookmark section view (not homepage)
         showPage('sectionView');
@@ -1631,6 +1634,9 @@ function startRevision() {
     // Start timer for all revision modes
     startRevisionTimer();
     
+    // Start the persistent timer
+    startTimer();
+    
     // Reset bookmark button state
     const bookmarkBtn = document.getElementById('bookmarkBtn');
     if (bookmarkBtn) {
@@ -1836,6 +1842,13 @@ function displayCurrentQuestion() {
         // Audio handled by specific question types above
     }
     
+    // Add copy button for question
+    questionHtml += `<div class="question-copy-section" style="margin-top: 15px;">
+        <button class="btn btn--primary btn-copy-question" onclick="copyQuestion()" title="Copy question">
+            📋 Copy Question
+        </button>
+    </div>`;
+    
     console.log('🔍 DEBUG: Final question HTML before setting innerHTML:', questionHtml);
     questionContent.innerHTML = questionHtml;
     
@@ -1927,7 +1940,7 @@ function displayCurrentQuestion() {
     }
     
     // Add code editor button for programming questions in revision mode (only for actual code questions)
-    if (question.answer && state.currentSection === 'programming') {
+    if (question.answer && (state.currentSection === 'programming' || question.section === 'programming')) {
         const isCodeQuestion = question.answer.includes('\n') && (
             question.answer.includes('git ') || 
             question.answer.includes('npm ') || 
@@ -1959,6 +1972,16 @@ function displayCurrentQuestion() {
         // if (question.audio) {
         //     answerHtml += `<br><audio controls src="${question.audio}"></audio>`;
         // }
+    
+    // Add copy buttons for answer
+    answerHtml += `<div class="answer-copy-section" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+        <button class="btn btn--success btn-copy-answer" onclick="copyAnswer()" title="Copy answer">
+            📋 Copy Answer
+        </button>
+        <button class="btn btn--primary btn-copy-qa" onclick="copyQuestionAndAnswer()" title="Copy question and answer">
+            📋 Copy Q+A
+        </button>
+    </div>`;
     
     answerContent.innerHTML = answerHtml;
     
@@ -2218,6 +2241,12 @@ function showCompletionMessage() {
                 </div>
                 
                 <p style="font-size: 1.2rem; opacity: 0.8;">You've completed all questions in this revision session!</p>
+                
+                <div style="margin-top: 30px;">
+                    <button class="btn btn--primary" onclick="exitRevision()" style="font-size: 1.1rem; padding: 15px 30px;">
+                        Close
+                    </button>
+                </div>
             </div>
         `;
     } else {
@@ -2226,6 +2255,12 @@ function showCompletionMessage() {
         <div style="text-align: center; padding: 40px;">
             <h2 style="font-size: 3rem; margin-bottom: 20px;">🎉 Congratulations!</h2>
             <p style="font-size: 1.5rem;">You've completed all questions in this revision session!</p>
+            
+            <div style="margin-top: 30px;">
+                <button class="btn btn--primary" onclick="exitRevision()" style="font-size: 1.1rem; padding: 15px 30px;">
+                    Close
+                </button>
+            </div>
         </div>
     `;
     }
@@ -2244,10 +2279,54 @@ function showCompletionMessage() {
         clearBookmarkRevisionState();
     }
     
-    // Optionally auto-exit after a few seconds
-    setTimeout(() => {
-        exitRevision();
-    }, 3000);
+    // Start inactivity timer (30 minutes)
+    startInactivityTimer();
+}
+
+let inactivityTimer = null;
+
+function startInactivityTimer() {
+    // Clear any existing timer
+    if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+    }
+    
+    // Set timer for 30 minutes (30 * 60 * 1000 ms)
+    inactivityTimer = setTimeout(() => {
+        showInactivityPrompt();
+    }, 30 * 60 * 1000);
+}
+
+function showInactivityPrompt() {
+    const questionCard = document.getElementById('questionCard');
+    const currentContent = questionCard.innerHTML;
+    
+    const inactivityHTML = `
+        <div style="text-align: center; padding: 40px;">
+            <h2 style="font-size: 2rem; margin-bottom: 20px;">⏰ Inactivity Notice</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">
+                You've been on the completion page for 30 minutes. Would you like to continue or close the session?
+            </p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn--primary" onclick="continueSession()" style="font-size: 1rem; padding: 12px 24px;">
+                    Continue Session
+                </button>
+                <button class="btn btn--nav" onclick="exitRevision()" style="font-size: 1rem; padding: 12px 24px;">
+                    Close Session
+                </button>
+            </div>
+        </div>
+    `;
+    
+    questionCard.innerHTML = inactivityHTML;
+}
+
+function continueSession() {
+    // Restart the inactivity timer
+    startInactivityTimer();
+    
+    // Show the completion message again
+    showCompletionMessage();
 }
 
 function resetRevision() {
@@ -2513,9 +2592,61 @@ function addAIMessage(role, content) {
     const messagesContainer = document.getElementById('aiChatMessages');
     const messageDiv = document.createElement('div');
     messageDiv.className = `ai-message ${role}`;
-    messageDiv.textContent = content;
+    
+    // Format content with proper paragraphing and code blocks
+    const formattedContent = formatAIContent(content);
+    messageDiv.innerHTML = formattedContent;
+    
     messagesContainer.appendChild(messageDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function formatAIContent(content) {
+    if (!content) return '';
+    
+    // Split content into paragraphs (double newlines)
+    const paragraphs = content.split(/\n\s*\n/);
+    
+    let formatted = '';
+    
+    for (let paragraph of paragraphs) {
+        if (paragraph.trim()) {
+            // Check if paragraph contains code blocks
+            if (paragraph.includes('```')) {
+                // Handle code blocks
+                const parts = paragraph.split('```');
+                let processedParagraph = '';
+                
+                for (let i = 0; i < parts.length; i++) {
+                    if (i % 2 === 0) {
+                        // Regular text - convert single newlines to <br>
+                        processedParagraph += parts[i].replace(/\n/g, '<br>');
+                    } else {
+                        // Code block
+                        const code = parts[i].trim();
+                        const language = code.split('\n')[0] || '';
+                        const codeContent = code.split('\n').slice(1).join('\n');
+                        
+                        processedParagraph += `<pre class="ai-codeblock"><code class="language-${language}">${escapeHtml(codeContent)}</code></pre>`;
+                    }
+                }
+                
+                formatted += `<p class="ai-paragraph">${processedParagraph}</p>`;
+            } else {
+                // Regular paragraph - convert single newlines to <br>
+                const processedParagraph = paragraph.replace(/\n/g, '<br>');
+                formatted += `<p class="ai-paragraph">${processedParagraph}</p>`;
+            }
+        }
+    }
+    
+    return formatted;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 async function sendAIMessage() {
@@ -3169,4 +3300,869 @@ function resumeSavedProgress() {
         continueBtn.style.display = 'none';
     }
 }
+
+// ==================== COPY FUNCTIONALITY ====================
+function copyQuestion() {
+    const question = state.revisionQuestions[0];
+    if (!question) return;
+    
+    let questionText = '';
+    
+    // Build question text based on question type
+    if (question.word && question.language) {
+        questionText = `Question: ${question.question || ''}`;
+    } else if (question.word && !question.language) {
+        questionText = `Question: ${question.question || ''}`;
+    } else if (question.title && question.summary) {
+        questionText = `Question: ${question.title}`;
+    } else if (question.term) {
+        questionText = `Question: ${question.question || ''}`;
+    } else {
+        questionText = `Question: ${question.question || question.q || ''}`;
+    }
+    
+    copyToClipboard(questionText, 'Question copied to clipboard!');
+}
+
+function copyAnswer() {
+    const question = state.revisionQuestions[0];
+    if (!question || !question.answer) return;
+    
+    let answerText = `Answer: ${question.answer}`;
+    copyToClipboard(answerText, 'Answer copied to clipboard!');
+}
+
+function copyQuestionAndAnswer() {
+    const question = state.revisionQuestions[0];
+    if (!question) return;
+    
+    let questionText = '';
+    let answerText = '';
+    
+    // Build question text based on question type
+    if (question.word && question.language) {
+        questionText = `Question: ${question.question || ''}`;
+    } else if (question.word && !question.language) {
+        questionText = `Question: ${question.question || ''}`;
+    } else if (question.title && question.summary) {
+        questionText = `Question: ${question.title}`;
+    } else if (question.term) {
+        questionText = `Question: ${question.question || ''}`;
+    } else {
+        questionText = `Question: ${question.question || question.q || ''}`;
+    }
+    
+    if (question.answer) {
+        answerText = `Answer: ${question.answer}`;
+    }
+    
+    const fullText = `${questionText}\n\n${answerText}`;
+    copyToClipboard(fullText, 'Question and answer copied to clipboard!');
+}
+
+function copyToClipboard(text, successMessage) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast(successMessage, 'success');
+    }).catch(() => {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast(successMessage, 'success');
+    });
+}
+
+// ==================== TIMER FUNCTIONALITY ====================
+let timerState = {
+    sessionId: null,
+    startTime: null,
+    accumulatedMs: 0,
+    isRunning: false,
+    intervalId: null,
+    lastSyncTime: null
+};
+
+// Timer API functions
+async function startTimer() {
+    try {
+        const sessionId = `revision_${Date.now()}`;
+        timerState.sessionId = sessionId;
+        
+        const response = await fetch(`${API_BASE}/timers/start`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-user-id': 'default-user-id'
+            },
+            body: JSON.stringify({ sessionId })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        timerState.startTime = new Date(data.data.startedAt);
+        timerState.accumulatedMs = data.data.accumulatedMs || 0;
+        timerState.isRunning = true;
+        timerState.lastSyncTime = Date.now();
+        
+        startTimerInterval();
+        console.log('Timer started successfully');
+    } catch (error) {
+        console.error('Error starting timer:', error);
+        // Fallback to local timer
+        timerState.startTime = new Date();
+        timerState.accumulatedMs = 0;
+        timerState.isRunning = true;
+        startTimerInterval();
+    }
+}
+
+async function pauseTimer() {
+    try {
+        if (!timerState.sessionId) return;
+        
+        const response = await fetch(`${API_BASE}/timers/pause`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-user-id': 'default-user-id'
+            },
+            body: JSON.stringify({ sessionId: timerState.sessionId })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            timerState.accumulatedMs = data.data.accumulatedMs;
+        }
+    } catch (error) {
+        console.error('Error pausing timer:', error);
+    }
+    
+    timerState.isRunning = false;
+    if (timerState.intervalId) {
+        clearInterval(timerState.intervalId);
+        timerState.intervalId = null;
+    }
+}
+
+async function resumeTimer() {
+    try {
+        if (!timerState.sessionId) return;
+        
+        const response = await fetch(`${API_BASE}/timers/resume`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-user-id': 'default-user-id'
+            },
+            body: JSON.stringify({ sessionId: timerState.sessionId })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            timerState.startTime = new Date(data.data.startedAt);
+            timerState.accumulatedMs = data.data.accumulatedMs;
+        }
+    } catch (error) {
+        console.error('Error resuming timer:', error);
+        // Fallback to local timer
+        timerState.startTime = new Date();
+    }
+    
+    timerState.isRunning = true;
+    startTimerInterval();
+}
+
+async function stopTimer() {
+    try {
+        if (!timerState.sessionId) return;
+        
+        const response = await fetch(`${API_BASE}/timers/stop`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-user-id': 'default-user-id'
+            },
+            body: JSON.stringify({ sessionId: timerState.sessionId })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            timerState.accumulatedMs = data.data.accumulatedMs;
+        }
+    } catch (error) {
+        console.error('Error stopping timer:', error);
+    }
+    
+    timerState.isRunning = false;
+    if (timerState.intervalId) {
+        clearInterval(timerState.intervalId);
+        timerState.intervalId = null;
+    }
+}
+
+function startTimerInterval() {
+    if (timerState.intervalId) {
+        clearInterval(timerState.intervalId);
+    }
+    
+    timerState.intervalId = setInterval(() => {
+        updateTimerDisplay();
+        
+        // Sync with server every 15 seconds
+        if (Date.now() - timerState.lastSyncTime > 15000) {
+            syncTimerWithServer();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const timerElement = document.getElementById('revisionTimer');
+    if (!timerElement) return;
+    
+    const now = new Date();
+    const elapsedMs = timerState.isRunning ? (now - timerState.startTime) : 0;
+    const totalMs = timerState.accumulatedMs + elapsedMs;
+    
+    const hours = Math.floor(totalMs / (1000 * 60 * 60));
+    const minutes = Math.floor((totalMs % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((totalMs % (1000 * 60)) / 1000);
+    
+    const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    timerElement.textContent = timeString;
+}
+
+async function syncTimerWithServer() {
+    if (!timerState.sessionId || !timerState.isRunning) return;
+    
+    try {
+        const now = new Date();
+        const elapsedMs = now - timerState.startTime;
+        const totalMs = timerState.accumulatedMs + elapsedMs;
+        
+        // Update accumulated time
+        timerState.accumulatedMs = totalMs;
+        timerState.startTime = now;
+        timerState.lastSyncTime = Date.now();
+        
+        console.log('Timer synced with server');
+    } catch (error) {
+        console.error('Error syncing timer:', error);
+    }
+}
+
+// Handle page visibility changes
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        // Page is hidden, pause timer
+        if (timerState.isRunning) {
+            pauseTimer();
+        }
+    } else {
+        // Page is visible, resume timer
+        if (timerState.sessionId && !timerState.isRunning) {
+            resumeTimer();
+        }
+    }
+});
+
+// Handle page unload
+window.addEventListener('beforeunload', () => {
+    if (timerState.isRunning) {
+        stopTimer();
+    }
+});
+
+// ==================== CALENDAR AND ATTENDANCE FUNCTIONALITY ====================
+let calendarState = {
+    currentDate: new Date(),
+    attendanceData: [],
+    stats: {
+        totalDays: 0,
+        currentStreak: 0,
+        thisMonth: 0
+    }
+};
+
+// Calendar API functions
+async function fetchAttendanceData() {
+    try {
+        const response = await fetch(`${API_BASE}/attendance`, {
+            headers: {
+                'x-user-id': 'default-user-id'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        calendarState.attendanceData = data.data.attendance || [];
+        calendarState.stats = data.data.stats || { totalDays: 0, currentStreak: 0, thisMonth: 0 };
+        
+        updateCalendarStats();
+        renderCalendar();
+    } catch (error) {
+        console.error('Error fetching attendance data:', error);
+        showToast('Failed to load attendance data', 'error');
+    }
+}
+
+async function markAttendance(date, source = 'manual') {
+    try {
+        const response = await fetch(`${API_BASE}/attendance`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-user-id': 'default-user-id'
+            },
+            body: JSON.stringify({ date, source })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Update local state
+        const existingIndex = calendarState.attendanceData.findIndex(a => 
+            new Date(a.date).toDateString() === new Date(date).toDateString()
+        );
+        
+        if (existingIndex === -1) {
+            calendarState.attendanceData.push(data.data);
+        } else {
+            calendarState.attendanceData[existingIndex] = data.data;
+        }
+        
+        // Refresh calendar and stats
+        await fetchAttendanceData();
+        showToast('Attendance marked successfully!', 'success');
+    } catch (error) {
+        console.error('Error marking attendance:', error);
+        showToast('Failed to mark attendance', 'error');
+    }
+}
+
+// Calendar UI functions
+function openCalendarModal() {
+    const modal = document.getElementById('calendarModal');
+    modal.style.display = 'flex';
+    fetchAttendanceData();
+}
+
+function closeCalendarModal() {
+    const modal = document.getElementById('calendarModal');
+    modal.style.display = 'none';
+}
+
+function updateCalendarStats() {
+    document.getElementById('totalDays').textContent = calendarState.stats.totalDays;
+    document.getElementById('currentStreak').textContent = calendarState.stats.currentStreak;
+    document.getElementById('thisMonth').textContent = calendarState.stats.thisMonth;
+}
+
+function renderCalendar() {
+    const calendarGrid = document.getElementById('calendarGrid');
+    const monthYear = document.getElementById('calendarMonthYear');
+    
+    const year = calendarState.currentDate.getFullYear();
+    const month = calendarState.currentDate.getMonth();
+    
+    monthYear.textContent = calendarState.currentDate.toLocaleDateString('en-US', { 
+        month: 'long', 
+        year: 'numeric' 
+    });
+    
+    // Clear previous content
+    calendarGrid.innerHTML = '';
+    
+    // Add day names header
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    dayNames.forEach(day => {
+        const dayNameDiv = document.createElement('div');
+        dayNameDiv.className = 'day-name';
+        dayNameDiv.textContent = day;
+        calendarGrid.appendChild(dayNameDiv);
+    });
+    
+    // Get first day of month and number of days
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = firstDay.getDay();
+    
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < startingDayOfWeek; i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.className = 'calendar-day other-month';
+        calendarGrid.appendChild(emptyDay);
+    }
+    
+    // Add days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'calendar-day';
+        dayDiv.textContent = day;
+        
+        const currentDate = new Date(year, month, day);
+        const today = new Date();
+        
+        // Check if this is today
+        if (currentDate.toDateString() === today.toDateString()) {
+            dayDiv.classList.add('today');
+        }
+        
+        // Check if this day has attendance
+        const hasAttendance = calendarState.attendanceData.some(attendance => {
+            const attendanceDate = new Date(attendance.date);
+            return attendanceDate.toDateString() === currentDate.toDateString();
+        });
+        
+        if (hasAttendance) {
+            dayDiv.classList.add('visited');
+        }
+        
+        // Add click handler to toggle attendance
+        dayDiv.addEventListener('click', () => {
+            if (hasAttendance) {
+                // Remove attendance
+                removeAttendance(currentDate);
+            } else {
+                // Add attendance
+                markAttendance(currentDate.toISOString().split('T')[0]);
+            }
+        });
+        
+        calendarGrid.appendChild(dayDiv);
+    }
+    
+    // Add empty cells for days after the last day of the month
+    const totalCells = calendarGrid.children.length;
+    const remainingCells = 42 - totalCells; // 6 rows * 7 days = 42 cells
+    for (let i = 0; i < remainingCells; i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.className = 'calendar-day other-month';
+        calendarGrid.appendChild(emptyDay);
+    }
+}
+
+function previousMonth() {
+    calendarState.currentDate.setMonth(calendarState.currentDate.getMonth() - 1);
+    renderCalendar();
+}
+
+function nextMonth() {
+    calendarState.currentDate.setMonth(calendarState.currentDate.getMonth() + 1);
+    renderCalendar();
+}
+
+async function removeAttendance(date) {
+    try {
+        // Find the attendance record for this date
+        const attendance = calendarState.attendanceData.find(a => {
+            const attendanceDate = new Date(a.date);
+            return attendanceDate.toDateString() === date.toDateString();
+        });
+        
+        if (!attendance) return;
+        
+        const response = await fetch(`${API_BASE}/attendance/${attendance._id}`, {
+            method: 'DELETE',
+            headers: {
+                'x-user-id': 'default-user-id'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        // Update local state
+        calendarState.attendanceData = calendarState.attendanceData.filter(a => a._id !== attendance._id);
+        
+        // Refresh calendar and stats
+        await fetchAttendanceData();
+        showToast('Attendance removed', 'success');
+    } catch (error) {
+        console.error('Error removing attendance:', error);
+        showToast('Failed to remove attendance', 'error');
+    }
+}
+
+// Auto-mark attendance when user visits the workspace
+function markDailyAttendance() {
+    const today = new Date().toISOString().split('T')[0];
+    const lastVisit = localStorage.getItem('lastVisitDate');
+    
+    if (lastVisit !== today) {
+        markAttendance(today, 'auto');
+        localStorage.setItem('lastVisitDate', today);
+    }
+}
+
+// ==================== NOTES FUNCTIONALITY ====================
+let notesState = {
+    notes: [],
+    currentNote: null,
+    searchQuery: '',
+    isLoading: false
+};
+
+// API base URL
+const API_BASE = 'http://localhost:5001/api';
+
+// Notes API functions
+async function fetchNotes() {
+    try {
+        notesState.isLoading = true;
+        showNotesLoading();
+        
+        const response = await fetch(`${API_BASE}/notes`, {
+            headers: {
+                'x-user-id': 'default-user-id' // In production, this would come from auth
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        notesState.notes = data.data || [];
+        renderNotes();
+    } catch (error) {
+        console.error('Error fetching notes:', error);
+        showNotesError('Failed to load notes. Please try again.');
+    } finally {
+        notesState.isLoading = false;
+        hideNotesLoading();
+    }
+}
+
+async function createNote(content) {
+    try {
+        const response = await fetch(`${API_BASE}/notes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-user-id': 'default-user-id'
+            },
+            body: JSON.stringify({ content })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        notesState.notes.unshift(data.data);
+        renderNotes();
+        showToast('Note created successfully!', 'success');
+    } catch (error) {
+        console.error('Error creating note:', error);
+        showToast('Failed to create note. Please try again.', 'error');
+    }
+}
+
+async function updateNote(noteId, content) {
+    try {
+        const response = await fetch(`${API_BASE}/notes/${noteId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-user-id': 'default-user-id'
+            },
+            body: JSON.stringify({ content })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const index = notesState.notes.findIndex(note => note._id === noteId);
+        if (index !== -1) {
+            notesState.notes[index] = data.data;
+            renderNotes();
+        }
+        showToast('Note updated successfully!', 'success');
+    } catch (error) {
+        console.error('Error updating note:', error);
+        showToast('Failed to update note. Please try again.', 'error');
+    }
+}
+
+async function deleteNote(noteId) {
+    try {
+        const response = await fetch(`${API_BASE}/notes/${noteId}`, {
+            method: 'DELETE',
+            headers: {
+                'x-user-id': 'default-user-id'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        notesState.notes = notesState.notes.filter(note => note._id !== noteId);
+        renderNotes();
+        showToast('Note deleted successfully!', 'success');
+    } catch (error) {
+        console.error('Error deleting note:', error);
+        showToast('Failed to delete note. Please try again.', 'error');
+    }
+}
+
+// Notes UI functions
+function openNotesModal() {
+    const modal = document.getElementById('notesModal');
+    modal.style.display = 'flex';
+    fetchNotes();
+}
+
+function closeNotesModal() {
+    const modal = document.getElementById('notesModal');
+    modal.style.display = 'none';
+    notesState.currentNote = null;
+}
+
+function createNewNote() {
+    notesState.currentNote = null;
+    document.getElementById('noteEditContent').value = '';
+    document.getElementById('noteEditTitle').textContent = 'New Note';
+    document.getElementById('noteEditModal').style.display = 'flex';
+}
+
+function editNote(noteId) {
+    const note = notesState.notes.find(n => n._id === noteId);
+    if (!note) return;
+    
+    notesState.currentNote = note;
+    document.getElementById('noteEditContent').value = note.content;
+    document.getElementById('noteEditTitle').textContent = 'Edit Note';
+    document.getElementById('noteEditModal').style.display = 'flex';
+}
+
+function closeNoteEditModal() {
+    document.getElementById('noteEditModal').style.display = 'none';
+    notesState.currentNote = null;
+}
+
+function saveNote() {
+    const content = document.getElementById('noteEditContent').value.trim();
+    
+    if (!content) {
+        showToast('Note content cannot be empty!', 'error');
+        return;
+    }
+    
+    if (notesState.currentNote) {
+        updateNote(notesState.currentNote._id, content);
+    } else {
+        createNote(content);
+    }
+    
+    closeNoteEditModal();
+}
+
+function deleteNote() {
+    if (!notesState.currentNote) return;
+    
+    if (confirm('Are you sure you want to delete this note?')) {
+        deleteNote(notesState.currentNote._id);
+        closeNoteEditModal();
+    }
+}
+
+function copyNoteContent(noteId) {
+    const note = notesState.notes.find(n => n._id === noteId);
+    if (!note) return;
+    
+    navigator.clipboard.writeText(note.content).then(() => {
+        showToast('Note copied to clipboard!', 'success');
+    }).catch(() => {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = note.content;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast('Note copied to clipboard!', 'success');
+    });
+}
+
+function searchNotes() {
+    const query = document.getElementById('notesSearch').value.toLowerCase();
+    notesState.searchQuery = query;
+    renderNotes();
+}
+
+function renderNotes() {
+    const container = document.getElementById('notesList');
+    if (!container) return;
+    
+    let filteredNotes = notesState.notes;
+    
+    if (notesState.searchQuery) {
+        filteredNotes = notesState.notes.filter(note => 
+            note.content.toLowerCase().includes(notesState.searchQuery)
+        );
+    }
+    
+    if (filteredNotes.length === 0) {
+        container.innerHTML = `
+            <div class="empty-notes">
+                <h3>${notesState.searchQuery ? 'No notes found' : 'No notes yet'}</h3>
+                <p>${notesState.searchQuery ? 'Try a different search term' : 'Create your first note to get started!'}</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = filteredNotes.map(note => `
+        <div class="note-card">
+            <div class="note-content">${formatNoteContent(note.content)}</div>
+            <div class="note-meta">
+                <span>Created: ${formatDate(note.createdAt)}</span>
+                <span>Updated: ${formatDate(note.updatedAt)}</span>
+            </div>
+            <div class="note-toolbar">
+                <button class="btn-copy" onclick="copyNoteContent('${note._id}')">Copy</button>
+                <button class="btn-edit" onclick="editNote('${note._id}')">Edit</button>
+                <button class="btn-delete" onclick="deleteNote('${note._id}')">Delete</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function formatNoteContent(content) {
+    // Convert markdown-like formatting to HTML
+    return content
+        .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\n/g, '<br>');
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+}
+
+function showNotesLoading() {
+    const loading = document.getElementById('notesLoading');
+    if (loading) loading.style.display = 'block';
+}
+
+function hideNotesLoading() {
+    const loading = document.getElementById('notesLoading');
+    if (loading) loading.style.display = 'none';
+}
+
+function showNotesError(message) {
+    const container = document.getElementById('notesList');
+    if (container) {
+        container.innerHTML = `
+            <div class="empty-notes">
+                <h3>Error</h3>
+                <p>${message}</p>
+            </div>
+        `;
+    }
+}
+
+function showToast(message, type = 'info') {
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? 'var(--btn-success)' : type === 'error' ? 'var(--btn-danger)' : 'var(--btn-primary)'};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Add CSS for toast animations
+const toastCSS = `
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+`;
+
+// Add toast CSS to head
+const style = document.createElement('style');
+style.textContent = toastCSS;
+document.head.appendChild(style);
+
+// Initialize Notes functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click handler for Notes button
+    const notesBtn = document.getElementById('notesBtn');
+    if (notesBtn) {
+        notesBtn.addEventListener('click', openNotesModal);
+    }
+    
+    // Add click handlers for modal close buttons
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            if (e.target.id === 'notesModal') {
+                closeNotesModal();
+            } else if (e.target.id === 'noteEditModal') {
+                closeNoteEditModal();
+            } else if (e.target.id === 'calendarModal') {
+                closeCalendarModal();
+            }
+        }
+    });
+    
+    // Add keyboard handlers
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (document.getElementById('noteEditModal').style.display === 'flex') {
+                closeNoteEditModal();
+            } else if (document.getElementById('notesModal').style.display === 'flex') {
+                closeNotesModal();
+            } else if (document.getElementById('calendarModal').style.display === 'flex') {
+                closeCalendarModal();
+            }
+        }
+    });
+    
+    // Auto-mark daily attendance
+    markDailyAttendance();
+});
 

@@ -19,7 +19,7 @@ console.log('🔍 Environment check:', {
 });
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(cors({
@@ -50,6 +50,10 @@ connectDB();
 
 // Routes
 app.use('/api/questions', require('./routes/questions'));
+app.use('/api/notes', require('./routes/notes'));
+app.use('/api/attendance', require('./routes/attendance'));
+app.use('/api/timers', require('./routes/timers'));
+app.use('/api/secret', require('./routes/secret'));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -70,7 +74,11 @@ app.get('/', (req, res) => {
     endpoints: {
       health: '/api/health',
       questions: '/api/questions',
-      processQuestions: '/api/questions/process'
+      processQuestions: '/api/questions/process',
+      notes: '/api/notes',
+      attendance: '/api/attendance',
+      timers: '/api/timers',
+      secret: '/api/secret'
     }
   });
 });

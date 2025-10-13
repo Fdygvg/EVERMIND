@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -145,6 +145,10 @@
                     <button id="continueBtn" class="continue-btn" onclick="resumeSavedProgress()" style="display: none;">
                         <span class="continue-icon">▶️</span>
                         <span class="continue-text">Continue</span>
+                    </button>
+                    <button id="calendarBtn" class="calendar-btn" onclick="openCalendarModal()" title="View Attendance Calendar">
+                        <span class="calendar-icon">📅</span>
+                        <span class="calendar-text">Calendar</span>
                     </button>
                     <button id="muteBtn" class="mute-btn" onclick="if(window.SoundEffects) window.SoundEffects.toggleMute()" title="Toggle Sound Effects">
                         <span class="mute-icon">🔊</span>
@@ -311,22 +315,27 @@
 
     <!-- Revision Mode -->
     <div id="revisionMode" class="page">
-        <header>
-            <button class="btn btn--nav" onclick="exitRevision()">Exit</button>
-            <h1>Revision Mode</h1>
-            <div class="progress-indicator" id="progressIndicator">
+        <header class="revision-header">
+            <div class="header-left">
+                <button class="btn btn--nav" onclick="exitRevision()">Exit</button>
+            </div>
+            <div class="header-center">
+                <h1>Revision Mode</h1>
                 <div class="progress-stats">
                     <span class="stat timer">⏱️ <span id="revisionTimer">00:00</span></span>
                     <span class="stat correct">✓ <span id="correctCount">0</span> correct</span>
                     <span class="stat wrong">✗ <span id="wrongCount">0</span> wrong</span>
                     <span class="stat remaining">⏳ <span id="remainingCount">0</span> left</span>
                 </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="progressBarFill"></div>
-                    </div>
-                    <div class="progress-percentage" id="progressPercentage">0% complete</div>
+            </div>
+            <div class="header-right">
+                <!-- Reserved for future controls -->
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
+                <div class="progress-percentage" id="progressPercentage">0% complete</div>
             </div>
         </header>
 
@@ -374,6 +383,86 @@
         </div>
     </div>
 
+    <!-- Notes Modal -->
+    <div id="notesModal" class="modal notes-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Notes</h2>
+                <button class="modal-close" onclick="closeNotesModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="notes-toolbar">
+                    <button class="btn btn--primary" onclick="createNewNote()">New Note</button>
+                    <div class="notes-search">
+                        <input type="text" id="notesSearch" placeholder="Search notes..." onkeyup="searchNotes()">
+                    </div>
+                </div>
+                <div class="notes-container" id="notesContainer">
+                    <div class="notes-list" id="notesList">
+                        <!-- Notes will be loaded here -->
+                    </div>
+                    <div class="notes-loading" id="notesLoading" style="display: none;">
+                        Loading notes...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Edit Modal -->
+    <div id="noteEditModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="noteEditTitle">Edit Note</h3>
+                <button class="modal-close" onclick="closeNoteEditModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="noteEditContent" placeholder="Enter your note content..." rows="10"></textarea>
+                <div class="note-edit-actions">
+                    <button class="btn btn--primary" onclick="saveNote()">Save</button>
+                    <button class="btn btn--danger" onclick="deleteNote()">Delete</button>
+                    <button class="btn btn--nav" onclick="closeNoteEditModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div id="calendarModal" class="modal calendar-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📅 Attendance Calendar</h2>
+                <button class="modal-close" onclick="closeCalendarModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="calendar-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Days:</span>
+                        <span class="stat-value" id="totalDays">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Current Streak:</span>
+                        <span class="stat-value" id="currentStreak">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">This Month:</span>
+                        <span class="stat-value" id="thisMonth">0</span>
+                    </div>
+                </div>
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button class="calendar-nav" onclick="previousMonth()">‹</button>
+                        <h3 id="calendarMonthYear">January 2024</h3>
+                        <button class="calendar-nav" onclick="nextMonth()">›</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar days will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Quick Launch Sidebar -->
     <button class="quick-launch-toggle" id="quickLaunchToggle" title="Quick Launch">
         <span class="toggle-icon">☰</span>
@@ -404,6 +493,10 @@
             <button class="quick-launch-btn" data-app="newtab">
                 <span class="app-icon newtab"></span>
                 <span class="app-name">New Tab</span>
+            </button>
+            <button class="quick-launch-btn" data-app="notes" id="notesBtn">
+                <span class="app-icon notes">📝</span>
+                <span class="app-name">Notes</span>
             </button>
             <button class="quick-launch-btn" data-app="home">
                 <span class="app-icon home"></span>
