@@ -153,6 +153,15 @@
                     <button id="muteBtn" class="mute-btn" onclick="if(window.SoundEffects) window.SoundEffects.toggleMute()" title="Toggle Sound Effects">
                         <span class="mute-icon">🔊</span>
                     </button>
+                    <button id="lowDataToggle" class="btn btn--nav" onclick="toggleLowDataMode()" title="Toggle Low Data Mode">
+                        Low Data: OFF
+                    </button>
+                    <div id="offlineIndicator" class="offline-indicator" style="display: none;">
+                        📡 Offline
+                    </div>
+                    <div id="queueCount" class="queue-count" style="display: none;">
+                        <span id="queueCount">0</span> queued
+                    </div>
             </div>
         </header>
 
@@ -459,6 +468,98 @@
                         <!-- Calendar days will be generated here -->
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Vision Board Modal -->
+    <div id="secretVisionModal" class="modal secret-vision-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔮 Secret Vision Board</h2>
+                <button class="modal-close" onclick="closeSecretVisionModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="secretVisionContent">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Vision Board PIN Modal -->
+    <div id="secretPinModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔐 Enter Secret PIN</h2>
+                <button class="modal-close" onclick="closeSecretPinModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="pin-input-container">
+                    <input type="password" id="secretPinInput" placeholder="Enter your secret PIN" maxlength="20">
+                    <div id="pinError" class="pin-error" style="display: none;"></div>
+                    <div class="pin-actions">
+                        <button class="btn btn--primary" onclick="verifySecretPin()">Enter</button>
+                        <button class="btn btn--nav" onclick="closeSecretPinModal()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Vision Board Slideshow -->
+    <div id="secretSlideshow" class="secret-slideshow" style="display: none;">
+        <div class="slideshow-header">
+            <button class="slideshow-close" onclick="closeSecretSlideshow()">✕</button>
+            <div class="slideshow-controls">
+                <button class="slideshow-btn" onclick="previousSlide()">‹</button>
+                <span id="slideCounter">1 / 1</span>
+                <button class="slideshow-btn" onclick="nextSlide()">›</button>
+            </div>
+        </div>
+        <div class="slideshow-content" id="slideshowContent">
+            <!-- Slides will be loaded here -->
+        </div>
+        <div class="slideshow-footer">
+            <button class="btn btn--primary" onclick="addSecretItem()">Add Item</button>
+            <button class="btn btn--nav" onclick="manageSecretItems()">Manage</button>
+        </div>
+    </div>
+
+    <!-- Secret Item Management Modal -->
+    <div id="secretItemModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="secretItemTitle">Add Secret Item</h3>
+                <button class="modal-close" onclick="closeSecretItemModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="secretItemForm">
+                    <div class="form-group">
+                        <label for="itemType">Type:</label>
+                        <select id="itemType" onchange="toggleItemFields()">
+                            <option value="affirmation">Affirmation</option>
+                            <option value="image">Image</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="textField">
+                        <label for="itemText">Text:</label>
+                        <textarea id="itemText" placeholder="Enter your affirmation..." rows="4"></textarea>
+                    </div>
+                    <div class="form-group" id="imageField" style="display: none;">
+                        <label for="itemImageUrl">Image URL:</label>
+                        <input type="url" id="itemImageUrl" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label for="itemTags">Tags (comma-separated):</label>
+                        <input type="text" id="itemTags" placeholder="motivation, goals, success">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary">Save</button>
+                        <button type="button" class="btn btn--nav" onclick="closeSecretItemModal()">Cancel</button>
+                        <button type="button" class="btn btn--danger" id="deleteItemBtn" onclick="deleteSecretItem()" style="display: none;">Delete</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

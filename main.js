@@ -3578,6 +3578,1094 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
+// ==================== SWIPE GESTURES FUNCTIONALITY ====================
+let swipeState = {
+    startX: 0,
+    startY: 0,
+    startTime: 0,
+    isDragging: false,
+    ghostElement: null,
+    debounceTimer: null
+};
+
+// Swipe sensitivity thresholds
+const SWIPE_THRESHOLDS = {
+    horizontal: 48, // pixels
+    vertical: 64,   // pixels
+    velocity: 0.25, // pixels per millisecond
+    angle: 25       // degrees
+};
+
+// Debounce delay
+const SWIPE_DEBOUNCE = 150; // milliseconds
+
+function initSwipeGestures() {
+    const questionCard = document.getElementById('questionCard');
+    if (!questionCard) return;
+    
+    // Add touch event listeners
+    questionCard.addEventListener('touchstart', handleTouchStart, { passive: false });
+    questionCard.addEventListener('touchmove', handleTouchMove, { passive: false });
+    questionCard.addEventListener('touchend', handleTouchEnd, { passive: false });
+    
+    // Add mouse event listeners for desktop testing
+    questionCard.addEventListener('mousedown', handleMouseDown);
+    questionCard.addEventListener('mousemove', handleMouseMove);
+    questionCard.addEventListener('mouseup', handleMouseUp);
+    questionCard.addEventListener('mouseleave', handleMouseUp);
+    
+    // Add keyboard event listeners
+    document.addEventListener('keydown', handleKeyboardSwipe);
+    
+    console.log('Swipe gestures initialized');
+}
+
+function handleTouchStart(e) {
+    const touch = e.touches[0];
+    swipeState.startX = touch.clientX;
+    swipeState.startY = touch.clientY;
+    swipeState.startTime = Date.now();
+    swipeState.isDragging = true;
+    
+    // Prevent default to avoid scrolling
+    e.preventDefault();
+}
+
+function handleTouchMove(e) {
+    if (!swipeState.isDragging) return;
+    
+    const touch = e.touches[0];
+    const deltaX = touch.clientX - swipeState.startX;
+    const deltaY = touch.clientY - swipeState.startY;
+    
+    // Show ghost preview
+    showSwipeGhost(deltaX, deltaY);
+    
+    // Prevent default to avoid scrolling
+    e.preventDefault();
+}
+
+function handleTouchEnd(e) {
+    if (!swipeState.isDragging) return;
+    
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - swipeState.startX;
+    const deltaY = touch.clientY - swipeState.startY;
+    const deltaTime = Date.now() - swipeState.startTime;
+    
+    processSwipe(deltaX, deltaY, deltaTime);
+    
+    // Clean up
+    swipeState.isDragging = false;
+    hideSwipeGhost();
+    
+    e.preventDefault();
+}
+
+function handleMouseDown(e) {
+    swipeState.startX = e.clientX;
+    swipeState.startY = e.clientY;
+    swipeState.startTime = Date.now();
+    swipeState.isDragging = true;
+    
+    e.preventDefault();
+}
+
+function handleMouseMove(e) {
+    if (!swipeState.isDragging) return;
+    
+    const deltaX = e.clientX - swipeState.startX;
+    const deltaY = e.clientY - swipeState.startY;
+    
+    showSwipeGhost(deltaX, deltaY);
+}
+
+function handleMouseUp(e) {
+    if (!swipeState.isDragging) return;
+    
+    const deltaX = e.clientX - swipeState.startX;
+    const deltaY = e.clientY - swipeState.startY;
+    const deltaTime = Date.now() - swipeState.startTime;
+    
+    processSwipe(deltaX, deltaY, deltaTime);
+    
+    // Clean up
+    swipeState.isDragging = false;
+    hideSwipeGhost();
+}
+
+function handleKeyboardSwipe(e) {
+    // Only handle keyboard swipes in revision mode
+    if (document.getElementById('revisionMode').style.display === 'none') return;
+    
+    let action = null;
+    
+    switch(e.key) {
+        case 'ArrowLeft':
+            action = 'wrong';
+            break;
+        case 'ArrowRight':
+            action = 'correct';
+            break;
+        case 'ArrowDown':
+            action = 'skip';
+            break;
+        default:
+            return;
+    }
+    
+    e.preventDefault();
+    executeSwipeAction(action);
+}
+
+function processSwipe(deltaX, deltaY, deltaTime) {
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const velocity = distance / deltaTime;
+    const angle = Math.atan2(Math.abs(deltaY), Math.abs(deltaX)) * (180 / Math.PI);
+    
+    // Check if swipe meets thresholds
+    const isHorizontalSwipe = Math.abs(deltaX) > SWIPE_THRESHOLDS.horizontal && 
+                             Math.abs(deltaY) < SWIPE_THRESHOLDS.vertical &&
+                             angle < SWIPE_THRESHOLDS.angle;
+    
+    const isVerticalSwipe = Math.abs(deltaY) > SWIPE_THRESHOLDS.vertical && 
+                           Math.abs(deltaX) < SWIPE_THRESHOLDS.horizontal &&
+                           angle > (90 - SWIPE_THRESHOLDS.angle);
+    
+    const hasEnoughVelocity = velocity > SWIPE_THRESHOLDS.velocity;
+    
+    if ((isHorizontalSwipe || isVerticalSwipe) && hasEnoughVelocity) {
+        // Debounce the action
+        if (swipeState.debounceTimer) {
+            clearTimeout(swipeState.debounceTimer);
+        }
+        
+        swipeState.debounceTimer = setTimeout(() => {
+            let action = null;
+            
+            if (isHorizontalSwipe) {
+                action = deltaX > 0 ? 'correct' : 'wrong';
+            } else if (isVerticalSwipe && deltaY > 0) {
+                action = 'skip';
+            }
+            
+            if (action) {
+                executeSwipeAction(action);
+            }
+        }, SWIPE_DEBOUNCE);
+    }
+}
+
+function showSwipeGhost(deltaX, deltaY) {
+    if (swipeState.ghostElement) {
+        swipeState.ghostElement.remove();
+    }
+    
+    const questionCard = document.getElementById('questionCard');
+    const ghost = document.createElement('div');
+    ghost.className = 'swipe-ghost';
+    ghost.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.1);
+        border: 2px dashed var(--btn-primary);
+        border-radius: 10px;
+        pointer-events: none;
+        z-index: 1000;
+        transform: translate(${deltaX}px, ${deltaY}px);
+        transition: transform 0.1s ease;
+    `;
+    
+    // Add action indicator
+    let actionText = '';
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        actionText = deltaX > 0 ? '✓ Correct' : '✗ Wrong';
+    } else if (deltaY > 0) {
+        actionText = '⏭️ Skip';
+    }
+    
+    if (actionText) {
+        ghost.innerHTML = `
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                        font-size: 1.5rem; font-weight: bold; color: var(--btn-primary);">
+                ${actionText}
+            </div>
+        `;
+    }
+    
+    questionCard.style.position = 'relative';
+    questionCard.appendChild(ghost);
+    swipeState.ghostElement = ghost;
+}
+
+function hideSwipeGhost() {
+    if (swipeState.ghostElement) {
+        swipeState.ghostElement.remove();
+        swipeState.ghostElement = null;
+    }
+}
+
+function executeSwipeAction(action) {
+    // Add haptic feedback if available
+    if (navigator.vibrate) {
+        navigator.vibrate(50);
+    }
+    
+    // Add sound feedback
+    if (window.SoundEffects) {
+        window.SoundEffects.playSound('click');
+    }
+    
+    // Execute the action
+    switch(action) {
+        case 'correct':
+            markCorrect();
+            break;
+        case 'wrong':
+            markWrong();
+            break;
+        case 'skip':
+            skipQuestion();
+            break;
+    }
+    
+    // Show visual feedback
+    showSwipeFeedback(action);
+}
+
+function showSwipeFeedback(action) {
+    const questionCard = document.getElementById('questionCard');
+    const feedback = document.createElement('div');
+    feedback.className = 'swipe-feedback';
+    
+    let text = '';
+    let color = '';
+    
+    switch(action) {
+        case 'correct':
+            text = '✓ Correct!';
+            color = 'var(--btn-success)';
+            break;
+        case 'wrong':
+            text = '✗ Wrong';
+            color = 'var(--btn-danger)';
+            break;
+        case 'skip':
+            text = '⏭️ Skipped';
+            color = 'var(--btn-primary)';
+            break;
+    }
+    
+    feedback.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: ${color};
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        z-index: 1001;
+        pointer-events: none;
+        animation: swipeFeedback 0.5s ease-out;
+    `;
+    feedback.textContent = text;
+    
+    questionCard.appendChild(feedback);
+    
+    // Remove after animation
+    setTimeout(() => {
+        if (feedback.parentNode) {
+            feedback.parentNode.removeChild(feedback);
+        }
+    }, 500);
+}
+
+// Add CSS for swipe feedback animation
+const swipeCSS = `
+@keyframes swipeFeedback {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+`;
+
+// Add swipe CSS to head
+const swipeStyle = document.createElement('style');
+swipeStyle.textContent = swipeCSS;
+document.head.appendChild(swipeStyle);
+
+// ==================== OFFLINE MODE FUNCTIONALITY ====================
+let offlineState = {
+    isOnline: navigator.onLine,
+    queueCount: 0,
+    lowDataMode: false
+};
+
+// Initialize offline mode
+function initOfflineMode() {
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('Service Worker registered successfully:', registration);
+                
+                // Handle updates
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            showUpdateNotification();
+                        }
+                    });
+                });
+            })
+            .catch((error) => {
+                console.error('Service Worker registration failed:', error);
+            });
+    }
+    
+    // Listen for online/offline events
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    // Listen for Service Worker messages
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage);
+    }
+    
+    // Initialize offline queue
+    updateOfflineQueueCount();
+    
+    console.log('Offline mode initialized');
+}
+
+function handleOnline() {
+    offlineState.isOnline = true;
+    console.log('App is online');
+    
+    // Trigger background sync
+    if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+        navigator.serviceWorker.ready.then((registration) => {
+            return registration.sync.register('evermind-sync');
+        });
+    }
+    
+    // Update UI
+    updateOfflineIndicator();
+    showToast('Back online! Syncing data...', 'success');
+}
+
+function handleOffline() {
+    offlineState.isOnline = false;
+    console.log('App is offline');
+    
+    // Update UI
+    updateOfflineIndicator();
+    showToast('You are offline. Changes will sync when back online.', 'info');
+}
+
+function handleServiceWorkerMessage(event) {
+    const { type, successful, failed, total } = event.data;
+    
+    switch (type) {
+        case 'SYNC_RESULT':
+            updateOfflineQueueCount();
+            if (successful > 0) {
+                showToast(`Synced ${successful} items successfully`, 'success');
+            }
+            if (failed > 0) {
+                showToast(`${failed} items failed to sync`, 'error');
+            }
+            break;
+    }
+}
+
+function updateOfflineIndicator() {
+    const indicator = document.getElementById('offlineIndicator');
+    if (!indicator) return;
+    
+    if (offlineState.isOnline) {
+        indicator.style.display = 'none';
+    } else {
+        indicator.style.display = 'block';
+    }
+}
+
+async function updateOfflineQueueCount() {
+    try {
+        const queue = await getOfflineQueue();
+        offlineState.queueCount = queue.length;
+        
+        // Update UI if there's a queue indicator
+        const queueIndicator = document.getElementById('queueCount');
+        if (queueIndicator) {
+            queueIndicator.textContent = offlineState.queueCount;
+            queueIndicator.style.display = offlineState.queueCount > 0 ? 'block' : 'none';
+        }
+    } catch (error) {
+        console.error('Failed to update offline queue count:', error);
+    }
+}
+
+// Offline queue management
+async function getOfflineQueue() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('evermind-offline', 1);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+            const db = request.result;
+            const transaction = db.transaction(['queue'], 'readonly');
+            const store = transaction.objectStore('queue');
+            const getAllRequest = store.getAll();
+            
+            getAllRequest.onsuccess = () => resolve(getAllRequest.result || []);
+            getAllRequest.onerror = () => reject(getAllRequest.error);
+        };
+        
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('queue')) {
+                db.createObjectStore('queue', { keyPath: 'id', autoIncrement: true });
+            }
+        };
+    });
+}
+
+async function addToOfflineQueue(item) {
+    try {
+        const queue = await getOfflineQueue();
+        queue.push({
+            ...item,
+            timestamp: Date.now()
+        });
+        
+        await setOfflineQueue(queue);
+        await updateOfflineQueueCount();
+        
+        console.log('Added to offline queue:', item);
+    } catch (error) {
+        console.error('Failed to add to offline queue:', error);
+    }
+}
+
+async function setOfflineQueue(queue) {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('evermind-offline', 1);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+            const db = request.result;
+            const transaction = db.transaction(['queue'], 'readwrite');
+            const store = transaction.objectStore('queue');
+            
+            // Clear existing queue
+            store.clear();
+            
+            // Add new items
+            queue.forEach(item => store.add(item));
+            
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error);
+        };
+        
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('queue')) {
+                db.createObjectStore('queue', { keyPath: 'id', autoIncrement: true });
+            }
+        };
+    });
+}
+
+// Enhanced API calls with offline support
+async function apiCall(url, options = {}) {
+    const { method = 'GET', body, headers = {} } = options;
+    
+    // Add user ID to headers
+    headers['x-user-id'] = 'default-user-id';
+    
+    if (body && typeof body === 'object') {
+        headers['Content-Type'] = 'application/json';
+    }
+    
+    try {
+        const response = await fetch(url, {
+            method,
+            headers,
+            body: body ? JSON.stringify(body) : undefined
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        // If offline or network error, queue the request
+        if (!offlineState.isOnline || error.name === 'TypeError') {
+            console.log('Queueing request for offline sync:', url);
+            
+            await addToOfflineQueue({
+                method,
+                url,
+                body,
+                headers
+            });
+            
+            // Return a mock response for offline mode
+            return {
+                success: true,
+                message: 'Queued for offline sync',
+                offline: true
+            };
+        }
+        
+        throw error;
+    }
+}
+
+// Low Data Mode toggle
+function toggleLowDataMode() {
+    offlineState.lowDataMode = !offlineState.lowDataMode;
+    
+    // Update UI
+    const toggle = document.getElementById('lowDataToggle');
+    if (toggle) {
+        toggle.textContent = offlineState.lowDataMode ? 'Low Data: ON' : 'Low Data: OFF';
+        toggle.className = offlineState.lowDataMode ? 'btn btn--danger' : 'btn btn--nav';
+    }
+    
+    // Apply low data mode settings
+    if (offlineState.lowDataMode) {
+        // Disable animations, reduce image quality, etc.
+        document.body.classList.add('low-data-mode');
+    } else {
+        document.body.classList.remove('low-data-mode');
+    }
+    
+    showToast(`Low Data Mode ${offlineState.lowDataMode ? 'enabled' : 'disabled'}`, 'info');
+}
+
+function showUpdateNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'update-notification';
+    notification.innerHTML = `
+        <div style="background: var(--btn-primary); color: white; padding: 15px; border-radius: 8px; 
+                    margin: 10px; text-align: center; position: fixed; top: 0; left: 0; right: 0; z-index: 10000;">
+            <p style="margin: 0 0 10px 0;">App update available!</p>
+            <button class="btn btn--success" onclick="updateApp()" style="margin-right: 10px;">Update</button>
+            <button class="btn btn--nav" onclick="this.parentElement.parentElement.remove()">Later</button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+}
+
+function updateApp() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration().then((registration) => {
+            if (registration && registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                window.location.reload();
+            }
+        });
+    }
+}
+
+// ==================== SECRET VISION BOARD FUNCTIONALITY ====================
+let secretVisionState = {
+    isAuthenticated: false,
+    items: [],
+    currentSlide: 0,
+    isPlaying: false,
+    playInterval: null,
+    pinAttempts: 0,
+    lockoutUntil: 0
+};
+
+// Secret Vision Board API functions
+async function verifySecretPin(pin) {
+    try {
+        const data = await apiCall(`${API_BASE}/secret/verify-pin`, {
+            method: 'POST',
+            body: { pin }
+        });
+        
+        if (data.success) {
+            secretVisionState.isAuthenticated = true;
+            secretVisionState.pinAttempts = 0;
+            return true;
+        } else {
+            secretVisionState.pinAttempts++;
+            return false;
+        }
+    } catch (error) {
+        console.error('Error verifying PIN:', error);
+        return false;
+    }
+}
+
+async function setSecretPin(pin) {
+    try {
+        const data = await apiCall(`${API_BASE}/secret/set-pin`, {
+            method: 'POST',
+            body: { pin }
+        });
+        
+        return data.success;
+    } catch (error) {
+        console.error('Error setting PIN:', error);
+        return false;
+    }
+}
+
+async function fetchSecretItems() {
+    try {
+        const data = await apiCall(`${API_BASE}/secret/items`);
+        secretVisionState.items = data.data || [];
+        return data.data || [];
+    } catch (error) {
+        console.error('Error fetching secret items:', error);
+        return [];
+    }
+}
+
+async function createSecretItem(itemData) {
+    try {
+        const data = await apiCall(`${API_BASE}/secret/items`, {
+            method: 'POST',
+            body: itemData
+        });
+        
+        if (data.success) {
+            secretVisionState.items.push(data.data);
+        }
+        
+        return data.success;
+    } catch (error) {
+        console.error('Error creating secret item:', error);
+        return false;
+    }
+}
+
+async function updateSecretItem(itemId, itemData) {
+    try {
+        const data = await apiCall(`${API_BASE}/secret/items/${itemId}`, {
+            method: 'PATCH',
+            body: itemData
+        });
+        
+        if (data.success) {
+            const index = secretVisionState.items.findIndex(item => item._id === itemId);
+            if (index !== -1) {
+                secretVisionState.items[index] = data.data;
+            }
+        }
+        
+        return data.success;
+    } catch (error) {
+        console.error('Error updating secret item:', error);
+        return false;
+    }
+}
+
+async function deleteSecretItem(itemId) {
+    try {
+        const data = await apiCall(`${API_BASE}/secret/items/${itemId}`, {
+            method: 'DELETE'
+        });
+        
+        if (data.success) {
+            secretVisionState.items = secretVisionState.items.filter(item => item._id !== itemId);
+        }
+        
+        return data.success;
+    } catch (error) {
+        console.error('Error deleting secret item:', error);
+        return false;
+    }
+}
+
+// Secret Vision Board UI functions
+function openSecretVisionModal() {
+    const modal = document.getElementById('secretVisionModal');
+    modal.style.display = 'flex';
+    
+    if (secretVisionState.isAuthenticated) {
+        showSecretVisionContent();
+    } else {
+        showSecretPinPrompt();
+    }
+}
+
+function closeSecretVisionModal() {
+    const modal = document.getElementById('secretVisionModal');
+    modal.style.display = 'none';
+    secretVisionState.isAuthenticated = false;
+}
+
+function showSecretPinPrompt() {
+    const content = document.getElementById('secretVisionContent');
+    content.innerHTML = `
+        <div class="pin-setup">
+            <h3>🔐 Secret Vision Board</h3>
+            <p>This is your private space for personal affirmations and vision board items.</p>
+            <div class="pin-actions">
+                <button class="btn btn--primary" onclick="showPinInput()">Enter PIN</button>
+                <button class="btn btn--nav" onclick="showPinSetup()">Set Up PIN</button>
+            </div>
+        </div>
+    `;
+}
+
+function showPinInput() {
+    document.getElementById('secretPinModal').style.display = 'flex';
+    document.getElementById('secretPinInput').focus();
+}
+
+function closeSecretPinModal() {
+    document.getElementById('secretPinModal').style.display = 'none';
+    document.getElementById('secretPinInput').value = '';
+    document.getElementById('pinError').style.display = 'none';
+}
+
+async function verifySecretPin() {
+    const pin = document.getElementById('secretPinInput').value;
+    
+    if (!pin) {
+        showPinError('Please enter a PIN');
+        return;
+    }
+    
+    // Check lockout
+    if (secretVisionState.lockoutUntil > Date.now()) {
+        const remainingTime = Math.ceil((secretVisionState.lockoutUntil - Date.now()) / 1000);
+        showPinError(`Too many failed attempts. Try again in ${remainingTime} seconds.`);
+        return;
+    }
+    
+    const isValid = await verifySecretPin(pin);
+    
+    if (isValid) {
+        closeSecretPinModal();
+        await showSecretVisionContent();
+    } else {
+        secretVisionState.pinAttempts++;
+        
+        if (secretVisionState.pinAttempts >= 3) {
+            secretVisionState.lockoutUntil = Date.now() + (5 * 60 * 1000); // 5 minutes
+            showPinError('Too many failed attempts. Locked for 5 minutes.');
+        } else {
+            showPinError(`Invalid PIN. ${3 - secretVisionState.pinAttempts} attempts remaining.`);
+        }
+    }
+}
+
+function showPinError(message) {
+    const errorDiv = document.getElementById('pinError');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+}
+
+function showPinSetup() {
+    const content = document.getElementById('secretVisionContent');
+    content.innerHTML = `
+        <div class="pin-setup">
+            <h3>🔐 Set Up Secret PIN</h3>
+            <p>Create a 4-20 character PIN to secure your Secret Vision Board.</p>
+            <div class="pin-input-group">
+                <input type="password" id="newPinInput" placeholder="Enter new PIN" maxlength="20">
+                <input type="password" id="confirmPinInput" placeholder="Confirm PIN" maxlength="20">
+                <div id="pinSetupError" class="pin-error" style="display: none;"></div>
+                <div class="pin-actions">
+                    <button class="btn btn--primary" onclick="setupSecretPin()">Set PIN</button>
+                    <button class="btn btn--nav" onclick="showSecretPinPrompt()">Back</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+async function setupSecretPin() {
+    const pin = document.getElementById('newPinInput').value;
+    const confirmPin = document.getElementById('confirmPinInput').value;
+    
+    if (!pin || pin.length < 4) {
+        showPinSetupError('PIN must be at least 4 characters long');
+        return;
+    }
+    
+    if (pin !== confirmPin) {
+        showPinSetupError('PINs do not match');
+        return;
+    }
+    
+    const success = await setSecretPin(pin);
+    
+    if (success) {
+        secretVisionState.isAuthenticated = true;
+        await showSecretVisionContent();
+    } else {
+        showPinSetupError('Failed to set PIN. Please try again.');
+    }
+}
+
+function showPinSetupError(message) {
+    const errorDiv = document.getElementById('pinSetupError');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+}
+
+async function showSecretVisionContent() {
+    const content = document.getElementById('secretVisionContent');
+    
+    await fetchSecretItems();
+    
+    if (secretVisionState.items.length === 0) {
+        content.innerHTML = `
+            <div class="empty-vision-board">
+                <h3>🔮 Your Secret Vision Board</h3>
+                <p>Add affirmations and images to create your personal vision board.</p>
+                <button class="btn btn--primary" onclick="addSecretItem()">Add First Item</button>
+            </div>
+        `;
+    } else {
+        content.innerHTML = `
+            <div class="vision-board-controls">
+                <h3>🔮 Your Secret Vision Board</h3>
+                <div class="vision-board-actions">
+                    <button class="btn btn--primary" onclick="startSlideshow()">View Slideshow</button>
+                    <button class="btn btn--nav" onclick="manageSecretItems()">Manage Items</button>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function startSlideshow() {
+    document.getElementById('secretSlideshow').style.display = 'flex';
+    secretVisionState.currentSlide = 0;
+    renderSlideshow();
+    startAutoPlay();
+}
+
+function closeSecretSlideshow() {
+    document.getElementById('secretSlideshow').style.display = 'none';
+    stopAutoPlay();
+}
+
+function renderSlideshow() {
+    const content = document.getElementById('slideshowContent');
+    const counter = document.getElementById('slideCounter');
+    
+    if (secretVisionState.items.length === 0) {
+        content.innerHTML = '<div class="empty-slideshow">No items to display</div>';
+        counter.textContent = '0 / 0';
+        return;
+    }
+    
+    const currentItem = secretVisionState.items[secretVisionState.currentSlide];
+    let slideHTML = '';
+    
+    if (currentItem.type === 'affirmation') {
+        slideHTML = `
+            <div class="slide affirmation-slide">
+                <div class="affirmation-content">
+                    <h2>${currentItem.text}</h2>
+                    ${currentItem.tags.length > 0 ? `<div class="tags">${currentItem.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
+                </div>
+            </div>
+        `;
+    } else if (currentItem.type === 'image') {
+        slideHTML = `
+            <div class="slide image-slide">
+                <img src="${currentItem.imageUrl}" alt="Vision item" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="image-placeholder" style="display: none;">
+                    <p>Image failed to load</p>
+                    <button class="btn btn--primary" onclick="editSecretItem('${currentItem._id}')">Edit</button>
+                </div>
+                ${currentItem.tags.length > 0 ? `<div class="tags">${currentItem.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
+            </div>
+        `;
+    }
+    
+    content.innerHTML = slideHTML;
+    counter.textContent = `${secretVisionState.currentSlide + 1} / ${secretVisionState.items.length}`;
+}
+
+function nextSlide() {
+    if (secretVisionState.items.length === 0) return;
+    
+    secretVisionState.currentSlide = (secretVisionState.currentSlide + 1) % secretVisionState.items.length;
+    renderSlideshow();
+}
+
+function previousSlide() {
+    if (secretVisionState.items.length === 0) return;
+    
+    secretVisionState.currentSlide = secretVisionState.currentSlide === 0 
+        ? secretVisionState.items.length - 1 
+        : secretVisionState.currentSlide - 1;
+    renderSlideshow();
+}
+
+function startAutoPlay() {
+    if (secretVisionState.isPlaying) return;
+    
+    secretVisionState.isPlaying = true;
+    secretVisionState.playInterval = setInterval(() => {
+        nextSlide();
+    }, 5000); // 5 seconds per slide
+}
+
+function stopAutoPlay() {
+    secretVisionState.isPlaying = false;
+    if (secretVisionState.playInterval) {
+        clearInterval(secretVisionState.playInterval);
+        secretVisionState.playInterval = null;
+    }
+}
+
+function manageSecretItems() {
+    const content = document.getElementById('secretVisionContent');
+    content.innerHTML = `
+        <div class="items-management">
+            <h3>Manage Secret Items</h3>
+            <div class="items-list" id="secretItemsList">
+                ${secretVisionState.items.map(item => `
+                    <div class="secret-item-card">
+                        <div class="item-content">
+                            ${item.type === 'affirmation' ? 
+                                `<div class="affirmation-preview">${item.text}</div>` :
+                                `<img src="${item.imageUrl}" alt="Vision item" class="image-preview">`
+                            }
+                            ${item.tags.length > 0 ? `<div class="tags">${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn--primary" onclick="editSecretItem('${item._id}')">Edit</button>
+                            <button class="btn btn--danger" onclick="deleteSecretItem('${item._id}')">Delete</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="management-actions">
+                <button class="btn btn--primary" onclick="addSecretItem()">Add New Item</button>
+                <button class="btn btn--nav" onclick="showSecretVisionContent()">Back</button>
+            </div>
+        </div>
+    `;
+}
+
+function addSecretItem() {
+    secretVisionState.editingItem = null;
+    document.getElementById('secretItemTitle').textContent = 'Add Secret Item';
+    document.getElementById('secretItemForm').reset();
+    document.getElementById('deleteItemBtn').style.display = 'none';
+    document.getElementById('secretItemModal').style.display = 'flex';
+}
+
+function editSecretItem(itemId) {
+    const item = secretVisionState.items.find(i => i._id === itemId);
+    if (!item) return;
+    
+    secretVisionState.editingItem = item;
+    document.getElementById('secretItemTitle').textContent = 'Edit Secret Item';
+    document.getElementById('itemType').value = item.type;
+    document.getElementById('itemText').value = item.text || '';
+    document.getElementById('itemImageUrl').value = item.imageUrl || '';
+    document.getElementById('itemTags').value = item.tags.join(', ');
+    document.getElementById('deleteItemBtn').style.display = 'inline-block';
+    document.getElementById('secretItemModal').style.display = 'flex';
+    
+    toggleItemFields();
+}
+
+function closeSecretItemModal() {
+    document.getElementById('secretItemModal').style.display = 'none';
+    secretVisionState.editingItem = null;
+}
+
+function toggleItemFields() {
+    const type = document.getElementById('itemType').value;
+    const textField = document.getElementById('textField');
+    const imageField = document.getElementById('imageField');
+    
+    if (type === 'affirmation') {
+        textField.style.display = 'block';
+        imageField.style.display = 'none';
+    } else {
+        textField.style.display = 'none';
+        imageField.style.display = 'block';
+    }
+}
+
+// Handle form submission
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('secretItemForm');
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const type = document.getElementById('itemType').value;
+            const text = document.getElementById('itemText').value;
+            const imageUrl = document.getElementById('itemImageUrl').value;
+            const tags = document.getElementById('itemTags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+            
+            const itemData = {
+                type,
+                text: type === 'affirmation' ? text : undefined,
+                imageUrl: type === 'image' ? imageUrl : undefined,
+                tags
+            };
+            
+            let success = false;
+            
+            if (secretVisionState.editingItem) {
+                success = await updateSecretItem(secretVisionState.editingItem._id, itemData);
+            } else {
+                success = await createSecretItem(itemData);
+            }
+            
+            if (success) {
+                closeSecretItemModal();
+                manageSecretItems(); // Refresh the management view
+                showToast(secretVisionState.editingItem ? 'Item updated successfully!' : 'Item created successfully!', 'success');
+            } else {
+                showToast('Failed to save item. Please try again.', 'error');
+            }
+        });
+    }
+});
+
+// Add hidden trigger for Secret Vision Board
+function addSecretVisionTrigger() {
+    const evermindTitle = document.querySelector('h1');
+    if (evermindTitle) {
+        evermindTitle.addEventListener('click', function(e) {
+            // Check if it's a double-click
+            if (e.detail === 2) {
+                openSecretVisionModal();
+            }
+        });
+    }
+}
+
 // ==================== CALENDAR AND ATTENDANCE FUNCTIONALITY ====================
 let calendarState = {
     currentDate: new Date(),
@@ -3825,17 +4913,7 @@ async function fetchNotes() {
         notesState.isLoading = true;
         showNotesLoading();
         
-        const response = await fetch(`${API_BASE}/notes`, {
-            headers: {
-                'x-user-id': 'default-user-id' // In production, this would come from auth
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
+        const data = await apiCall(`${API_BASE}/notes`);
         notesState.notes = data.data || [];
         renderNotes();
     } catch (error) {
@@ -3849,23 +4927,17 @@ async function fetchNotes() {
 
 async function createNote(content) {
     try {
-        const response = await fetch(`${API_BASE}/notes`, {
+        const data = await apiCall(`${API_BASE}/notes`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-user-id': 'default-user-id'
-            },
-            body: JSON.stringify({ content })
+            body: { content }
         });
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        if (!data.offline) {
+            notesState.notes.unshift(data.data);
+            renderNotes();
         }
         
-        const data = await response.json();
-        notesState.notes.unshift(data.data);
-        renderNotes();
-        showToast('Note created successfully!', 'success');
+        showToast(data.offline ? 'Note queued for sync' : 'Note created successfully!', 'success');
     } catch (error) {
         console.error('Error creating note:', error);
         showToast('Failed to create note. Please try again.', 'error');
@@ -3874,26 +4946,20 @@ async function createNote(content) {
 
 async function updateNote(noteId, content) {
     try {
-        const response = await fetch(`${API_BASE}/notes/${noteId}`, {
+        const data = await apiCall(`${API_BASE}/notes/${noteId}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-user-id': 'default-user-id'
-            },
-            body: JSON.stringify({ content })
+            body: { content }
         });
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        if (!data.offline) {
+            const index = notesState.notes.findIndex(note => note._id === noteId);
+            if (index !== -1) {
+                notesState.notes[index] = data.data;
+                renderNotes();
+            }
         }
         
-        const data = await response.json();
-        const index = notesState.notes.findIndex(note => note._id === noteId);
-        if (index !== -1) {
-            notesState.notes[index] = data.data;
-            renderNotes();
-        }
-        showToast('Note updated successfully!', 'success');
+        showToast(data.offline ? 'Note update queued for sync' : 'Note updated successfully!', 'success');
     } catch (error) {
         console.error('Error updating note:', error);
         showToast('Failed to update note. Please try again.', 'error');
@@ -3902,20 +4968,16 @@ async function updateNote(noteId, content) {
 
 async function deleteNote(noteId) {
     try {
-        const response = await fetch(`${API_BASE}/notes/${noteId}`, {
-            method: 'DELETE',
-            headers: {
-                'x-user-id': 'default-user-id'
-            }
+        const data = await apiCall(`${API_BASE}/notes/${noteId}`, {
+            method: 'DELETE'
         });
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        if (!data.offline) {
+            notesState.notes = notesState.notes.filter(note => note._id !== noteId);
+            renderNotes();
         }
         
-        notesState.notes = notesState.notes.filter(note => note._id !== noteId);
-        renderNotes();
-        showToast('Note deleted successfully!', 'success');
+        showToast(data.offline ? 'Note deletion queued for sync' : 'Note deleted successfully!', 'success');
     } catch (error) {
         console.error('Error deleting note:', error);
         showToast('Failed to delete note. Please try again.', 'error');
@@ -4164,5 +5226,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Auto-mark daily attendance
     markDailyAttendance();
+    
+    // Initialize offline mode
+    initOfflineMode();
+    
+    // Initialize Secret Vision Board
+    addSecretVisionTrigger();
 });
 
