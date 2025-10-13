@@ -1,23 +1,5 @@
 [
   {
-    "question": "How do you say 'I am hungry' in Igbo?",
-    "word": "a na m aguu",
-    "language": "igbo",
-    "answer": "Translated: a na m aguu | Pronounced: ah nah m ah-GOO"
-  },
-  {
-    "question": "How do you say 'I am hungry' in Yoruba?",
-    "word": "mo n re",
-    "language": "yoruba",
-    "answer": "Translated: mo n re | Pronounced: moh nn reh"
-  },
-  {
-    "question": "How do you say 'I am hungry' in Hausa?",
-    "word": "Ina jin yunwa",
-    "language": "hausa",
-    "answer": "Translated: Ina jin yunwa | Pronounced: EE-nah jeen YOON-wah"
-  },
-  {
     "question": "How do you say 'I am hungry' in Spanish?",
     "word": "Tengo hambre",
     "language": "spanish",
@@ -322,5 +304,77 @@
     "word": "心配しないで",
     "language": "japanese",
     "answer": "Translated: 心配しないで | Pronounced: sheen-pai shee-NAI-deh"
+  },
+  {
+    "question": "How do you say 'bitch' in Igbo?",
+    "word": "nwa mkpụrụ obi jọ",
+    "language": "igbo",
+    "answer": "Translated: nwa mkpụrụ obi jọ | Pronounced: nwa m-POO-roh OH-bee jaw"
+  },
+  {
+    "question": "How do you say 'bitch' in Yoruba?",
+    "word": "aṣebi",
+    "language": "yoruba",
+    "answer": "Translated: aṣebi | Pronounced: ah-SHEH-bee"
+  },
+  {
+    "question": "How do you say 'bitch' in Hausa?",
+    "word": "karuwa",
+    "language": "hausa",
+    "answer": "Translated: karuwa | Pronounced: kah-ROO-wah"
+  },
+  {
+    "question": "How do you say 'bitch' in Spanish?",
+    "word": "perra / zorra",
+    "language": "spanish",
+    "answer": "Translated: perra / zorra | Pronounced: PEH-rah / SOR-rah"
+  },
+  {
+    "question": "How do you say 'bitch' in French?",
+    "word": "salope",
+    "language": "french",
+    "answer": "Translated: salope | Pronounced: sah-LOP"
+  },
+  {
+    "question": "How do you say 'bitch' in Japanese?",
+    "word": "ビッチ",
+    "language": "japanese",
+    "answer": "Translated: ビッチ | Pronounced: BEE-chee"
+  },
+  {
+    "question": "How do you say 'idiot person' in Igbo?",
+    "word": "onye nzuzu",
+    "language": "igbo",
+    "answer": "Translated: onye nzuzu | Pronounced: on-YEH n-ZOO-zoo"
+  },
+  {
+    "question": "How do you say 'idiot person' in Yoruba?",
+    "word": "òmùgọ̀",
+    "language": "yoruba",
+    "answer": "Translated: òmùgọ̀ | Pronounced: oh-MOO-gaw"
+  },
+  {
+    "question": "How do you say 'idiot person' in Hausa?",
+    "word": "wawa",
+    "language": "hausa",
+    "answer": "Translated: wawa | Pronounced: WAH-wah"
+  },
+  {
+    "question": "How do you say 'idiot person' in Spanish?",
+    "word": "idiota",
+    "language": "spanish",
+    "answer": "Translated: idiota | Pronounced: ee-DYOH-tah"
+  },
+  {
+    "question": "How do you say 'idiot person' in French?",
+    "word": "idiot",
+    "language": "french",
+    "answer": "Translated: idiot | Pronounced: ee-DYOH"
+  },
+  {
+    "question": "How do you say 'idiot person' in Japanese?",
+    "word": "馬鹿",
+    "language": "japanese",
+    "answer": "Translated: 馬鹿 | Pronounced: bah-kah"
   }
 ]

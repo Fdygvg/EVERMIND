@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/Note');
+const mongoose = require('mongoose');
 
 // Middleware to get current user (simplified for now)
 const getCurrentUser = (req, res, next) => {
@@ -11,6 +12,36 @@ const getCurrentUser = (req, res, next) => {
 // GET /api/notes - Get all notes for user with pagination
 router.get('/', getCurrentUser, async (req, res) => {
   try {
+    // Check if MongoDB is connected
+    if (mongoose.connection.readyState !== 1) {
+      // Return mock data when MongoDB is not connected
+      return res.json({
+        success: true,
+        data: [
+          {
+            _id: 'mock-note-1',
+            userId: req.userId,
+            content: 'Welcome to EVERMIND Notes! This is a sample note.',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          },
+          {
+            _id: 'mock-note-2', 
+            userId: req.userId,
+            content: 'You can create, edit, and delete notes here. Try creating a new note!',
+            createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+            updatedAt: new Date(Date.now() - 86400000).toISOString()
+          }
+        ],
+        pagination: {
+          page: 1,
+          limit: 20,
+          total: 2,
+          pages: 1
+        }
+      });
+    }
+
     const { page = 1, limit = 20, search = '' } = req.query;
     const skip = (page - 1) * limit;
     
@@ -61,6 +92,22 @@ router.post('/', getCurrentUser, async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'Note content is too long (max 10,000 characters)'
+      });
+    }
+    
+    // Check if MongoDB is connected
+    if (mongoose.connection.readyState !== 1) {
+      // Return mock data when MongoDB is not connected
+      return res.status(201).json({
+        success: true,
+        data: {
+          _id: 'mock-note-' + Date.now(),
+          userId: req.userId,
+          content: content.trim(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        message: 'Note created successfully (mock mode)'
       });
     }
     

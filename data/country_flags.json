@@ -243,5 +243,75 @@
     "question": "Which country's flag is this?",
     "image": "https://flagcdn.com/w320/rw.png",
     "answer": "Rwanda"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/sd.png",
+    "answer": "Sudan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ss.png",
+    "answer": "South Sudan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/so.png",
+    "answer": "Somalia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/sn.png",
+    "answer": "Senegal"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ml.png",
+    "answer": "Mali"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/cm.png",
+    "answer": "Cameroon"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ci.png",
+    "answer": "Ivory Coast (Côte d'Ivoire)"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/cd.png",
+    "answer": "DR Congo"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/zw.png",
+    "answer": "Zimbabwe"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/zm.png",
+    "answer": "Zambia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/bw.png",
+    "answer": "Botswana"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mz.png",
+    "answer": "Mozambique"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/na.png",
+    "answer": "Namibia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mw.png",
+    "answer": "Malawi"
   }
 ]

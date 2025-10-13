@@ -14,7 +14,51 @@
   {
     "question": "What is DNA?",
     "answer": "Deoxyribonucleic acid - the molecule that carries genetic instructions for the development, functioning, growth and reproduction of all known organisms."
-  }
-]
+  },
+  {
+    "question": "What is an Ovary in a flower?",
+    "answer": "The ovary is the female reproductive part of a flower that contains the ovules (eggs). After fertilization, the ovary develops into a fruit containing seeds. It's located at the base of the pistil and protects the developing seeds."
+  },
+  {
+    "question": "What is Fahrenheit to Celsius conversion?",
+    "answer": "**Fahrenheit to Celsius:**\nC = (F - 32) × 5/9\n\n**Celsius to Fahrenheit:**\nF = (C × 9/5) + 32\n\n**Examples:**\n- 32°F = 0°C (freezing point)\n- 212°F = 100°C (boiling point)\n- 98.6°F = 37°C (body temperature)"
+  },
+  {
+    "question": "What is Isotope?",
+    "answer": "Isotopes are atoms of the same element that have different numbers of neutrons. They have the same atomic number (protons) but different atomic masses. Examples: Carbon-12 and Carbon-14 are isotopes of carbon."
+  },
+  {
+    "question": "There's a species of jellyfish that is technically immortal. What is it?",
+    "answer": "Turritopsis dohrnii, the \"immortal jellyfish,\" can revert its cells back to a younger state when stressed or injured, potentially repeating this cycle indefinitely. It's the only known animal that can reverse its aging process."
+  },
+  {
+    "question": "Can you burp in space?",
+    "answer": "No, you can't burp in space. Without gravity, gas in your stomach doesn't separate from liquids, so astronauts can't release it as a normal burp. The gas stays mixed with the liquid in their stomach."
+  },
+  {
+    "question": "There's a metal that melts in your hand. What is it?",
+    "answer": "Gallium melts at just 29.76°C (85.57°F). Hold it in your palm, and it slowly turns from solid to liquid. It's safe to handle and has a low melting point due to its atomic structure."
+  },
+  {
+    "question": "Some fungi can control insects like zombies. What is this called?",
+    "answer": "Ophiocordyceps fungi infect ants, take over their nervous system, and force them to climb and attach to a leaf before killing them and sprouting from their body. This is called 'zombie ant' behavior."
+  },
+  {
+    "question": "Can sloths hold their breath longer than dolphins?",
+    "answer": "Yes! Sloths can slow their heart rate and hold their breath underwater for up to 40 minutes; dolphins typically manage about 10 minutes. Sloths have evolved this ability for their slow-moving lifestyle."
+  },
+  {
+    "question": "What is a Tachyon?",
+    "answer": "Tachyons are hypothetical particles that always move faster than light, but they've never been observed. If they exist, they'd break our understanding of physics. They're purely theoretical at this point."
+  },
+  {
+    "question": "What is Fahrenheit to Celsius conversion?",
+    "answer": "**Fahrenheit to Celsius:**\nC = (F - 32) × 5/9\n\n**Celsius to Fahrenheit:**\nF = (C × 9/5) + 32\n\n**Examples:**\n- 32°F = 0°C (freezing point)\n- 212°F = 100°C (boiling point)\n- 98.6°F = 37°C (body temperature)"
+  },
+  {
+    "question": "What is an Ovary in a flower?",
+    "answer": "The ovary is the female reproductive part of a flower that contains the ovules (eggs). After fertilization, the ovary develops into a fruit containing seeds. It's located at the base of the pistil and protects the developing seeds."
+  }  
+  ]
 
 

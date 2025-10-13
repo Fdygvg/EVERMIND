@@ -447,5 +447,323 @@
     "answer": "Use the `<aside>` tag for content not directly related to the main site:\n\n```html\n<main>\n    <article>\n        <h2>Main Article</h2>\n        <p>Main content...</p>\n    </article>\n    \n    <aside>\n        <h3>Related Links</h3>\n        <ul>\n            <li><a href=\"#\">Related Article 1</a></li>\n            <li><a href=\"#\">Related Article 2</a></li>\n        </ul>\n        \n        <h3>Advertisement</h3>\n        <p>Ad content...</p>\n    </aside>\n</main>\n```\n\nCommon uses: sidebars, advertisements, related links, author info.",
     "type": "html",
     "tags": ["html", "semantic"]
+  },
+  {
+    "question": "Why might a website intentionally freeze when I open DevTools?",
+    "answer": "Websites freeze DevTools to prevent debugging, reverse engineering, or code inspection. Common reasons:\n\n1. **Anti-debugging protection** - Prevents competitors from copying code\n2. **Security measures** - Protects sensitive algorithms or API keys\n3. **Performance monitoring** - DevTools can slow down the site\n4. **User experience** - Prevents users from accidentally breaking the site\n\n**How to bypass:**\n- Disable JavaScript\n- Use browser extensions\n- Inspect source code directly\n- Use mobile debugging tools",
+    "type": "web-development",
+    "tags": ["devtools", "debugging", "security"]
+  },
+  {
+    "question": "What does the debugger command tell the browser to do?",
+    "answer": "The `debugger` command tells the browser to:\n\n1. **Pause execution** at that exact line\n2. **Open DevTools** automatically (if not already open)\n3. **Enter debug mode** - you can inspect variables, step through code\n4. **Set breakpoint** - similar to clicking the line number in DevTools\n\n**Example:**\n```javascript\nfunction calculateTotal(items) {\n    let total = 0;\n    debugger; // Browser pauses here\n    for (let item of items) {\n        total += item.price;\n    }\n    return total;\n}\n```\n\n**Use cases:**\n- Debug complex functions\n- Inspect variable values\n- Step through code line by line",
+    "type": "javascript",
+    "tags": ["debugging", "devtools", "javascript"],
+    "code": "function debugExample() {\n    let x = 10;\n    let y = 20;\n    debugger; // Browser pauses here\n    let result = x + y;\n    console.log(result);\n    return result;\n}\n\ndebugExample();"
+  },
+  {
+    "question": "How to ping websites? Example: ping google.com",
+    "answer": "**Windows Command:**\n```cmd\nping google.com\nping 8.8.8.8\n```\n\n**What ping does:**\n- Sends packets to test connectivity\n- Measures response time (latency)\n- Shows if website/server is reachable\n\n**Example output:**\n```\nPinging google.com [142.250.191.14] with 32 bytes of data:\nReply from 142.250.191.14: bytes=32 time=15ms TTL=54\nReply from 142.250.191.14: bytes=32 time=12ms TTL=54\n```\n\n**Useful options:**\n- `ping -t google.com` (continuous ping)\n- `ping -n 4 google.com` (send 4 packets)\n- `ping -l 1000 google.com` (send 1000 byte packets)",
+    "type": "networking",
+    "tags": ["ping", "networking", "command-line"]
+  },
+  {
+    "question": "What's the difference between a port and a PID?",
+    "answer": "**Port:**\n- Communication channel/endpoint\n- Like a door number (80, 443, 3000)\n- Used for network communication\n- Multiple processes can use same port (with different protocols)\n\n**PID (Process ID):**\n- Unique identifier for a running process\n- Like a person's ID number\n- Each process has only one PID\n- Used to identify and manage processes\n\n**Analogy:**\n- Port = Apartment building address (123 Main St)\n- PID = Specific apartment number (Apt 5B)\n\n**Example:**\n- Port 3000 = Web server communication channel\n- PID 1234 = The actual Node.js process using port 3000",
+    "type": "networking",
+    "tags": ["ports", "pid", "processes", "networking"]
+  },
+  {
+    "question": "What does this command do? netstat -ano | findstr :8000",
+    "answer": "**Command breakdown:**\n\n`netstat -ano`:\n- Shows all network connections\n- `-a` = all connections\n- `-n` = show addresses numerically\n- `-o` = show process ID (PID)\n\n`| findstr :8000`:\n- Filters results to only show port 8000\n- `|` = pipe (passes output to next command)\n- `findstr` = Windows search command\n\n**What it does:**\nFinds which process is using port 8000 and shows its PID\n\n**Example output:**\n```\nTCP    0.0.0.0:8000    0.0.0.0:0    LISTENING    1234\n```\n\n**Next step:**\nUse the PID (1234) to kill the process:\n`taskkill /PID 1234 /F`",
+    "type": "command-line",
+    "tags": ["netstat", "findstr", "ports", "windows"]
+  },
+  {
+    "question": "Why does taskkill /PID 8000 /F fail?",
+    "answer": "**The problem:**\nYou're trying to kill PID 8000, but 8000 is a **port number**, not a PID!\n\n**What happens:**\n- `taskkill /PID 8000 /F` looks for process with ID 8000\n- But 8000 is the port, not the process ID\n- Process might have PID 1234, 5678, etc.\n\n**Correct process:**\n1. **Find the PID:** `netstat -ano | findstr :8000`\n2. **Get the actual PID** (e.g., 1234)\n3. **Kill the process:** `taskkill /PID 1234 /F`\n\n**Remember:**\n- Port = communication channel (8000)\n- PID = process identifier (1234)\n- You kill processes (PIDs), not ports",
+    "type": "command-line",
+    "tags": ["taskkill", "pid", "ports", "troubleshooting"]
+  },
+  {
+    "question": "What are the two steps to free a port that's in use?",
+    "answer": "**Step 1: Find the PID using the port**\n```cmd\nnetstat -ano | findstr :8000\n```\n\n**Step 2: Kill the process using that PID**\n```cmd\ntaskkill /PID <PID_NUMBER> /F\n```\n\n**Complete example:**\n```cmd\n# Step 1: Find what's using port 3000\nnetstat -ano | findstr :3000\n# Output: TCP 0.0.0.0:3000 0.0.0.0:0 LISTENING 1234\n\n# Step 2: Kill process 1234\ntaskkill /PID 1234 /F\n# Output: SUCCESS: The process with PID 1234 has been terminated.\n```\n\n**Why this works:**\n- Ports are just communication channels\n- Processes are the actual programs\n- Kill the process → port becomes free",
+    "type": "command-line",
+    "tags": ["ports", "netstat", "taskkill", "troubleshooting"]
+  },
+  {
+    "question": "How do you kill the process using port 8000?",
+    "answer": "**Complete solution:**\n\n**Step 1:** Find the PID\n```cmd\nnetstat -ano | findstr :8000\n```\n\n**Step 2:** Kill the process\n```cmd\ntaskkill /PID <PID_FROM_STEP_1> /F\n```\n\n**Real example:**\n```cmd\n# Find process using port 8000\nnetstat -ano | findstr :8000\n# Output: TCP 0.0.0.0:8000 0.0.0.0:0 LISTENING 5678\n\n# Kill process 5678\ntaskkill /PID 5678 /F\n# Output: SUCCESS: The process with PID 5678 has been terminated.\n```\n\n**One-liner (if you know the PID):**\n```cmd\ntaskkill /PID 5678 /F\n```\n\n**Remember:**\n- Always find the PID first\n- Use `/F` for force kill\n- Port 8000 → Find PID → Kill PID",
+    "type": "command-line",
+    "tags": ["taskkill", "netstat", "ports", "processes"]
+  },
+  {
+    "question": "How to check all files in a project? Use: dir",
+    "answer": "**Windows Command:**\n```cmd\ndir\n```\n\n**What it shows:**\n- All files and folders in current directory\n- File sizes\n- Creation dates\n- File types\n\n**Useful variations:**\n```cmd\ndir /p          # Pause between screens\ndir /w          # Wide format\ndir *.js        # Show only .js files\ndir /s          # Show subdirectories too\ndir /a          # Show hidden files\n```\n\n**Example output:**\n```\nDirectory of C:\\MyProject\n\nindex.html    1,234 bytes  10/13/2025\nstyle.css     2,456 bytes  10/13/2025\nscript.js     3,789 bytes  10/13/2025\nREADME.md     456 bytes    10/13/2025\n```\n\n**Linux/Mac equivalent:**\n```bash\nls -la\n```",
+    "type": "command-line",
+    "tags": ["dir", "files", "directory", "windows"]
+  },
+  {
+    "question": "How to check what's inside a file? Use: type filename",
+    "answer": "**Windows Command:**\n```cmd\ntype filename.txt\ntype index.html\ntype script.js\n```\n\n**What it does:**\n- Displays the entire contents of a file\n- Shows text files in the terminal\n- Useful for quick file inspection\n\n**Example:**\n```cmd\ntype README.md\n```\n\n**Output:**\n```\n# My Project\nThis is a sample README file.\n\n## Features\n- Feature 1\n- Feature 2\n```\n\n**Useful for:**\n- Quick file preview\n- Checking file contents\n- Reading configuration files\n\n**Linux/Mac equivalent:**\n```bash\ncat filename\nless filename\nmore filename\n```",
+    "type": "command-line",
+    "tags": ["type", "files", "content", "windows"]
+  },
+  {
+    "question": "What does 'git status porcelain' mean?",
+    "answer": "**Git Status Porcelain:**\n\n**What it is:**\n- `git status --porcelain` gives machine-readable output\n- Designed for scripts and automation\n- Clean, consistent format\n\n**Regular git status:**\n```\nOn branch main\nChanges not staged for commit:\n  modified:   file.txt\n  new file:   newfile.js\n```\n\n**Porcelain format:**\n```\n M file.txt\n?? newfile.js\n```\n\n**Status codes:**\n- `M` = Modified\n- `A` = Added\n- `D` = Deleted\n- `??` = Untracked\n- `R` = Renamed\n\n**Why use it:**\n- Scripts can parse it easily\n- Consistent output format\n- No human-friendly text to filter out\n\n**Example:**\n```bash\ngit status --porcelain | grep \"^ M\"\n```",
+    "type": "git",
+    "tags": ["git", "status", "porcelain", "automation"]
+  },
+  {
+    "question": "What is the Gobuster tool?",
+    "answer": "**Gobuster:**\n\n**What it is:**\n- Directory/file brute-forcing tool\n- Written in Go programming language\n- Used for web application security testing\n\n**What it does:**\n- Discovers hidden directories and files\n- Brute-forces common web paths\n- Finds sensitive files (admin panels, config files)\n\n**Basic usage:**\n```bash\n# Directory brute-forcing\ngobuster dir -u http://target.com -w wordlist.txt\n\n# DNS subdomain enumeration\ngobuster dns -d target.com -w subdomains.txt\n\n# VHost enumeration\ngobuster vhost -u http://target.com -w vhosts.txt\n```\n\n**Common wordlists:**\n- `/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt`\n- `/usr/share/wordlists/dirb/common.txt`\n\n**Example output:**\n```\n/admin (Status: 200)\n/config (Status: 403)\n/backup (Status: 200)\n```\n\n**Legal use only:**\n- Only test your own systems\n- Get permission before testing",
+    "type": "security",
+    "tags": ["gobuster", "security", "brute-force", "pentesting"]
+  },
+  {
+    "question": "What is the Hydra tool?",
+    "answer": "**Hydra:**\n\n**What it is:**\n- Password brute-forcing tool\n- Supports many protocols (HTTP, FTP, SSH, etc.)\n- Fast parallel attacks\n\n**What it does:**\n- Tests username/password combinations\n- Brute-forces login credentials\n- Supports various authentication methods\n\n**Basic usage:**\n```bash\n# HTTP form login\nhydra -l admin -P passwords.txt target.com http-post-form \"/login:username=^USER^&password=^PASS^:Invalid\"\n\n# SSH brute-force\nhydra -l root -P passwords.txt ssh://192.168.1.100\n\n# FTP brute-force\nhydra -l admin -P passwords.txt ftp://target.com\n```\n\n**Common options:**\n- `-l` = single username\n- `-L` = username list\n- `-p` = single password\n- `-P` = password list\n- `-t` = number of threads\n\n**Example:**\n```bash\nhydra -l admin -P /usr/share/wordlists/rockyou.txt -t 4 target.com http-post-form \"/login:user=^USER^&pass=^PASS^:Login failed\"\n```\n\n**Legal use only:**\n- Only test your own systems\n- Get permission before testing",
+    "type": "security"
+  },
+  {
+    "question": "How to add links in HTML?",
+    "answer": "**Different types of links:**\n\n**Link to another website:**\n```html\n<a href=\"https://www.google.com\">Google Homepage</a>\n```\n\n**Link to another HTML file in project directory:**\n```html\n<a href=\"about.html\">About Page</a>\n```\n\n**Link to HTML file in different folder:**\n```html\n<a href=\"pages/contact.html\">Contact Page</a>\n```\n\n**Link to image in directory:**\n```html\n<a href=\"images/photo.jpg\">View Photo</a>\n```\n\n**Link to image outside HTML folder:**\n```html\n<a href=\"../assets/logo.png\">Company Logo</a>\n```\n\n**Important:** Always include `https://` for external websites!",
+    "type": "html",
+    "tags": ["html", "links", "anchors"]
+  },
+  {
+    "question": "How to make links open in a new tab?",
+    "answer": "Use `target=\"_blank\"` attribute:\n\n```html\n<a href=\"https://www.google.com\" target=\"_blank\">Google (New Tab)</a>\n```\n\n**What it does:**\n- Opens the link in a new browser tab\n- Keeps the original page open\n- Useful for external links",
+    "type": "html",
+    "tags": ["html", "links", "target"]
+  },
+  {
+    "question": "How to create image tags in HTML?",
+    "answer": "**Basic image tag:**\n```html\n<img src=\"image.jpg\" alt=\"Description\">\n```\n\n**Image from internet:**\n```html\n<img src=\"https://example.com/image.jpg\" alt=\"Online Image\">\n```\n\n**Image from directory:**\n```html\n<img src=\"images/photo.jpg\" alt=\"Local Photo\">\n```\n\n**With size control:**\n```html\n<img src=\"image.jpg\" alt=\"Description\" width=\"300\" height=\"200\">\n```\n\n**Important:** Always include `alt` attribute for accessibility!",
+    "type": "html",
+    "tags": ["html", "images", "alt"]
+  },
+  {
+    "question": "How to edit image size in HTML?",
+    "answer": "**Set both width and height:**\n```html\n<img src=\"image.jpg\" width=\"300\" height=\"200\" alt=\"Description\">\n```\n\n**Set only width (height auto-adjusts):**\n```html\n<img src=\"image.jpg\" width=\"300\" alt=\"Description\">\n```\n\n**Set only height (width auto-adjusts):**\n```html\n<img src=\"image.jpg\" height=\"200\" alt=\"Description\">\n```\n\n**Tips:**\n- You can check image dimensions before setting\n- Setting only one dimension maintains aspect ratio\n- `alt` is very important for accessibility",
+    "type": "html",
+    "tags": ["html", "images", "sizing"]
+  },
+  {
+    "question": "How to add videos to HTML?",
+    "answer": "**Basic video tag:**\n```html\n<video src=\"video.mp4\" controls width=\"400\"></video>\n```\n\n**With thumbnail (poster):**\n```html\n<video src=\"video.mp4\" poster=\"thumbnail.jpg\" controls width=\"400\"></video>\n```\n\n**Auto-play and loop:**\n```html\n<video src=\"video.mp4\" autoplay loop muted controls></video>\n```\n\n**Full example:**\n```html\n<video src=\"video.mp4\" poster=\"thumb.jpg\" controls width=\"500\" height=\"300\" autoplay loop muted>\n    Your browser doesn't support video.\n</video>\n```\n\n**Note:** Use `muted` with `autoplay` for browser compatibility",
+    "type": "html",
+    "tags": ["html", "video", "multimedia"]
+  },
+  {
+    "question": "How to add YouTube videos to HTML?",
+    "answer": "**Get embedded link from YouTube:**\n1. Go to YouTube video\n2. Click \"Share\" → \"Embed\"\n3. Copy the iframe code\n\n**Use the iframe code:**\n```html\n<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/VIDEO_ID\" frameborder=\"0\" allowfullscreen></iframe>\n```\n\n**Example:**\n```html\n<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\" frameborder=\"0\" allowfullscreen></iframe>\n```\n\n**Same process as regular videos, just use the YouTube embed link!**",
+    "type": "html",
+    "tags": ["html", "youtube", "iframe"]
+  },
+  {
+    "question": "How to create unordered lists in HTML?",
+    "answer": "**Basic unordered list:**\n```html\n<ul>\n    <li>Item 1</li>\n    <li>Item 2</li>\n    <li>Item 3</li>\n</ul>\n```\n\n**With links:**\n```html\n<ul>\n    <li><a href=\"home.html\">Home</a></li>\n    <li><a href=\"about.html\">About</a></li>\n    <li><a href=\"contact.html\">Contact</a></li>\n</ul>\n```\n\n**When to use:**\n- Navigation menus\n- Feature lists\n- Any items without specific order\n- Bullet points",
+    "type": "html",
+    "tags": ["html", "lists", "navigation"]
+  },
+  {
+    "question": "How to create ordered lists in HTML?",
+    "answer": "**Basic ordered list:**\n```html\n<ol>\n    <li>First item</li>\n    <li>Second item</li>\n    <li>Third item</li>\n</ol>\n```\n\n**Different number formats:**\n```html\n<!-- Numbers (default) -->\n<ol type=\"1\">\n    <li>Item 1</li>\n    <li>Item 2</li>\n</ol>\n\n<!-- Letters -->\n<ol type=\"A\">\n    <li>Item A</li>\n    <li>Item B</li>\n</ol>\n\n<!-- Roman numerals -->\n<ol type=\"I\">\n    <li>Item I</li>\n    <li>Item II</li>\n</ol>\n```\n\n**When to use:**\n- Step-by-step instructions\n- Rankings\n- Any items with specific order",
+    "type": "html",
+    "tags": ["html", "lists", "ordered"]
+  },
+  {
+    "question": "How to create description lists in HTML?",
+    "answer": "**Description list structure:**\n```html\n<dl>\n    <dt>Term 1</dt>\n    <dd>Description of term 1</dd>\n    \n    <dt>Term 2</dt>\n    <dd>Description of term 2</dd>\n</dl>\n```\n\n**Example:**\n```html\n<dl>\n    <dt>HTML</dt>\n    <dd>HyperText Markup Language - used for web pages</dd>\n    \n    <dt>CSS</dt>\n    <dd>Cascading Style Sheets - used for styling</dd>\n    \n    <dt>JavaScript</dt>\n    <dd>Programming language for web interactivity</dd>\n</dl>\n```\n\n**When to use:**\n- Glossaries\n- Definitions\n- Terms with descriptions\n- FAQ sections",
+    "type": "html",
+    "tags": ["html", "lists", "descriptions"]
+  },
+  {
+    "question": "How to create tables in HTML?",
+    "answer": "**Basic table:**\n```html\n<table>\n    <tr>\n        <td>Cell 1</td>\n        <td>Cell 2</td>\n    </tr>\n    <tr>\n        <td>Cell 3</td>\n        <td>Cell 4</td>\n    </tr>\n</table>\n```\n\n**With headers:**\n```html\n<table>\n    <caption>Student Grades</caption>\n    <tr>\n        <th>Name</th>\n        <th>Math</th>\n        <th>Science</th>\n    </tr>\n    <tr>\n        <td>John</td>\n        <td>85</td>\n        <td>90</td>\n    </tr>\n</table>\n```\n\n**With formatting:**\n```html\n<table>\n    <thead>\n        <tr><th>Header 1</th><th>Header 2</th></tr>\n    </thead>\n    <tbody>\n        <tr><td>Data 1</td><td>Data 2</td></tr>\n    </tbody>\n</table>\n```",
+    "type": "html",
+    "tags": ["html", "tables", "data"]
+  },
+  {
+    "question": "How to make table cells span multiple columns?",
+    "answer": "Use `colspan` attribute:\n\n```html\n<table>\n    <tr>\n        <th>Name</th>\n        <th>Subject</th>\n        <th>Grade</th>\n    </tr>\n    <tr>\n        <td>John</td>\n        <td colspan=\"2\">Math - A</td>\n    </tr>\n    <tr>\n        <td>Jane</td>\n        <td>Science</td>\n        <td>B+</td>\n    </tr>\n</table>\n```\n\n**What `colspan=\"2\"` does:**\n- Makes the cell span 2 columns\n- Useful for headers that cover multiple columns\n- Adjusts the table layout automatically",
+    "type": "html",
+    "tags": ["html", "tables", "colspan"]
+  },
+  {
+    "question": "What's the difference between inline and block elements?",
+    "answer": "**Inline Elements:**\n- Stay next to each other on the same line\n- Only take up as much space as needed\n- Examples: `<a>`, `<span>`, `<img>`, `<strong>`\n\n```html\n<a href=\"#\">Link 1</a>\n<a href=\"#\">Link 2</a>\n<!-- These stay on the same line -->\n```\n\n**Block Elements:**\n- Take up the entire width of their container\n- Start on a new line\n- Examples: `<p>`, `<div>`, `<h1>`, `<ul>`\n\n```html\n<p>Paragraph 1</p>\n<p>Paragraph 2</p>\n<!-- These are on separate lines -->\n```\n\n**Containers:**\n- `<span>` = inline container\n- `<div>` = block container\n\nBoth can be used to group and style content!",
+    "type": "html",
+    "tags": ["html", "inline", "block", "elements"]
+  },
+  {
+    "question": "How to create different input types in HTML forms?",
+    "answer": "**Text inputs:**\n```html\n<!-- Text -->\n<input type=\"text\" placeholder=\"Enter your name\">\n\n<!-- Password -->\n<input type=\"password\" placeholder=\"Enter password\">\n\n<!-- Email -->\n<input type=\"email\" placeholder=\"Enter email\">\n\n<!-- Phone -->\n<input type=\"tel\" placeholder=\"Enter phone number\">\n\n<!-- Date -->\n<input type=\"date\">\n\n<!-- Number -->\n<input type=\"number\" min=\"1\" max=\"100\">\n\n<!-- Range -->\n<input type=\"range\" min=\"0\" max=\"100\">\n\n<!-- File -->\n<input type=\"file\">\n\n<!-- Checkbox -->\n<input type=\"checkbox\" id=\"agree\">\n<label for=\"agree\">I agree</label>\n\n<!-- Radio buttons -->\n<input type=\"radio\" name=\"gender\" value=\"male\"> Male\n<input type=\"radio\" name=\"gender\" value=\"female\"> Female\n\n<!-- Button -->\n<input type=\"submit\" value=\"Submit\">\n```\n\n**Default values:**\n```html\n<input type=\"text\" value=\"Default text\">\n```\n\n**Note:** Radio buttons with the same `name` allow only one selection!",
+    "type": "html",
+    "tags": ["html", "forms", "input", "validation"]
+  },
+  {
+    "question": "What is a textarea used for in HTML?",
+    "answer": "**Textarea is used for:**\n- Multi-line text input\n- Comments, messages, descriptions\n- Longer text that doesn't fit in regular input\n\n**How to write it:**\n```html\n<textarea rows=\"4\" cols=\"50\" placeholder=\"Enter your message here...\"></textarea>\n```\n\n**With default text:**\n```html\n<textarea rows=\"4\" cols=\"50\">Default message text</textarea>\n```\n\n**Attributes:**\n- `rows` = number of visible lines\n- `cols` = number of visible characters per line\n- `placeholder` = hint text\n- `maxlength` = maximum characters allowed\n\n**Example:**\n```html\n<label for=\"comment\">Your Comment:</label>\n<textarea id=\"comment\" name=\"comment\" rows=\"5\" cols=\"40\" placeholder=\"Write your comment here...\"></textarea>\n```",
+    "type": "html",
+    "tags": ["html", "forms", "textarea", "multiline"]
+  },
+  {
+    "question": "What is a form in HTML and how to write it?",
+    "answer": "**What forms are used for:**\n- Collecting user input\n- Submitting data to servers\n- User registration, contact forms, surveys\n\n**Basic form structure:**\n```html\n<form action=\"submit.php\" method=\"POST\">\n    <label for=\"name\">Name:</label>\n    <input type=\"text\" id=\"name\" name=\"name\" required>\n    \n    <label for=\"email\">Email:</label>\n    <input type=\"email\" id=\"email\" name=\"email\" required>\n    \n    <label for=\"message\">Message:</label>\n    <textarea id=\"message\" name=\"message\" rows=\"4\"></textarea>\n    \n    <input type=\"submit\" value=\"Send Message\">\n</form>\n```\n\n**Form attributes:**\n- `action` = where to send the data\n- `method` = GET or POST\n- `required` = makes field mandatory\n\n**Example with different inputs:**\n```html\n<form action=\"process.php\" method=\"POST\">\n    <input type=\"text\" name=\"username\" placeholder=\"Username\">\n    <input type=\"password\" name=\"password\" placeholder=\"Password\">\n    <input type=\"checkbox\" name=\"remember\"> Remember me\n    <input type=\"submit\" value=\"Login\">\n</form>\n```",
+    "type": "html",
+    "tags": ["html", "forms", "submission", "data"]
+  },
+  {
+    "question": "What is an iframe in HTML?",
+    "answer": "**What iframe does:**\n- Embeds another webpage inside your page\n- Creates a \"window\" to another site\n- Useful for videos, maps, external content\n\n**Basic iframe:**\n```html\n<iframe src=\"https://www.example.com\" width=\"600\" height=\"400\" frameborder=\"0\"></iframe>\n```\n\n**With fallback text:**\n```html\n<iframe src=\"https://www.example.com\" width=\"600\" height=\"400\" frameborder=\"0\">\n    Your browser doesn't support iframes.\n</iframe>\n```\n\n**Common uses:**\n- YouTube videos\n- Google Maps\n- External widgets\n- Embedded content\n\n**Important:**\n- Some websites block iframe embedding (like Amazon)\n- Always include fallback text\n- Use `frameborder=\"0\"` for cleaner look\n\n**Example:**\n```html\n<iframe src=\"https://www.google.com/maps/embed?pb=...\" width=\"400\" height=\"300\" frameborder=\"0\" allowfullscreen></iframe>\n```",
+    "type": "html",
+    "tags": ["html", "iframe", "embedding", "external"]
+  },
+  {
+    "question": "What are meta tags in HTML?",
+    "answer": "**Meta tags provide information about the webpage:**\n\n**Character encoding:**\n```html\n<meta charset=\"UTF-8\">\n```\n\n**Page description:**\n```html\n<meta name=\"description\" content=\"This is a great website about programming\">\n```\n\n**Author information:**\n```html\n<meta name=\"author\" content=\"John Doe\">\n```\n\n**Keywords for SEO:**\n```html\n<meta name=\"keywords\" content=\"html, css, javascript, web development\">\n```\n\n**Viewport for mobile:**\n```html\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n```\n\n**Complete example:**\n```html\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"description\" content=\"Learn HTML, CSS, and JavaScript\">\n    <meta name=\"author\" content=\"Web Developer\">\n    <meta name=\"keywords\" content=\"html, css, javascript\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>My Website</title>\n</head>\n```\n\n**Purpose:**\n- SEO optimization\n- Browser compatibility\n- Mobile responsiveness\n- Search engine information",
+    "type": "html",
+    "tags": ["html", "meta", "seo", "head"]
+  },
+  {
+    "question": "What is the difference between Git and GitHub?",
+    "answer": "**Git:**\n- Free, open-source version control system\n- Runs on your local computer\n- Tracks changes in your code\n- Command-line tool\n\n**GitHub:**\n- Online platform that hosts Git repositories\n- Web-based service\n- Provides collaboration features\n- Stores your code in the cloud\n\n**Analogy:**\n- Git = The engine of a car (does the work)\n- GitHub = The garage where you park the car (stores it)\n\n**Git manages your code changes locally**\n**GitHub stores and shares your code online**\n\n**Think of it like:**\n- Git = Your personal filing system\n- GitHub = The shared office where everyone can access files",
+    "type": "git",
+    "tags": ["git", "github", "version-control", "collaboration"]
+  },
+  {
+    "question": "What is Git?",
+    "answer": "**Git is:**\n- A free, open-source version control system\n- A tool that tracks changes in your code\n- Created by Linus Torvalds (Linux creator)\n- Used by developers worldwide\n\n**What Git does:**\n- Saves snapshots of your code\n- Tracks who made what changes\n- Allows you to go back to previous versions\n- Helps manage different versions of your project\n\n**Think of Git like:**\n- A time machine for your code\n- A backup system that remembers every change\n- A collaboration tool for teams\n\n**Why use Git:**\n- Never lose your work\n- Work with others easily\n- Experiment without fear\n- Keep track of project history",
+    "type": "git",
+    "tags": ["git", "version-control", "tracking", "history"]
+  },
+  {
+    "question": "What is version control?",
+    "answer": "**Version control is:**\nThe management of changes to documents, computer programs, large websites, and other collections of information.\n\n**What it does:**\n- Tracks every change you make\n- Saves different versions of your work\n- Allows you to go back to any previous version\n- Helps teams work together without conflicts\n\n**Real-world analogy:**\n- Like saving different drafts of a document\n- Like having multiple backup copies\n- Like a timeline of all your changes\n\n**Benefits:**\n- Never lose your work\n- See what changed and when\n- Work with others safely\n- Experiment without fear\n\n**Examples:**\n- Google Docs (saves versions automatically)\n- Microsoft Word (track changes)\n- Git (for code)\n\n**Version control = Time travel for your files!**",
+    "type": "git",
+    "tags": ["version-control", "tracking", "history", "management"]
+  },
+  {
+    "question": "Explain these Git terms simply:",
+    "answer": "**Directory:**\nA folder on your computer that contains files and other folders.\n\n**Terminal/Command Line:**\nA text-based way to interact with your computer (like talking to your computer with text commands).\n\n**CLI:**\nCommand Line Interface - another name for terminal/command line.\n\n**cd (Change Directory):**\nCommand to move between folders: `cd folder-name`\n\n**Code Editor:**\nA program for writing code (like VS Code, Sublime Text, Atom).\n\n**Repository:**\nA project folder that Git is tracking (contains your code and Git history).\n\n**GitHub:**\nOnline platform where you can store and share your Git repositories.\n\n**README.md:**\nA file that explains what your project is about (like a project description).",
+    "type": "git",
+    "tags": ["git", "terminology", "basics", "concepts"]
+  },
+  {
+    "question": "Explain these Git commands simply:",
+    "answer": "**Clone:**\n`git clone` - Downloads a copy of a repository from GitHub to your computer.\n\n**Add:**\n`git add` - Tells Git to start tracking changes in your files (stages them).\n\n**Commit:**\n`git commit` - Saves your changes with a message (like saving a snapshot).\n\n**Push:**\n`git push` - Uploads your local changes to GitHub (sends your work to the cloud).\n\n**Pull:**\n`git pull` - Downloads the latest changes from GitHub to your computer.\n\n**Simple workflow:**\n1. `git add .` (stage changes)\n2. `git commit -m \"message\"` (save snapshot)\n3. `git push` (upload to GitHub)\n\n**Think of it like:**\n- Add = Put items in a box\n- Commit = Seal the box with a label\n- Push = Send the box to storage\n- Pull = Get the latest box from storage",
+    "type": "git",
+    "tags": ["git", "commands", "workflow", "basics"]
+  },
+  {
+    "question": "How to check if Git is installed?",
+    "answer": "**Command:**\n```bash\ngit --version\n```\n\n**What it shows:**\n- If Git is installed: Shows version number (e.g., `git version 2.34.1`)\n- If Git is NOT installed: Shows error message\n\n**Example output:**\n```bash\n$ git --version\ngit version 2.34.1\n```\n\n**If Git is not installed:**\n- Download from: https://git-scm.com/\n- Install the program\n- Restart your terminal\n- Run `git --version` again\n\n**This is the first command to run when learning Git!**",
+    "type": "git",
+    "tags": ["git", "installation", "check", "version"]
+  },
+  {
+    "question": "How to show hidden files in directory?",
+    "answer": "**Command:**\n```bash\nls -la\n```\n\n**What it does:**\n- `ls` = list files\n- `-l` = long format (shows details)\n- `-a` = all files (including hidden ones)\n\n**What you'll see:**\n- Regular files and folders\n- Hidden files (starting with `.`)\n- File permissions, sizes, dates\n\n**Example output:**\n```bash\n$ ls -la\ndrwxr-xr-x  user  staff  4096 Oct 13 10:30 .\ndrwxr-xr-x  user  staff  4096 Oct 13 10:30 ..\n-rw-r--r--  user  staff   123 Oct 13 10:30 .gitignore\n-rw-r--r--  user  staff   456 Oct 13 10:30 index.html\n```\n\n**Hidden files start with a dot (.)**\n- `.git` = Git repository folder\n- `.gitignore` = Files to ignore\n- `.env` = Environment variables",
+    "type": "git",
+    "tags": ["git", "files", "hidden", "directory"]
+  },
+  {
+    "question": "How to check files that haven't been committed yet?",
+    "answer": "**Command:**\n```bash\ngit status\n```\n\n**What it shows:**\n- Files that are modified but not staged\n- Files that are staged but not committed\n- Files that are untracked (new files)\n\n**Example output:**\n```bash\n$ git status\nOn branch main\nChanges not staged for commit:\n  modified:   index.html\n  modified:   style.css\n\nUntracked files:\n  new-file.js\n\nChanges to be committed:\n  modified:   README.md\n```\n\n**What the colors mean:**\n- **Red** = Modified but not staged\n- **Green** = Staged and ready to commit\n- **Untracked** = New files Git doesn't know about\n\n**This is your Git dashboard - shows what's changed!**",
+    "type": "git",
+    "tags": ["git", "status", "tracking", "changes"]
+  },
+  {
+    "question": "How to add files in Git?",
+    "answer": "**Add individual file:**\n```bash\ngit add filename.html\n```\n\n**Add all files:**\n```bash\ngit add .\n```\n\n**Examples:**\n```bash\n# Add specific file\ngit add index.html\n\n# Add all files in current directory\ngit add .\n\n# Add all HTML files\ngit add *.html\n\n# Add all files in a folder\ngit add css/\n```\n\n**What `git add` does:**\n- Stages files for commit\n- Tells Git \"I want to save these changes\"\n- Prepares files to be committed\n\n**Think of it like:**\n- Putting items in a shopping cart\n- Selecting files to save\n- Preparing for checkout (commit)\n\n**After `git add`, use `git commit` to save!**",
+    "type": "git",
+    "tags": ["git", "add", "staging", "files"]
+  },
+  {
+    "question": "How does the /folder/ path work to move between files?",
+    "answer": "**Path navigation explained:**\n\n**Current directory:**\n```bash\n.\n```\n\n**Parent directory (go up one level):**\n```bash\n..\n```\n\n**Examples:**\n```bash\n# Go to parent directory\ncd ..\n\n# Go to grandparent directory\ncd ../..\n\n# Go to sibling directory\ncd ../sibling-folder\n\n# Go to specific path\ncd ../demo-repo2\n```\n\n**Real-world analogy:**\n- Think of folders like rooms in a house\n- `.` = current room\n- `..` = parent room (one level up)\n- `../..` = grandparent room (two levels up)\n\n**File structure example:**\n```\nhome/\n├── user/\n│   ├── project1/\n│   └── project2/\n└── documents/\n```\n\n**From project1 to project2:**\n```bash\ncd ../project2\n```\n\n**From project1 to documents:**\n```bash\ncd ../../documents\n```",
+    "type": "git",
+    "tags": ["git", "paths", "navigation", "directories"]
+  },
+  {
+    "question": "How to solve 'origin does not appear to be a git repo' error?",
+    "answer": "**The error means:**\nGit doesn't know where to send your code (no remote repository set up).\n\n**How to solve:**\n\n**Step 1: Create repository on GitHub**\n- Go to GitHub.com\n- Click \"New repository\"\n- Give it a name\n- Click \"Create repository\"\n\n**Step 2: Copy the repository URL**\n- Copy the HTTPS or SSH URL from GitHub\n- Example: `https://github.com/username/repo-name.git`\n\n**Step 3: Connect your local repo to GitHub**\n```bash\ngit remote add origin https://github.com/username/repo-name.git\n```\n\n**Step 4: Verify it worked**\n```bash\ngit remote -v\n```\n\n**Step 5: Push your code**\n```bash\ngit push -u origin main\n```\n\n**What this does:**\n- `remote add origin` = tells Git where GitHub repo is\n- `remote -v` = shows connected repositories\n- `push -u origin main` = uploads code and sets default branch",
+    "type": "git",
+    "tags": ["git", "error", "origin", "remote", "github"]
+  },
+  {
+    "question": "How to set shortcut so you don't always type 'origin main'?",
+    "answer": "**Use the `-u` flag:**\n```bash\ngit push -u origin main\n```\n\n**What `-u` does:**\n- Sets up tracking between local and remote branch\n- Creates a shortcut for future pushes\n- Links your local `main` branch to `origin/main`\n\n**After using `-u` once:**\n```bash\n# Instead of this:\ngit push origin main\n\n# You can just do:\ngit push\n```\n\n**Same works for pull:**\n```bash\n# Instead of:\ngit pull origin main\n\n# You can do:\ngit pull\n```\n\n**Think of `-u` as:**\n- Setting up a \"favorite\" connection\n- Creating a shortcut\n- Telling Git \"remember this connection\"\n\n**One-time setup, then simple commands forever!**",
+    "type": "git",
+    "tags": ["git", "shortcut", "upstream", "tracking"]
+  },
+  {
+    "question": "How to switch between branches and check differences?",
+    "answer": "**Switch to existing branch:**\n```bash\ngit checkout branch-name\n```\n\n**Create and switch to new branch:**\n```bash\ngit checkout -b new-branch-name\n```\n\n**Check differences between branches:**\n```bash\ngit diff feature-branch\n```\n\n**Examples:**\n```bash\n# Switch to main branch\ngit checkout main\n\n# Switch to feature branch\ngit checkout feature-login\n\n# Create new branch\ngit checkout -b feature-signup\n\n# See what's different\ngit diff main\n```\n\n**What `git diff` shows:**\n- Lines added (+)\n- Lines removed (-)\n- Files that changed\n- Detailed differences\n\n**Think of branches like:**\n- Different versions of your project\n- Parallel universes\n- Separate workspaces\n\n**Use `git branch` to see all branches!**",
+    "type": "git",
+    "tags": ["git", "branches", "switching", "differences"]
+  },
+  {
+    "question": "What is a Pull Request (PR) and how does it work?",
+    "answer": "**What is a Pull Request:**\nA way to propose changes to a project and get them reviewed before merging.\n\n**Sample scenario:**\n\n**1. You make changes:**\n```bash\ngit checkout -b feature-login\ngit add .\ngit commit -m \"Add login form\"\ngit push origin feature-login\n```\n\n**2. Create PR on GitHub:**\n- Go to your repository\n- Click \"Compare & pull request\"\n- Add description of changes\n- Click \"Create pull request\"\n\n**3. Team reviews:**\n- Others can see your changes\n- Leave comments and suggestions\n- Approve or request changes\n\n**4. Merge the PR:**\n- Once approved, merge into main branch\n- Your changes become part of the project\n\n**Why use PRs:**\n- Code review before merging\n- Discussion about changes\n- Quality control\n- Team collaboration\n\n**Think of PR as:**\n- Asking permission to add your changes\n- Getting feedback before finalizing\n- Professional way to contribute",
+    "type": "git",
+    "tags": ["git", "pull-request", "collaboration", "review"]
+  },
+  {
+    "question": "How to delete branches in Git?",
+    "answer": "**Delete local branch:**\n```bash\ngit branch -d branch-name\n```\n\n**Force delete (if branch has unmerged changes):**\n```bash\ngit branch -D branch-name\n```\n\n**Delete remote branch:**\n```bash\ngit push origin --delete branch-name\n```\n\n**Examples:**\n```bash\n# Delete local feature branch\ngit branch -d feature-login\n\n# Force delete (careful!)\ngit branch -D old-feature\n\n# Delete remote branch\ngit push origin --delete feature-signup\n```\n\n**What happens:**\n- `-d` = safe delete (only if merged)\n- `-D` = force delete (even if not merged)\n- Remote delete = removes from GitHub\n\n**Best practice:**\n- Delete branches after merging\n- Keep main branches (main, develop)\n- Clean up old feature branches\n\n**Think of it like:**\n- Throwing away old drafts\n- Cleaning up your workspace\n- Keeping only what you need",
+    "type": "git",
+    "tags": ["git", "branches", "delete", "cleanup"]
+  },
+  {
+    "question": "What is the shortcut to upload modified files to Git?",
+    "answer": "**Shortcut command:**\n```bash\ngit commit -am \"Your message\"\n```\n\n**What `-am` does:**\n- `-a` = automatically add all modified files\n- `-m` = add commit message\n- Skips the `git add` step\n\n**Regular way:**\n```bash\ngit add .\ngit commit -m \"Your message\"\n```\n\n**Shortcut way:**\n```bash\ngit commit -am \"Your message\"\n```\n\n**Important:**\n- Only works for **modified** files\n- Does NOT add **new** files\n- For new files, still need `git add`\n\n**Examples:**\n```bash\n# Modified existing files\ngit commit -am \"Fixed login bug\"\n\n# New files need separate add\ngit add new-file.js\ngit commit -m \"Added new feature\"\n```\n\n**Think of `-am` as:**\n- \"Add and commit modified files\"\n- One-step process for changes\n- Time saver for quick updates",
+    "type": "git",
+    "tags": ["git", "shortcut", "commit", "modified"]
+  },
+  {
+    "question": "How to undo staging in Git?",
+    "answer": "**Undo staging for single file:**\n```bash\ngit reset filename\n```\n\n**Undo staging for all files:**\n```bash\ngit reset\n```\n\n**Examples:**\n```bash\n# Unstage specific file\ngit reset index.html\n\n# Unstage all files\ngit reset\n\n# Unstage all files in directory\ngit reset css/\n```\n\n**What `git reset` does:**\n- Removes files from staging area\n- Files go back to \"modified\" status\n- Changes are still there, just not staged\n\n**Before reset:**\n```bash\n$ git status\nChanges to be committed:\n  modified:   index.html\n  modified:   style.css\n```\n\n**After `git reset index.html`:**\n```bash\n$ git status\nChanges to be committed:\n  modified:   style.css\n\nChanges not staged for commit:\n  modified:   index.html\n```\n\n**Think of it like:**\n- Taking items out of shopping cart\n- Unchecking files you don't want to commit\n- Going back to \"modified\" status",
+    "type": "git",
+    "tags": ["git", "reset", "unstage", "undo"]
+  },
+  {
+    "question": "How to undo a commit in Git?",
+    "answer": "**Undo last commit (keep changes):**\n```bash\ngit reset HEAD~1\n```\n\n**Undo last commit (discard changes):**\n```bash\ngit reset --hard HEAD~1\n```\n\n**What this means:**\n- `HEAD~1` = go back one commit\n- `--hard` = also discard all changes\n- Without `--hard` = keep changes but unstage them\n\n**Examples:**\n```bash\n# Undo last commit, keep changes\ngit reset HEAD~1\n\n# Undo last commit, lose all changes\ngit reset --hard HEAD~1\n\n# Undo last 2 commits\ngit reset HEAD~2\n```\n\n**What happens:**\n- Commit is removed from history\n- Files go back to previous state\n- `--hard` = changes are lost forever\n- Without `--hard` = changes become unstaged\n\n**Be careful with `--hard`!**\n- It permanently deletes your changes\n- Use only if you're sure\n- Consider `git stash` to save changes first\n\n**Think of it like:**\n- Undoing the last save\n- Going back in time\n- `--hard` = throwing away your work",
+    "type": "git",
+    "tags": ["git", "reset", "undo", "commit", "history"]
+  },
+  {
+    "question": "What is forking code and give a simple analogy?",
+    "answer": "**What is forking:**\nCreating your own copy of someone else's project that you can modify independently.\n\n**Simple analogy:**\n**Forking is like photocopying a recipe book:**\n\n1. **Original recipe book** = Someone else's project on GitHub\n2. **Photocopy the book** = Fork their repository\n3. **Your copy** = You can now modify recipes without affecting the original\n4. **Make changes** = Add your own recipes or modify existing ones\n5. **Share back** = Send your improvements back to the original author\n\n**Real example:**\n- You find a cool open-source project on GitHub\n- You fork it (copy to your account)\n- You make improvements or add features\n- You can submit a pull request to share your changes\n\n**Why fork:**\n- Contribute to open-source projects\n- Use someone's code as a starting point\n- Experiment without affecting the original\n- Learn from other people's code\n\n**Fork = Personal copy you can modify!**",
+    "type": "git",
+    "tags": ["git", "forking", "copying", "collaboration"]
+  },
+  {
+    "question": "When should you encode passwords?",
+    "answer": "**Always encode passwords when:**\n- Storing them in databases\n- Sending them over networks\n- Comparing them for login\n- Handling them in any way\n\n**Never store passwords in plain text!**\n\n**Common encoding methods:**\n- **Hashing** (one-way, can't be reversed)\n- **Encryption** (two-way, can be decrypted)\n- **Salting** (adds random data before hashing)\n\n**Examples:**\n```javascript\n// BAD - Never do this!\npassword = \"mypassword123\"\n\n// GOOD - Hash the password\nhashedPassword = hash(\"mypassword123\")\n```\n\n**Why encode:**\n- Security if database is compromised\n- Protection against data breaches\n- Industry best practice\n- User privacy protection\n\n**Think of it like:**\n- Putting money in a safe instead of leaving it out\n- Locking your house when you leave\n- Basic security measure\n\n**Rule: If it's a password, encode it!**",
+    "type": "security",
+    "tags": ["security", "passwords", "hashing", "encryption"]
+  },
+  {
+    "question": "How to kill a Node.js process?",
+    "answer": "**Windows command:**\n```cmd\ntaskkill /F /IM node.exe\n```\n\n**What this does:**\n- `taskkill` = terminate processes\n- `/F` = force kill (no confirmation)\n- `/IM node.exe` = target Node.js processes\n\n**Alternative methods:**\n\n**Find and kill specific process:**\n```cmd\n# Find Node processes\ntasklist | findstr node\n\n# Kill specific process by PID\ntaskkill /F /PID 1234\n```\n\n**Using PowerShell:**\n```powershell\nGet-Process node | Stop-Process -Force\n```\n\n**Why you might need this:**\n- Server won't stop normally\n- Port is still in use\n- Node process is stuck\n- Need to restart development server\n\n**Common scenario:**\n- You start a server with `npm start`\n- It gets stuck or won't stop\n- Use `taskkill /F /IM node.exe` to force stop\n\n**Think of it like:**\n- Force-quitting an unresponsive app\n- Emergency stop button\n- Nuclear option for stuck processes",
+    "type": "nodejs",
+    "tags": ["nodejs", "process", "kill", "windows"]
+  },
+  {
+    "question": "What is dotenv?",
+    "answer": "**What dotenv is:**\nA package that loads environment variables from a `.env` file into your application.\n\n**What it does:**\n- Reads variables from `.env` file\n- Makes them available in your code\n- Keeps sensitive data separate from code\n\n**How to use:**\n\n**1. Install dotenv:**\n```bash\nnpm install dotenv\n```\n\n**2. Create .env file:**\n```env\nDATABASE_URL=mongodb://localhost:27017/myapp\nAPI_KEY=your-secret-key-here\nPORT=3000\n```\n\n**3. Load in your code:**\n```javascript\nrequire('dotenv').config();\n\n// Now you can use:\nconst dbUrl = process.env.DATABASE_URL;\nconst apiKey = process.env.API_KEY;\nconst port = process.env.PORT;\n```\n\n**Why use dotenv:**\n- Keep secrets out of your code\n- Different settings for different environments\n- Easy to change without editing code\n- Security best practice\n\n**Think of .env like:**\n- A settings file\n- A configuration file\n- A way to store secrets safely\n\n**Never commit .env files to Git!**",
+    "type": "nodejs",
+    "tags": ["nodejs", "dotenv", "environment", "variables"]
+  },
+  {
+    "question": "What does '$ echo %port%' do?",
+    "answer": "**What it does:**\nDisplays the value of the `PORT` environment variable.\n\n**Command breakdown:**\n- `echo` = print/display text\n- `%port%` = Windows environment variable syntax\n- Shows the current value of PORT variable\n\n**Examples:**\n```cmd\n# If PORT=3000\necho %port%\n# Output: 3000\n\n# If PORT is not set\necho %port%\n# Output: %port%\n```\n\n**Common use cases:**\n- Check what port your app is using\n- Debug environment variables\n- Verify configuration\n\n**In different systems:**\n- **Windows:** `echo %PORT%`\n- **Linux/Mac:** `echo $PORT`\n- **PowerShell:** `echo $env:PORT`\n\n**Real example:**\n```cmd\n# Check if port is set\necho %PORT%\n\n# Set port if not set\nset PORT=3000\necho %PORT%\n```\n\n**Think of it like:**\n- Checking a setting\n- Reading a configuration value\n- Debugging environment variables\n\n**Useful for troubleshooting!**",
+    "type": "command-line",
+    "tags": ["command-line", "environment", "variables", "windows"]
   }
 ]

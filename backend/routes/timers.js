@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Timer = require('../models/Timer');
 
 // Middleware to get current user
@@ -17,6 +18,23 @@ router.post('/start', getCurrentUser, async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'Session ID is required'
+      });
+    }
+    
+    // If MongoDB is not connected, return mock success
+    if (mongoose.connection.readyState !== 1) {
+      console.log('⚠️ MongoDB not connected, returning mock timer data');
+      return res.json({
+        success: true,
+        data: {
+          _id: `mock-timer-${sessionId}`,
+          userId: req.userId,
+          sessionId,
+          startedAt: new Date().toISOString(),
+          status: 'running',
+          accumulatedMs: 0
+        },
+        message: 'Timer started successfully (mock)'
       });
     }
     
@@ -159,6 +177,22 @@ router.post('/stop', getCurrentUser, async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'Session ID is required'
+      });
+    }
+    
+    // If MongoDB is not connected, return mock success
+    if (mongoose.connection.readyState !== 1) {
+      console.log('⚠️ MongoDB not connected, returning mock timer stop');
+      return res.json({
+        success: true,
+        data: {
+          _id: `mock-timer-${sessionId}`,
+          userId: req.userId,
+          sessionId,
+          status: 'stopped',
+          stoppedAt: new Date().toISOString()
+        },
+        message: 'Timer stopped successfully (mock)'
       });
     }
     

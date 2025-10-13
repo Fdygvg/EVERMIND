@@ -34,6 +34,30 @@
   {
     "question": "Is there a place on Earth where sound can kill you?",
     "answer": "Yes! There's a 'quiet place' on Earth where sound can kill you. The world's quietest room (an anechoic chamber at Microsoft) absorbs 99.99% of sound — people start hallucinating after a few minutes inside."
+  },
+  {
+    "question": "What is quantum tunneling?",
+    "answer": "Quantum tunneling lets particles pass through barriers. Normally, a particle doesn't have enough energy to cross a barrier (like a wall). But in quantum mechanics, there's a tiny probability that the particle can \"tunnel\" through it anyway. This happens because particles aren't just points—they behave like waves, spreading out in space. If the wave extends past the barrier, there's a chance the particle will appear on the other side. This effect powers things like nuclear fusion in the Sun and modern tunnel diodes."
+  },
+  {
+    "question": "How much would a teaspoon of neutron star material weigh?",
+    "answer": "A teaspoon of neutron star material would weigh about 6 billion tons. Neutron stars are the densest visible objects in the universe. Their gravity compresses matter so much that a sugar-cube-sized amount would outweigh all the buildings on Earth combined."
+  },
+  {
+    "question": "What are superconductors?",
+    "answer": "There's a state of matter where electrons flow without resistance: superconductors. At very low temperatures, certain materials allow electrons to move freely without losing energy as heat. This makes magnetic levitation trains possible and could revolutionize power transmission."
+  },
+  {
+    "question": "What is spaghettification?",
+    "answer": "Spaghettification is real near black holes. If you fell into a black hole, the difference in gravity between your head and feet would stretch you into a thin, long \"spaghetti\" shape before you're crushed. Scientists call this effect tidal stretching."
+  },
+  {
+    "question": "Does your brain produce light?",
+    "answer": "Your brain produces measurable light, but you can't see it. Neurons emit biophotons—tiny bursts of light as they fire. This light is extremely weak, far below what the eye can detect, but it may play a role in communication between cells."
+  },
+  {
+    "question": "What is the longest movie in the world and how long is it?",
+    "answer": "The longest movie ever made is 'Logistics' (2012) by Swedish artists Erika Magnusson and Daniel Andersson. It runs for **51,420 minutes** (857 hours or about **35.6 days**). The film shows the journey of a pedometer from its factory in China to a store in Sweden, filmed in real-time. It's more of an art installation than a traditional movie."
   }
 ]
 
