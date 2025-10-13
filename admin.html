@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVERMIND Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .results h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .question-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4facfe;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .question-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .question-card p {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .question-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+        }
+
+        .section-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .section-info h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .section-info ul {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .section-info li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 EVERMIND Admin Panel</h1>
+            <p>AI-Powered Question Management System</p>
+        </div>
+
+        <div class="content">
+            <!-- Stats Section -->
+            <div class="stats" id="statsSection">
+                <div class="stat-card">
+                    <h3 id="totalQuestions">-</h3>
+                    <p>Total Questions</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="programmingQuestions">-</h3>
+                    <p>Programming</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="bibleQuestions">-</h3>
+                    <p>Bible</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="flagQuestions">-</h3>
+                    <p>Country Flags</p>
+                </div>
+            </div>
+
+            <!-- Question Processing Form -->
+            <div class="form-section">
+                <h2>📝 Add New Questions</h2>
+                
+                <div class="section-info">
+                    <h4>How to use:</h4>
+                    <ul>
+                        <li>Paste raw questions/answers into the text area below</li>
+                        <li>Select the appropriate section</li>
+                        <li>Click "Process & Save" to let AI format and save them</li>
+                        <li>AI will automatically detect question types and add relevant tags</li>
+                    </ul>
+                </div>
+
+                <form id="questionForm">
+                    <div class="form-group">
+                        <label for="section">Section:</label>
+                        <select id="section" name="section" required>
+                            <option value="">Select a section...</option>
+                            <option value="programming">Programming</option>
+                            <option value="bible">Bible</option>
+                            <option value="country_flags">Country Flags</option>
+                            <option value="science">Science</option>
+                            <option value="facts">Facts</option>
+                            <option value="history">History</option>
+                            <option value="languages">Languages</option>
+                            <option value="memes_brainrot">Memes & Brainrot</option>
+                            <option value="youtube_knowledge">YouTube Knowledge</option>
+                            <option value="new_words">New Words</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rawText">Raw Questions (paste here):</label>
+                        <textarea id="rawText" name="rawText" placeholder="Paste your raw questions here...
+
+Example:
+What is JavaScript?
+JavaScript is a programming language...
+
+How do you create a variable in Python?
+Use the = operator: x = 5
+
+What does HTML stand for?
+HTML stands for HyperText Markup Language..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" id="submitBtn">
+                        🤖 Process & Save with AI
+                    </button>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>AI is processing your questions...</p>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results" id="results">
+                <h3>✅ Processed Questions</h3>
+                <div id="resultsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+        
+        // Load stats on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+        });
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/questions`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const questions = data.data;
+                    const stats = {
+                        total: questions.length,
+                        programming: questions.filter(q => q.section === 'programming').length,
+                        bible: questions.filter(q => q.section === 'bible').length,
+                        flags: questions.filter(q => q.section === 'country_flags').length
+                    };
+                    
+                    document.getElementById('totalQuestions').textContent = stats.total;
+                    document.getElementById('programmingQuestions').textContent = stats.programming;
+                    document.getElementById('bibleQuestions').textContent = stats.bible;
+                    document.getElementById('flagQuestions').textContent = stats.flags;
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('questionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const rawText = formData.get('rawText');
+            const section = formData.get('section');
+            
+            if (!rawText.trim() || !section) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('results').style.display = 'none';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/questions/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        rawText: rawText,
+                        section: section
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess(`Successfully processed ${data.data.length} questions!`);
+                    displayResults(data.data);
+                    loadStats(); // Refresh stats
+                    
+                    // Clear form
+                    document.getElementById('questionForm').reset();
+                } else {
+                    showError(data.message || 'Failed to process questions');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to connect to server. Make sure the backend is running on port 5000.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        });
+
+        // Display results
+        function displayResults(questions) {
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                
+                questionCard.innerHTML = `
+                    <h4>Question ${index + 1}</h4>
+                    <p><strong>Q:</strong> ${question.question}</p>
+                    <p><strong>A:</strong> ${question.answer}</p>
+                    <p><strong>Type:</strong> ${question.type}</p>
+                    <p><strong>Section:</strong> ${question.section}</p>
+                    ${question.code ? `<p><strong>Code:</strong><br><code style="background: #f5f5f5; padding: 10px; display: block; margin-top: 5px; border-radius: 4px;">${question.code}</code></p>` : ''}
+                    <div class="tags">
+                        ${question.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+                
+                resultsContent.appendChild(questionCard);
+            });
+            
+            document.getElementById('results').style.display = 'block';
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            const existingMessage = document.querySelector('.success');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success';
+            successDiv.textContent = message;
+            
+            document.querySelector('.form-section').insertBefore(successDiv, document.querySelector('.form-section').firstChild);
+            
+            setTimeout(() => {
+                successDiv.remove();
+            }, 5000);
+        }
+
+        // Show error message
+        function showError(message) {
+            const existingMessage = document.querySelector('.error');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            
+            document.querySelector('.form-section').insertBefore(errorDiv, document.querySelector('.form-section').firstChild);
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 8000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Test</h1>
+    <div id="result"></div>
+    
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing API...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/questions?section=languages');
+                console.log('Response:', response);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Data:', data);
+                    
+                    if (data.success && data.data.length > 0) {
+                        const firstQuestion = data.data[0];
+                        resultDiv.innerHTML = `
+                            <h2>✅ API Working!</h2>
+                            <p>Loaded ${data.count} language questions</p>
+                            <h3>First Question:</h3>
+                            <p><strong>Question:</strong> ${firstQuestion.question}</p>
+                            <p><strong>Word:</strong> ${firstQuestion.word || 'No word field'}</p>
+                            <p><strong>Language:</strong> ${firstQuestion.language || 'No language field'}</p>
+                            <p><strong>Answer:</strong> ${firstQuestion.answer}</p>
+                            <p><strong>Keys:</strong> ${Object.keys(firstQuestion).join(', ')}</p>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = '<h2>❌ No data returned</h2>';
+                    }
+                } else {
+                    resultDiv.innerHTML = `<h2>❌ API Error: ${response.status}</h2>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<h2>❌ Fetch Error: ${error.message}</h2>`;
+            }
+        }
+        
+        testAPI();
+    </script>
+</body>
+</html>

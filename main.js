@@ -2390,6 +2390,13 @@ const quickLaunchApps = [
         appScheme: null,
         webUrl: 'about:blank',
         searchTerms: ['new tab', 'newtab']
+    },
+    {
+        name: 'Admin Panel',
+        icon: '⚙️',
+        appScheme: null,
+        webUrl: 'admin.html',
+        searchTerms: ['admin', 'panel', 'manage']
     }
 ];
 
