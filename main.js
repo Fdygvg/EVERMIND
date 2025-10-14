@@ -2045,6 +2045,12 @@ function displayCurrentQuestion() {
     document.getElementById('showAnswerBtn').style.display = 'inline-block';
     document.getElementById('answerControls').style.display = 'none';
     state.isAnswerShown = false;
+    
+    // Initialize timer for this question if timer mode is enabled
+    if (timerMode.enabled) {
+        console.log('⏱️ Timer mode enabled, initializing timer for new question');
+        resetQuestionTimer();
+    }
 }
 
 function showAnswer() {
@@ -2148,6 +2154,8 @@ function markWrong() {
 }
 
 function skipQuestion() {
+    console.log('⏱️ Skip question called, timer enabled:', timerMode.enabled);
+    
     // Move current question to end of queue
     const question = state.revisionQuestions.shift();
     state.revisionQuestions.push(question);
@@ -2168,6 +2176,10 @@ function skipQuestion() {
     }
     
     displayCurrentQuestion();
+    
+    // Reset timer for next question if timer mode is enabled
+    console.log('⏱️ About to reset timer after skip');
+    resetQuestionTimer();
 }
 
 function nextQuestion() {
@@ -2191,6 +2203,9 @@ function nextQuestion() {
         window.SoundEffects.playSound('next');
     }
         displayCurrentQuestion();
+        
+        // Reset timer for next question if timer mode is enabled
+        resetQuestionTimer();
     }
 }
 
@@ -2215,6 +2230,9 @@ function previousQuestion() {
         window.SoundEffects.playSound('next');
     }
         displayCurrentQuestion();
+        
+        // Reset timer for next question if timer mode is enabled
+        resetQuestionTimer();
     }
 }
 
@@ -6209,6 +6227,12 @@ function startQuestionTimer() {
     
     console.log(`⏱️ Starting timer for question: ${timerMode.duration} seconds`);
     
+    // Clear any existing interval first
+    if (timerMode.interval) {
+        clearInterval(timerMode.interval);
+        timerMode.interval = null;
+    }
+    
     timerMode.currentTime = timerMode.duration;
     timerMode.questionStartTime = Date.now();
     
@@ -6223,8 +6247,9 @@ function startQuestionTimer() {
         if (timerMode.currentTime <= 0) {
             // Time's up - mark as wrong and move to next
             console.log('⏱️ Time up! Marking question as wrong');
-            markWrong();
             clearInterval(timerMode.interval);
+            timerMode.interval = null;
+            markWrong();
         }
     }, 1000);
 }
@@ -6257,8 +6282,18 @@ function updateTimerDisplay() {
 // Reset timer when question changes
 function resetQuestionTimer() {
     if (timerMode.enabled) {
-        clearInterval(timerMode.interval);
-        startQuestionTimer();
+        console.log('⏱️ Resetting question timer');
+        
+        // Clear any existing timer interval
+        if (timerMode.interval) {
+            clearInterval(timerMode.interval);
+            timerMode.interval = null;
+        }
+        
+        // Small delay to ensure the interval is fully cleared before starting new one
+        setTimeout(() => {
+            startQuestionTimer();
+        }, 50);
     }
 }
 
