@@ -1097,6 +1097,9 @@ const sections = [
     { id: 'new_words', name: 'New Words', icon: '📝' },
     { id: 'youtube_knowledge', name: 'YouTube Knowledge', icon: '🎥' },
     { id: 'memes_brainrot', name: 'Memes & Brain Rot', icon: '🧠' },
+    { id: 'binance_futures', name: 'Binance Futures', icon: '📈' },
+    { id: 'psychology', name: 'Psychology', icon: '🧠' },
+    { id: 'chess', name: 'Chess', icon: '♟️' },
 ];
 
 async function loadAllSections() {
@@ -1191,6 +1194,18 @@ function showPage(pageId) {
         console.log('✅ Page shown:', pageId);
         console.log('📄 Active page element:', finalPage);
         console.log('📄 Active page classes:', finalPage.className);
+        
+        // Ensure copy button visibility is properly managed
+        const copyBtn = document.getElementById('copyBtn');
+        if (copyBtn) {
+            if (pageId === 'revisionMode') {
+                copyBtn.style.display = 'flex';
+                console.log('📋 Copy button shown for revision mode');
+            } else {
+                copyBtn.style.display = 'none';
+                console.log('📋 Copy button hidden for non-revision mode');
+            }
+        }
     } else {
         console.error('❌ Failed to show page:', pageId);
     }
@@ -1858,6 +1873,17 @@ function displayCurrentQuestion() {
             const safeTerm = question.term.replace(/'/g, "\\'").replace(/"/g, '\\"');
             questionHtml += ` <button class="speaker-btn" onclick="speakTerm('${safeTerm}')" title="Hear term">🔊</button>`;
         }
+    } else if (question.pieceType && question.possibleMoves) {
+        console.log('✅ DEBUG: Chess question detected - has pieceType and possibleMoves');
+        // Chess section - show interactive board
+        questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
+        questionHtml += `<div id="chessBoard" class="chess-board-container"></div>`;
+        // Initialize chess board after rendering
+        setTimeout(() => {
+            if (window.ChessBoard) {
+                window.ChessBoard.showChessDemo(question);
+            }
+        }, 100);
     } else {
         console.log('✅ DEBUG: Standard question detected - using default format');
         // Standard question format - apply consistent styling to all sections
@@ -2073,9 +2099,10 @@ function markWrong() {
     // Remove current question from front
     const question = state.revisionQuestions.shift();
     
-    // Insert question at position 5 (or at end if less than 5 questions remain)
-    const insertPosition = Math.min(5, state.revisionQuestions.length);
-    state.revisionQuestions.splice(insertPosition, 0, question);
+    // Insert question at a completely random position for unpredictable reappearance
+    // This makes the question come back at an unexpected time, far away from now
+    const randomPosition = Math.floor(Math.random() * (state.revisionQuestions.length + 1));
+    state.revisionQuestions.splice(randomPosition, 0, question);
     
     state.currentQuestionIndex = 0;
     

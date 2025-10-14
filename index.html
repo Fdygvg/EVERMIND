@@ -268,6 +268,36 @@
                     <span class="bookmark-count" id="memes_brainrot-bookmarks">0 bookmarked</span>
                 </div>
             </div>
+
+            <div class="section-card" onclick="openSection('binance_futures')">
+                <div class="card-icon">📈</div>
+                <h2>Binance Futures</h2>
+                <p>Learn trading concepts and strategies</p>
+                <div class="section-stats">
+                    <span class="question-count" id="binance_futures-count">0 questions</span>
+                    <span class="bookmark-count" id="binance_futures-bookmarks">0 bookmarked</span>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="openSection('psychology')">
+                <div class="card-icon">🧠</div>
+                <h2>Psychology</h2>
+                <p>Master psychological tricks and techniques</p>
+                <div class="section-stats">
+                    <span class="question-count" id="psychology-count">0 questions</span>
+                    <span class="bookmark-count" id="psychology-bookmarks">0 bookmarked</span>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="openSection('chess')">
+                <div class="card-icon">♟️</div>
+                <h2>Chess</h2>
+                <p>Learn chess moves and strategies</p>
+                <div class="section-stats">
+                    <span class="question-count" id="chess-count">0 questions</span>
+                    <span class="bookmark-count" id="chess-bookmarks">0 bookmarked</span>
+                </div>
+            </div>
             
             <div class="section-card" onclick="openBookmarkedQuestions()">
                 <div class="card-icon">📌</div>
@@ -304,6 +334,9 @@
                 <label><input type="checkbox" value="new_words" checked> 📚 New Words</label>
                 <label><input type="checkbox" value="youtube_knowledge" checked> 📺 YouTube Knowledge</label>
                 <label><input type="checkbox" value="memes_brainrot" checked> 🧠 Memes & Brain Rot</label>
+                <label><input type="checkbox" value="binance_futures" checked> 📈 Binance Futures</label>
+                <label><input type="checkbox" value="psychology" checked> 🧠 Psychology</label>
+                <label><input type="checkbox" value="chess" checked> ♟️ Chess</label>
             </div>
             <button class="big-btn primary-btn" onclick="startGlobalRevision()">Start Global Revision</button>
         </div>
@@ -648,6 +681,7 @@
     <script src="audio_player.js"></script>
     <script src="code_editor.js"></script>
     <script src="statistics.js"></script>
+    <script src="chess_board.js"></script>
     <script src="main.js?v=2"></script>
 </body>
 </html>

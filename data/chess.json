@@ -1,0 +1,22 @@
+[
+  {
+    "question": "How does the Knight move?",
+    "answer": "The Knight moves in an L-shape: 2 squares in one direction, then 1 square perpendicular. It's the only piece that can jump over other pieces.",
+    "pieceType": "knight",
+    "startPosition": "e4",
+    "possibleMoves": ["d6", "f6", "g5", "g3", "f2", "d2", "c3", "c5"],
+    "demoMoves": [
+      {"from": "e4", "to": "f6"}
+    ]
+  },
+  {
+    "question": "How does the Bishop move?",
+    "answer": "The Bishop moves diagonally any number of squares. It cannot jump over other pieces and stays on the same color squares throughout the game.",
+    "pieceType": "bishop",
+    "startPosition": "c1",
+    "possibleMoves": ["b2", "d2", "a3", "e3", "f4", "g5", "h6"],
+    "demoMoves": [
+      {"from": "c1", "to": "f4"}
+    ]
+  }
+]

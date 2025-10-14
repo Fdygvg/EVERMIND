@@ -1,0 +1,10 @@
+[
+  {
+    "question": "What is a long position in futures trading?",
+    "answer": "A long position means you're betting the price will go up. You buy a futures contract expecting to sell it later at a higher price."
+  },
+  {
+    "question": "What is leverage in futures trading?",
+    "answer": "Leverage allows you to control a larger position with less capital. For example, 10x leverage means you can control $1000 worth of assets with only $100."
+  }
+]
