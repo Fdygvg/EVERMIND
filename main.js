@@ -1,4 +1,266 @@
-﻿// ==================== STATE MANAGEMENT ====================
+﻿// ==================== CSS LOADING DETECTION ====================
+function detectCSSLoadingIssues() {
+    console.log('🔍 Checking CSS loading status...');
+    
+    // Check if main CSS is loaded by testing a specific style
+    const testElement = document.createElement('div');
+    testElement.className = 'btn';
+    testElement.style.display = 'none';
+    document.body.appendChild(testElement);
+    
+    const computedStyle = window.getComputedStyle(testElement);
+    const hasCustomCSS = computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' && 
+                        computedStyle.backgroundColor !== 'transparent';
+    
+    document.body.removeChild(testElement);
+    
+    console.log('📊 CSS Loading Status:', {
+        hasCustomCSS: hasCustomCSS,
+        backgroundColor: computedStyle.backgroundColor,
+        screenWidth: window.innerWidth,
+        isWideScreen: window.innerWidth > 1024
+    });
+    
+    if (!hasCustomCSS && window.innerWidth > 1024) {
+        console.warn('⚠️ CSS not loading properly on wide screen - applying emergency styles');
+        applyEmergencyCSS();
+    }
+    
+    return hasCustomCSS;
+}
+
+function applyEmergencyCSS() {
+    console.log('🚨 Applying emergency CSS for wide screens...');
+    
+    const emergencyCSS = `
+        <style id="emergency-css">
+            /* Emergency CSS for wide screens */
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #1a1a1a !important;
+                color: #ffffff !important;
+                line-height: 1.6 !important;
+            }
+            
+            .page {
+                display: none !important;
+                min-height: 100vh !important;
+                width: 100% !important;
+                padding: 20px !important;
+            }
+            
+            .page.active {
+                display: block !important;
+            }
+            
+            button, .btn, .calendar-btn, .refresh-btn, .copy-btn {
+                background: #F59E0B !important;
+                color: white !important;
+                border: none !important;
+                padding: 12px 20px !important;
+                border-radius: 8px !important;
+                cursor: pointer !important;
+                font-size: 14px !important;
+                font-weight: 600 !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                min-height: 44px !important;
+                min-width: 44px !important;
+                text-decoration: none !important;
+                transition: all 0.2s ease !important;
+            }
+            
+            button:hover, .btn:hover, .calendar-btn:hover, .refresh-btn:hover, .copy-btn:hover {
+                background: #FBBF24 !important;
+                transform: translateY(-1px) !important;
+            }
+            
+            .calendar-btn, .refresh-btn {
+                background: #10B981 !important;
+            }
+            
+            .calendar-btn:hover, .refresh-btn:hover {
+                background: #34D399 !important;
+            }
+            
+            .copy-btn {
+                background: #F59E0B !important;
+                border-radius: 50% !important;
+                width: 50px !important;
+                height: 50px !important;
+                position: fixed !important;
+                bottom: 20px !important;
+                left: 20px !important;
+                font-size: 1.5rem !important;
+            }
+            
+            #calendarPage, #notesPage {
+                background: #1a1a1a !important;
+                color: #ffffff !important;
+                min-height: 100vh !important;
+                width: 100% !important;
+                padding: 0 !important;
+            }
+            
+            .calendar-stats, .calendar-container {
+                background: rgba(255, 255, 255, 0.1) !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                color: #ffffff !important;
+                margin-bottom: 20px !important;
+            }
+            
+            .calendar-stats {
+                display: flex !important;
+                justify-content: space-around !important;
+                flex-wrap: wrap !important;
+            }
+            
+            .stat-item {
+                text-align: center !important;
+                padding: 10px !important;
+                color: #ffffff !important;
+            }
+            
+            .stat-label {
+                display: block !important;
+                font-size: 0.9rem !important;
+                font-weight: 600 !important;
+                color: rgba(255, 255, 255, 0.8) !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .stat-value {
+                display: block !important;
+                font-size: 1.8rem !important;
+                font-weight: 700 !important;
+                color: #ffffff !important;
+            }
+            
+            .calendar-grid {
+                display: grid !important;
+                grid-template-columns: repeat(7, 1fr) !important;
+                gap: 4px !important;
+                padding: 10px !important;
+                background: rgba(255, 255, 255, 0.03) !important;
+                border-radius: 15px !important;
+            }
+            
+            .calendar-day {
+                background: rgba(255, 255, 255, 0.1) !important;
+                border-radius: 10px !important;
+                color: #ffffff !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                min-height: 40px !important;
+                min-width: 40px !important;
+                cursor: pointer !important;
+                font-size: 0.95rem !important;
+                font-weight: 500 !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            .calendar-day:hover {
+                background: rgba(255, 255, 255, 0.2) !important;
+                transform: scale(1.05) !important;
+            }
+            
+            .calendar-day.visited {
+                background: #10B981 !important;
+                color: white !important;
+            }
+            
+            .calendar-day.today {
+                background: #F59E0B !important;
+                color: white !important;
+                font-weight: 700 !important;
+            }
+            
+            .calendar-nav {
+                background: #F59E0B !important;
+                color: white !important;
+                border: none !important;
+                border-radius: 50% !important;
+                width: 45px !important;
+                height: 45px !important;
+                font-size: 1.3rem !important;
+                cursor: pointer !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            
+            .calendar-nav:hover {
+                background: #FBBF24 !important;
+                transform: scale(1.1) !important;
+            }
+            
+            h1, h2, h3 {
+                color: #ffffff !important;
+                margin: 0 0 20px 0 !important;
+            }
+            
+            p {
+                color: rgba(255, 255, 255, 0.8) !important;
+                margin: 0 0 15px 0 !important;
+            }
+            
+            /* Force visibility for all elements */
+            * {
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            
+            /* Ensure proper layout */
+            .header-left, .header-center, .header-right {
+                display: flex !important;
+                align-items: center !important;
+            }
+            
+            .sections-grid {
+                display: grid !important;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+                gap: 20px !important;
+                padding: 20px !important;
+            }
+            
+            .section-card {
+                background: rgba(255, 255, 255, 0.1) !important;
+                border-radius: 15px !important;
+                padding: 20px !important;
+                cursor: pointer !important;
+                transition: all 0.3s ease !important;
+                color: #ffffff !important;
+            }
+            
+            .section-card:hover {
+                background: rgba(255, 255, 255, 0.2) !important;
+                transform: translateY(-2px) !important;
+            }
+            
+            .section-card h2 {
+                color: #ffffff !important;
+                margin: 0 0 10px 0 !important;
+                font-size: 1.3rem !important;
+            }
+            
+            .section-card p {
+                color: rgba(255, 255, 255, 0.8) !important;
+                margin: 0 0 15px 0 !important;
+            }
+        </style>
+    `;
+    
+    document.head.insertAdjacentHTML('beforeend', emergencyCSS);
+    console.log('✅ Emergency CSS applied successfully');
+}
+
+// ==================== STATE MANAGEMENT ====================
 const state = {
     currentSection: null,
     allQuestions: {},
@@ -175,6 +437,20 @@ async function initLoadingScreen() {
 // ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
     console.log('📄 DOM Content Loaded');
+    
+    // Check CSS loading immediately
+    setTimeout(() => {
+        detectCSSLoadingIssues();
+    }, 100);
+    
+    // Check CSS loading on window resize (when screen becomes wide)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) {
+            setTimeout(() => {
+                detectCSSLoadingIssues();
+            }, 100);
+        }
+    });
     
     // Small delay to ensure SoundEffects is loaded
     setTimeout(() => {
