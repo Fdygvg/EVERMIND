@@ -6857,9 +6857,9 @@ body[aria-busy="true"] {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 50%; /* Only cover top 50% */
+    left: 30%;
+    right: 30%;
+    height: 50%; /* Only cover top 50% height */
     background: linear-gradient(45deg, 
         transparent 0%, 
         rgba(16, 185, 129, 0.1) 20%, 
@@ -6877,13 +6877,13 @@ body[aria-busy="true"] {
     opacity: 1;
 }
 
-/* Add a subtle border to show the swipe area */
+/* Add a subtle border to show the central swipe zone */
 .revision-container .question-card::after {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    left: 30%;
+    right: 30%;
     height: 50%;
     border: 2px dashed rgba(255, 255, 255, 0.2);
     border-radius: 12px 12px 0 0;

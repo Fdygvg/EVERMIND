@@ -34,13 +34,13 @@ function applyEmergencyCSS() {
     
     const emergencyCSS = `
         <style id="emergency-css">
-            /* Emergency CSS for wide screens */
+            /* Emergency CSS for wide screens - Theme Aware */
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                background: #1a1a1a !important;
-                color: #ffffff !important;
+                background: var(--bg-primary, #1a1a1a) !important;
+                color: var(--text-primary, #ffffff) !important;
                 line-height: 1.6 !important;
             }
             
@@ -55,9 +55,9 @@ function applyEmergencyCSS() {
                 display: block !important;
             }
             
-            button, .btn, .calendar-btn, .refresh-btn, .copy-btn {
-                background: #F59E0B !important;
-                color: white !important;
+            button, .btn {
+                background: var(--btn-primary, #F59E0B) !important;
+                color: var(--text-primary, white) !important;
                 border: none !important;
                 padding: 12px 20px !important;
                 border-radius: 8px !important;
@@ -73,21 +73,37 @@ function applyEmergencyCSS() {
                 transition: all 0.2s ease !important;
             }
             
-            button:hover, .btn:hover, .calendar-btn:hover, .refresh-btn:hover, .copy-btn:hover {
-                background: #FBBF24 !important;
+            button:hover, .btn:hover {
+                background: var(--btn-primary-hover, #FBBF24) !important;
                 transform: translateY(-1px) !important;
             }
             
             .calendar-btn, .refresh-btn {
-                background: #10B981 !important;
+                background: var(--btn-success, #10B981) !important;
+                color: var(--text-primary, white) !important;
+                border: none !important;
+                padding: 12px 20px !important;
+                border-radius: 8px !important;
+                cursor: pointer !important;
+                font-size: 14px !important;
+                font-weight: 600 !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                min-height: 44px !important;
+                min-width: 44px !important;
+                text-decoration: none !important;
+                transition: all 0.2s ease !important;
             }
             
             .calendar-btn:hover, .refresh-btn:hover {
-                background: #34D399 !important;
+                background: var(--btn-success-hover, #34D399) !important;
+                transform: translateY(-1px) !important;
             }
             
             .copy-btn {
-                background: #F59E0B !important;
+                background: var(--btn-primary, #F59E0B) !important;
+                color: var(--text-primary, white) !important;
                 border-radius: 50% !important;
                 width: 50px !important;
                 height: 50px !important;
@@ -95,21 +111,32 @@ function applyEmergencyCSS() {
                 bottom: 20px !important;
                 left: 20px !important;
                 font-size: 1.5rem !important;
+                border: none !important;
+                cursor: pointer !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                transition: all 0.2s ease !important;
+            }
+            
+            .copy-btn:hover {
+                background: var(--btn-primary-hover, #FBBF24) !important;
+                transform: scale(1.1) !important;
             }
             
             #calendarPage, #notesPage {
-                background: #1a1a1a !important;
-                color: #ffffff !important;
+                background: var(--bg-primary, #1a1a1a) !important;
+                color: var(--text-primary, #ffffff) !important;
                 min-height: 100vh !important;
                 width: 100% !important;
                 padding: 0 !important;
             }
             
             .calendar-stats, .calendar-container {
-                background: rgba(255, 255, 255, 0.1) !important;
+                background: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
                 border-radius: 15px !important;
                 padding: 20px !important;
-                color: #ffffff !important;
+                color: var(--text-primary, #ffffff) !important;
                 margin-bottom: 20px !important;
             }
             
@@ -122,14 +149,14 @@ function applyEmergencyCSS() {
             .stat-item {
                 text-align: center !important;
                 padding: 10px !important;
-                color: #ffffff !important;
+                color: var(--text-primary, #ffffff) !important;
             }
             
             .stat-label {
                 display: block !important;
                 font-size: 0.9rem !important;
                 font-weight: 600 !important;
-                color: rgba(255, 255, 255, 0.8) !important;
+                color: var(--text-secondary, rgba(255, 255, 255, 0.8)) !important;
                 margin-bottom: 5px !important;
             }
             
@@ -137,7 +164,7 @@ function applyEmergencyCSS() {
                 display: block !important;
                 font-size: 1.8rem !important;
                 font-weight: 700 !important;
-                color: #ffffff !important;
+                color: var(--text-primary, #ffffff) !important;
             }
             
             .calendar-grid {
@@ -145,14 +172,14 @@ function applyEmergencyCSS() {
                 grid-template-columns: repeat(7, 1fr) !important;
                 gap: 4px !important;
                 padding: 10px !important;
-                background: rgba(255, 255, 255, 0.03) !important;
+                background: var(--card-bg, rgba(255, 255, 255, 0.03)) !important;
                 border-radius: 15px !important;
             }
             
             .calendar-day {
-                background: rgba(255, 255, 255, 0.1) !important;
+                background: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
                 border-radius: 10px !important;
-                color: #ffffff !important;
+                color: var(--text-primary, #ffffff) !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
@@ -161,29 +188,29 @@ function applyEmergencyCSS() {
                 cursor: pointer !important;
                 font-size: 0.95rem !important;
                 font-weight: 500 !important;
-                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)) !important;
                 transition: all 0.3s ease !important;
             }
             
             .calendar-day:hover {
-                background: rgba(255, 255, 255, 0.2) !important;
+                background: var(--card-bg-hover, rgba(255, 255, 255, 0.2)) !important;
                 transform: scale(1.05) !important;
             }
             
             .calendar-day.visited {
-                background: #10B981 !important;
+                background: var(--btn-success, #10B981) !important;
                 color: white !important;
             }
             
             .calendar-day.today {
-                background: #F59E0B !important;
+                background: var(--btn-primary, #F59E0B) !important;
                 color: white !important;
                 font-weight: 700 !important;
             }
             
             .calendar-nav {
-                background: #F59E0B !important;
-                color: white !important;
+                background: var(--btn-primary, #F59E0B) !important;
+                color: var(--text-primary, white) !important;
                 border: none !important;
                 border-radius: 50% !important;
                 width: 45px !important;
@@ -193,20 +220,21 @@ function applyEmergencyCSS() {
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
+                transition: all 0.2s ease !important;
             }
             
             .calendar-nav:hover {
-                background: #FBBF24 !important;
+                background: var(--btn-primary-hover, #FBBF24) !important;
                 transform: scale(1.1) !important;
             }
             
             h1, h2, h3 {
-                color: #ffffff !important;
+                color: var(--text-primary, #ffffff) !important;
                 margin: 0 0 20px 0 !important;
             }
             
             p {
-                color: rgba(255, 255, 255, 0.8) !important;
+                color: var(--text-secondary, rgba(255, 255, 255, 0.8)) !important;
                 margin: 0 0 15px 0 !important;
             }
             
@@ -230,27 +258,27 @@ function applyEmergencyCSS() {
             }
             
             .section-card {
-                background: rgba(255, 255, 255, 0.1) !important;
+                background: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
                 border-radius: 15px !important;
                 padding: 20px !important;
                 cursor: pointer !important;
                 transition: all 0.3s ease !important;
-                color: #ffffff !important;
+                color: var(--text-primary, #ffffff) !important;
             }
             
             .section-card:hover {
-                background: rgba(255, 255, 255, 0.2) !important;
+                background: var(--card-bg-hover, rgba(255, 255, 255, 0.2)) !important;
                 transform: translateY(-2px) !important;
             }
             
             .section-card h2 {
-                color: #ffffff !important;
+                color: var(--text-primary, #ffffff) !important;
                 margin: 0 0 10px 0 !important;
                 font-size: 1.3rem !important;
             }
             
             .section-card p {
-                color: rgba(255, 255, 255, 0.8) !important;
+                color: var(--text-secondary, rgba(255, 255, 255, 0.8)) !important;
                 margin: 0 0 15px 0 !important;
             }
         </style>
@@ -4074,35 +4102,46 @@ const SWIPE_THRESHOLDS = {
 // Debounce delay
 const SWIPE_DEBOUNCE = 150; // milliseconds
 
-// Helper function to check if touch is in top 50% of question card
+// Helper function to check if touch is in the central swipe zone (top 50% height, middle 40% width)
 function isTouchInTopHalf(touch) {
     const questionCard = document.getElementById('questionCard');
     if (!questionCard) return false;
     
     const rect = questionCard.getBoundingClientRect();
     const cardHeight = rect.height;
+    const cardWidth = rect.width;
     const cardTop = rect.top;
-    const cardBottom = rect.bottom;
-    const cardMiddle = cardTop + (cardHeight / 2);
+    const cardLeft = rect.left;
     
-    // Check if touch is within the question card bounds and in the top half
+    // Calculate the central swipe zone boundaries
+    const cardMiddle = cardTop + (cardHeight / 2); // Top 50% height
+    const leftBoundary = cardLeft + (cardWidth * 0.3); // Remove 30% from left
+    const rightBoundary = cardLeft + (cardWidth * 0.7); // Remove 30% from right (keep middle 40%)
+    
+    // Check if touch is within the central swipe zone
     return touch.clientY >= cardTop && touch.clientY <= cardMiddle && 
-           touch.clientX >= rect.left && touch.clientX <= rect.right;
+           touch.clientX >= leftBoundary && touch.clientX <= rightBoundary;
 }
 
-// Helper function to check if mouse click is in top 50% of question card
+// Helper function to check if mouse click is in the central swipe zone (top 50% height, middle 40% width)
 function isMouseInTopHalf(mouseEvent) {
     const questionCard = document.getElementById('questionCard');
     if (!questionCard) return false;
     
     const rect = questionCard.getBoundingClientRect();
     const cardHeight = rect.height;
+    const cardWidth = rect.width;
     const cardTop = rect.top;
-    const cardMiddle = cardTop + (cardHeight / 2);
+    const cardLeft = rect.left;
     
-    // Check if mouse click is within the question card bounds and in the top half
+    // Calculate the central swipe zone boundaries
+    const cardMiddle = cardTop + (cardHeight / 2); // Top 50% height
+    const leftBoundary = cardLeft + (cardWidth * 0.3); // Remove 30% from left
+    const rightBoundary = cardLeft + (cardWidth * 0.7); // Remove 30% from right (keep middle 40%)
+    
+    // Check if mouse click is within the central swipe zone
     return mouseEvent.clientY >= cardTop && mouseEvent.clientY <= cardMiddle && 
-           mouseEvent.clientX >= rect.left && mouseEvent.clientX <= rect.right;
+           mouseEvent.clientX >= leftBoundary && mouseEvent.clientX <= rightBoundary;
 }
 
 function initSwipeGestures() {

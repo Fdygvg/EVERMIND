@@ -35,8 +35,8 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             margin: 0 !important;
             padding: 0 !important;
-            background: #1a1a1a !important;
-            color: #ffffff !important;
+            background: var(--bg-primary, #1a1a1a) !important;
+            color: var(--text-primary, #ffffff) !important;
         }
         
         .page {
@@ -50,8 +50,8 @@
         }
         
         button, .btn {
-            background: #F59E0B !important;
-            color: white !important;
+            background: var(--btn-primary, #F59E0B) !important;
+            color: var(--text-primary, white) !important;
             border: none !important;
             padding: 12px 20px !important;
             border-radius: 8px !important;
@@ -65,9 +65,9 @@
             min-width: 44px !important;
         }
         
-        .calendar-btn, .refresh-btn, .copy-btn {
-            background: #10B981 !important;
-            color: white !important;
+        .calendar-btn, .refresh-btn {
+            background: var(--btn-success, #10B981) !important;
+            color: var(--text-primary, white) !important;
             border: none !important;
             padding: 12px 20px !important;
             border-radius: 8px !important;
@@ -82,7 +82,7 @@
         }
         
         .copy-btn {
-            background: #F59E0B !important;
+            background: var(--btn-primary, #F59E0B) !important;
             border-radius: 50% !important;
             width: 50px !important;
             height: 50px !important;
@@ -92,23 +92,23 @@
         }
         
         #calendarPage, #notesPage {
-            background: #1a1a1a !important;
-            color: #ffffff !important;
+            background: var(--bg-primary, #1a1a1a) !important;
+            color: var(--text-primary, #ffffff) !important;
             min-height: 100vh !important;
             width: 100% !important;
         }
         
         .calendar-stats, .calendar-container {
-            background: rgba(255, 255, 255, 0.1) !important;
+            background: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
             border-radius: 15px !important;
             padding: 20px !important;
-            color: #ffffff !important;
+            color: var(--text-primary, #ffffff) !important;
         }
         
         .calendar-day {
-            background: rgba(255, 255, 255, 0.1) !important;
+            background: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
             border-radius: 10px !important;
-            color: #ffffff !important;
+            color: var(--text-primary, #ffffff) !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
@@ -462,7 +462,7 @@
                     <!-- Answer will be displayed here -->
                 </div>
                 <div class="swipe-hint">
-                    <span class="swipe-hint-text">👆 Swipe in top half</span>
+                    <span class="swipe-hint-text">👆 Swipe in center area</span>
                 </div>
             </div>
 
