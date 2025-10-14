@@ -6779,7 +6779,7 @@ body[aria-busy="true"] {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    height: 50%; /* Only cover top 50% */
     background: linear-gradient(45deg, 
         transparent 0%, 
         rgba(16, 185, 129, 0.1) 20%, 
@@ -6795,6 +6795,51 @@ body[aria-busy="true"] {
 
 .revision-container .question-card:hover::before {
     opacity: 1;
+}
+
+/* Add a subtle border to show the swipe area */
+.revision-container .question-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 12px 12px 0 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.revision-container .question-card:hover::after {
+    opacity: 0.5;
+}
+
+/* Swipe hint styling */
+.swipe-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+}
+
+.swipe-hint-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Hide hint after a few seconds or when user starts swiping */
+.question-card.swipe-active .swipe-hint {
+    opacity: 0;
 }
 
 /* Swipe instruction overlay */

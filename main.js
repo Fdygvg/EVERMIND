@@ -3798,6 +3798,37 @@ const SWIPE_THRESHOLDS = {
 // Debounce delay
 const SWIPE_DEBOUNCE = 150; // milliseconds
 
+// Helper function to check if touch is in top 50% of question card
+function isTouchInTopHalf(touch) {
+    const questionCard = document.getElementById('questionCard');
+    if (!questionCard) return false;
+    
+    const rect = questionCard.getBoundingClientRect();
+    const cardHeight = rect.height;
+    const cardTop = rect.top;
+    const cardBottom = rect.bottom;
+    const cardMiddle = cardTop + (cardHeight / 2);
+    
+    // Check if touch is within the question card bounds and in the top half
+    return touch.clientY >= cardTop && touch.clientY <= cardMiddle && 
+           touch.clientX >= rect.left && touch.clientX <= rect.right;
+}
+
+// Helper function to check if mouse click is in top 50% of question card
+function isMouseInTopHalf(mouseEvent) {
+    const questionCard = document.getElementById('questionCard');
+    if (!questionCard) return false;
+    
+    const rect = questionCard.getBoundingClientRect();
+    const cardHeight = rect.height;
+    const cardTop = rect.top;
+    const cardMiddle = cardTop + (cardHeight / 2);
+    
+    // Check if mouse click is within the question card bounds and in the top half
+    return mouseEvent.clientY >= cardTop && mouseEvent.clientY <= cardMiddle && 
+           mouseEvent.clientX >= rect.left && mouseEvent.clientX <= rect.right;
+}
+
 function initSwipeGestures() {
     const questionCard = document.getElementById('questionCard');
     if (!questionCard) return;
@@ -3816,11 +3847,48 @@ function initSwipeGestures() {
     // Add keyboard event listeners
     document.addEventListener('keydown', handleKeyboardSwipe);
     
+    // Hide swipe hint after first interaction
+    hideSwipeHintAfterDelay();
+    
     console.log('Swipe gestures initialized');
+}
+
+// Hide swipe hint after a delay or first interaction
+function hideSwipeHintAfterDelay() {
+    const questionCard = document.getElementById('questionCard');
+    if (!questionCard) return;
+    
+    // Hide hint after 5 seconds
+    setTimeout(() => {
+        const hint = questionCard.querySelector('.swipe-hint');
+        if (hint) {
+            hint.style.opacity = '0';
+        }
+    }, 5000);
+    
+    // Hide hint immediately when user starts swiping
+    const hideHintOnSwipe = () => {
+        const hint = questionCard.querySelector('.swipe-hint');
+        if (hint) {
+            hint.style.opacity = '0';
+        }
+        // Remove event listeners after hiding
+        questionCard.removeEventListener('touchstart', hideHintOnSwipe);
+        questionCard.removeEventListener('mousedown', hideHintOnSwipe);
+    };
+    
+    questionCard.addEventListener('touchstart', hideHintOnSwipe);
+    questionCard.addEventListener('mousedown', hideHintOnSwipe);
 }
 
 function handleTouchStart(e) {
     const touch = e.touches[0];
+    
+    // Check if touch is in the top 50% of the question card
+    if (!isTouchInTopHalf(touch)) {
+        return; // Ignore touches in bottom half
+    }
+    
     swipeState.startX = touch.clientX;
     swipeState.startY = touch.clientY;
     swipeState.startTime = Date.now();
@@ -3862,6 +3930,11 @@ function handleTouchEnd(e) {
 }
 
 function handleMouseDown(e) {
+    // Check if mouse click is in the top 50% of the question card
+    if (!isMouseInTopHalf(e)) {
+        return; // Ignore clicks in bottom half
+    }
+    
     swipeState.startX = e.clientX;
     swipeState.startY = e.clientY;
     swipeState.startTime = Date.now();
