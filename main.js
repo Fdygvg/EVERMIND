@@ -1096,7 +1096,7 @@ const sections = [
     { id: 'country_flags', name: 'Country Flags', icon: '🚩' },
     { id: 'new_words', name: 'New Words', icon: '📝' },
     { id: 'youtube_knowledge', name: 'YouTube Knowledge', icon: '🎥' },
-    { id: 'memes_brainrot', name: 'Memes & Brain Rot', icon: '🧠' },
+    { id: 'memes_brainrot', name: 'Memes & Brain Rot', icon: '💀' },
     { id: 'binance_futures', name: 'Binance Futures', icon: '📈' },
     { id: 'psychology', name: 'Psychology', icon: '🧠' },
     { id: 'chess', name: 'Chess', icon: '♟️' },
