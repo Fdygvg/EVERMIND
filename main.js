@@ -1,294 +1,4 @@
-﻿// ==================== CSS LOADING DETECTION ====================
-function detectCSSLoadingIssues() {
-    console.log('🔍 Checking CSS loading status...');
-    
-    // Check if main CSS is loaded by testing a specific style
-    const testElement = document.createElement('div');
-    testElement.className = 'btn';
-    testElement.style.display = 'none';
-    document.body.appendChild(testElement);
-    
-    const computedStyle = window.getComputedStyle(testElement);
-    const hasCustomCSS = computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' && 
-                        computedStyle.backgroundColor !== 'transparent';
-    
-    document.body.removeChild(testElement);
-    
-    console.log('📊 CSS Loading Status:', {
-        hasCustomCSS: hasCustomCSS,
-        backgroundColor: computedStyle.backgroundColor,
-        screenWidth: window.innerWidth,
-        isWideScreen: window.innerWidth > 1024
-    });
-    
-    if (!hasCustomCSS && window.innerWidth > 1024) {
-        console.warn('⚠️ CSS not loading properly on wide screen - applying emergency styles');
-        applyEmergencyCSS();
-    }
-    
-    return hasCustomCSS;
-}
-
-function applyEmergencyCSS() {
-    console.log('🚨 Applying emergency CSS for wide screens...');
-    
-    const emergencyCSS = `
-        <style id="emergency-css">
-            /* Emergency CSS for wide screens - Theme Aware */
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                background: var(--bg-primary, #1a1a1a) !important;
-                color: var(--text-primary, #ffffff) !important;
-                line-height: 1.6 !important;
-            }
-            
-            .page {
-                display: none !important;
-                min-height: 100vh !important;
-                width: 100% !important;
-                padding: 20px !important;
-            }
-            
-            .page.active {
-                display: block !important;
-            }
-            
-            button, .btn {
-                background: var(--btn-primary, #F59E0B) !important;
-                color: var(--text-primary, white) !important;
-                border: none !important;
-                padding: 12px 20px !important;
-                border-radius: 8px !important;
-                cursor: pointer !important;
-                font-size: 14px !important;
-                font-weight: 600 !important;
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                min-height: 44px !important;
-                min-width: 44px !important;
-                text-decoration: none !important;
-                transition: all 0.2s ease !important;
-            }
-            
-            button:hover, .btn:hover {
-                background: var(--btn-primary-hover, #FBBF24) !important;
-                transform: translateY(-1px) !important;
-            }
-            
-            .calendar-btn, .refresh-btn {
-                background: var(--btn-success, #10B981) !important;
-                color: var(--text-primary, white) !important;
-                border: none !important;
-                padding: 12px 20px !important;
-                border-radius: 8px !important;
-                cursor: pointer !important;
-                font-size: 14px !important;
-                font-weight: 600 !important;
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                min-height: 44px !important;
-                min-width: 44px !important;
-                text-decoration: none !important;
-                transition: all 0.2s ease !important;
-            }
-            
-            .calendar-btn:hover, .refresh-btn:hover {
-                background: var(--btn-success-hover, #34D399) !important;
-                transform: translateY(-1px) !important;
-            }
-            
-            .copy-btn {
-                background: var(--btn-primary, #F59E0B) !important;
-                color: var(--text-primary, white) !important;
-                border-radius: 50% !important;
-                width: 50px !important;
-                height: 50px !important;
-                position: fixed !important;
-                bottom: 20px !important;
-                left: 20px !important;
-                font-size: 1.5rem !important;
-                border: none !important;
-                cursor: pointer !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                transition: all 0.2s ease !important;
-            }
-            
-            .copy-btn:hover {
-                background: var(--btn-primary-hover, #FBBF24) !important;
-                transform: scale(1.1) !important;
-            }
-            
-            #calendarPage, #notesPage {
-                background: var(--bg-primary, #1a1a1a) !important;
-                color: var(--text-primary, #ffffff) !important;
-                min-height: 100vh !important;
-                width: 100% !important;
-                padding: 0 !important;
-            }
-            
-            .calendar-stats, .calendar-container {
-                background: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
-                border-radius: 15px !important;
-                padding: 20px !important;
-                color: var(--text-primary, #ffffff) !important;
-                margin-bottom: 20px !important;
-            }
-            
-            .calendar-stats {
-                display: flex !important;
-                justify-content: space-around !important;
-                flex-wrap: wrap !important;
-            }
-            
-            .stat-item {
-                text-align: center !important;
-                padding: 10px !important;
-                color: var(--text-primary, #ffffff) !important;
-            }
-            
-            .stat-label {
-                display: block !important;
-                font-size: 0.9rem !important;
-                font-weight: 600 !important;
-                color: var(--text-secondary, rgba(255, 255, 255, 0.8)) !important;
-                margin-bottom: 5px !important;
-            }
-            
-            .stat-value {
-                display: block !important;
-                font-size: 1.8rem !important;
-                font-weight: 700 !important;
-                color: var(--text-primary, #ffffff) !important;
-            }
-            
-            .calendar-grid {
-                display: grid !important;
-                grid-template-columns: repeat(7, 1fr) !important;
-                gap: 4px !important;
-                padding: 10px !important;
-                background: var(--card-bg, rgba(255, 255, 255, 0.03)) !important;
-                border-radius: 15px !important;
-            }
-            
-            .calendar-day {
-                background: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
-                border-radius: 10px !important;
-                color: var(--text-primary, #ffffff) !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                min-height: 40px !important;
-                min-width: 40px !important;
-                cursor: pointer !important;
-                font-size: 0.95rem !important;
-                font-weight: 500 !important;
-                border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)) !important;
-                transition: all 0.3s ease !important;
-            }
-            
-            .calendar-day:hover {
-                background: var(--card-bg-hover, rgba(255, 255, 255, 0.2)) !important;
-                transform: scale(1.05) !important;
-            }
-            
-            .calendar-day.visited {
-                background: var(--btn-success, #10B981) !important;
-                color: white !important;
-            }
-            
-            .calendar-day.today {
-                background: var(--btn-primary, #F59E0B) !important;
-                color: white !important;
-                font-weight: 700 !important;
-            }
-            
-            .calendar-nav {
-                background: var(--btn-primary, #F59E0B) !important;
-                color: var(--text-primary, white) !important;
-                border: none !important;
-                border-radius: 50% !important;
-                width: 45px !important;
-                height: 45px !important;
-                font-size: 1.3rem !important;
-                cursor: pointer !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                transition: all 0.2s ease !important;
-            }
-            
-            .calendar-nav:hover {
-                background: var(--btn-primary-hover, #FBBF24) !important;
-                transform: scale(1.1) !important;
-            }
-            
-            h1, h2, h3 {
-                color: var(--text-primary, #ffffff) !important;
-                margin: 0 0 20px 0 !important;
-            }
-            
-            p {
-                color: var(--text-secondary, rgba(255, 255, 255, 0.8)) !important;
-                margin: 0 0 15px 0 !important;
-            }
-            
-            /* Force visibility for all elements */
-            * {
-                visibility: visible !important;
-                opacity: 1 !important;
-            }
-            
-            /* Ensure proper layout */
-            .header-left, .header-center, .header-right {
-                display: flex !important;
-                align-items: center !important;
-            }
-            
-            .sections-grid {
-                display: grid !important;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
-                gap: 20px !important;
-                padding: 20px !important;
-            }
-            
-            .section-card {
-                background: var(--card-bg, rgba(255, 255, 255, 0.1)) !important;
-                border-radius: 15px !important;
-                padding: 20px !important;
-                cursor: pointer !important;
-                transition: all 0.3s ease !important;
-                color: var(--text-primary, #ffffff) !important;
-            }
-            
-            .section-card:hover {
-                background: var(--card-bg-hover, rgba(255, 255, 255, 0.2)) !important;
-                transform: translateY(-2px) !important;
-            }
-            
-            .section-card h2 {
-                color: var(--text-primary, #ffffff) !important;
-                margin: 0 0 10px 0 !important;
-                font-size: 1.3rem !important;
-            }
-            
-            .section-card p {
-                color: var(--text-secondary, rgba(255, 255, 255, 0.8)) !important;
-                margin: 0 0 15px 0 !important;
-            }
-        </style>
-    `;
-    
-    document.head.insertAdjacentHTML('beforeend', emergencyCSS);
-    console.log('✅ Emergency CSS applied successfully');
-}
-
-// ==================== STATE MANAGEMENT ====================
+﻿// ==================== STATE MANAGEMENT ====================
 const state = {
     currentSection: null,
     allQuestions: {},
@@ -465,20 +175,6 @@ async function initLoadingScreen() {
 // ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
     console.log('📄 DOM Content Loaded');
-    
-    // Check CSS loading immediately
-    setTimeout(() => {
-        detectCSSLoadingIssues();
-    }, 100);
-    
-    // Check CSS loading on window resize (when screen becomes wide)
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 1024) {
-            setTimeout(() => {
-                detectCSSLoadingIssues();
-            }, 100);
-        }
-    });
     
     // Small delay to ensure SoundEffects is loaded
     setTimeout(() => {
@@ -866,9 +562,10 @@ function toggleBookmark() {
             index = currentQuestion.originalIndex;
         } else {
             // For section/global revision, generate ID based on current question
-            questionId = generateQuestionId(state.currentSection || currentQuestion.section, state.currentQuestionIndex);
+            // IMPORTANT: Use originalIndex (position in JSON) not currentQuestionIndex (position in shuffled array)
+            questionId = generateQuestionId(state.currentSection || currentQuestion.section, currentQuestion.originalIndex);
             section = state.currentSection || currentQuestion.section;
-            index = state.currentQuestionIndex;
+            index = currentQuestion.originalIndex;
         }
         
         const bookmarkIndex = state.bookmarks.findIndex(b => b.id === questionId);
@@ -2125,43 +1822,17 @@ function displayCurrentQuestion() {
     // Handle different question types
     console.log('🔍 DEBUG: Checking question type conditions...');
     
-    // Extract word and language from database structure for language questions
-    let extractedWord = null;
-    let extractedLanguage = null;
-    
-    if (question.type === 'languages' && question.answer) {
-        // Extract the translated word from the answer field
-        // Format: "Translated: お元気ですか | Pronounced: oh-gen-kee dess ka"
-        const translatedMatch = question.answer.match(/Translated:\s*([^|]+)/);
-        if (translatedMatch) {
-            extractedWord = translatedMatch[1].trim();
-        }
-        
-        // Extract language from the question text
-        // Format: "How do you say 'How are you?' in Japanese?"
-        const languageMatch = question.question.match(/in\s+(\w+)\?/i);
-        if (languageMatch) {
-            extractedLanguage = languageMatch[1].toLowerCase();
-        }
-        
-        console.log('🔍 DEBUG: Extracted from database:', { 
-            extractedWord, 
-            extractedLanguage, 
-            originalAnswer: question.answer,
-            originalQuestion: question.question 
-        });
-    }
-    
-    if (question.type === 'languages' && extractedWord && extractedLanguage) {
-        console.log('✅ DEBUG: Language question detected - extracted word and language');
+    // Check if this is a language question (has both word and language fields)
+    if (question.language && question.word) {
+        console.log('✅ DEBUG: Language question detected - has word and language fields');
         // Languages section - special styling for revision mode
         // Show only the English question, hide the translation and pronunciation until answer is revealed
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
         
         // Add speaker button for language questions in revision mode
-        console.log('🔊 Adding speaker button for language question:', extractedWord, extractedLanguage);
-        const safeWord = extractedWord.replace(/'/g, "\\'").replace(/"/g, '\\"');
-        const safeLang = extractedLanguage.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        console.log('🔊 Adding speaker button for language question:', question.word, question.language);
+        const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        const safeLang = question.language.replace(/'/g, "\\'").replace(/"/g, '\\"');
         questionHtml += ` <button class="speaker-btn" onclick="AudioPlayer.playAudio('${safeWord}', '${safeLang}')" title="Play pronunciation">🔊</button>`;
     } else if (question.word && !question.language) {
         console.log('✅ DEBUG: New words question detected - word present, no language');
