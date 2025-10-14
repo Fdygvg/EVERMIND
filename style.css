@@ -7676,4 +7676,413 @@ body[aria-busy="true"] {
     50% { transform: scale(1.2) translateY(-10px); }
     100% { transform: scale(1); }
 }
-/* ==================== END CHESS BOARD STYLING ==================== */}
+/* ==================== END CHESS BOARD STYLING ==================== */
+
+/* ==================== TIMER MODE STYLING ==================== */
+.stat.timer-mode {
+    background: #3B82F6; /* Blue when disabled */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat.timer-mode.enabled {
+    background: #EF4444; /* Red when enabled */
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.stat.timer-mode:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.stat.timer-mode.disabled:hover {
+    background: #2563EB;
+}
+
+.stat.timer-mode.enabled:hover {
+    background: #DC2626;
+}
+
+/* Timer Display */
+.timer-display {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(239, 68, 68, 0.9);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    animation: timerPulse 1s ease-in-out infinite;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.timer-countdown {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.timer-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+@keyframes timerPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+    }
+}
+
+/* Timer Config Modal */
+#timerConfigModal {
+    z-index: 10000 !important;
+}
+
+#timerConfigModal .modal-content {
+    max-width: 400px;
+    text-align: center;
+}
+
+#timerConfigModal label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-primary, white);
+}
+
+#timerConfigModal select {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    margin: 10px 0 20px 0;
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, white);
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* ==================== END TIMER MODE STYLING ==================== */
+
+/* ==================== ENHANCED CODE EDITOR STYLING ==================== */
+.code-editor-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.code-editor-container {
+    background: var(--card-bg, rgba(255, 255, 255, 0.1));
+    border-radius: 15px;
+    width: 95%;
+    height: 90%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.code-editor-header {
+    background: var(--bg-secondary, rgba(0, 0, 0, 0.2));
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.code-editor-header h3 {
+    margin: 0;
+    color: var(--text-primary, white);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.editor-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.editor-btn {
+    background: var(--btn-primary, #F59E0B);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.editor-btn:hover {
+    background: var(--btn-primary-hover, #FBBF24);
+    transform: translateY(-1px);
+}
+
+.editor-btn.small {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+/* Code Editor Tabs */
+.code-editor-tabs {
+    background: var(--bg-secondary, rgba(0, 0, 0, 0.2));
+    padding: 10px 20px;
+    display: flex;
+    gap: 5px;
+    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.editor-tab {
+    background: transparent;
+    color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.editor-tab.active {
+    background: var(--btn-primary, #F59E0B);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.editor-tab:hover:not(.active) {
+    background: var(--card-bg-hover, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, white);
+}
+
+/* Code Editor Body */
+.code-editor-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    height: 60vh;
+    padding: 10px;
+    flex: 1;
+}
+
+.code-editor-panel {
+    background: var(--card-bg, rgba(255, 255, 255, 0.05));
+    border-radius: 10px;
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.code-editor-panel.active {
+    border-color: var(--btn-primary, #F59E0B);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+.code-editor-panel.expanded {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    z-index: 10;
+}
+
+.panel-header {
+    background: var(--bg-secondary, rgba(0, 0, 0, 0.2));
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.panel-header span {
+    font-weight: 600;
+    color: var(--text-primary, white);
+    font-size: 14px;
+}
+
+.expand-btn {
+    background: var(--btn-secondary, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, white);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.expand-btn:hover {
+    background: var(--btn-secondary-hover, rgba(255, 255, 255, 0.2));
+    transform: scale(1.05);
+}
+
+/* Code Textareas */
+.code-textarea {
+    background: var(--bg-primary, #1a1a1a);
+    color: var(--text-primary, white);
+    border: none;
+    padding: 15px;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+    outline: none;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+.code-textarea.active {
+    background: var(--bg-primary, #1a1a1a);
+    border: 2px solid var(--btn-primary, #F59E0B);
+}
+
+.code-textarea:focus {
+    border-color: var(--btn-primary, #F59E0B);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+/* Syntax highlighting for different languages */
+.code-textarea[data-language="html"] {
+    color: #e34c26;
+}
+
+.code-textarea[data-language="css"] {
+    color: #1572b6;
+}
+
+.code-textarea[data-language="javascript"] {
+    color: #f7df1e;
+}
+
+/* Code Snippets Bar */
+.code-snippets-bar {
+    background: var(--bg-secondary, rgba(0, 0, 0, 0.2));
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.snippets-label {
+    color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.snippets-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.snippet-btn {
+    background: var(--btn-secondary, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, white);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+}
+
+.snippet-btn:hover {
+    background: var(--btn-secondary-hover, rgba(255, 255, 255, 0.2));
+    transform: translateY(-1px);
+}
+
+/* Code Preview Section */
+.code-preview-section {
+    background: var(--card-bg, rgba(255, 255, 255, 0.05));
+    border-radius: 10px;
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+}
+
+.code-preview-iframe {
+    flex: 1;
+    border: none;
+    background: white;
+    border-radius: 0 0 10px 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .code-editor-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        height: 50vh;
+    }
+    
+    .code-editor-tabs {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .editor-tab {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+    
+    .snippets-container {
+        gap: 5px;
+    }
+    
+    .snippet-btn {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}
+
+/* ==================== END ENHANCED CODE EDITOR STYLING ==================== */}

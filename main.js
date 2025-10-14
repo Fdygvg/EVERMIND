@@ -1,4 +1,4 @@
-﻿// ==================== STATE MANAGEMENT ====================
+// ==================== STATE MANAGEMENT ====================
 const state = {
     currentSection: null,
     allQuestions: {},
@@ -180,6 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
     loadTheme();
         console.log('🎨 Theme loaded');
+        
+        // Check if chess board component is loaded
+        console.log('♟️ ChessBoard loaded:', !!window.ChessBoard);
+        console.log('♟️ ChessBoard methods:', window.ChessBoard ? Object.keys(window.ChessBoard) : 'Not loaded');
         
         // Initialize global search after data is loaded
         setTimeout(() => {
@@ -1875,13 +1879,23 @@ function displayCurrentQuestion() {
         }
     } else if (question.pieceType && question.possibleMoves) {
         console.log('✅ DEBUG: Chess question detected - has pieceType and possibleMoves');
+        console.log('♟️ Chess question data:', question);
+        console.log('♟️ Piece type:', question.pieceType);
+        console.log('♟️ Possible moves:', question.possibleMoves);
+        console.log('♟️ Start position:', question.startPosition);
         // Chess section - show interactive board
         questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
         questionHtml += `<div id="chessBoard" class="chess-board-container"></div>`;
         // Initialize chess board after rendering
         setTimeout(() => {
+            console.log('♟️ Attempting to initialize chess board...');
+            console.log('♟️ ChessBoard object exists:', !!window.ChessBoard);
+            console.log('♟️ ChessBoard methods:', window.ChessBoard ? Object.keys(window.ChessBoard) : 'Not loaded');
             if (window.ChessBoard) {
+                console.log('♟️ Calling showChessDemo with:', question);
                 window.ChessBoard.showChessDemo(question);
+            } else {
+                console.error('♟️ ChessBoard component not loaded!');
             }
         }, 100);
     } else {
@@ -2080,6 +2094,9 @@ function markCorrect() {
     
     updateProgress();
     displayCurrentQuestion();
+    
+    // Reset timer for next question if timer mode is enabled
+    resetQuestionTimer();
 }
 
 function markWrong() {
@@ -2125,6 +2142,9 @@ function markWrong() {
     
     updateProgress();
     displayCurrentQuestion();
+    
+    // Reset timer for next question if timer mode is enabled
+    resetQuestionTimer();
 }
 
 function skipQuestion() {
@@ -6059,5 +6079,188 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize Secret Vision Board
     addSecretVisionTrigger();
+    
+    // Initialize Timer Mode
+    initTimerMode();
 });
+
+// ==================== TIMER MODE FUNCTIONALITY ====================
+let timerMode = {
+    enabled: false,
+    duration: 30,
+    currentTime: 0,
+    interval: null,
+    questionStartTime: null
+};
+
+// Initialize timer mode
+function initTimerMode() {
+    console.log('⏱️ Initializing timer mode...');
+    
+    // Populate timer duration dropdown
+    const durationSelect = document.getElementById('timerDuration');
+    if (durationSelect) {
+        durationSelect.innerHTML = '';
+        for (let i = 1; i <= 60; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${i} second${i !== 1 ? 's' : ''}`;
+            durationSelect.appendChild(option);
+        }
+        durationSelect.value = 30; // Default to 30 seconds
+    }
+    
+    console.log('⏱️ Timer mode initialized');
+}
+
+// Toggle timer mode on/off
+function toggleTimerMode() {
+    console.log('⏱️ Toggle timer mode clicked');
+    
+    if (timerMode.enabled) {
+        // Stop timer mode
+        stopTimerMode();
+    } else {
+        // Show configuration modal
+        showTimerConfig();
+    }
+}
+
+// Show timer configuration modal
+function showTimerConfig() {
+    console.log('⏱️ Showing timer config modal');
+    const modal = document.getElementById('timerConfigModal');
+    console.log('⏱️ Modal element found:', !!modal);
+    if (modal) {
+        console.log('⏱️ Setting modal display to flex');
+        modal.style.display = 'flex';
+        modal.style.zIndex = '10000';
+        console.log('⏱️ Modal display set to:', modal.style.display);
+        console.log('⏱️ Modal z-index set to:', modal.style.zIndex);
+        console.log('⏱️ Modal computed styles:', window.getComputedStyle(modal));
+    } else {
+        console.error('⏱️ Timer config modal not found!');
+    }
+}
+
+// Close timer configuration modal
+function closeTimerConfig() {
+    console.log('⏱️ Closing timer config modal');
+    const modal = document.getElementById('timerConfigModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Start timer mode with selected duration
+function startTimerMode() {
+    console.log('⏱️ Starting timer mode');
+    
+    const durationSelect = document.getElementById('timerDuration');
+    if (durationSelect) {
+        timerMode.duration = parseInt(durationSelect.value);
+    }
+    
+    // Enable timer mode
+    timerMode.enabled = true;
+    updateTimerModeButton();
+    
+    // Close modal
+    closeTimerConfig();
+    
+    // Start timer for current question
+    startQuestionTimer();
+    
+    console.log(`⏱️ Timer mode enabled with ${timerMode.duration} seconds per question`);
+}
+
+// Stop timer mode
+function stopTimerMode() {
+    console.log('⏱️ Stopping timer mode');
+    
+    timerMode.enabled = false;
+    clearInterval(timerMode.interval);
+    hideTimerDisplay();
+    updateTimerModeButton();
+    
+    console.log('⏱️ Timer mode disabled');
+}
+
+// Update timer mode button appearance
+function updateTimerModeButton() {
+    const btn = document.getElementById('timerModeBtn');
+    const text = document.getElementById('timerModeText');
+    if (btn && text) {
+        if (timerMode.enabled) {
+            btn.classList.remove('disabled');
+            btn.classList.add('enabled');
+            text.textContent = 'Timer ON';
+        } else {
+            btn.classList.remove('enabled');
+            btn.classList.add('disabled');
+            text.textContent = 'Timer';
+        }
+    }
+}
+
+// Start timer for current question
+function startQuestionTimer() {
+    if (!timerMode.enabled) return;
+    
+    console.log(`⏱️ Starting timer for question: ${timerMode.duration} seconds`);
+    
+    timerMode.currentTime = timerMode.duration;
+    timerMode.questionStartTime = Date.now();
+    
+    // Show timer display
+    showTimerDisplay();
+    
+    // Start countdown
+    timerMode.interval = setInterval(() => {
+        timerMode.currentTime--;
+        updateTimerDisplay();
+        
+        if (timerMode.currentTime <= 0) {
+            // Time's up - mark as wrong and move to next
+            console.log('⏱️ Time up! Marking question as wrong');
+            markWrong();
+            clearInterval(timerMode.interval);
+        }
+    }, 1000);
+}
+
+// Show timer display
+function showTimerDisplay() {
+    const display = document.getElementById('timerDisplay');
+    if (display) {
+        display.style.display = 'flex';
+        updateTimerDisplay();
+    }
+}
+
+// Hide timer display
+function hideTimerDisplay() {
+    const display = document.getElementById('timerDisplay');
+    if (display) {
+        display.style.display = 'none';
+    }
+}
+
+// Update timer display
+function updateTimerDisplay() {
+    const countdown = document.querySelector('.timer-countdown');
+    if (countdown) {
+        countdown.textContent = timerMode.currentTime;
+    }
+}
+
+// Reset timer when question changes
+function resetQuestionTimer() {
+    if (timerMode.enabled) {
+        clearInterval(timerMode.interval);
+        startQuestionTimer();
+    }
+}
+
+// ==================== END TIMER MODE FUNCTIONALITY ====================
 

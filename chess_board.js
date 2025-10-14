@@ -174,10 +174,12 @@ window.ChessBoard = {
 
     // Show chess demo for a question
     showChessDemo(questionData) {
+        console.log('♟️ showChessDemo called with:', questionData);
         this.currentQuestion = questionData;
         
         // Create board if it doesn't exist
         if (!this.board) {
+            console.log('♟️ Creating new chess board...');
             this.createChessBoard();
         }
         
@@ -186,11 +188,13 @@ window.ChessBoard = {
         
         // Place the piece at start position
         if (questionData.startPosition && questionData.pieceType) {
+            console.log('♟️ Placing piece:', questionData.pieceType, 'at', questionData.startPosition);
             this.renderPiece(questionData.pieceType, questionData.startPosition, 'white');
         }
         
         // Auto-demo moves if specified
         if (questionData.demoMoves && questionData.demoMoves.length > 0) {
+            console.log('♟️ Setting up demo moves:', questionData.demoMoves);
             setTimeout(() => {
                 this.runDemoMoves(questionData.demoMoves);
             }, 1000);

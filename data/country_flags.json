@@ -313,5 +313,80 @@
     "question": "Which country's flag is this?",
     "image": "https://flagcdn.com/w320/mw.png",
     "answer": "Malawi"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/td.png",
+    "answer": "Chad"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ne.png",
+    "answer": "Niger"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/bf.png",
+    "answer": "Burkina Faso"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/lr.png",
+    "answer": "Liberia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/sl.png",
+    "answer": "Sierra Leone"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/gn.png",
+    "answer": "Guinea"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/gw.png",
+    "answer": "Guinea-Bissau"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/tg.png",
+    "answer": "Togo"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/bj.png",
+    "answer": "Benin"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/cf.png",
+    "answer": "Central African Republic"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/gq.png",
+    "answer": "Equatorial Guinea"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ga.png",
+    "answer": "Gabon"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/cg.png",
+    "answer": "Republic of the Congo"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/er.png",
+    "answer": "Eritrea"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/dj.png",
+    "answer": "Djibouti"
   }
 ]

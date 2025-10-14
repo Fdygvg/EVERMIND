@@ -765,5 +765,18 @@
     "answer": "**What it does:**\nDisplays the value of the `PORT` environment variable.\n\n**Command breakdown:**\n- `echo` = print/display text\n- `%port%` = Windows environment variable syntax\n- Shows the current value of PORT variable\n\n**Examples:**\n```cmd\n# If PORT=3000\necho %port%\n# Output: 3000\n\n# If PORT is not set\necho %port%\n# Output: %port%\n```\n\n**Common use cases:**\n- Check what port your app is using\n- Debug environment variables\n- Verify configuration\n\n**In different systems:**\n- **Windows:** `echo %PORT%`\n- **Linux/Mac:** `echo $PORT`\n- **PowerShell:** `echo $env:PORT`\n\n**Real example:**\n```cmd\n# Check if port is set\necho %PORT%\n\n# Set port if not set\nset PORT=3000\necho %PORT%\n```\n\n**Think of it like:**\n- Checking a setting\n- Reading a configuration value\n- Debugging environment variables\n\n**Useful for troubleshooting!**",
     "type": "command-line",
     "tags": ["command-line", "environment", "variables", "windows"]
+  },
+  {
+    "question": "What is the fastest method to learn programming through real experience?",
+    "answer": "The fastest way is the **Build → Break → Fix method**:\n\n**Step 1: Build**\n- Create a small working feature or project\n- Start with something simple that actually works\n\n**Step 2: Break**\n- Break it on purpose by deleting, renaming, or changing something\n- Make it stop working intentionally\n\n**Step 3: Fix**\n- Fix the errors without starting over\n- Debug and troubleshoot like a real developer\n\n**Why this method works fast:**\n- You debug like a real developer\n- You understand how files, routes, and logic connect\n- You stop being scared of errors\n- You gain real experience in less time than watching tutorials\n\n**The result:**\nThis method turns 1 hour into the experience of 10 hours because you're actively solving problems, not just consuming information. You learn by doing, not just by watching.",
+    "type": "programming-methods",
+    "tags": ["programming", "learning", "debugging", "experience", "methodology"]
+  },
+  {
+    "question": "How do you write comments in different programming languages?",
+    "answer": "**JavaScript:**\n```javascript\n// Single line comment\n/* Multi-line comment */\n```\n\n**JSON:**\n```json\n// JSON does NOT support comments!\n// This will cause an error\n{\n  \"name\": \"John\",\n  \"age\": 30\n}\n```\n\n**C++:**\n```cpp\n// Single line comment\n/* Multi-line comment */\n```\n\n**Important Notes:**\n- JSON files cannot contain comments - they will cause parsing errors\n- Use `//` for single-line comments in JavaScript and C++\n- Use `/* */` for multi-line comments in JavaScript and C++\n- Comments are ignored by the compiler/interpreter",
+    "type": "programming-syntax",
+    "tags": ["comments", "javascript", "json", "c++", "syntax"],
+    "code": "// JavaScript Comments Example\nconsole.log('Hello World'); // This is a single line comment\n\n/*\nThis is a multi-line comment\nin JavaScript\n*/\n\n// JSON Example (NO COMMENTS ALLOWED)\n{\n  \"name\": \"John\",\n  \"age\": 30,\n  \"city\": \"New York\"\n}\n\n// C++ Comments Example\n#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"Hello World\"; // Single line comment\n    \n    /*\n    Multi-line comment\n    in C++\n    */\n    \n    return 0;\n}"
   }
 ]

@@ -58,7 +58,47 @@
   {
     "question": "What is an Ovary in a flower?",
     "answer": "The ovary is the female reproductive part of a flower that contains the ovules (eggs). After fertilization, the ovary develops into a fruit containing seeds. It's located at the base of the pistil and protects the developing seeds."
-  }  
+  },
+  {
+    "question": "What is Gravity and why is it important?",
+    "answer": "Gravity is the fundamental force that pulls objects toward each other. It keeps planets in orbit around the Sun, causes ocean tides, allows life to stay anchored on Earth, and shapes the structure of the entire universe. Without gravity, planets would fly off into space and life as we know it wouldn't exist."
+  },
+  {
+    "question": "What is Electromagnetism and how does it affect our world?",
+    "answer": "Electromagnetism governs electricity, magnetism, and light. It enables all modern technology, communication systems, and the functioning of the natural world. From powering our devices to creating the aurora borealis, electromagnetism is essential for both human civilization and natural phenomena."
+  },
+  {
+    "question": "What is Plate Tectonics and how does it shape Earth?",
+    "answer": "Plate tectonics is the movement of Earth's crustal plates. This process creates mountains, causes earthquakes and volcanoes, forms ocean trenches, and continuously reshapes continents over millions of years. It's responsible for the formation of mountain ranges like the Himalayas and volcanic activity around the world."
+  },
+  {
+    "question": "What is Photosynthesis and why is it crucial for life?",
+    "answer": "Photosynthesis is the process where plants convert sunlight into energy and oxygen. It sustains almost all life on Earth by producing the oxygen we breathe and the food we eat. Plants absorb carbon dioxide and release oxygen, regulating Earth's atmosphere and making life possible."
+  },
+  {
+    "question": "What is the Greenhouse Effect and how does it work?",
+    "answer": "The greenhouse effect traps heat in Earth's atmosphere, keeping the planet warm enough for life to exist. Certain gases (like carbon dioxide and water vapor) act like a blanket, allowing sunlight in but preventing heat from escaping. However, an imbalance in these gases leads to climate change and global warming."
+  },
+  {
+    "question": "What is the Coriolis Effect and how does it influence weather?",
+    "answer": "The Coriolis Effect causes winds and ocean currents to curve due to Earth's rotation. This phenomenon shapes global weather patterns, creates trade winds, influences hurricane formation, and affects ocean circulation. It's why hurricanes spin counterclockwise in the Northern Hemisphere and clockwise in the Southern Hemisphere."
+  },
+  {
+    "question": "What are Tides and what causes them?",
+    "answer": "Tides are the rise and fall of sea levels caused by the gravitational pull of the Moon and Sun. They affect marine ecosystems, navigation, coastal erosion, and global water cycles. The Moon's gravity is the primary cause, with the Sun's gravity adding to the effect during full and new moons."
+  },
+  {
+    "question": "What are Diffusion and Osmosis and why are they important?",
+    "answer": "Diffusion and osmosis are processes where molecules move from areas of high concentration to low concentration. They're essential for breathing (oxygen diffusing into blood), nutrient transport in cells, water flow in plants, and many biological processes. These processes allow organisms to maintain balance and function properly."
+  },
+  {
+    "question": "What is Earth's Magnetosphere and how does it protect us?",
+    "answer": "Earth's magnetosphere is our planet's magnetic field that extends into space. It acts as a protective shield, deflecting harmful solar wind and cosmic radiation away from Earth. Without this magnetic shield, our atmosphere would be stripped away by solar particles, making life impossible on Earth."
+  },
+  {
+    "question": "What is Entropy and Thermodynamics and how do they govern systems?",
+    "answer": "Entropy and thermodynamics describe how energy naturally spreads out and disorder increases over time. These laws govern heat transfer, energy conversion, and the ultimate fate of all systems. They explain why hot objects cool down, why engines can't be 100% efficient, and why the universe tends toward increasing disorder over time."
+  }
   ]
 
 

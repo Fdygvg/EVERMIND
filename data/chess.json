@@ -18,5 +18,38 @@
     "demoMoves": [
       {"from": "c1", "to": "f4"}
     ]
+  },
+  {
+    "question": "How does the Rook move?",
+    "answer": "The Rook moves any number of squares straight — forward, backward, left, or right. It controls long open lines, is strong in the endgame, and often works well with the king for castling.",
+    "pieceType": "rook",
+    "startPosition": "a1",
+    "possibleMoves": ["a2", "a3", "a4", "a5", "a6", "a7", "a8", "b1", "c1", "d1", "e1", "f1", "g1", "h1"],
+    "demoMoves": [
+      {"from": "a1", "to": "a5"},
+      {"from": "a1", "to": "d1"}
+    ]
+  },
+  {
+    "question": "How does the Queen move?",
+    "answer": "The Queen combines rook and bishop — moves any number of squares straight or diagonally. It's the most powerful piece, used for attacking, defending, and checkmating.",
+    "pieceType": "queen",
+    "startPosition": "d1",
+    "possibleMoves": ["d2", "d3", "d4", "d5", "d6", "d7", "d8", "a1", "b1", "c1", "e1", "f1", "g1", "h1", "c2", "b3", "a4", "e2", "f3", "g4", "h5"],
+    "demoMoves": [
+      {"from": "d1", "to": "d5"},
+      {"from": "d1", "to": "h5"}
+    ]
+  },
+  {
+    "question": "How does the Pawn move?",
+    "answer": "The Pawn moves 1 square forward (never backward). On its first move, it can go 2 squares forward. It captures diagonally one square. Pawns are the foundation of chess strategy.",
+    "pieceType": "pawn",
+    "startPosition": "e2",
+    "possibleMoves": ["e3", "e4"],
+    "demoMoves": [
+      {"from": "e2", "to": "e4"},
+      {"from": "e2", "to": "e3"}
+    ]
   }
 ]

@@ -56,24 +56,33 @@ const CodeEditor = {
                     </div>
                 </div>
                 
+                <div class="code-editor-tabs">
+                    <button class="editor-tab active" data-tab="html" onclick="CodeEditor.switchTab('html')">HTML</button>
+                    <button class="editor-tab" data-tab="css" onclick="CodeEditor.switchTab('css')">CSS</button>
+                    <button class="editor-tab" data-tab="javascript" onclick="CodeEditor.switchTab('javascript')">JavaScript</button>
+                </div>
+                
                 <div class="code-editor-body">
-                    <div class="code-editor-panel">
+                    <div class="code-editor-panel active" id="htmlPanel">
                         <div class="panel-header">
                             <span>HTML</span>
+                            <button class="expand-btn" onclick="CodeEditor.expandPanel('html')" title="Expand Panel">⛶</button>
                         </div>
-                        <textarea id="htmlEditor" class="code-textarea" placeholder="Write your HTML here..." spellcheck="false"></textarea>
+                        <textarea id="htmlEditor" class="code-textarea active" placeholder="Write your HTML here..." spellcheck="false"></textarea>
                     </div>
                     
-                    <div class="code-editor-panel">
+                    <div class="code-editor-panel" id="cssPanel">
                         <div class="panel-header">
                             <span>CSS</span>
+                            <button class="expand-btn" onclick="CodeEditor.expandPanel('css')" title="Expand Panel">⛶</button>
                         </div>
                         <textarea id="cssEditor" class="code-textarea" placeholder="Write your CSS here..." spellcheck="false"></textarea>
                     </div>
                     
-                    <div class="code-editor-panel">
+                    <div class="code-editor-panel" id="jsPanel">
                         <div class="panel-header">
                             <span>JavaScript</span>
+                            <button class="expand-btn" onclick="CodeEditor.expandPanel('javascript')" title="Expand Panel">⛶</button>
                         </div>
                         <textarea id="jsEditor" class="code-textarea" placeholder="Write your JavaScript here..." spellcheck="false"></textarea>
                     </div>
@@ -294,6 +303,12 @@ const CodeEditor = {
      * Insert symbol at cursor position in the currently focused editor
      */
     insertSymbol(symbol) {
+        // Prevent default behavior to avoid conflicts
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        
         // Find which editor is currently focused
         const editors = ['htmlEditor', 'cssEditor', 'jsEditor'];
         let activeEditor = null;
@@ -306,9 +321,10 @@ const CodeEditor = {
             }
         }
         
-        // If no editor is focused, default to HTML editor
+        // If no editor is focused, default to HTML editor and focus it
         if (!activeEditor) {
             activeEditor = document.getElementById('htmlEditor');
+            activeEditor.focus();
         }
         
         const start = activeEditor.selectionStart;
@@ -321,7 +337,83 @@ const CodeEditor = {
         // Move cursor to middle of symbol (for paired symbols like {})
         const cursorPos = start + Math.floor(symbol.length / 2);
         activeEditor.selectionStart = activeEditor.selectionEnd = cursorPos;
-        activeEditor.focus();
+        
+        // Ensure focus stays on the editor
+        setTimeout(() => {
+            activeEditor.focus();
+        }, 10);
+    },
+    
+    /**
+     * Switch between editor tabs
+     * @param {string} tabName - Name of the tab to switch to
+     */
+    switchTab(tabName) {
+        console.log('🔄 Switching to tab:', tabName);
+        
+        // Remove active class from all tabs and panels
+        document.querySelectorAll('.editor-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.code-editor-panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+        document.querySelectorAll('.code-textarea').forEach(textarea => {
+            textarea.classList.remove('active');
+        });
+        
+        // Add active class to selected tab and panel
+        const selectedTab = document.querySelector(`[data-tab="${tabName}"]`);
+        const selectedPanel = document.getElementById(`${tabName}Panel`);
+        const selectedTextarea = document.getElementById(`${tabName}Editor`);
+        
+        if (selectedTab) selectedTab.classList.add('active');
+        if (selectedPanel) selectedPanel.classList.add('active');
+        if (selectedTextarea) {
+            selectedTextarea.classList.add('active');
+            // Focus the textarea after a brief delay to ensure proper focus
+            setTimeout(() => {
+                selectedTextarea.focus();
+            }, 50);
+        }
+        
+        console.log('✅ Switched to tab:', tabName);
+    },
+    
+    /**
+     * Expand a specific panel to full size
+     * @param {string} panelName - Name of the panel to expand
+     */
+    expandPanel(panelName) {
+        console.log('⛶ Expanding panel:', panelName);
+        
+        const panels = document.querySelectorAll('.code-editor-panel');
+        const currentPanel = document.getElementById(`${panelName}Panel`);
+        
+        // Check if panel is already expanded
+        if (currentPanel.classList.contains('expanded')) {
+            // Collapse back to normal grid
+            panels.forEach(panel => {
+                panel.classList.remove('expanded');
+                panel.style.display = 'block';
+                panel.style.width = '';
+                panel.style.height = '';
+            });
+            console.log('📦 Collapsed panel:', panelName);
+        } else {
+            // Expand selected panel
+            panels.forEach(panel => {
+                panel.classList.remove('expanded');
+                panel.style.display = 'none';
+            });
+            
+            currentPanel.classList.add('expanded');
+            currentPanel.style.display = 'block';
+            currentPanel.style.width = '100%';
+            currentPanel.style.height = '60vh';
+            
+            console.log('📈 Expanded panel:', panelName);
+        }
     },
     
     /**

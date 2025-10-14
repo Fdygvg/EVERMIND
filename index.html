@@ -141,24 +141,14 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <button class="refresh-btn" onclick="refreshAllQuestions()" title="Refresh Questions">
-                        <span class="refresh-icon">🔄</span>
-                    </button>
-                    <button id="continueBtn" class="continue-btn" onclick="resumeSavedProgress()" style="display: none;">
-                        <span class="continue-icon">▶️</span>
-                        <span class="continue-text">Continue</span>
-                    </button>
-                    <button id="calendarBtn" class="calendar-btn" onclick="openCalendarModal()" title="View Attendance Calendar">
-                        <span class="calendar-icon">📅</span>
-                        <span class="calendar-text">Calendar</span>
-                    </button>
-                    <button id="muteBtn" class="mute-btn" onclick="if(window.SoundEffects) window.SoundEffects.toggleMute()" title="Toggle Sound Effects">
-                        <span class="mute-icon">🔊</span>
-                    </button>
-                    <button id="lowDataToggle" class="btn btn--nav" onclick="toggleLowDataMode()" title="Toggle Low Data Mode">
-                        Low Data: OFF
-                    </button>
+                     </div>
+                     <button id="continueBtn" class="continue-btn" onclick="resumeSavedProgress()" style="display: none;">
+                         <span class="continue-icon">▶️</span>
+                         <span class="continue-text">Continue</span>
+                     </button>
+                     <button id="muteBtn" class="mute-btn" onclick="if(window.SoundEffects) window.SoundEffects.toggleMute()" title="Toggle Sound Effects">
+                         <span class="mute-icon">🔊</span>
+                     </button>
                     <div id="offlineIndicator" class="offline-indicator" style="display: none;">
                         📡 Offline
                     </div>
@@ -373,9 +363,11 @@
                     <span class="stat remaining">⏳ <span id="remainingCount">0</span> left</span>
                 </div>
             </div>
-            <div class="header-right">
-                <!-- Reserved for future controls -->
-            </div>
+             <div class="header-right">
+                 <button id="timerModeBtn" class="stat timer-mode disabled" onclick="toggleTimerMode()">
+                     ⏱️ <span id="timerModeText">Timer</span>
+                 </button>
+             </div>
             <div class="progress-bar-container">
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
@@ -417,6 +409,27 @@
             <div class="answer-controls" id="answerControls" style="display: none;">
                 <button class="btn btn--danger" onclick="markWrong()">Wrong</button>
                 <button class="btn btn--success" onclick="markCorrect()">Correct</button>
+            </div>
+            
+            <!-- Timer Configuration Modal -->
+            <div id="timerConfigModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h3>Set Timer Duration</h3>
+                    <label for="timerDuration">Time per question (seconds):</label>
+                    <select id="timerDuration">
+                        <!-- Options 1-60 will be populated by JavaScript -->
+                    </select>
+                    <div class="modal-actions">
+                        <button class="btn btn--primary" onclick="startTimerMode()">Start Timer Mode</button>
+                        <button class="btn btn--secondary" onclick="closeTimerConfig()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timer Display -->
+            <div id="timerDisplay" class="timer-display" style="display: none;">
+                <span class="timer-countdown">30</span>
+                <span class="timer-label">seconds left</span>
             </div>
         </div>
     </div>
