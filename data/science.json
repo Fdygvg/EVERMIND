@@ -162,6 +162,10 @@
   {
     "question": "What is dark energy and what does it do?",
     "answer": "Dark energy is a mysterious force that makes up roughly 68% of the universe and is accelerating its expansion. We don't know exactly what it is, but it's causing galaxies to drift away from each other faster and faster. It's one of the biggest mysteries in modern physics."
+  },
+  {
+    "question": "What are 2D, 3D, and 4D dimensions with examples?",
+    "answer": "**2D (Two-Dimensional):**\n- Has length and width only\n- Examples: Circle, square, triangle, paper, computer screen\n- Flat shapes and surfaces\n\n**3D (Three-Dimensional):**\n- Has length, width, and height\n- Examples: Cube, sphere, pyramid, buildings, cars, humans\n- Objects with volume and depth\n\n**4D (Four-Dimensional):**\n- Includes time as the fourth dimension\n- Examples: A movie (3D space + time), your life trajectory, spacetime\n- Harder to visualize but includes temporal changes"
   }
 ]
 

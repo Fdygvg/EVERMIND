@@ -378,147 +378,39 @@
     "answer": "Translated: 馬鹿 | Pronounced: bah-kah"
   },
   {
-    "question": "How do you say numbers 1-5 in Yoruba?",
-    "word": "ọ̀kan, méjì, mẹ́ta, mẹ́rin, márún",
+    "question": "How do you say 'I don't care' in Yoruba?",
+    "word": "Kò ṣe pàtàkì",
     "language": "yoruba",
-    "answer": "Numbers 1-5: ọ̀kan, méjì, mẹ́ta, mẹ́rin, márún | Pronounced: aw-KAN, MEH-jee, MEH-tah, MEH-reen, MAH-roon"
+    "answer": "I don't care: Kò ṣe pàtàkì | Pronounced: koh sheh pah-TAH-kee"
   },
   {
-    "question": "How do you say numbers 1-5 in Igbo?",
-    "word": "otu, abụọ, atọ, anọ, ise",
+    "question": "How do you say 'I don't care' in Igbo?",
+    "word": "A naghị m eche",
     "language": "igbo",
-    "answer": "Numbers 1-5: otu, abụọ, atọ, anọ, ise | Pronounced: oh-too, ah-BOH, ah-TOR, ah-NOR, ee-SEH"
+    "answer": "I don't care: A naghị m eche | Pronounced: ah NAH-ghee m eh-CHEH"
   },
   {
-    "question": "How do you say numbers 1-5 in Hausa?",
-    "word": "ɗaya, biyu, uku, huɗu, biyar",
+    "question": "How do you say 'I don't care' in Hausa?",
+    "word": "Ba na damu",
     "language": "hausa",
-    "answer": "Numbers 1-5: ɗaya, biyu, uku, huɗu, biyar | Pronounced: DAH-yah, BEE-yoo, OO-koo, HOO-doo, BEE-yar"
+    "answer": "I don't care: Ba na damu | Pronounced: bah nah DAH-moo"
   },
   {
-    "question": "How do you say numbers 1-5 in Spanish?",
-    "word": "uno, dos, tres, cuatro, cinco",
+    "question": "How do you say 'I don't care' in Spanish?",
+    "word": "No me importa",
     "language": "spanish",
-    "answer": "Numbers 1-5: uno, dos, tres, cuatro, cinco | Pronounced: OO-no, DOHS, TRESS, KWA-troh, SEEN-koh"
+    "answer": "I don't care: No me importa | Pronounced: noh meh eem-POR-tah"
   },
   {
-    "question": "How do you say numbers 1-5 in French?",
-    "word": "un, deux, trois, quatre, cinq",
+    "question": "How do you say 'I don't care' in French?",
+    "word": "Je m'en fiche",
     "language": "french",
-    "answer": "Numbers 1-5: un, deux, trois, quatre, cinq | Pronounced: uh(n), duh, trwa, kat-ruh, sank"
+    "answer": "I don't care: Je m'en fiche | Pronounced: zhuh mahn feesh"
   },
   {
-    "question": "How do you say numbers 1-5 in Japanese?",
-    "word": "一, 二, 三, 四, 五",
+    "question": "How do you say 'I don't care' in Japanese?",
+    "word": "気にしない (ki ni shinai)",
     "language": "japanese",
-    "answer": "Numbers 1-5: 一 (ichi), 二 (ni), 三 (san), 四 (yon), 五 (go) | Pronounced: EE-chee, nee, sahn, yohn, goh"
-  },
-  {
-    "question": "How do you say numbers 6-10 in Yoruba?",
-    "word": "ẹ̀fà, èje, ẹ̀jọ́, ẹ̀sán, ẹ̀wá",
-    "language": "yoruba",
-    "answer": "Numbers 6-10: ẹ̀fà, èje, ẹ̀jọ́, ẹ̀sán, ẹ̀wá | Pronounced: EH-fah, EH-jeh, EH-joh, EH-sahn, EH-wah"
-  },
-  {
-    "question": "How do you say numbers 6-10 in Igbo?",
-    "word": "isii, asaa, asatọ, itoolu, iri",
-    "language": "igbo",
-    "answer": "Numbers 6-10: isii, asaa, asatọ, itoolu, iri | Pronounced: EE-see, ah-SAH-ah, ah-SAH-tor, ee-TOH-loo, EE-ree"
-  },
-  {
-    "question": "How do you say numbers 6-10 in Hausa?",
-    "word": "shida, bakwai, takwas, tara, goma",
-    "language": "hausa",
-    "answer": "Numbers 6-10: shida, bakwai, takwas, tara, goma | Pronounced: SHEE-dah, BAH-kwai, TAH-kwahs, TAH-rah, GOH-mah"
-  },
-  {
-    "question": "How do you say numbers 6-10 in Spanish?",
-    "word": "seis, siete, ocho, nueve, diez",
-    "language": "spanish",
-    "answer": "Numbers 6-10: seis, siete, ocho, nueve, diez | Pronounced: says, SYEH-teh, OH-choh, NWEH-veh, DYESS"
-  },
-  {
-    "question": "How do you say numbers 6-10 in French?",
-    "word": "six, sept, huit, neuf, dix",
-    "language": "french",
-    "answer": "Numbers 6-10: six, sept, huit, neuf, dix | Pronounced: sees, set, weet, nuf, deess"
-  },
-  {
-    "question": "How do you say numbers 6-10 in Japanese?",
-    "word": "六 (roku), 七 (nana), 八 (hachi), 九 (kyū), 十 (jū)",
-    "language": "japanese",
-    "answer": "Numbers 6-10: 六 (roku), 七 (nana), 八 (hachi), 九 (kyū), 十 (jū) | Pronounced: roh-koo, nah-nah, hah-chee, kyu, joo"
-  },
-  {
-    "question": "How do you say 'Are you eating?' in Yoruba?",
-    "word": "Ṣé o ń jẹ?",
-    "language": "yoruba",
-    "answer": "Are you eating?: Ṣé o ń jẹ? | Pronounced: shay oh nn jeh"
-  },
-  {
-    "question": "How do you say 'Are you eating?' in Igbo?",
-    "word": "Ị na-eri nri?",
-    "language": "igbo",
-    "answer": "Are you eating?: Ị na-eri nri? | Pronounced: ee nah-AY-ree NREE"
-  },
-  {
-    "question": "How do you say 'Are you eating?' in Hausa?",
-    "word": "Kana cin abinci? / Kina cin abinci?",
-    "language": "hausa",
-    "answer": "Are you eating?: Kana cin abinci? (male) / Kina cin abinci? (female) | Pronounced: KAH-nah cheen ah-BEEN-chee / KEE-nah cheen ah-BEEN-chee"
-  },
-  {
-    "question": "How do you say 'Are you eating?' in Spanish?",
-    "word": "¿Estás comiendo?",
-    "language": "spanish",
-    "answer": "Are you eating?: ¿Estás comiendo? | Pronounced: es-TAHS koh-MYEN-doh"
-  },
-  {
-    "question": "How do you say 'Are you eating?' in French?",
-    "word": "Tu manges?",
-    "language": "french",
-    "answer": "Are you eating?: Tu manges? | Pronounced: tew MAHNZH"
-  },
-  {
-    "question": "How do you say 'Are you eating?' in Japanese?",
-    "word": "食べていますか (tabete imasu ka)",
-    "language": "japanese",
-    "answer": "Are you eating?: 食べていますか (tabete imasu ka) | Pronounced: tah-beh-teh ee-mahss kah"
-  },
-  {
-    "question": "How do you say 'What are you doing?' in Yoruba?",
-    "word": "Kí ló ń ṣe?",
-    "language": "yoruba",
-    "answer": "What are you doing?: Kí ló ń ṣe? | Pronounced: kee lo nn sheh"
-  },
-  {
-    "question": "How do you say 'What are you doing?' in Igbo?",
-    "word": "Gịnị ka ị na-eme?",
-    "language": "igbo",
-    "answer": "What are you doing?: Gịnị ka ị na-eme? | Pronounced: GHEE-nee kah ee nah EH-meh"
-  },
-  {
-    "question": "How do you say 'What are you doing?' in Hausa?",
-    "word": "Me kake yi? / Me kike yi?",
-    "language": "hausa",
-    "answer": "What are you doing?: Me kake yi? (male) / Me kike yi? (female) | Pronounced: meh KAH-keh yee / meh KEE-keh yee"
-  },
-  {
-    "question": "How do you say 'What are you doing?' in Spanish?",
-    "word": "¿Qué estás haciendo?",
-    "language": "spanish",
-    "answer": "What are you doing?: ¿Qué estás haciendo? | Pronounced: keh es-TAHS ah-SYEN-doh"
-  },
-  {
-    "question": "How do you say 'What are you doing?' in French?",
-    "word": "Que fais-tu ?",
-    "language": "french",
-    "answer": "What are you doing?: Que fais-tu ? | Pronounced: kuh feh tew"
-  },
-  {
-    "question": "How do you say 'What are you doing?' in Japanese?",
-    "word": "何をしていますか (nani o shite imasu ka)",
-    "language": "japanese",
-    "answer": "What are you doing?: 何をしていますか (nani o shite imasu ka) | Pronounced: nah-nee oh shee-teh ee-mahss kah"
+    "answer": "I don't care: 気にしない (ki ni shinai) | Pronounced: kee nee shee-nai"
   }
 ]
