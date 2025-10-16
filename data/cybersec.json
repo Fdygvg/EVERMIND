@@ -1,0 +1,93 @@
+[
+  {
+    "question": "What does the term 'raw packet sniffing' mean and what tool is commonly used?",
+    "answer": "**Raw Packet Sniffing:**\n\nRaw packet sniffing is the process of capturing and analyzing network traffic at the packet level. It involves intercepting data packets as they travel across a network.\n\n**Wireshark** is the most commonly used tool for packet sniffing and network analysis.\n\n**What it does:**\n- Captures live network traffic\n- Analyzes packet contents\n- Decodes various network protocols\n- Identifies network issues and security threats\n\n**Common uses:**\n- Network troubleshooting\n- Security analysis\n- Protocol analysis\n- Performance monitoring",
+    "type": "cybersec",
+    "tags": ["packet-sniffing", "wireshark", "network-analysis"],
+    "code": "// Wireshark filters:\n// ip.addr == 192.168.1.1 - Filter by IP\n// tcp.port == 80 - Filter by port\n// http - Show only HTTP traffic\n// dns - Show only DNS queries\n// tcp.flags.syn == 1 - Show SYN packets"
+  },
+  {
+    "question": "What are Nmap and Masscan used for?",
+    "answer": "**Nmap / Masscan – Port Scanning & Service Enumeration**\n\n**Nmap (Network Mapper):**\n- Port scanning and service enumeration\n- Network discovery and security auditing\n- OS detection and service version detection\n- Scriptable with NSE (Nmap Scripting Engine)\n\n**Masscan:**\n- High-speed port scanner\n- Can scan the entire internet in minutes\n- Faster than Nmap but less feature-rich\n- Good for large-scale network scanning\n\n**Common uses:**\n- Network reconnaissance\n- Security assessments\n- Service discovery\n- Vulnerability scanning",
+    "type": "cybersec",
+    "tags": ["port-scanning", "nmap", "masscan", "enumeration"],
+    "code": "// Nmap commands:\n// nmap -sS target.com - Stealth scan\n// nmap -sV target.com - Service version detection\n// nmap -O target.com - OS detection\n// nmap -A target.com - Aggressive scan\n// nmap -p 1-1000 target.com - Port range scan\n\n// Masscan commands:\n// masscan -p80,443 192.168.1.0/24 - Port scan\n// masscan --rate=1000 -p1-65535 target.com - High speed scan"
+  },
+  {
+    "question": "What are Ettercap and Bettercap used for?",
+    "answer": "**Ettercap / Bettercap – MITM & ARP Spoofing**\n\n**Ettercap:**\n- Man-in-the-Middle (MITM) attacks\n- ARP spoofing and poisoning\n- Network traffic interception\n- Password sniffing\n- DNS spoofing\n\n**Bettercap:**\n- Modern replacement for Ettercap\n- More features and better interface\n- WiFi and Bluetooth attacks\n- Real-time network manipulation\n- Modular architecture\n\n**Common attacks:**\n- ARP poisoning\n- DNS hijacking\n- SSL stripping\n- Credential harvesting\n- Session hijacking",
+    "type": "cybersec",
+    "tags": ["mitm", "arp-spoofing", "ettercap", "bettercap"],
+    "code": "// Ettercap commands:\n// ettercap -T -M arp:remote /target/ //gateway// - ARP poisoning\n// ettercap -T -M arp:remote /192.168.1.100/ //192.168.1.1// - Target specific IP\n\n// Bettercap commands:\n// bettercap -iface eth0 -caplet hstshijack/hstshijack - SSL stripping\n// bettercap -iface wlan0 -wifi - WiFi attacks\n// bettercap -iface eth0 -sniff - Network sniffing"
+  },
+  {
+    "question": "What is Responder used for?",
+    "answer": "**Responder – Network-Level Credential Theft**\n\n**What Responder does:**\n- Performs LLMNR, NBT-NS, and MDNS poisoning\n- Captures network authentication attempts\n- Steals Windows credentials (NTLM hashes)\n- Performs SMB and HTTP authentication attacks\n- Creates fake authentication servers\n\n**How it works:**\n1. Listens for network name resolution requests\n2. Responds with fake services\n3. Captures authentication attempts\n4. Extracts credentials and hashes\n\n**Common targets:**\n- Windows networks\n- SMB shares\n- HTTP authentication\n- SQL Server authentication\n- LDAP authentication",
+    "type": "cybersec",
+    "tags": ["responder", "credential-theft", "ntlm", "llmnr"],
+    "code": "// Responder commands:\n// responder -I eth0 - Start on interface\n// responder -I eth0 -rdw - Enable all modules\n// responder -I eth0 -A - Analyze mode\n// responder -I eth0 -Pv - Verbose output\n\n// Common captured hashes:\n// NTLMv1/NTLMv2 - Windows authentication\n// LM - Legacy Windows authentication\n// Basic Auth - HTTP authentication"
+  },
+  {
+    "question": "What are Metasploit and Cobalt Strike used for?",
+    "answer": "**Metasploit / Cobalt Strike – Exploit & Post-Exploitation Framework**\n\n**Metasploit:**\n- Open-source penetration testing framework\n- Exploit development and execution\n- Post-exploitation modules\n- Payload generation\n- Social engineering tools\n\n**Cobalt Strike:**\n- Commercial penetration testing platform\n- Advanced persistent threat (APT) simulation\n- Team collaboration features\n- Malleable C2 profiles\n- Beacon payload system\n\n**Common capabilities:**\n- Vulnerability exploitation\n- Privilege escalation\n- Lateral movement\n- Data exfiltration\n- Persistence mechanisms",
+    "type": "cybersec",
+    "tags": ["metasploit", "cobalt-strike", "exploitation", "post-exploitation"],
+    "code": "// Metasploit commands:\n// msfconsole - Start Metasploit\n// use exploit/windows/smb/ms17_010_eternalblue - Select exploit\n// set RHOSTS target.com - Set target\n// exploit - Run exploit\n// sessions -l - List active sessions\n\n// Cobalt Strike commands:\n// ./teamserver server password - Start team server\n// ./cobaltstrike - Connect to team server\n// beacon> help - Show beacon commands\n// beacon> shell - Execute shell commands"
+  },
+  {
+    "question": "What is JTAG and UART debugging used for?",
+    "answer": "**JTAG / UART Debugging – Hardware Analysis**\n\n**JTAG (Joint Test Action Group):**\n- Hardware debugging interface\n- Direct access to processor internals\n- Bypass security mechanisms\n- Extract firmware and data\n- Modify device behavior\n\n**UART (Universal Asynchronous Receiver-Transmitter):**\n- Serial communication interface\n- Console access to embedded devices\n- Bootloader interaction\n- Firmware extraction\n- Command injection\n\n**Common targets:**\n- Routers and IoT devices\n- Embedded systems\n- Mobile devices\n- Industrial control systems\n- Automotive systems",
+    "type": "cybersec",
+    "tags": ["jtag", "uart", "hardware", "debugging"],
+    "code": "// JTAG tools:\n// OpenOCD - Open On-Chip Debugger\n// J-Link - Segger debugger\n// Bus Pirate - Multi-protocol tool\n// JTAGulator - JTAG pinout finder\n\n// UART tools:\n// PuTTY - Serial terminal\n// minicom - Linux serial terminal\n// screen /dev/ttyUSB0 115200 - Linux UART access\n// Arduino IDE Serial Monitor - Basic UART tool"
+  },
+  {
+    "question": "What is Binwalk used for?",
+    "answer": "**Binwalk – Firmware Extraction**\n\n**What Binwalk does:**\n- Analyzes binary files for embedded data\n- Extracts firmware from devices\n- Identifies file systems and compression\n- Recovers deleted or hidden files\n- Analyzes firmware structure\n\n**Common uses:**\n- Firmware reverse engineering\n- IoT device analysis\n- Router firmware extraction\n- Embedded system analysis\n- Digital forensics\n\n**File types it can extract:**\n- SquashFS filesystems\n- CramFS filesystems\n- JFFS2 filesystems\n- Compressed archives\n- Executable files",
+    "type": "cybersec",
+    "tags": ["binwalk", "firmware", "extraction", "iot"],
+    "code": "// Binwalk commands:\n// binwalk firmware.bin - Analyze firmware\n// binwalk -e firmware.bin - Extract files\n// binwalk -A firmware.bin - Analyze architecture\n// binwalk -f signatures.txt firmware.bin - Custom signatures\n// binwalk -B firmware.bin - Binary diffing\n\n// Common extracted files:\n// /bin/ - Binary executables\n// /etc/ - Configuration files\n// /lib/ - Shared libraries\n// /usr/ - User programs"
+  },
+  {
+    "question": "What is ChipWhisperer used for?",
+    "answer": "**ChipWhisperer – Side-Channel Attacks**\n\n**What ChipWhisperer does:**\n- Performs side-channel analysis attacks\n- Power analysis and electromagnetic analysis\n- Timing attacks on cryptographic implementations\n- Fault injection attacks\n- Hardware security research\n\n**Attack types:**\n- **DPA (Differential Power Analysis)** - Extract keys from power consumption\n- **CPA (Correlation Power Analysis)** - Statistical power analysis\n- **Template Attacks** - Machine learning-based attacks\n- **Fault Injection** - Glitch attacks to bypass security\n\n**Common targets:**\n- Smart cards\n- IoT devices\n- Cryptographic chips\n- Secure elements\n- Hardware security modules",
+    "type": "cybersec",
+    "tags": ["chipwhisperer", "side-channel", "power-analysis", "hardware"],
+    "code": "// ChipWhisperer workflow:\n// 1. Capture power traces during encryption\n// 2. Analyze power consumption patterns\n// 3. Correlate with known plaintext/ciphertext\n// 4. Extract secret keys\n\n// Common attack scenarios:\n// AES key extraction from smart cards\n// RSA private key recovery\n// ECC key extraction\n// Fault injection to bypass authentication"
+  },
+  {
+    "question": "What is PCILeech used for?",
+    "answer": "**PCILeech – DMA Memory Attacks**\n\n**What PCILeech does:**\n- Performs Direct Memory Access (DMA) attacks\n- Accesses system memory through PCIe devices\n- Bypasses operating system security\n- Extracts memory contents and secrets\n- Performs hardware-based attacks\n\n**How it works:**\n1. Attach PCIe device to target system\n2. Use DMA to access physical memory\n3. Bypass OS security mechanisms\n4. Extract sensitive data from memory\n5. Modify system behavior\n\n**Common attacks:**\n- Memory dumping\n- Credential extraction\n- Kernel bypass\n- Hypervisor attacks\n- Secure boot bypass",
+    "type": "cybersec",
+    "tags": ["pcilench", "dma", "memory-attacks", "hardware"],
+    "code": "// PCILeech setup:\n// 1. FPGA board with PCIe interface\n// 2. Custom firmware for DMA operations\n// 3. Software tools for memory analysis\n\n// Common targets:\n// Windows systems with DMA-enabled ports\n// Linux systems with Thunderbolt/USB-C\n// Virtual machines with PCIe passthrough\n// Embedded systems with PCIe interfaces"
+  },
+  {
+    "question": "What is SQL injection and give examples?",
+    "answer": "**SQL Injection – Database Attack**\n\n**What SQL injection is:**\nSQL injection is a code injection technique where malicious SQL statements are inserted into input fields, allowing attackers to manipulate databases.\n\n**How it works:**\n1. Attacker inputs malicious SQL code\n2. Application concatenates input into SQL query\n3. Database executes malicious query\n4. Attacker gains unauthorized access\n\n**Example attack:**\n```sql\n-- Login bypass:\nUsername: admin' OR '1'='1' --\nPassword: anything\n\n-- This creates:\nSELECT * FROM users WHERE username='admin' OR '1'='1' --' AND password='anything'\n```\n\n**Common payloads:**\n- `' OR '1'='1` - Always true condition\n- `'; DROP TABLE users; --` - Table deletion\n- `' UNION SELECT * FROM passwords --` - Data extraction",
+    "type": "cybersec",
+    "tags": ["sql-injection", "database", "web-security"],
+    "code": "// SQL injection examples:\n// Basic bypass: ' OR '1'='1' --\n// Union attack: ' UNION SELECT username,password FROM users --\n// Time-based: '; WAITFOR DELAY '00:00:05' --\n// Boolean-based: ' AND (SELECT COUNT(*) FROM users) > 0 --\n\n// Prevention:\n// Use parameterized queries\n// Input validation and sanitization\n// Least privilege principle\n// Web Application Firewall (WAF)"
+  },
+  {
+    "question": "What is brute forcing?",
+    "answer": "**Brute Forcing – Password Attack**\n\n**What brute forcing is:**\nBrute forcing is an attack method that tries all possible combinations of characters to guess passwords or encryption keys.\n\n**Types of brute force attacks:**\n- **Dictionary Attack** - Uses common passwords\n- **Rainbow Table** - Precomputed hash tables\n- **Hybrid Attack** - Combines dictionary and brute force\n- **Credential Stuffing** - Uses leaked credentials\n\n**Common targets:**\n- Login pages\n- Encrypted files\n- WiFi networks\n- SSH/FTP services\n- Database passwords\n\n**Prevention methods:**\n- Account lockout policies\n- CAPTCHA challenges\n- Rate limiting\n- Strong password policies\n- Multi-factor authentication",
+    "type": "cybersec",
+    "tags": ["brute-force", "password-attack", "authentication"],
+    "code": "// Brute force tools:\n// Hydra - Network login cracker\n// John the Ripper - Password cracker\n// Hashcat - GPU-accelerated cracking\n// Aircrack-ng - WiFi password cracking\n// Medusa - Parallel login brute forcer\n\n// Example Hydra command:\n// hydra -l admin -P passwords.txt ssh://target.com\n// hydra -L users.txt -p password123 http-post-form://target.com/login:username=^USER^&password=^PASS^:error"
+  },
+  {
+    "question": "What are different HTTP status codes and their meanings?",
+    "answer": "**HTTP Status Codes – Web Response Codes**\n\n**1xx Informational:**\n- **100** - Continue\n- **101** - Switching Protocols\n\n**2xx Success:**\n- **200** - OK (Request successful)\n- **201** - Created (Resource created)\n- **204** - No Content (Success, no content)\n\n**3xx Redirection:**\n- **301** - Moved Permanently\n- **302** - Found (Temporary redirect)\n- **304** - Not Modified (Cached version)\n\n**4xx Client Error:**\n- **400** - Bad Request (Invalid request)\n- **401** - Unauthorized (Authentication required)\n- **403** - Forbidden (Access denied)\n- **404** - Not Found (Resource not found)\n- **429** - Too Many Requests (Rate limited)\n\n**5xx Server Error:**\n- **500** - Internal Server Error\n- **502** - Bad Gateway\n- **503** - Service Unavailable\n- **504** - Gateway Timeout",
+    "type": "cybersec",
+    "tags": ["http-status", "web-security", "response-codes"],
+    "code": "// Common status codes in security testing:\n// 200 - Successful request\n// 301/302 - Redirects (potential security issues)\n// 401 - Authentication required\n// 403 - Access denied (forbidden)\n// 404 - Not found (information disclosure)\n// 500 - Server error (potential vulnerability)\n\n// Security implications:\n// 401 - Weak authentication\n// 403 - Access control issues\n// 500 - Information disclosure\n// 429 - Rate limiting bypass"
+  },
+  {
+    "question": "What is phishing?",
+    "answer": "**Phishing – Social Engineering Attack**\n\n**What phishing is:**\nPhishing is a social engineering attack where attackers impersonate legitimate entities to steal sensitive information like passwords, credit card numbers, or personal data.\n\n**Common phishing methods:**\n- **Email Phishing** - Fake emails from trusted sources\n- **Spear Phishing** - Targeted attacks on specific individuals\n- **Whaling** - Attacks on high-profile targets\n- **Smishing** - SMS-based phishing\n- **Vishing** - Voice call phishing\n\n**Red flags to watch for:**\n- Urgent or threatening language\n- Suspicious sender addresses\n- Poor grammar and spelling\n- Requests for sensitive information\n- Suspicious links or attachments\n\n**Prevention:**\n- Verify sender identity\n- Don't click suspicious links\n- Use multi-factor authentication\n- Keep software updated\n- Educate users about phishing",
+    "type": "cybersec",
+    "tags": ["phishing", "social-engineering", "email-security"],
+    "code": "// Common phishing indicators:\n// Suspicious URLs (amaz0n.com vs amazon.com)\n// Urgent language (\"Act now!\", \"Your account will be closed\")\n// Requests for sensitive data (passwords, SSN, credit cards)\n// Poor grammar and spelling\n// Suspicious attachments (.exe, .zip files)\n\n// Protection measures:\n// Email filtering and spam detection\n// User awareness training\n// Multi-factor authentication\n// Regular security updates\n// Incident response procedures"
+  }
+]

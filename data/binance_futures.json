@@ -6,5 +6,57 @@
   {
     "question": "What is leverage in futures trading?",
     "answer": "Leverage allows you to control a larger position with less capital. For example, 10x leverage means you can control $1000 worth of assets with only $100."
+  },
+  {
+    "question": "What is a futures contract?",
+    "answer": "A futures contract is an agreement to buy or sell an asset at a set price on a specific date in the future. Assets can be commodities, stocks, crypto, or currencies. It's a standardized contract traded on exchanges."
+  },
+  {
+    "question": "What does 'going short' mean in futures trading?",
+    "answer": "Going short means betting the asset's price will fall. You sell futures contracts to profit if the price decreases. It's the opposite of going long - you make money when prices go down."
+  },
+  {
+    "question": "What is margin in futures trading?",
+    "answer": "Margin is collateral you deposit to open a leveraged futures position. It's the minimum amount required to maintain your position. Higher leverage requires less margin but increases risk."
+  },
+  {
+    "question": "What is liquidation in futures trading?",
+    "answer": "Liquidation occurs when your losses eat through your margin, and the exchange automatically closes your position to prevent further loss. It's a safety mechanism to protect both you and the exchange from excessive losses."
+  },
+  {
+    "question": "Do futures contracts expire?",
+    "answer": "Yes, each futures contract has an expiry date. Some are cash-settled (you receive cash difference), while others may involve physical delivery of the actual asset. Perpetual futures don't expire but have funding fees."
+  },
+  {
+    "question": "What is contango in futures trading?",
+    "answer": "Contango is when the futures price is higher than the spot price, usually because the market expects prices to rise over time. It's common in markets with storage costs or bullish sentiment."
+  },
+  {
+    "question": "What is backwardation in futures trading?",
+    "answer": "Backwardation is when the futures price is lower than the spot price, often because the market expects prices to drop. It can occur due to oversupply, bearish sentiment, or convenience yield."
+  },
+  {
+    "question": "What is a funding rate in crypto futures?",
+    "answer": "A funding rate is a periodic fee paid between long and short traders to keep the perpetual futures price close to the spot price. It's typically paid every 8 hours and helps maintain price equilibrium."
+  },
+  {
+    "question": "How can futures be used for hedging?",
+    "answer": "Futures can protect your portfolio from price movements. Example: If you own Bitcoin and fear a price drop, you can short BTC futures to offset potential losses. This reduces overall portfolio risk."
+  },
+  {
+    "question": "What is support and resistance in trading?",
+    "answer": "Support is a price level where buying pressure tends to appear, preventing prices from falling further. Resistance is where selling pressure appears, preventing prices from rising. These levels help plan entry and exit points."
+  },
+  {
+    "question": "What are trend lines in technical analysis?",
+    "answer": "Trend lines are lines drawn on a chart showing bullish (upward) or bearish (downward) momentum. They help traders identify market direction and potential reversal points by connecting price highs or lows."
+  },
+  {
+    "question": "What are common technical indicators in futures trading?",
+    "answer": "Common technical indicators include RSI (Relative Strength Index), MACD (Moving Average Convergence Divergence), Bollinger Bands, and moving averages. These tools help predict market movements and identify trading opportunities."
+  },
+  {
+    "question": "What is the most important rule in futures trading?",
+    "answer": "Risk management is the most important rule. Never risk more than 1-2% of your capital per trade, always use stop-losses, and know your risk/reward ratio. Preserving capital is more important than making profits."
   }
 ]

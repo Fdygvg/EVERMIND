@@ -1,0 +1,79 @@
+[
+  {
+    "question": "What is the shortcut to switch between open apps?",
+    "answer": "**Alt + Tab**\n\nThis shortcut allows you to cycle through all open applications on Windows. Hold Alt and press Tab to switch between apps.",
+    "type": "hotkeys",
+    "tags": ["windows", "navigation", "apps"],
+    "code": "// Alternative methods:\n// Alt + Shift + Tab - Switch in reverse order\n// Win + Tab - Open Task View (Windows 10/11)\n// Ctrl + Alt + Tab - Keep Task Switcher open"
+  },
+  {
+    "question": "What is the shortcut to switch between windows of the same app?",
+    "answer": "**Ctrl + Tab**\n\nThis shortcut switches between tabs or windows within the same application (like browser tabs, VS Code tabs, etc.).",
+    "type": "hotkeys",
+    "tags": ["tabs", "navigation", "windows"],
+    "code": "// Alternative methods:\n// Ctrl + Shift + Tab - Switch tabs in reverse\n// Ctrl + 1,2,3... - Jump to specific tab number\n// Ctrl + W - Close current tab\n// Ctrl + T - Open new tab"
+  },
+  {
+    "question": "What is the shortcut to minimize all windows and show desktop?",
+    "answer": "**Win + D**\n\nThis shortcut minimizes all open windows and shows the desktop. Press Win + D again to restore all windows.",
+    "type": "hotkeys",
+    "tags": ["desktop", "windows", "minimize"],
+    "code": "// Alternative methods:\n// Win + M - Minimize all windows (no restore)\n// Win + Shift + M - Restore minimized windows\n// Right-click taskbar → Show desktop\n// Win + Home - Minimize all except active window"
+  },
+  {
+    "question": "What is the shortcut to open File Explorer on Windows?",
+    "answer": "**Win + E**\n\nThis shortcut opens Windows File Explorer, allowing you to browse files and folders on your computer.",
+    "type": "hotkeys",
+    "tags": ["file-explorer", "windows", "files"],
+    "code": "// Alternative methods:\n// Right-click Start button → File Explorer\n// Click File Explorer icon in taskbar\n// Win + R → explorer → Enter\n// Ctrl + Shift + N - New folder in current location"
+  },
+  {
+    "question": "What is the shortcut to move cursor by one word?",
+    "answer": "**Ctrl + Left/Right Arrow**\n\n- **Ctrl + Left Arrow** - Move cursor one word to the left\n- **Ctrl + Right Arrow** - Move cursor one word to the right",
+    "type": "hotkeys",
+    "tags": ["text-editing", "cursor", "navigation"],
+    "code": "// Additional word navigation:\n// Ctrl + Shift + Left/Right - Select text word by word\n// Ctrl + Backspace - Delete previous word\n// Ctrl + Delete - Delete next word\n// Ctrl + A - Select all text"
+  },
+  {
+    "question": "What is the shortcut to move cursor to start or end of a line?",
+    "answer": "**Home / End**\n\n- **Home** - Move cursor to the beginning of the line\n- **End** - Move cursor to the end of the line",
+    "type": "hotkeys",
+    "tags": ["text-editing", "cursor", "line"],
+    "code": "// Additional line navigation:\n// Ctrl + Home - Move to beginning of document\n// Ctrl + End - Move to end of document\n// Shift + Home/End - Select to beginning/end of line\n// Ctrl + Shift + Home/End - Select to beginning/end of document"
+  },
+  {
+    "question": "What are the shortcuts for copy, cut, and paste?",
+    "answer": "**Copy, Cut, Paste Shortcuts:**\n\n- **Ctrl + C** - Copy selected text/item\n- **Ctrl + X** - Cut selected text/item\n- **Ctrl + V** - Paste copied/cut text/item",
+    "type": "hotkeys",
+    "tags": ["copy", "paste", "cut"],
+    "code": "// Additional clipboard shortcuts:\n// Ctrl + Shift + V - Paste without formatting\n// Ctrl + A - Select all\n// Ctrl + Z - Undo\n// Ctrl + Y - Redo\n// Win + V - Open clipboard history (Windows 10/11)"
+  },
+  {
+    "question": "What are the shortcuts for undo and redo?",
+    "answer": "**Undo and Redo Shortcuts:**\n\n- **Ctrl + Z** - Undo last action\n- **Ctrl + Y** - Redo last undone action",
+    "type": "hotkeys",
+    "tags": ["undo", "redo", "editing"],
+    "code": "// Alternative redo shortcuts:\n// Ctrl + Shift + Z - Redo (in some applications)\n// F4 - Repeat last action\n// Ctrl + R - Refresh/Reload\n// Ctrl + F5 - Hard refresh (browser)"
+  },
+  {
+    "question": "What is the shortcut to delete an entire word?",
+    "answer": "**Word Deletion Shortcuts:**\n\n- **Ctrl + Backspace** - Delete the word to the left of cursor\n- **Ctrl + Delete** - Delete the word to the right of cursor",
+    "type": "hotkeys",
+    "tags": ["delete", "word", "text-editing"],
+    "code": "// Additional deletion shortcuts:\n// Backspace - Delete character to the left\n// Delete - Delete character to the right\n// Shift + Delete - Delete selected item permanently\n// Ctrl + Shift + Delete - Open disk cleanup"
+  },
+  {
+    "question": "What is the shortcut to open the command palette in VS Code?",
+    "answer": "**Ctrl + Shift + P**\n\nThis shortcut opens the Command Palette in VS Code, allowing you to access all commands and features.",
+    "type": "hotkeys",
+    "tags": ["vscode", "command-palette", "developer"],
+    "code": "// Additional VS Code shortcuts:\n// Ctrl + P - Quick Open (files)\n// Ctrl + Shift + N - New window\n// Ctrl + ` - Toggle terminal\n// Ctrl + B - Toggle sidebar\n// Ctrl + Shift + E - Focus explorer"
+  },
+  {
+    "question": "What command do you use to open Run terminal and some common commands?",
+    "answer": "**Windows + R** to open Run dialog\n\n**Common Run Commands:**\n- **msconfig** - System Configuration\n- **msinfo32** - System Information\n- **devmgmt.msc** - Device Manager\n- **services.msc** - Services\n- **eventvwr.msc** - Event Viewer\n- **gpedit.msc** - Group Policy Editor\n- **regedit** - Registry Editor\n- **cmd** - Command Prompt\n- **powershell** - PowerShell\n- **calc** - Calculator\n- **notepad** - Notepad\n- **mspaint** - Paint",
+    "type": "hotkeys",
+    "tags": ["run-command", "windows", "system"],
+    "code": "// Additional useful Run commands:\n// appwiz.cpl - Programs and Features\n// ncpa.cpl - Network Connections\n// desk.cpl - Display Settings\n// firewall.cpl - Windows Firewall\n// timedate.cpl - Date and Time\n// sysdm.cpl - System Properties"
+  }
+]

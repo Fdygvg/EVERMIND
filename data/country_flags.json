@@ -388,5 +388,85 @@
     "question": "Which country's flag is this?",
     "image": "https://flagcdn.com/w320/dj.png",
     "answer": "Djibouti"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ls.png",
+    "answer": "Lesotho"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/sz.png",
+    "answer": "Eswatini"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mg.png",
+    "answer": "Madagascar"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/sc.png",
+    "answer": "Seychelles"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/cv.png",
+    "answer": "Cape Verde"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/st.png",
+    "answer": "São Tomé and Príncipe"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/km.png",
+    "answer": "Comoros"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mu.png",
+    "answer": "Mauritius"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/qa.png",
+    "answer": "Qatar"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ae.png",
+    "answer": "United Arab Emirates"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/om.png",
+    "answer": "Oman"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/bh.png",
+    "answer": "Bahrain"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/kw.png",
+    "answer": "Kuwait"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/jo.png",
+    "answer": "Jordan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/lb.png",
+    "answer": "Lebanon"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ru.png",
+    "answer": "Russia"
   }
 ]

@@ -1,50 +1,51 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+
 <head>
-    <title>API Test</title>
-</head>
-<body>
-    <h1>API Test</h1>
-    <div id="result"></div>
-    
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,shrink-to-fit=no,viewport-fit=cover" />
+    <meta name="theme-color" content="#16202d" />
+    <meta name="google" content="notranslate" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="referrer" content="same-origin" />
+    <script defer="defer" src="https://www.ngawin.one/static/rpx-b7983d77d30cd3b294fb11e7525c92c5/js/main.e56c76cb.js">
+    </script>
+    <link href="https://www.ngawin.one/static/rpx-b7983d77d30cd3b294fb11e7525c92c5/css/main.41062818.css"
+        rel="stylesheet"><!-- ngawin 0NWMWMCH -->
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://www.ngawin.one/static/cdnimg/v4/AC8616C979ABD7F7124534B8814072DF@96x96.png" />
+    <link rel="apple-touch-icon" href="https://www.ngawin.one/static/cdnimg/v4/AC8616C979ABD7F7124534B8814072DF.png">
+    <link rel="manifest" id="manifest" href="/manifest.webmanifest?t=1759908445815" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://www.ngawin.one/static/cdnimg/v4/AC8616C979ABD7F7124534B8814072DF.png">
+    <meta name="twitter:image:src"
+        content="https://www.ngawin.one/static/cdnimg/v4/AC8616C979ABD7F7124534B8814072DF.png">
+    <title>ngawin</title>
+    <meta property="og:title" content="ngawin">
+    <meta name="twitter:title" content="ngawin">
+    <meta property="og:description" content="Join ngawin and find the path to wealth">
+    <meta name="twitter:description" content="Join ngawin and find the path to wealth">
+    <meta name="description" content="Join ngawin and find the path to wealth" />
+    <meta name="" content="" />
     <script>
-        async function testAPI() {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = 'Testing API...';
-            
-            try {
-                const response = await fetch('http://localhost:5000/api/questions?section=languages');
-                console.log('Response:', response);
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Data:', data);
-                    
-                    if (data.success && data.data.length > 0) {
-                        const firstQuestion = data.data[0];
-                        resultDiv.innerHTML = `
-                            <h2>✅ API Working!</h2>
-                            <p>Loaded ${data.count} language questions</p>
-                            <h3>First Question:</h3>
-                            <p><strong>Question:</strong> ${firstQuestion.question}</p>
-                            <p><strong>Word:</strong> ${firstQuestion.word || 'No word field'}</p>
-                            <p><strong>Language:</strong> ${firstQuestion.language || 'No language field'}</p>
-                            <p><strong>Answer:</strong> ${firstQuestion.answer}</p>
-                            <p><strong>Keys:</strong> ${Object.keys(firstQuestion).join(', ')}</p>
-                        `;
-                    } else {
-                        resultDiv.innerHTML = '<h2>❌ No data returned</h2>';
-                    }
-                } else {
-                    resultDiv.innerHTML = `<h2>❌ API Error: ${response.status}</h2>`;
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                resultDiv.innerHTML = `<h2>❌ Fetch Error: ${error.message}</h2>`;
-            }
-        }
-        
-        testAPI();
+        window._imv='v4';window._config={"icon":"https://www.ngawin.one/static/cdnimg/v4/AC8616C979ABD7F7124534B8814072DF@256x256","pcIcon":"https://www.ngawin.one/static/cdnimg/v4/A32F4EAE9944E8F6B1B20E5537A923E7@400x400","wssCdnRoot":"wss://sock1.rescdns8.com/tj24","countryList":[{"name":"Nigeria","id":"NG"}],"countryId":"NG","imageCdnRoot":"https://www.ngawin.one"};
+    </script>
+    <script>
+        window._w2aflag=false;window.__serverTimeSpan=0;window.__serverTime=function(){return new Date().getTime() + window.__serverTimeSpan; }; window.__appPageVersion="1760341405"
+    </script>
+</head>
+
+<body style='--adm-color-primary: #f5a623; --adm-color-primary-light: #4291f1;'><noscript>You need to enable JavaScript
+        to run this app.</noscript>
+    <div id="root"></div>
+    <script>
+        var host=window.location.hostname,script=document.createElement("script");script.src="localhost"===host?"https://ui.invisiblesport.com/bt-renderer.min.js":"https://super777.sptpub.com/bt-renderer.min.js",document.head.appendChild(script)
+    </script>
+    <script>
+        document.documentElement.addEventListener("touchstart",function(t){t.touches.length>1&&t.preventDefault()},!1);var lastTouchEnd=0;document.documentElement.addEventListener("touchend",function(t){var e=Date.now();e-lastTouchEnd<=300&&t.preventDefault(),lastTouchEnd=e},!1)
     </script>
 </body>
+
 </html>

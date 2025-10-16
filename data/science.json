@@ -98,7 +98,71 @@
   {
     "question": "What is Entropy and Thermodynamics and how do they govern systems?",
     "answer": "Entropy and thermodynamics describe how energy naturally spreads out and disorder increases over time. These laws govern heat transfer, energy conversion, and the ultimate fate of all systems. They explain why hot objects cool down, why engines can't be 100% efficient, and why the universe tends toward increasing disorder over time."
+  },
+  {
+    "question": "What is a subatomic particle?",
+    "answer": "Subatomic particles are particles smaller than atoms. They include protons and neutrons (found in the nucleus) and electrons (orbiting the nucleus). There are also many other fundamental particles like quarks, leptons, and bosons that make up the building blocks of matter and carry fundamental forces."
+  },
+  {
+    "question": "What is a muon?",
+    "answer": "A muon is a subatomic particle similar to an electron but about 200 times heavier. It's unstable and decays quickly (in about 2.2 microseconds). Muons are created when cosmic rays hit Earth's atmosphere and are used in particle physics experiments to study fundamental forces and matter."
+  },
+  {
+    "question": "What is an electron?",
+    "answer": "An electron is a fundamental subatomic particle with a negative electric charge. It orbits the nucleus of atoms and is responsible for chemical bonding, electricity, and magnetism. Electrons are much lighter than protons and neutrons, and their behavior is described by quantum mechanics."
+  },
+  {
+    "question": "What is quantum superposition?",
+    "answer": "Quantum superposition is the principle that a particle can exist in multiple states simultaneously until it's observed or measured. Schrödinger's famous cat thought experiment illustrates this: the cat is both alive and dead at the same time until you look. This bizarre property is fundamental to quantum mechanics and quantum computing."
+  },
+  {
+    "question": "How do black holes warp time?",
+    "answer": "Black holes have such intense gravity that they warp spacetime itself. Near a black hole, time slows down drastically due to gravitational time dilation. An hour near a black hole could be years on Earth. This effect becomes more extreme the closer you get to the event horizon, where time appears to stop completely."
+  },
+  {
+    "question": "What are neutrinos and why do they pass through everything?",
+    "answer": "Neutrinos are tiny, nearly massless particles that rarely interact with matter. Trillions of neutrinos are flying through your body every second, yet you don't feel a thing. They're created in nuclear reactions, supernovas, and the Sun. Their weak interaction with matter makes them extremely difficult to detect, requiring massive underground detectors."
+  },
+  {
+    "question": "What is the multiverse theory?",
+    "answer": "The multiverse theory proposes that there might be countless universes with different versions of reality. Some scientists suggest there could be parallel universes where different versions of \"you\" exist, making different choices and living different lives. This theory arises from quantum mechanics and cosmic inflation models, though it remains highly speculative."
+  },
+  {
+    "question": "What is dark energy and how is it affecting the universe?",
+    "answer": "Dark energy is a mysterious force that makes up about 68% of the universe and is accelerating its expansion. We don't know exactly what it is, but it's causing galaxies to drift away from each other faster and faster over time. This discovery led to the Nobel Prize in Physics and fundamentally changed our understanding of the universe's fate."
+  },
+  {
+    "question": "What is an electron?",
+    "answer": "An electron is a subatomic particle with a negative electric charge that orbits the nucleus of an atom. Electrons are fundamental particles that determine chemical properties and bonding between atoms. They're much smaller and lighter than protons and neutrons."
+  },
+  {
+    "question": "What are subatomic particles?",
+    "answer": "Subatomic particles are particles smaller than atoms. The main ones are protons (positive charge), neutrons (no charge), and electrons (negative charge). Protons and neutrons are in the nucleus, while electrons orbit around it. There are also many other subatomic particles discovered in particle physics."
+  },
+  {
+    "question": "How many elements are in the periodic table?",
+    "answer": "There are 118 elements in the periodic table. Elements 1-94 occur naturally on Earth, while elements 95-118 are synthetic (man-made). The periodic table organizes elements by atomic number (number of protons) and shows their chemical properties."
+  },
+  {
+    "question": "What is quantum superposition?",
+    "answer": "Quantum superposition is the principle that a particle can exist in multiple states at once until it's observed. Schrödinger's famous cat is alive and dead at the same time until you look. This is a fundamental property of quantum mechanics that defies classical physics."
+  },
+  {
+    "question": "How do black holes affect time?",
+    "answer": "Black holes warp time due to their incredibly intense gravity. Near a black hole, time slows down drastically - an hour there could be years on Earth. This is called time dilation and is predicted by Einstein's theory of general relativity."
+  },
+  {
+    "question": "What are neutrinos and why don't we feel them?",
+    "answer": "Neutrinos are tiny, nearly massless subatomic particles that pass through everything. Trillions of these particles are flying through your body every second, yet you don't feel a thing because they hardly interact with matter. They're produced by nuclear reactions in stars and cosmic events."
+  },
+  {
+    "question": "What is the multiverse theory?",
+    "answer": "The multiverse theory proposes there might be countless universes with different versions of reality. Some scientists suggest there could be parallel universes where different versions of 'you' are doing something totally different. This is still theoretical and debated in physics."
+  },
+  {
+    "question": "What is dark energy and what does it do?",
+    "answer": "Dark energy is a mysterious force that makes up roughly 68% of the universe and is accelerating its expansion. We don't know exactly what it is, but it's causing galaxies to drift away from each other faster and faster. It's one of the biggest mysteries in modern physics."
   }
-  ]
+]
 
 

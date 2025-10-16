@@ -1,0 +1,72 @@
+[
+  {
+    "question": "What is the epiglottis?",
+    "answer": "**What is the epiglottis?**\n\nThe epiglottis is a flap of cartilage located at the base of your tongue, in your throat, above the voice box (larynx).\n\n**What does it do?**\nActs like a trapdoor to cover your windpipe when you swallow, so food and drink go into your stomach instead of your lungs.\n\n**Where is it located?**\nAt the base of your tongue, in your throat, above the voice box (larynx).",
+    "type": "anatomy",
+    "tags": ["throat", "swallowing", "respiratory"],
+    "image": "https://commons.wikimedia.org/wiki/File:Epiglottis_diagram.svg"
+  },
+  {
+    "question": "What is the spleen?",
+    "answer": "**What is the spleen?**\n\nThe spleen is an organ located in the upper left side of your abdomen, just under your ribs.\n\n**What does it do?**\nFilters your blood, recycles old red blood cells, and stores white blood cells to fight infections.\n\n**Where is it located?**\nUpper left side of your abdomen, just under your ribs.",
+    "type": "anatomy",
+    "tags": ["immune-system", "blood-filter", "abdomen"],
+    "image": "https://commons.wikimedia.org/wiki/File:Spleen_diagram.svg"
+  },
+  {
+    "question": "What is the uvula?",
+    "answer": "**What is the uvula?**\n\nThe uvula is the small dangly thing at the back of your throat.\n\n**What does it do?**\nHelps direct food down your throat, assists with speech, and triggers your gag reflex to prevent choking.\n\n**Where is it located?**\nThe small dangly thing at the back of your throat.",
+    "type": "anatomy",
+    "tags": ["throat", "speech", "swallowing"],
+    "image": "https://commons.wikimedia.org/wiki/File:Uvula_diagram.svg"
+  },
+  {
+    "question": "What are tonsils?",
+    "answer": "**What are tonsils?**\n\nTonsils are lymphoid tissues located on each side at the back of your throat.\n\n**What do they do?**\nTrap germs that enter through your mouth or nose and help your body produce antibodies.\n\n**Where are they located?**\nOn each side at the back of your throat.",
+    "type": "anatomy",
+    "tags": ["immune-system", "throat", "antibodies"],
+    "image": "https://commons.wikimedia.org/wiki/File:Tonsils_diagram.svg"
+  },
+  {
+    "question": "What is the appendix?",
+    "answer": "**What is the appendix?**\n\nThe appendix is a small organ located in the lower right side of your abdomen, attached to the large intestine.\n\n**What does it do?**\nStores good bacteria that can help your gut recover after illness.\n\n**Where is it located?**\nLower right side of your abdomen, attached to the large intestine.",
+    "type": "anatomy",
+    "tags": ["digestive-system", "abdomen", "bacteria"],
+    "image": "https://commons.wikimedia.org/wiki/File:Appendix_diagram.svg"
+  },
+  {
+    "question": "What is the pineal gland?",
+    "answer": "**What is the pineal gland?**\n\nThe pineal gland is a small endocrine gland located deep inside your brain.\n\n**What does it do?**\nProduces melatonin, a hormone that helps regulate your sleep-wake cycle.\n\n**Where is it located?**\nDeep inside your brain, between the two hemispheres, in a groove where the two halves of the thalamus join.",
+    "type": "anatomy",
+    "tags": ["brain", "sleep", "hormones"],
+    "image": "https://commons.wikimedia.org/wiki/File:Pineal_gland_diagram.svg"
+  },
+  {
+    "question": "What is the cecum?",
+    "answer": "**What is the cecum?**\n\nThe cecum is the first part of the large intestine, located in the lower right side of your abdomen.\n\n**What does it do?**\nReceives food from the small intestine and starts the process of absorbing fluids and salts; also connected to the appendix.\n\n**Where is it located?**\nLower right side of your abdomen, at the beginning of your large intestine.",
+    "type": "anatomy",
+    "tags": ["digestive-system", "large-intestine", "abdomen"],
+    "image": "https://commons.wikimedia.org/wiki/File:Cecum_diagram.svg"
+  },
+  {
+    "question": "What are adenoids?",
+    "answer": "**What are adenoids?**\n\nAdenoids are lymphoid tissues located high in the throat behind the nose.\n\n**What do they do?**\nTrap germs entering through your nose and help your body fight infections, similar to tonsils.\n\n**Where are they located?**\nHigh in the throat behind the nose.",
+    "type": "anatomy",
+    "tags": ["immune-system", "nose", "throat"],
+    "image": "https://commons.wikimedia.org/wiki/File:Adenoids_diagram.svg"
+  },
+  {
+    "question": "What is the diaphragm?",
+    "answer": "**What is the diaphragm?**\n\nThe diaphragm is the main breathing muscle located between your chest and abdomen.\n\n**What does it do?**\nMain muscle that helps you breathe by contracting and relaxing to pull air into your lungs.\n\n**Where is it located?**\nBetween your chest and your abdomen, under your lungs.",
+    "type": "anatomy",
+    "tags": ["breathing", "muscle", "respiratory"],
+    "image": "https://commons.wikimedia.org/wiki/File:Diaphragm_diagram.svg"
+  },
+  {
+    "question": "What is the cochlea?",
+    "answer": "**What is the cochlea?**\n\nThe cochlea is a spiral-shaped structure located in the inner ear.\n\n**What does it do?**\nConverts sound vibrations into nerve signals so your brain can interpret them as sound.\n\n**Where is it located?**\nInner ear, inside the spiral-shaped bone structure.",
+    "type": "anatomy",
+    "tags": ["hearing", "inner-ear", "sound"],
+    "image": "https://commons.wikimedia.org/wiki/File:Cochlea_diagram.svg"
+  }
+]

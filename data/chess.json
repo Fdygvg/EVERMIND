@@ -51,5 +51,40 @@
       {"from": "e2", "to": "e4"},
       {"from": "e2", "to": "e3"}
     ]
+  },
+  {
+    "question": "How does the King move?",
+    "answer": "The King moves 1 square in any direction — forward, backward, sideways, or diagonally. It's the most important piece — if it's checkmated, the game is over. Can participate in castling with a rook (special move for safety and rook activation). Usually stays protected in the early and middle game but becomes active in the endgame.",
+    "pieceType": "king",
+    "startPosition": "e1",
+    "possibleMoves": ["d1", "d2", "e2", "f2", "f1"],
+    "demoMoves": [
+      {"from": "e1", "to": "e2"},
+      {"from": "e1", "to": "d1"}
+    ]
+  },
+  {
+    "question": "Who moves first in chess?",
+    "answer": "White moves first, then Black. Players alternate turns throughout the game."
+  },
+  {
+    "question": "What is check in chess?",
+    "answer": "Check occurs when a player's king is under attack by an opponent's piece. The player in check must immediately get out of check by moving the king, blocking the attack, or capturing the attacking piece."
+  },
+  {
+    "question": "What is checkmate in chess?",
+    "answer": "Checkmate occurs when a player's king is in check and there is no legal move to get out of check. This ends the game immediately, and the player whose king is checkmated loses."
+  },
+  {
+    "question": "What is castling in chess?",
+    "answer": "Castling is a special move where the king moves 2 squares toward a rook, and the rook moves to the square the king crossed. This can only be done if neither piece has moved, there are no pieces between them, and the king is not in check. It's used for king safety and rook activation."
+  },
+  {
+    "question": "What is en passant in chess?",
+    "answer": "En passant is a special pawn capture that can only occur when a pawn moves 2 squares forward from its starting position and lands next to an opponent's pawn. The opponent can capture it as if it had only moved 1 square forward. This capture must be made immediately on the next move."
+  },
+  {
+    "question": "What is pawn promotion in chess?",
+    "answer": "Pawn promotion occurs when a pawn reaches the opposite end of the board (8th rank for White, 1st rank for Black). The pawn must be promoted to a queen, rook, bishop, or knight of the same color. Most players choose to promote to a queen since it's the most powerful piece."
   }
 ]

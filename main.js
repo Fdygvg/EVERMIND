@@ -1099,11 +1099,14 @@ const sections = [
     { id: 'facts', name: 'Random Facts', icon: '💡' },
     { id: 'country_flags', name: 'Country Flags', icon: '🚩' },
     { id: 'new_words', name: 'New Words', icon: '📝' },
-    { id: 'youtube_knowledge', name: 'YouTube Knowledge', icon: '🎥' },
+    { id: 'youtube_knowledge', name: 'YouTube', icon: '🎥' },
     { id: 'memes_brainrot', name: 'Memes & Brain Rot', icon: '💀' },
-    { id: 'binance_futures', name: 'Binance Futures', icon: '📈' },
+    { id: 'binance_futures', name: 'Futures', icon: '📈' },
     { id: 'psychology', name: 'Psychology', icon: '🧠' },
     { id: 'chess', name: 'Chess', icon: '♟️' },
+    { id: 'anatomy', name: 'Anatomy', icon: '🫀' },
+    { id: 'hotkeys', name: 'Hotkeys', icon: '⌨️' },
+    { id: 'cybersec', name: 'CyberSec', icon: '🔒' },
 ];
 
 async function loadAllSections() {
@@ -2968,7 +2971,7 @@ function getSectionInfo(sectionId) {
     // Handle special cases and format section names
     const nameMap = {
         'memes_brainrot': 'Memes & Brain Rot',
-        'youtube_knowledge': 'YouTube Knowledge',
+        'youtube_knowledge': 'YouTube',
         'country_flags': 'Country Flags',
         'new_words': 'New Words',
         'bookmarked': 'Bookmarked Questions'
