@@ -195,6 +195,36 @@ body {
     border-color: var(--btn-nav);
 }
 
+/* Timer Button Styles */
+.timer-mode-btn,
+.set-timer-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+}
+
+.timer-mode-btn:hover,
+.set-timer-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+.timer-mode-btn:active,
+.set-timer-btn:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+}
+
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
     .btn {
@@ -7512,6 +7542,41 @@ body[aria-busy="true"] {
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
         border: 2px solid var(--border-color) !important;
     }
+    
+    /* Ensure timer display is visible on tablets */
+    .timer-display {
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        z-index: 99999 !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Ensure notes page has dark theme on tablets */
+    #notesPage,
+    #notesPage.active {
+        background: #1a1a1a !important;
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+    }
+    
+    #notesPage header,
+    #notesPage .notes-page-content,
+    #notesPage .notes-toolbar,
+    #notesPage .notes-container {
+        background: transparent !important;
+        color: #ffffff !important;
+    }
+    
+    #notesPage h1,
+    #notesPage h2,
+    #notesPage h3,
+    #notesPage p,
+    #notesPage span {
+        color: #ffffff !important;
+    }
 }
 
 /* Desktop/Laptop specific fixes - REMOVED PROBLEMATIC OVERRIDES */
@@ -7574,6 +7639,22 @@ body[aria-busy="true"] {
     min-height: 100vh !important;
     width: 100% !important;
     background: #1a1a1a !important;
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* Force dark background on notesPage elements */
+#notesPage header {
+    background: transparent !important;
+    color: #ffffff !important;
+}
+
+#notesPage .notes-page-content {
+    background: transparent !important;
+    color: #ffffff !important;
+}
+
+#notesPage button {
     color: #ffffff !important;
 }
 
@@ -7596,11 +7677,27 @@ body[aria-busy="true"] {
 /* Ensure proper contrast and visibility */
 #calendarPage, #notesPage {
     background: #1a1a1a !important;
+    background-color: #1a1a1a !important;
     color: #ffffff !important;
 }
 
 #calendarPage *, #notesPage * {
     color: inherit !important;
+}
+
+/* Specifically target notes page for dark theme */
+#notesPage {
+    background: #1a1a1a !important;
+    background-color: #1a1a1a !important;
+}
+
+#notesPage h1,
+#notesPage h2,
+#notesPage h3,
+#notesPage p,
+#notesPage span,
+#notesPage div {
+    color: #ffffff !important;
 }
 
 /* Force backdrop-filter support */
@@ -7680,58 +7777,86 @@ body[aria-busy="true"] {
 
 /* ==================== TIMER MODE STYLING ==================== */
 .stat.timer-mode {
-    background: #3B82F6; /* Blue when disabled */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+    /* Inherit base stat styling */
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    backdrop-filter: blur(10px) !important;
+    white-space: nowrap !important;
+    
+    /* Timer-specific styling */
+    background: #3B82F6 !important; /* Blue when disabled */
+    color: white !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    margin: 0 !important;
+    min-width: auto !important;
+    height: auto !important;
+    text-decoration: none !important;
+    list-style: none !important;
 }
 
 .stat.timer-mode.enabled {
-    background: #EF4444; /* Red when enabled */
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    background: #EF4444 !important; /* Red when enabled */
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .stat.timer-mode:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
 .stat.timer-mode.disabled:hover {
-    background: #2563EB;
+    background: #2563EB !important;
 }
 
 .stat.timer-mode.enabled:hover {
-    background: #DC2626;
+    background: #DC2626 !important;
 }
 
-/* Timer Display */
+/* Timer Modal Overlay */
+.timer-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+    z-index: 9999 !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+/* Timer Display - Works on ALL screen sizes */
 .timer-display {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(239, 68, 68, 0.9);
-    color: white;
-    padding: 15px 25px;
-    border-radius: 12px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    animation: timerPulse 1s ease-in-out infinite;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    background: rgba(239, 68, 68, 0.9) !important;
+    color: white !important;
+    padding: 15px 25px !important;
+    border-radius: 12px !important;
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    animation: timerPulse 1s ease-in-out infinite !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    flex-direction: column !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 .timer-countdown {
@@ -7757,14 +7882,70 @@ body[aria-busy="true"] {
     }
 }
 
-/* Timer Config Modal */
+/* Timer Config Modal - Force visibility */
 #timerConfigModal {
     z-index: 10000 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    backdrop-filter: blur(5px) !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease, visibility 0.3s ease !important;
+}
+
+/* Force timer modal to show when display: flex is set inline */
+#timerConfigModal[style*="display: flex"],
+#timerConfigModal[style*="display:flex"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Ensure timer modal is hidden by default */
+#timerConfigModal:not([style*="display: flex"]):not([style*="display:flex"]) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Override any conflicting styles */
+#timerConfigModal[style*="display: flex"] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    z-index: 10000 !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 #timerConfigModal .modal-content {
-    max-width: 400px;
-    text-align: center;
+    max-width: 400px !important;
+    text-align: center !important;
+    background: var(--bg-secondary, #2a2a2a) !important;
+    border-radius: 12px !important;
+    padding: 30px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid var(--border-color, #444) !important;
+    transform: scale(0.9) !important;
+    transition: transform 0.3s ease !important;
+    position: relative !important;
+    z-index: 10001 !important;
+}
+
+#timerConfigModal[style*="display: flex"] .modal-content,
+#timerConfigModal[style*="display:flex"] .modal-content {
+    transform: scale(1) !important;
 }
 
 #timerConfigModal label {
@@ -7775,20 +7956,158 @@ body[aria-busy="true"] {
 }
 
 #timerConfigModal select {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border-radius: 8px;
-    margin: 10px 0 20px 0;
-    background: var(--bg-secondary, rgba(255, 255, 255, 0.1));
-    color: var(--text-primary, white);
-    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 1rem !important;
+    border-radius: 8px !important;
+    margin: 10px 0 20px 0 !important;
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.1)) !important;
+    color: var(--text-primary, white) !important;
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2)) !important;
+    box-sizing: border-box !important;
 }
 
 .modal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+    display: flex !important;
+    gap: 10px !important;
+    justify-content: center !important;
+    margin-top: 20px !important;
+}
+
+/* Responsive timer modal fixes */
+@media (max-width: 768px) {
+    #timerConfigModal .modal-content {
+        max-width: 90vw !important;
+        margin: 20px !important;
+        padding: 20px !important;
+    }
+    
+    .timer-display {
+        top: 10px !important;
+        right: 10px !important;
+        padding: 10px 15px !important;
+        font-size: 1rem !important;
+    }
+}
+
+/* Ensure timer modal works on all screen sizes */
+@media (min-width: 1920px) {
+    #timerConfigModal {
+        z-index: 10000 !important;
+    }
+    
+    .timer-display {
+        z-index: 99999 !important;
+    }
+}
+
+/* ==================== NOTES MODAL STYLING ==================== */
+#noteEditModal.modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+#noteEditModal .modal-content {
+    position: relative !important;
+    background: var(--card-bg, #2a2a2a) !important;
+    padding: 30px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    max-width: 600px !important;
+    width: 90% !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    border: 1px solid var(--border-color, #444) !important;
+    transform: none !important;
+}
+
+.notes-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+    z-index: 9999 !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+#noteEditModal h2,
+#noteEditModal h3 {
+    color: var(--text-primary, white) !important;
+    margin-bottom: 15px !important;
+    font-weight: 600 !important;
+}
+
+#noteEditModal input,
+#noteEditModal textarea {
+    width: 100% !important;
+    padding: 12px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-primary, white) !important;
+    font-size: 1rem !important;
+    margin-bottom: 15px !important;
+    box-sizing: border-box !important;
+}
+
+#noteEditModal input:focus,
+#noteEditModal textarea:focus {
+    outline: none !important;
+    border-color: var(--btn-primary, #667eea) !important;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;
+}
+
+#noteEditModal button {
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    margin: 5px !important;
+}
+
+#noteEditModal button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+#noteEditModal button:active {
+    transform: translateY(0) !important;
+}
+
+#noteEditModal .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+#noteEditModal .btn-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+}
+
+#noteEditModal .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+}
+
+/* Responsive notes modal */
+@media (max-width: 768px) {
+    #noteEditModal .modal-content {
+        max-width: 95vw !important;
+        padding: 20px !important;
+        margin: 10px !important;
+    }
 }
 
 /* ==================== END TIMER MODE STYLING ==================== */

@@ -1362,6 +1362,26 @@ function displayQuestions(questions) {
             content += `<p style="font-style: italic; opacity: 0.8;">Pronunciation: ${escapeHtml(q.pronunciation)}</p>`;
             content += `<p><strong>Meaning:</strong> ${escapeHtml(q.meaning)}</p>`;
             content += `<p style="margin-top: 10px;"><em>"${escapeHtml(q.example)}"</em></p>`;
+        } else if (q.type === 'anatomy' && q.word) {
+            // Anatomy section - show the question initially
+            content += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(q.question || '')}</h3>`;
+            
+            // Add speaker button for anatomy body parts on homepage
+            const safeWord = q.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            content += ` <button class="speaker-btn" onclick="speakWord('${safeWord}')" title="Hear pronunciation">🔊</button>`;
+            
+            content += `<div class="answer">`;
+            content += `<h3 style="font-size: 2rem; margin-bottom: 15px; font-weight: 700;">${escapeHtml(q.word)}</h3>`;
+            if (q.pronunciation) {
+                content += `<p style="font-style: italic; opacity: 0.8; margin-bottom: 15px;">Pronunciation: ${escapeHtml(q.pronunciation)}</p>`;
+            }
+            if (q.meaning) {
+                content += `<p style="margin-bottom: 15px;"><strong>Quick Summary:</strong> ${escapeHtml(q.meaning)}</p>`;
+            }
+            if (q.image) {
+                content += `<img src="${q.image}" alt="${escapeHtml(q.word)} diagram" class="question-image" style="margin-bottom: 20px; max-width: 100%; border-radius: 8px;">`;
+            }
+            content += `<div style="line-height: 1.8; font-size: 1.1rem;">${q.answer}</div>`;
         } else if (q.title && q.summary) {
             // YouTube Knowledge section - show only the title initially
             content += `<h3 style="font-size: 1.3rem; margin-bottom: 10px;">🎥 ${escapeHtml(q.title)}</h3>`;
@@ -1453,6 +1473,19 @@ function displayQuestions(questions) {
                 const speakerBtn = AudioPlayer.addSpeakerButton(questionItem, q.word, q.language);
                 h3.appendChild(speakerBtn);
             }
+        }
+        
+        if (state.currentSection === 'anatomy' && q.type === 'anatomy' && q.word) {
+            // Add speaker button for anatomy body parts
+            const speakerBtn = document.createElement('button');
+            speakerBtn.className = 'speaker-btn';
+            speakerBtn.innerHTML = '🔊';
+            speakerBtn.title = 'Hear pronunciation';
+            speakerBtn.onclick = (e) => {
+                e.stopPropagation();
+                speakWord(q.word);
+            };
+            h3.appendChild(speakerBtn);
         }
         
         if (state.currentSection === 'programming' && q.answer) {
@@ -1866,6 +1899,16 @@ function displayCurrentQuestion() {
             const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
             questionHtml += ` <button class="speaker-btn" onclick="speakWord('${safeWord}')" title="Hear pronunciation">🔊</button>`;
         }
+    } else if (question.type === 'anatomy' && question.word) {
+        console.log('✅ DEBUG: Anatomy question detected - type anatomy with word');
+        // Anatomy section - show the question initially
+        questionHtml += `<h3 style="font-size: 1.5rem; margin-bottom: 15px;">${escapeHtml(question.question || '')}</h3>`;
+        
+        // Add speaker button for anatomy body parts
+        if (question.word) {
+            const safeWord = question.word.replace(/'/g, "\\'").replace(/"/g, '\\"');
+            questionHtml += ` <button class="speaker-btn" onclick="speakWord('${safeWord}')" title="Hear pronunciation">🔊</button>`;
+        }
     } else if (question.title && question.summary) {
         console.log('✅ DEBUG: YouTube question detected - title and summary present');
         // YouTube Knowledge section - show only the title initially
@@ -1955,6 +1998,21 @@ function displayCurrentQuestion() {
         answerHtml += `<p><strong>Meaning:</strong> ${escapeHtml(question.meaning)}</p>`;
         answerHtml += `<p style="margin-top: 10px;"><em>"${escapeHtml(question.example)}"</em></p>`;
         answerHtml += `</div>`;
+        } else if (question.type === 'anatomy' && question.word) {
+            // Anatomy section - show body part name and detailed answer
+            answerHtml += `<div class="language-info-box">`;
+            answerHtml += `<h3 style="font-size: 2rem; margin-bottom: 15px; font-weight: 700;">${escapeHtml(question.word)}</h3>`;
+            if (question.pronunciation) {
+                answerHtml += `<p style="font-style: italic; opacity: 0.8; margin-bottom: 15px;">Pronunciation: ${escapeHtml(question.pronunciation)}</p>`;
+            }
+            if (question.meaning) {
+                answerHtml += `<p style="margin-bottom: 15px;"><strong>Quick Summary:</strong> ${escapeHtml(question.meaning)}</p>`;
+            }
+            if (question.image) {
+                answerHtml += `<img src="${question.image}" alt="${escapeHtml(question.word)} diagram" class="question-image" style="margin-bottom: 20px; max-width: 100%; border-radius: 8px;">`;
+            }
+            answerHtml += `<div style="line-height: 1.8; font-size: 1.1rem;">${question.answer}</div>`;
+            answerHtml += `</div>`;
     } else if (question.title && question.summary) {
         // YouTube Knowledge section - show summary, source, and video link
         answerHtml += `<div class="language-info-box">`;
@@ -5869,7 +5927,23 @@ function createNewNote() {
     notesState.currentNote = null;
     document.getElementById('noteEditContent').value = '';
     document.getElementById('noteEditTitle').textContent = 'New Note';
-    document.getElementById('noteEditModal').style.display = 'flex';
+    
+    // Create overlay if it doesn't exist
+    let overlay = document.querySelector('.notes-modal-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'notes-modal-overlay';
+        overlay.onclick = closeNoteEditModal;
+        document.body.appendChild(overlay);
+    }
+    
+    const modal = document.getElementById('noteEditModal');
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
 }
 
 function editNote(noteId) {
@@ -5879,11 +5953,40 @@ function editNote(noteId) {
     notesState.currentNote = note;
     document.getElementById('noteEditContent').value = note.content;
     document.getElementById('noteEditTitle').textContent = 'Edit Note';
-    document.getElementById('noteEditModal').style.display = 'flex';
+    
+    // Create overlay if it doesn't exist
+    let overlay = document.querySelector('.notes-modal-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'notes-modal-overlay';
+        overlay.onclick = closeNoteEditModal;
+        document.body.appendChild(overlay);
+    }
+    
+    const modal = document.getElementById('noteEditModal');
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
 }
 
 function closeNoteEditModal() {
-    document.getElementById('noteEditModal').style.display = 'none';
+    // Remove overlay
+    const overlay = document.querySelector('.notes-modal-overlay');
+    if (overlay) {
+        overlay.remove();
+    }
+    
+    const modal = document.getElementById('noteEditModal');
+    modal.style.display = 'none';
+    modal.style.visibility = 'hidden';
+    modal.style.opacity = '0';
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+    
     notesState.currentNote = null;
 }
 
@@ -6132,17 +6235,64 @@ function initTimerMode() {
     }
     
     console.log('⏱️ Timer mode initialized');
+    
+    // Debug timer button on page load
+    setTimeout(() => {
+        const timerBtn = document.getElementById('timerModeBtn');
+        console.log('⏱️ Timer button on page load:', timerBtn);
+        console.log('⏱️ Timer button classes:', timerBtn?.className);
+        console.log('⏱️ Timer button computed styles:', timerBtn ? window.getComputedStyle(timerBtn) : 'Button not found');
+        console.log('⏱️ Timer button parent:', timerBtn?.parentElement);
+        console.log('⏱️ Progress stats container:', document.querySelector('.progress-stats'));
+    }, 1000);
+    
+    // Test function to force modal visibility
+    function testTimerModal() {
+        console.log('🧪 Testing timer modal visibility');
+        const modal = document.getElementById('timerConfigModal');
+        if (modal) {
+            // Force all styles inline
+            modal.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                background: rgba(0, 0, 0, 0.8) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                z-index: 10000 !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            `;
+            console.log('🧪 Modal forced to show with inline styles');
+            console.log('🧪 Modal element:', modal);
+            console.log('🧪 Modal computed styles:', window.getComputedStyle(modal));
+        } else {
+            console.error('🧪 Modal not found!');
+        }
+    }
+    
+    // Make test function available globally
+    window.testTimerModal = testTimerModal;
 }
 
 // Toggle timer mode on/off
 function toggleTimerMode() {
     console.log('⏱️ Toggle timer mode clicked');
+    console.log('⏱️ Current timer mode state:', timerMode);
+    console.log('⏱️ Timer mode button element:', document.getElementById('timerModeBtn'));
+    console.log('⏱️ Timer mode button classes:', document.getElementById('timerModeBtn')?.className);
+    console.log('⏱️ Timer mode button computed styles:', window.getComputedStyle(document.getElementById('timerModeBtn')));
     
     if (timerMode.enabled) {
         // Stop timer mode
+        console.log('⏱️ Stopping timer mode');
         stopTimerMode();
     } else {
         // Show configuration modal
+        console.log('⏱️ Showing timer config modal');
         showTimerConfig();
     }
 }
@@ -6150,15 +6300,54 @@ function toggleTimerMode() {
 // Show timer configuration modal
 function showTimerConfig() {
     console.log('⏱️ Showing timer config modal');
+    
+    // Create overlay if it doesn't exist
+    let overlay = document.querySelector('.timer-modal-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'timer-modal-overlay';
+        overlay.onclick = closeTimerConfig;
+        document.body.appendChild(overlay);
+    }
+    
     const modal = document.getElementById('timerConfigModal');
     console.log('⏱️ Modal element found:', !!modal);
     if (modal) {
         console.log('⏱️ Setting modal display to flex');
         modal.style.display = 'flex';
+        modal.style.visibility = 'visible';
+        modal.style.opacity = '1';
         modal.style.zIndex = '10000';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(0, 0, 0, 0.8)';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.backdropFilter = 'blur(5px)';
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+        
         console.log('⏱️ Modal display set to:', modal.style.display);
+        console.log('⏱️ Modal visibility set to:', modal.style.visibility);
+        console.log('⏱️ Modal opacity set to:', modal.style.opacity);
         console.log('⏱️ Modal z-index set to:', modal.style.zIndex);
+        console.log('⏱️ Modal position set to:', modal.style.position);
         console.log('⏱️ Modal computed styles:', window.getComputedStyle(modal));
+        
+        // Add click-outside-to-close functionality
+        modal.onclick = function(e) {
+            if (e.target === modal) {
+                closeTimerConfig();
+            }
+        };
+        
+        // Force a reflow to ensure styles are applied
+        modal.offsetHeight;
+        console.log('⏱️ Modal should now be visible');
     } else {
         console.error('⏱️ Timer config modal not found!');
     }
@@ -6167,9 +6356,23 @@ function showTimerConfig() {
 // Close timer configuration modal
 function closeTimerConfig() {
     console.log('⏱️ Closing timer config modal');
+    
+    // Remove overlay
+    const overlay = document.querySelector('.timer-modal-overlay');
+    if (overlay) {
+        overlay.remove();
+    }
+    
     const modal = document.getElementById('timerConfigModal');
     if (modal) {
         modal.style.display = 'none';
+        modal.style.visibility = 'hidden';
+        modal.style.opacity = '0';
+        
+        // Restore body scroll
+        document.body.style.overflow = '';
+        
+        console.log('⏱️ Modal closed');
     }
 }
 
@@ -6209,18 +6412,33 @@ function stopTimerMode() {
 
 // Update timer mode button appearance
 function updateTimerModeButton() {
+    console.log('⏱️ Updating timer mode button');
+    console.log('⏱️ Timer mode enabled:', timerMode.enabled);
+    
     const btn = document.getElementById('timerModeBtn');
     const text = document.getElementById('timerModeText');
+    
+    console.log('⏱️ Button element:', btn);
+    console.log('⏱️ Text element:', text);
+    console.log('⏱️ Button current classes:', btn?.className);
+    
     if (btn && text) {
         if (timerMode.enabled) {
             btn.classList.remove('disabled');
             btn.classList.add('enabled');
             text.textContent = 'Timer ON';
+            console.log('⏱️ Set button to enabled state');
         } else {
             btn.classList.remove('enabled');
             btn.classList.add('disabled');
             text.textContent = 'Timer';
+            console.log('⏱️ Set button to disabled state');
         }
+        
+        console.log('⏱️ Button new classes:', btn.className);
+        console.log('⏱️ Button computed styles after update:', window.getComputedStyle(btn));
+    } else {
+        console.error('⏱️ Timer mode button or text element not found!');
     }
 }
 
