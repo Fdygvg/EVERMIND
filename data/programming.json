@@ -1147,5 +1147,9 @@
   {
     "question": "How to see hidden files in CMD and PowerShell?",
     "answer": "**PowerShell:**\n```powershell\n# Show all files including hidden\nGet-ChildItem -Force\n\n# Or use alias\nls -Force\n```\n\n**CMD (Command Prompt):**\n```cmd\n# Show all files\nDir /a\n\n# Show all files with details\nDir /a /q\n\n# Show all files recursively\nDir /a /s\n\n# /a = all files (hidden, system, etc.)\n# /q = show ownership information\n# /s = include subdirectories recursively\n```\n\n**Explanation:**\n- Hidden files start with a dot (.) or have hidden attribute\n- `/a` shows all file attributes\n- `/q` adds ownership details\n- `/s` searches subdirectories"
+  },
+  {
+    "question": "How do you apply a single commit from another branch to main without merging the whole branch?",
+    "answer": "**Git Cherry-Pick:**\n\n**What it does:**\n- Applies a specific commit from one branch to another\n- Copies the commit without merging the entire branch\n- Useful for applying hotfixes or specific features\n\n**Command:**\n```bash\ngit cherry-pick <commit-hash>\n```\n\n**Steps:**\n1. Switch to target branch (main)\n2. Find the commit hash you want to apply\n3. Run cherry-pick command\n4. Resolve any conflicts if they occur\n\n**Example:**\n```bash\n# Switch to main branch\ngit checkout main\n\n# Apply specific commit\ngit cherry-pick abc1234\n\n# If conflicts occur, resolve them\ngit add .\ngit cherry-pick --continue\n```\n\n**Use Cases:**\n- Apply hotfixes to production\n- Move specific features between branches\n- Extract commits from feature branches\n- Apply bug fixes without full merge\n\n**Benefits:**\n- Selective commit application\n- Clean commit history\n- No unwanted changes\n- Precise control over what gets merged"
   }
 ]
