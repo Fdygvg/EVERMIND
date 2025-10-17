@@ -195,22 +195,28 @@ body {
     border-color: var(--btn-nav);
 }
 
-/* Timer Button Styles */
+/* Timer Button Styles - RECTANGULAR WITH ROUNDED EDGES */
 .timer-mode-btn,
-.set-timer-btn {
+.set-timer-btn,
+button.timer-mode-btn,
+button.set-timer-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     color: white !important;
     border: none !important;
     padding: 12px 24px !important;
-    border-radius: 8px !important;
+    border-radius: 12px !important; /* Increased for better rounded rectangle */
     font-size: 1rem !important;
     font-weight: 600 !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     display: inline-flex !important;
     align-items: center !important;
+    justify-content: center !important;
     gap: 8px !important;
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+    min-width: 120px !important;
+    min-height: 44px !important;
+    text-align: center !important;
 }
 
 .timer-mode-btn:hover,
@@ -7522,37 +7528,9 @@ body[aria-busy="true"] {
         -webkit-backdrop-filter: blur(20px) !important;
     }
     
-    /* Ensure notes modal displays properly */
-    .modal[style*="display: flex"],
-    .modal[style*="display:flex"] {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
+    /* Modal styles moved to universal section below */
     
-    .modal-content {
-        background: var(--color-blue-darker) !important;
-        border-radius: 15px !important;
-        width: 90% !important;
-        max-width: 800px !important;
-        max-height: 90vh !important;
-        overflow-y: auto !important;
-        position: relative !important;
-        margin: auto !important;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
-        border: 2px solid var(--border-color) !important;
-    }
-    
-    /* Ensure timer display is visible on tablets */
-    .timer-display {
-        position: fixed !important;
-        top: 20px !important;
-        right: 20px !important;
-        z-index: 99999 !important;
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
+    /* Timer display styles moved to universal section below */
     
     /* Ensure notes page has dark theme on tablets */
     #notesPage,
@@ -7606,6 +7584,73 @@ body[aria-busy="true"] {
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* UNIVERSAL TIMER AND MODAL STYLES - APPLY TO ALL SCREEN SIZES */
+.timer-display {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: rgba(239, 68, 68, 0.9) !important;
+    color: white !important;
+    padding: 15px 25px !important;
+    border-radius: 12px !important;
+    font-size: 1.2rem !important;
+    font-weight: bold !important;
+    animation: timerPulse 1s ease-in-out infinite !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    flex-direction: column !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    pointer-events: auto !important;
+}
+
+/* Universal modal styles for ALL screen sizes */
+.modal[style*="display: flex"],
+.modal[style*="display:flex"],
+#timerConfigModal[style*="display: flex"],
+#timerConfigModal[style*="display:flex"],
+#noteEditModal[style*="display: flex"],
+#noteEditModal[style*="display:flex"] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    z-index: 10000 !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.modal-content,
+#timerConfigModal .modal-content,
+#noteEditModal .modal-content {
+    background: #2a2a2a !important;
+    border-radius: 15px !important;
+    width: 90% !important;
+    max-width: 800px !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    position: relative !important;
+    margin: auto !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+    border: 2px solid #444 !important;
+    padding: 30px !important;
+    color: white !important;
+}
+
+.refresh-btn {
     min-width: clamp(36px, 8vw, 48px) !important;
     min-height: clamp(36px, 8vw, 48px) !important;
 }
@@ -7882,8 +7927,10 @@ body[aria-busy="true"] {
     }
 }
 
-/* Timer Config Modal - Force visibility */
-#timerConfigModal {
+/* Timer Config Modal - Force visibility on ALL SCREENS */
+#timerConfigModal,
+div#timerConfigModal,
+#timerConfigModal.modal {
     z-index: 10000 !important;
     position: fixed !important;
     top: 0 !important;
@@ -7894,7 +7941,8 @@ body[aria-busy="true"] {
     display: none !important;
     align-items: center !important;
     justify-content: center !important;
-    backdrop-filter: blur(5px) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
     overflow: hidden !important;
     visibility: hidden !important;
     opacity: 0 !important;
@@ -7929,18 +7977,23 @@ body[aria-busy="true"] {
     justify-content: center !important;
 }
 
-#timerConfigModal .modal-content {
+#timerConfigModal .modal-content,
+div#timerConfigModal .modal-content,
+#timerConfigModal.modal .modal-content {
     max-width: 400px !important;
+    width: 90% !important;
     text-align: center !important;
-    background: var(--bg-secondary, #2a2a2a) !important;
+    background: #2a2a2a !important;
     border-radius: 12px !important;
     padding: 30px !important;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
-    border: 1px solid var(--border-color, #444) !important;
+    border: 1px solid #444 !important;
     transform: scale(0.9) !important;
     transition: transform 0.3s ease !important;
     position: relative !important;
     z-index: 10001 !important;
+    margin: auto !important;
+    color: white !important;
 }
 
 #timerConfigModal[style*="display: flex"] .modal-content,
@@ -8001,8 +8054,10 @@ body[aria-busy="true"] {
     }
 }
 
-/* ==================== NOTES MODAL STYLING ==================== */
-#noteEditModal.modal {
+/* ==================== NOTES MODAL STYLING - FORCE ALL SCREENS ==================== */
+#noteEditModal,
+#noteEditModal.modal,
+div#noteEditModal {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -8013,12 +8068,21 @@ body[aria-busy="true"] {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    backdrop-filter: blur(5px) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
 }
 
-#noteEditModal .modal-content {
+/* Force modal to be hidden when display: none is set */
+#noteEditModal[style*="display: none"],
+#noteEditModal.modal[style*="display: none"] {
+    display: none !important;
+}
+
+#noteEditModal .modal-content,
+#noteEditModal.modal .modal-content,
+div#noteEditModal .modal-content {
     position: relative !important;
-    background: var(--card-bg, #2a2a2a) !important;
+    background: #2a2a2a !important;
     padding: 30px !important;
     border-radius: 15px !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
@@ -8026,8 +8090,9 @@ body[aria-busy="true"] {
     width: 90% !important;
     max-height: 80vh !important;
     overflow-y: auto !important;
-    border: 1px solid var(--border-color, #444) !important;
+    border: 1px solid #444 !important;
     transform: none !important;
+    color: white !important;
 }
 
 .notes-modal-overlay {
@@ -8760,4 +8825,5 @@ body[aria-busy="true"] {
     }
 }
 
-/* ==================== END ENHANCED CODE EDITOR STYLING ==================== */}
+/* ==================== END ENHANCED CODE EDITOR STYLING ==================== */
+}

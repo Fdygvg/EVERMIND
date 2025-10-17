@@ -2983,7 +2983,7 @@ function launchApp(appConfig) {
 }
 
 // ==================== GROQ AI CHAT ====================
-const GROQ_API_KEY = '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';
+const GROQ_API_KEY = 'YOUR_GROQ_API_KEY_HERE'; // Replace with your actual API key
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 let conversationHistory = [];
