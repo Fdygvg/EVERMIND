@@ -8110,9 +8110,132 @@ body[aria-busy="true"] {
     }
 }
 
-/* ==================== END TIMER MODE STYLING ==================== */
+/* ==================== ARCHIVE SYSTEM STYLING ==================== */
 
-/* ==================== ENHANCED CODE EDITOR STYLING ==================== */
+/* Archive Toggle Button */
+.archive-toggle-btn {
+    grid-column: 1 / -1; /* Span full width */
+    padding: 15px 30px;
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-weight: 500;
+}
+
+.archive-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+}
+
+.archive-toggle-btn:active {
+    transform: translateY(0);
+}
+
+/* Active Section Cards */
+.section-card[data-status="active"] {
+    /* Keep existing vibrant styling */
+    opacity: 1;
+    filter: none;
+}
+
+/* Archived Section Cards */
+.section-card[data-status="archived"] {
+    opacity: 0.6;
+    filter: grayscale(30%);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: none; /* Hidden by default */
+    transition: all 0.3s ease;
+}
+
+.section-card[data-status="archived"]:hover {
+    opacity: 1;
+    filter: grayscale(0%);
+    transform: translateY(-2px);
+}
+
+/* Archive Header */
+.archive-header {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 20px;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.archive-header h3 {
+    margin: 0 0 10px 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.archive-header p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive Archive Styling */
+@media (max-width: 768px) {
+    .archive-toggle-btn {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        margin: 15px 0;
+    }
+    
+    .archive-header {
+        padding: 15px;
+        margin: 8px 0;
+    }
+    
+    .archive-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .archive-header p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Checkbox Groups for Global Revision */
+.checkbox-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.checkbox-group h4 {
+    margin: 0 0 10px 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.checkbox-group label {
+    display: block;
+    margin: 5px 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* ==================== END ARCHIVE SYSTEM STYLING ==================== */
 .code-editor-modal {
     position: fixed;
     top: 0;

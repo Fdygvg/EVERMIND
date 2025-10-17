@@ -1,0 +1,32 @@
+[
+  {
+    "question": "How do you say 'Hello' in Igbo?",
+    "word": "Hello",
+    "language": "Igbo",
+    "answer": "Ndewo | Pronunciation: n-DEH-woh"
+  },
+  {
+    "question": "How do you say 'Thank you' in Igbo?",
+    "word": "Thank you",
+    "language": "Igbo", 
+    "answer": "Daalụ | Pronunciation: DAH-loo"
+  },
+  {
+    "question": "How do you say 'Good morning' in Igbo?",
+    "word": "Good morning",
+    "language": "Igbo",
+    "answer": "Ụtụtụ ọma | Pronunciation: oo-TOO-too OH-mah"
+  },
+  {
+    "question": "How do you say 'How are you?' in Igbo?",
+    "word": "How are you?",
+    "language": "Igbo",
+    "answer": "Kedu ka ị mere? | Pronunciation: KEH-doo kah ee MEH-reh"
+  },
+  {
+    "question": "How do you say 'I love you' in Igbo?",
+    "word": "I love you",
+    "language": "Igbo",
+    "answer": "A hụrụ m gị n'anya | Pronunciation: ah HOO-roo m ghee n'AH-nyah"
+  }
+]

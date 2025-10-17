@@ -888,8 +888,10 @@ function performGlobalSearch(query) {
         }
     });
     
-    // Search through all sections
-    Object.keys(state.allQuestions).forEach(sectionName => {
+    // Search through all sections (both active and archived)
+    const allSections = [...sectionConfig.active, ...sectionConfig.archived];
+    allSections.forEach(sectionName => {
+        if (!state.allQuestions[sectionName]) return; // Skip if section not loaded
         state.allQuestions[sectionName].forEach((question, index) => {
             // Check if question has the expected structure
             if (!question || typeof question !== 'object') {
@@ -1090,24 +1092,216 @@ function loadTheme() {
 // Old touch handlers removed - using advanced implementation below
 
 // Old showSwipeFeedback removed - using advanced implementation below
+// Archive Configuration
+const sectionConfig = {
+    active: ['programming', 'cybersec', 'hotkeys', 'country_flags', 'igbo'],
+    archived: ['bible', 'chess', 'psychology', 'new_words', 'facts', 
+               'history', 'science', 'youtube_knowledge', 'anatomy', 
+               'binance_futures', 'memes_brainrot', 'languages']
+};
+
 const sections = [
-    { id: 'languages', name: 'Languages', icon: '🌍' },
-    { id: 'programming', name: 'Programming', icon: '💻' },
-    { id: 'bible', name: 'Bible', icon: '📖' },
-    { id: 'science', name: 'Science', icon: '🔬' },
-    { id: 'history', name: 'History', icon: '🏛️' },
-    { id: 'facts', name: 'Random Facts', icon: '💡' },
-    { id: 'country_flags', name: 'Country Flags', icon: '🚩' },
-    { id: 'new_words', name: 'New Words', icon: '📝' },
-    { id: 'youtube_knowledge', name: 'YouTube', icon: '🎥' },
-    { id: 'memes_brainrot', name: 'Memes & Brain Rot', icon: '💀' },
-    { id: 'binance_futures', name: 'Futures', icon: '📈' },
-    { id: 'psychology', name: 'Psychology', icon: '🧠' },
-    { id: 'chess', name: 'Chess', icon: '♟️' },
-    { id: 'anatomy', name: 'Anatomy', icon: '🫀' },
-    { id: 'hotkeys', name: 'Hotkeys', icon: '⌨️' },
-    { id: 'cybersec', name: 'CyberSec', icon: '🔒' },
+    { id: 'languages', name: 'Languages', icon: '🌍', status: 'archived' },
+    { id: 'programming', name: 'Programming', icon: '💻', status: 'active' },
+    { id: 'bible', name: 'Bible', icon: '📖', status: 'archived' },
+    { id: 'science', name: 'Science', icon: '🔬', status: 'archived' },
+    { id: 'history', name: 'History', icon: '🏛️', status: 'archived' },
+    { id: 'facts', name: 'Random Facts', icon: '💡', status: 'archived' },
+    { id: 'country_flags', name: 'Country Flags', icon: '🚩', status: 'archived' },
+    { id: 'new_words', name: 'New Words', icon: '📝', status: 'archived' },
+    { id: 'youtube_knowledge', name: 'YouTube', icon: '🎥', status: 'archived' },
+    { id: 'memes_brainrot', name: 'Memes & Brain Rot', icon: '💀', status: 'archived' },
+    { id: 'binance_futures', name: 'Futures', icon: '📈', status: 'archived' },
+    { id: 'psychology', name: 'Psychology', icon: '🧠', status: 'archived' },
+    { id: 'chess', name: 'Chess', icon: '♟️', status: 'archived' },
+    { id: 'anatomy', name: 'Anatomy', icon: '🫀', status: 'archived' },
+    { id: 'hotkeys', name: 'Hotkeys', icon: '⌨️', status: 'active' },
+    { id: 'cybersec', name: 'CyberSec', icon: '🔒', status: 'active' },
+    { id: 'country_flags', name: 'Country Flags', icon: '🚩', status: 'active' },
+    { id: 'igbo', name: 'Igbo', icon: '🗣️', status: 'active' },
 ];
+
+// ==================== ARCHIVE FUNCTIONALITY ====================
+function renderSections(sectionList, status) {
+    const container = document.querySelector('.sections-grid');
+    if (!container) {
+        console.error('❌ Sections grid container not found');
+        return;
+    }
+    
+    sectionList.forEach(sectionId => {
+        const sectionCard = createSectionCard(sectionId, status);
+        if (sectionCard) {
+            container.appendChild(sectionCard);
+        }
+    });
+}
+
+function createSectionCard(sectionId, status) {
+    const section = sections.find(s => s.id === sectionId);
+    if (!section) {
+        console.error(`❌ Section ${sectionId} not found`);
+        return null;
+    }
+    
+    const card = document.createElement('div');
+    card.className = 'section-card';
+    card.setAttribute('data-status', status);
+    card.onclick = () => openSection(sectionId);
+    
+    // Get question count
+    const questionCount = state.allQuestions[sectionId] ? state.allQuestions[sectionId].length : 0;
+    
+    card.innerHTML = `
+        <div class="card-icon">${section.icon}</div>
+        <h2>${section.name}</h2>
+        <p>${getSectionDescription(sectionId)}</p>
+        <div class="section-stats">
+            <span class="question-count" id="${sectionId}-count">${questionCount} questions</span>
+            <span class="bookmark-count" id="${sectionId}-bookmarks">0 bookmarked</span>
+        </div>
+    `;
+    
+    return card;
+}
+
+function getSectionDescription(sectionId) {
+    const descriptions = {
+        'programming': 'Master code syntax and concepts',
+        'cybersec': 'Cybersecurity knowledge and tools',
+        'hotkeys': 'Keyboard shortcuts and productivity',
+        'country_flags': 'Country flags and geography',
+        'igbo': 'Learn Igbo language for cultural connection',
+        'bible': 'Biblical knowledge and verses',
+        'chess': 'Chess strategies and piece movements',
+        'psychology': 'Human behavior and mental processes',
+        'new_words': 'Expand your vocabulary',
+        'facts': 'Interesting random facts',
+        'history': 'Historical events and knowledge',
+        'science': 'Scientific concepts and phenomena',
+        'youtube_knowledge': 'Educational YouTube content',
+        'anatomy': 'Human body parts and functions',
+        'binance_futures': 'Cryptocurrency trading concepts',
+        'memes_brainrot': 'Internet culture and memes',
+        'country_flags': 'Country flags and geography',
+        'languages': 'Learn translations and pronunciation'
+    };
+    return descriptions[sectionId] || 'Knowledge and learning';
+}
+
+function addArchiveToggle() {
+    const container = document.querySelector('.sections-grid');
+    if (!container) return;
+    
+    // Remove existing toggle if it exists
+    const existingToggle = document.getElementById('archiveToggle');
+    if (existingToggle) {
+        existingToggle.remove();
+    }
+    
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'archive-toggle-btn';
+    toggleBtn.id = 'archiveToggle';
+    toggleBtn.innerHTML = `📦 View Archived Sections (${sectionConfig.archived.length})`;
+    toggleBtn.onclick = toggleArchive;
+    
+    // Insert after active sections
+    container.appendChild(toggleBtn);
+}
+
+function toggleArchive() {
+    const archivedSections = document.querySelectorAll('.section-card[data-status="archived"]');
+    const archiveHeader = document.querySelector('.archive-header');
+    const toggleBtn = document.getElementById('archiveToggle');
+    
+    if (archivedSections.length === 0) {
+        console.warn('⚠️ No archived sections found');
+        return;
+    }
+    
+    const isHidden = archivedSections[0].style.display === 'none' || 
+                    archivedSections[0].style.display === '';
+    
+    // Toggle visibility of archived sections
+    archivedSections.forEach(section => {
+        section.style.display = isHidden ? 'block' : 'none';
+    });
+    
+    // Toggle archive header visibility
+    if (archiveHeader) {
+        archiveHeader.style.display = isHidden ? 'block' : 'none';
+    }
+    
+    // Toggle archived section checkboxes in Global Revision Mode
+    const archivedCheckboxes = document.querySelectorAll('.checkbox-group:last-child');
+    archivedCheckboxes.forEach(group => {
+        group.style.display = isHidden ? 'block' : 'none';
+    });
+    
+    // Update button text
+    if (toggleBtn) {
+        toggleBtn.innerHTML = isHidden 
+            ? `📦 Hide Archived Sections` 
+            : `📦 View Archived Sections (${sectionConfig.archived.length})`;
+    }
+    
+    // Save state
+    localStorage.setItem('archiveExpanded', isHidden ? 'true' : 'false');
+}
+
+function initializeArchiveState() {
+    const wasExpanded = localStorage.getItem('archiveExpanded') === 'true';
+    
+    // Hide archived checkboxes by default
+    const archivedCheckboxes = document.querySelectorAll('.checkbox-group:last-child');
+    archivedCheckboxes.forEach(group => {
+        group.style.display = 'none';
+    });
+    
+    if (wasExpanded) {
+        // Small delay to ensure DOM is ready
+        setTimeout(() => {
+            toggleArchive();
+        }, 100);
+    }
+}
+
+function loadHomepageWithArchive() {
+    console.log('🏠 Loading homepage with archive system...');
+    
+    const container = document.querySelector('.sections-grid');
+    if (!container) {
+        console.error('❌ Sections grid container not found');
+        return;
+    }
+    
+    // Clear existing content
+    container.innerHTML = '';
+    
+    // Add archive header (initially hidden)
+    const archiveHeader = document.createElement('div');
+    archiveHeader.className = 'archive-header';
+    archiveHeader.style.display = 'none';
+    archiveHeader.innerHTML = `
+        <h3>📦 ARCHIVED KNOWLEDGE</h3>
+        <p>These sections are preserved but not actively reviewed.</p>
+    `;
+    container.appendChild(archiveHeader);
+    
+    // Render active sections first
+    renderSections(sectionConfig.active, 'active');
+    
+    // Add archive toggle button
+    addArchiveToggle();
+    
+    // Render archived sections (hidden by default)
+    renderSections(sectionConfig.archived, 'archived');
+    
+    // Initialize archive state
+    initializeArchiveState();
+    
+    console.log('✅ Homepage loaded with archive system');
+}
 
 async function loadAllSections() {
     console.log('🔄 Loading all sections from local JSON files...');
@@ -1201,6 +1395,14 @@ function showPage(pageId) {
         console.log('✅ Page shown:', pageId);
         console.log('📄 Active page element:', finalPage);
         console.log('📄 Active page classes:', finalPage.className);
+        
+        // Special handling for homepage with archive system
+        if (pageId === 'homepage') {
+            // Small delay to ensure DOM is ready
+            setTimeout(() => {
+                loadHomepageWithArchive();
+            }, 50);
+        }
         
         // Ensure copy button visibility is properly managed
         const copyBtn = document.getElementById('copyBtn');
@@ -2012,7 +2214,7 @@ function displayCurrentQuestion() {
                 answerHtml += `<img src="${question.image}" alt="${escapeHtml(question.word)} diagram" class="question-image" style="margin-bottom: 20px; max-width: 100%; border-radius: 8px;">`;
             }
             answerHtml += `<div style="line-height: 1.8; font-size: 1.1rem;">${question.answer}</div>`;
-            answerHtml += `</div>`;
+        answerHtml += `</div>`;
     } else if (question.title && question.summary) {
         // YouTube Knowledge section - show summary, source, and video link
         answerHtml += `<div class="language-info-box">`;
@@ -6507,13 +6709,13 @@ function resetQuestionTimer() {
         
         // Clear any existing timer interval
         if (timerMode.interval) {
-            clearInterval(timerMode.interval);
+        clearInterval(timerMode.interval);
             timerMode.interval = null;
         }
         
         // Small delay to ensure the interval is fully cleared before starting new one
         setTimeout(() => {
-            startQuestionTimer();
+        startQuestionTimer();
         }, 50);
     }
 }
