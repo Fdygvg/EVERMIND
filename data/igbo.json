@@ -1,32 +1,58 @@
 [
   {
-    "question": "How do you say 'Hello' in Igbo?",
-    "word": "Hello",
-    "language": "Igbo",
-    "answer": "Ndewo | Pronunciation: n-DEH-woh"
+    "question": "How do you say \"Good morning\" in Igbo?",
+    "answer": "Ụ́tụtụ ọma",
+    "fallback": "ututu oma",
+    "pronunciation": "oo-TOO-too OH-mah",
+    "category": "greetings"
   },
   {
-    "question": "How do you say 'Thank you' in Igbo?",
-    "word": "Thank you",
-    "language": "Igbo", 
-    "answer": "Daalụ | Pronunciation: DAH-loo"
+    "question": "How do you say \"Good afternoon\" in Igbo?",
+    "answer": "Ehihie ọma",
+    "fallback": "ehihie oma",
+    "pronunciation": "eh-HEE-heh OH-mah",
+    "category": "greetings"
   },
   {
-    "question": "How do you say 'Good morning' in Igbo?",
-    "word": "Good morning",
-    "language": "Igbo",
-    "answer": "Ụtụtụ ọma | Pronunciation: oo-TOO-too OH-mah"
+    "question": "How do you say \"Good evening\" in Igbo?",
+    "answer": "Mgbede ọma",
+    "fallback": "mgbede oma",
+    "pronunciation": "mm-GBEH-deh OH-mah",
+    "category": "greetings"
   },
   {
-    "question": "How do you say 'How are you?' in Igbo?",
-    "word": "How are you?",
-    "language": "Igbo",
-    "answer": "Kedu ka ị mere? | Pronunciation: KEH-doo kah ee MEH-reh"
+    "question": "How do you say \"How are you?\" in Igbo?",
+    "answer": "Kédụ?",
+    "fallback": "kedu",
+    "pronunciation": "keh-DOO↑",
+    "category": "greetings"
   },
   {
-    "question": "How do you say 'I love you' in Igbo?",
-    "word": "I love you",
-    "language": "Igbo",
-    "answer": "A hụrụ m gị n'anya | Pronunciation: ah HOO-roo m ghee n'AH-nyah"
+    "question": "How do you say \"I'm fine\" in Igbo?",
+    "answer": "Ọ dị m mma",
+    "fallback": "o di m mma",
+    "pronunciation": "aw-dee mm-mah",
+    "category": "greetings"
+  },
+  {
+    "question": "How do you say \"Thank you\" in Igbo?",
+    "answer": "Daalụ",
+    "fallback": "daalu",
+    "pronunciation": "DAH-loo",
+    "category": "polite expressions"
+  },
+  {
+    "question": "How do you say \"Please\" in Igbo?",
+    "answer": "Biko",
+    "fallback": "biko",
+    "pronunciation": "BEE-koh",
+    "category": "polite expressions"
+  },
+  {
+    "question": "How do you say \"Sorry\" in Igbo?",
+    "answer": "Ndo",
+    "fallback": "ndo",
+    "pronunciation": "n-DOH",
+    "category": "polite expressions"
   }
 ]

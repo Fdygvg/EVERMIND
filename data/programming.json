@@ -62,18 +62,6 @@
     "tags": ["git"]
   },
   {
-    "question": "How do I view all commits?",
-    "answer": "git log\n\n# Optional for a one-line view:\ngit log --oneline",
-    "type": "shell",
-    "tags": ["git"]
-  },
-  {
-    "question": "How do I restore a commit?",
-    "answer": "# Creates a new commit undoing the changes:\ngit revert <commit-hash>\n\n# Or reset to a previous commit (destructive):\ngit reset --hard <commit-hash>",
-    "type": "shell",
-    "tags": ["git"]
-  },
-  {
     "question": "How do I view tags?",
     "answer": "git tag",
     "type": "shell",
@@ -164,18 +152,6 @@
     "tags": ["development"]
   },
   {
-    "question": "Why should you run an HTTP server (like port 8000) for localhost to work?",
-    "answer": "Because web browsers require a running HTTP service to handle requests and serve files correctly, simulating how a real server operates.",
-    "type": "networking",
-    "tags": ["http", "server"]
-  },
-  {
-    "question": "Why is HTML wrapped in tags?",
-    "answer": "To give semantic meaning — tags describe the purpose of content (like <header>, <main>, <footer>), making structure and accessibility clearer.",
-    "type": "html",
-    "tags": ["html", "semantic"]
-  },
-  {
     "question": "What does CSS stand for, and what does it mean?",
     "answer": "Cascading Style Sheets — it controls the layout, colors, and overall appearance of a webpage.",
     "type": "css",
@@ -236,12 +212,6 @@
     "tags": ["llm", "ai", "machine-learning"]
   },
   {
-    "question": "What does 'grepped' mean? How to pronounce it and when to use it?",
-    "answer": "It refers to using the command-line tool `grep` to search through text or files for specific patterns. Informally used as a verb by developers (e.g., \"I grepped the logs to find the error\").\n\n**Pronunciation:** /grɛpt/ — phonetic: grept\n\n**Example:** I grepped the codebase to find every reference to that function.",
-    "type": "command-line",
-    "tags": ["grep", "search", "terminal"]
-  },
-  {
     "question": "How do you kill an active port like localhost:8000?",
     "answer": "Use one of these methods:\n\n**Windows:**\n`netstat -ano | findstr :8000` (find the PID)\n`taskkill /PID <PID> /F` (kill the process)\n\n**Mac/Linux:**\n`lsof -ti:8000 | xargs kill -9`\n\n**Alternative:**\n`npx kill-port 8000` (if you have kill-port installed)",
     "type": "command-line",
@@ -270,18 +240,6 @@
     "answer": "1 byte is made up of **8 bits** and can make **256 different combinations** (2^8 = 256).",
     "type": "data",
     "tags": ["data"]
-  },
-  {
-    "question": "What are OS kernels?",
-    "answer": "OS kernels are the core components of operating systems that:\n\n• **Manage hardware resources** (CPU, memory, storage)\n• **Provide system services** to applications\n• **Handle process scheduling** and multitasking\n• **Manage memory allocation** and protection\n• **Control device drivers** and hardware communication\n• **Enforce security** and access control\n\nExamples: Linux kernel, Windows NT kernel, macOS XNU kernel",
-    "type": "operating-system",
-    "tags": ["os"]
-  },
-  {
-    "question": "What does SSH stand for and what does it mean?",
-    "answer": "SSH stands for **Secure Shell**.\n\nIt's a network protocol that provides secure, encrypted communication between computers over an unsecured network. SSH allows you to:\n\n• **Remotely access** another computer\n• **Execute commands** on remote systems\n• **Transfer files** securely\n• **Tunnel network traffic**\n\nExample: `ssh username@hostname`",
-    "type": "networking",
-    "tags": ["ssh"]
   },
   {
     "question": "Explain the difference between interpreter and compiler.",
@@ -395,12 +353,6 @@
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Subscript and Superscript</title>\n</head>\n<body>\n    <h2>Chemistry Examples</h2>\n    <p>Water: H<sub>2</sub>O</p>\n    <p>Carbon dioxide: CO<sub>2</sub></p>\n    <p>Sulfuric acid: H<sub>2</sub>SO<sub>4</sub></p>\n    \n    <h2>Math Examples</h2>\n    <p>Einstein's equation: E=mc<sup>2</sup></p>\n    <p>Power of 2: 2<sup>3</sup> = 8</p>\n    <p>Square root: √<sup>2</sup></p>\n</body>\n</html>"
   },
   {
-    "question": "How do you return to a previous commit in git?",
-    "answer": "Use the `git reset --hard` command:\n\n```bash\ngit reset --hard <commit-hash>\n```\n\n**Example:**\n```bash\ngit reset --hard cef8caf\n```\n\n**Warning:** This permanently deletes all changes after that commit.\n\n**Safer alternative:**\n```bash\ngit reset --soft <commit-hash>  # Keeps changes staged\ngit reset --mixed <commit-hash>  # Keeps changes unstaged\n```",
-    "type": "git",
-    "tags": ["git", "reset"]
-  },
-  {
     "question": "How do you write comments in HTML?",
     "answer": "Use the `<!-- -->` syntax:\n\n```html\n<!-- This is a single-line comment -->\n\n<!--\n  This is a\n  multi-line comment\n-->\n\n<p>Visible content</p> <!-- Inline comment -->\n```\n\n**Note:** Comments are not displayed in the browser but are visible in the HTML source code.",
     "type": "html",
@@ -449,47 +401,16 @@
     "tags": ["html", "semantic"]
   },
   {
-    "question": "Why might a website intentionally freeze when I open DevTools?",
-    "answer": "Websites freeze DevTools to prevent debugging, reverse engineering, or code inspection. Common reasons:\n\n1. **Anti-debugging protection** - Prevents competitors from copying code\n2. **Security measures** - Protects sensitive algorithms or API keys\n3. **Performance monitoring** - DevTools can slow down the site\n4. **User experience** - Prevents users from accidentally breaking the site\n\n**How to bypass:**\n- Disable JavaScript\n- Use browser extensions\n- Inspect source code directly\n- Use mobile debugging tools",
-    "type": "web-development",
-    "tags": ["devtools", "debugging", "security"]
-  },
-  {
-    "question": "What does the debugger command tell the browser to do?",
-    "answer": "The `debugger` command tells the browser to:\n\n1. **Pause execution** at that exact line\n2. **Open DevTools** automatically (if not already open)\n3. **Enter debug mode** - you can inspect variables, step through code\n4. **Set breakpoint** - similar to clicking the line number in DevTools\n\n**Example:**\n```javascript\nfunction calculateTotal(items) {\n    let total = 0;\n    debugger; // Browser pauses here\n    for (let item of items) {\n        total += item.price;\n    }\n    return total;\n}\n```\n\n**Use cases:**\n- Debug complex functions\n- Inspect variable values\n- Step through code line by line",
-    "type": "javascript",
-    "tags": ["debugging", "devtools", "javascript"],
-    "code": "function debugExample() {\n    let x = 10;\n    let y = 20;\n    debugger; // Browser pauses here\n    let result = x + y;\n    console.log(result);\n    return result;\n}\n\ndebugExample();"
-  },
-  {
     "question": "How to ping websites? Example: ping google.com",
     "answer": "**Windows Command:**\n```cmd\nping google.com\nping 8.8.8.8\n```\n\n**What ping does:**\n- Sends packets to test connectivity\n- Measures response time (latency)\n- Shows if website/server is reachable\n\n**Example output:**\n```\nPinging google.com [142.250.191.14] with 32 bytes of data:\nReply from 142.250.191.14: bytes=32 time=15ms TTL=54\nReply from 142.250.191.14: bytes=32 time=12ms TTL=54\n```\n\n**Useful options:**\n- `ping -t google.com` (continuous ping)\n- `ping -n 4 google.com` (send 4 packets)\n- `ping -l 1000 google.com` (send 1000 byte packets)",
     "type": "networking",
     "tags": ["ping", "networking", "command-line"]
   },
   {
-    "question": "What's the difference between a port and a PID?",
-    "answer": "**Port:**\n- Communication channel/endpoint\n- Like a door number (80, 443, 3000)\n- Used for network communication\n- Multiple processes can use same port (with different protocols)\n\n**PID (Process ID):**\n- Unique identifier for a running process\n- Like a person's ID number\n- Each process has only one PID\n- Used to identify and manage processes\n\n**Analogy:**\n- Port = Apartment building address (123 Main St)\n- PID = Specific apartment number (Apt 5B)\n\n**Example:**\n- Port 3000 = Web server communication channel\n- PID 1234 = The actual Node.js process using port 3000",
-    "type": "networking",
-    "tags": ["ports", "pid", "processes", "networking"]
-  },
-  {
     "question": "What does this command do? netstat -ano | findstr :8000",
     "answer": "**Command breakdown:**\n\n`netstat -ano`:\n- Shows all network connections\n- `-a` = all connections\n- `-n` = show addresses numerically\n- `-o` = show process ID (PID)\n\n`| findstr :8000`:\n- Filters results to only show port 8000\n- `|` = pipe (passes output to next command)\n- `findstr` = Windows search command\n\n**What it does:**\nFinds which process is using port 8000 and shows its PID\n\n**Example output:**\n```\nTCP    0.0.0.0:8000    0.0.0.0:0    LISTENING    1234\n```\n\n**Next step:**\nUse the PID (1234) to kill the process:\n`taskkill /PID 1234 /F`",
     "type": "command-line",
     "tags": ["netstat", "findstr", "ports", "windows"]
-  },
-  {
-    "question": "Why does taskkill /PID 8000 /F fail?",
-    "answer": "**The problem:**\nYou're trying to kill PID 8000, but 8000 is a **port number**, not a PID!\n\n**What happens:**\n- `taskkill /PID 8000 /F` looks for process with ID 8000\n- But 8000 is the port, not the process ID\n- Process might have PID 1234, 5678, etc.\n\n**Correct process:**\n1. **Find the PID:** `netstat -ano | findstr :8000`\n2. **Get the actual PID** (e.g., 1234)\n3. **Kill the process:** `taskkill /PID 1234 /F`\n\n**Remember:**\n- Port = communication channel (8000)\n- PID = process identifier (1234)\n- You kill processes (PIDs), not ports",
-    "type": "command-line",
-    "tags": ["taskkill", "pid", "ports", "troubleshooting"]
-  },
-  {
-    "question": "What are the two steps to free a port that's in use?",
-    "answer": "**Step 1: Find the PID using the port**\n```cmd\nnetstat -ano | findstr :8000\n```\n\n**Step 2: Kill the process using that PID**\n```cmd\ntaskkill /PID <PID_NUMBER> /F\n```\n\n**Complete example:**\n```cmd\n# Step 1: Find what's using port 3000\nnetstat -ano | findstr :3000\n# Output: TCP 0.0.0.0:3000 0.0.0.0:0 LISTENING 1234\n\n# Step 2: Kill process 1234\ntaskkill /PID 1234 /F\n# Output: SUCCESS: The process with PID 1234 has been terminated.\n```\n\n**Why this works:**\n- Ports are just communication channels\n- Processes are the actual programs\n- Kill the process → port becomes free",
-    "type": "command-line",
-    "tags": ["ports", "netstat", "taskkill", "troubleshooting"]
   },
   {
     "question": "How do you kill the process using port 8000?",
@@ -514,17 +435,6 @@
     "answer": "**Git Status Porcelain:**\n\n**What it is:**\n- `git status --porcelain` gives machine-readable output\n- Designed for scripts and automation\n- Clean, consistent format\n\n**Regular git status:**\n```\nOn branch main\nChanges not staged for commit:\n  modified:   file.txt\n  new file:   newfile.js\n```\n\n**Porcelain format:**\n```\n M file.txt\n?? newfile.js\n```\n\n**Status codes:**\n- `M` = Modified\n- `A` = Added\n- `D` = Deleted\n- `??` = Untracked\n- `R` = Renamed\n\n**Why use it:**\n- Scripts can parse it easily\n- Consistent output format\n- No human-friendly text to filter out\n\n**Example:**\n```bash\ngit status --porcelain | grep \"^ M\"\n```",
     "type": "git",
     "tags": ["git", "status", "porcelain", "automation"]
-  },
-  {
-    "question": "What is the Gobuster tool?",
-    "answer": "**Gobuster:**\n\n**What it is:**\n- Directory/file brute-forcing tool\n- Written in Go programming language\n- Used for web application security testing\n\n**What it does:**\n- Discovers hidden directories and files\n- Brute-forces common web paths\n- Finds sensitive files (admin panels, config files)\n\n**Basic usage:**\n```bash\n# Directory brute-forcing\ngobuster dir -u http://target.com -w wordlist.txt\n\n# DNS subdomain enumeration\ngobuster dns -d target.com -w subdomains.txt\n\n# VHost enumeration\ngobuster vhost -u http://target.com -w vhosts.txt\n```\n\n**Common wordlists:**\n- `/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt`\n- `/usr/share/wordlists/dirb/common.txt`\n\n**Example output:**\n```\n/admin (Status: 200)\n/config (Status: 403)\n/backup (Status: 200)\n```\n\n**Legal use only:**\n- Only test your own systems\n- Get permission before testing",
-    "type": "security",
-    "tags": ["gobuster", "security", "brute-force", "pentesting"]
-  },
-  {
-    "question": "What is the Hydra tool?",
-    "answer": "**Hydra:**\n\n**What it is:**\n- Password brute-forcing tool\n- Supports many protocols (HTTP, FTP, SSH, etc.)\n- Fast parallel attacks\n\n**What it does:**\n- Tests username/password combinations\n- Brute-forces login credentials\n- Supports various authentication methods\n\n**Basic usage:**\n```bash\n# HTTP form login\nhydra -l admin -P passwords.txt target.com http-post-form \"/login:username=^USER^&password=^PASS^:Invalid\"\n\n# SSH brute-force\nhydra -l root -P passwords.txt ssh://192.168.1.100\n\n# FTP brute-force\nhydra -l admin -P passwords.txt ftp://target.com\n```\n\n**Common options:**\n- `-l` = single username\n- `-L` = username list\n- `-p` = single password\n- `-P` = password list\n- `-t` = number of threads\n\n**Example:**\n```bash\nhydra -l admin -P /usr/share/wordlists/rockyou.txt -t 4 target.com http-post-form \"/login:user=^USER^&pass=^PASS^:Login failed\"\n```\n\n**Legal use only:**\n- Only test your own systems\n- Get permission before testing",
-    "type": "security"
   },
   {
     "question": "How to add links in HTML?",
@@ -635,12 +545,6 @@
     "tags": ["git", "github", "version-control", "collaboration"]
   },
   {
-    "question": "What is Git?",
-    "answer": "**Git is:**\n- A free, open-source version control system\n- A tool that tracks changes in your code\n- Created by Linus Torvalds (Linux creator)\n- Used by developers worldwide\n\n**What Git does:**\n- Saves snapshots of your code\n- Tracks who made what changes\n- Allows you to go back to previous versions\n- Helps manage different versions of your project\n\n**Think of Git like:**\n- A time machine for your code\n- A backup system that remembers every change\n- A collaboration tool for teams\n\n**Why use Git:**\n- Never lose your work\n- Work with others easily\n- Experiment without fear\n- Keep track of project history",
-    "type": "git",
-    "tags": ["git", "version-control", "tracking", "history"]
-  },
-  {
     "question": "What is version control?",
     "answer": "**Version control is:**\nThe management of changes to documents, computer programs, large websites, and other collections of information.\n\n**What it does:**\n- Tracks every change you make\n- Saves different versions of your work\n- Allows you to go back to any previous version\n- Helps teams work together without conflicts\n\n**Real-world analogy:**\n- Like saving different drafts of a document\n- Like having multiple backup copies\n- Like a timeline of all your changes\n\n**Benefits:**\n- Never lose your work\n- See what changed and when\n- Work with others safely\n- Experiment without fear\n\n**Examples:**\n- Google Docs (saves versions automatically)\n- Microsoft Word (track changes)\n- Git (for code)\n\n**Version control = Time travel for your files!**",
     "type": "git",
@@ -663,12 +567,6 @@
     "answer": "**Command:**\n```bash\ngit --version\n```\n\n**What it shows:**\n- If Git is installed: Shows version number (e.g., `git version 2.34.1`)\n- If Git is NOT installed: Shows error message\n\n**Example output:**\n```bash\n$ git --version\ngit version 2.34.1\n```\n\n**If Git is not installed:**\n- Download from: https://git-scm.com/\n- Install the program\n- Restart your terminal\n- Run `git --version` again\n\n**This is the first command to run when learning Git!**",
     "type": "git",
     "tags": ["git", "installation", "check", "version"]
-  },
-  {
-    "question": "How to show hidden files in directory?",
-    "answer": "**Command:**\n```bash\nls -la\n```\n\n**What it does:**\n- `ls` = list files\n- `-l` = long format (shows details)\n- `-a` = all files (including hidden ones)\n\n**What you'll see:**\n- Regular files and folders\n- Hidden files (starting with `.`)\n- File permissions, sizes, dates\n\n**Example output:**\n```bash\n$ ls -la\ndrwxr-xr-x  user  staff  4096 Oct 13 10:30 .\ndrwxr-xr-x  user  staff  4096 Oct 13 10:30 ..\n-rw-r--r--  user  staff   123 Oct 13 10:30 .gitignore\n-rw-r--r--  user  staff   456 Oct 13 10:30 index.html\n```\n\n**Hidden files start with a dot (.)**\n- `.git` = Git repository folder\n- `.gitignore` = Files to ignore\n- `.env` = Environment variables",
-    "type": "git",
-    "tags": ["git", "files", "hidden", "directory"]
   },
   {
     "question": "How to check files that haven't been committed yet?",
@@ -800,13 +698,7 @@
     "tags": ["css", "external", "linking"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>External CSS</title>\n    <!-- Link to external CSS file -->\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n    <h1>External CSS Example</h1>\n    <p>This text is styled by external CSS file.</p>\n    <div class=\"box\">\n        <h2>Styled Box</h2>\n        <p>Content inside styled box</p>\n    </div>\n</body>\n</html>\n\n<!-- style.css content would be:\nbody {\n    color: red;\n    font-family: Arial, sans-serif;\n    margin: 20px;\n}\n\n.box {\n    background-color: lightgray;\n    padding: 20px;\n    border: 2px solid blue;\n    margin: 10px;\n}\n\nh1, h2 {\n    color: darkblue;\n}\n-->"
   },
-  {
-    "question": "What is the VS Code shortcut for HTML skeleton?",
-    "answer": "**HTML Skeleton:**\n`!` + `Tab`\n\n**Sample Text:**\n`lorem` + `Tab`\n\n**Example output:**\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Document</title>\n</head>\n<body>\n    \n</body>\n</html>\n```",
-    "type": "html",
-    "tags": ["html", "shortcuts", "vscode"],
-    "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>VS Code Shortcuts Demo</title>\n</head>\n<body>\n    <h1>HTML Skeleton Shortcut</h1>\n    <p>Type '!' then press Tab for HTML skeleton</p>\n    \n    <h2>Lorem Ipsum Shortcut</h2>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n</body>\n</html>"
-  },
+
   {
     "question": "Give an example of how to give ID to paragraph and headers and how to edit it in style.css file",
     "answer": "**HTML with IDs:**\n```html\n<p id=\"p1\">This paragraph has ID p1</p>\n<h1 id=\"main-title\">Main Title</h1>\n<h2 id=\"subtitle\">Subtitle</h2>\n```\n\n**CSS styling with IDs:**\n```css\n#p1 {\n    color: red;\n    font-size: 18px;\n}\n\n#main-title {\n    color: blue;\n    text-align: center;\n}\n\n#subtitle {\n    color: green;\n    font-style: italic;\n}\n```",
@@ -1153,10 +1045,24 @@
     "answer": "**Git Cherry-Pick:**\n\n**What it does:**\n- Applies a specific commit from one branch to another\n- Copies the commit without merging the entire branch\n- Useful for applying hotfixes or specific features\n\n**Command:**\n```bash\ngit cherry-pick <commit-hash>\n```\n\n**Steps:**\n1. Switch to target branch (main)\n2. Find the commit hash you want to apply\n3. Run cherry-pick command\n4. Resolve any conflicts if they occur\n\n**Example:**\n```bash\n# Switch to main branch\ngit checkout main\n\n# Apply specific commit\ngit cherry-pick abc1234\n\n# If conflicts occur, resolve them\ngit add .\ngit cherry-pick --continue\n```\n\n**Use Cases:**\n- Apply hotfixes to production\n- Move specific features between branches\n- Extract commits from feature branches\n- Apply bug fixes without full merge\n\n**Benefits:**\n- Selective commit application\n- Clean commit history\n- No unwanted changes\n- Precise control over what gets merged"
   },
   { 
-    "question": "How to go back to a previous branch or commit in Git?",
+     "question": "How to go back to a previous branch or commit in Git?",
     "answer": "**Git: Going Back to Previous Commits**\n\n**1. Just go back and look at a previous commit (no history change):**\n```bash\ngit checkout <commit-hash>\n```\n- Use this if you just want your files to match that commit temporarily\n- Creates a \"detached HEAD\" state\n- No permanent changes to your branch history\n- Files will match the state at that commit\n\n**2. Permanently move your branch back to an older commit (history rewrite):**\n```bash\ngit reset --hard <commit-hash>\n```\n- Permanently moves your current branch back to the specified commit\n- **WARNING:** This rewrites history and can lose commits\n- All commits after the specified commit will be lost\n- Use with caution, especially on shared branches\n\n**Additional Options:**\n```bash\n# Soft reset (keeps changes in staging area)\ngit reset --soft <commit-hash>\n\n# Mixed reset (keeps changes in working directory)\ngit reset --mixed <commit-hash>\n\n# Go back to previous commit\ngit reset --hard HEAD~1\n\n# Go back 3 commits\ngit reset --hard HEAD~3\n```\n\n**Best Practices:**\n- Use `git checkout` for temporary inspection\n- Use `git reset --hard` only when you're sure about losing commits\n- Create a backup branch before using `git reset --hard`\n- Never use `git reset --hard` on shared/public branches",
     "type": "git",
     "tags": ["git", "version-control", "commits", "branches"],
     "code": "// Example workflow:\n// 1. Check commit history\ngit log --oneline\n\n// 2. Go back temporarily to inspect\ngit checkout abc1234\n\n// 3. Return to latest commit\ngit checkout main\n\n// 4. Permanently reset (DANGEROUS!)\ngit reset --hard abc1234\n\n// 5. Create backup before reset\ngit branch backup-branch\ngit reset --hard abc1234"
-  }
+  },
+  
+    {
+      "question": "What is a shell in cybersecurity?",
+      "answer": "**Shell:**\n\n**What it is:**\n- Command-line interface between user and operating system\n- Interprets and executes commands\n- Acts as a bridge between user and kernel\n\n**Types:**\n- **Bash** (Bourne Again Shell) - Most common on Linux\n- **PowerShell** - Windows command shell\n- **Zsh** - Advanced shell with features\n- **Cmd** - Windows command prompt\n\n**In Cybersecurity:**\n- Used for system administration\n- Scripting and automation\n- Penetration testing\n- System monitoring\n\n**Common shells:**\n- `/bin/bash` - Linux default\n- `/bin/sh` - POSIX shell\n- `powershell.exe` - Windows PowerShell\n- `cmd.exe` - Windows command prompt"
+    },
+    {
+      "question": "What is shell scripting and give examples?",
+      "answer": "**Shell Scripting:**\n\n**What it is:**\n- Writing scripts using shell commands\n- Automating repetitive tasks\n- Creating executable files with shell commands\n\n**Basic Examples:**\n\n**1. Simple Script:**\n```bash\n#!/bin/bash\necho \"Hello World\"\ndate\nwhoami\n```\n\n**2. File Operations:**\n```bash\n#!/bin/bash\n# Backup script\ncp important.txt backup/\ndate >> backup/log.txt\n```\n\n**3. Loop Example:**\n```bash\n#!/bin/bash\nfor i in {1..5}\ndo\n    echo \"Count: $i\"\ndone\n```\n\n**4. Conditional:**\n```bash\n#!/bin/bash\nif [ -f \"file.txt\" ]\nthen\n    echo \"File exists\"\nelse\n    echo \"File not found\"\nfi\n```\n\n**Making executable:**\n```bash\nchmod +x script.sh\n./script.sh\n```"
+    },
+    {
+      "question": "What is shellcheck and give examples?",
+      "answer": "**Shellcheck:**\n\n**What it is:**\n- Static analysis tool for shell scripts\n- Finds bugs and potential issues\n- Suggests improvements\n- Supports bash, sh, dash, ksh\n\n**Installation:**\n```bash\n# Ubuntu/Debian\nsudo apt install shellcheck\n\n# macOS\nbrew install shellcheck\n\n# Windows\nscoop install shellcheck\n```\n\n**Usage:**\n```bash\n# Check a script\nshellcheck script.sh\n\n# Check with specific shell\nshellcheck -s bash script.sh\n\n# Fix suggestions\nshellcheck -f gcc script.sh\n```\n\n**Example Issues Found:**\n```bash\n# Problem: Unquoted variable\necho $USER\n\n# Shellcheck suggests:\necho \"$USER\"\n\n# Problem: Missing shebang\n#!/bin/bash\n\n# Shellcheck suggests:\n#!/usr/bin/env bash\n```\n\n**Common Checks:**\n- Unquoted variables\n- Missing shebang\n- Incorrect comparisons\n- Unused variables\n- Syntax errors"
+    }
+  
 ]

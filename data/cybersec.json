@@ -7,62 +7,6 @@
     "code": "// Wireshark filters:\n// ip.addr == 192.168.1.1 - Filter by IP\n// tcp.port == 80 - Filter by port\n// http - Show only HTTP traffic\n// dns - Show only DNS queries\n// tcp.flags.syn == 1 - Show SYN packets"
   },
   {
-    "question": "What are Nmap and Masscan used for?",
-    "answer": "**Nmap / Masscan – Port Scanning & Service Enumeration**\n\n**Nmap (Network Mapper):**\n- Port scanning and service enumeration\n- Network discovery and security auditing\n- OS detection and service version detection\n- Scriptable with NSE (Nmap Scripting Engine)\n\n**Masscan:**\n- High-speed port scanner\n- Can scan the entire internet in minutes\n- Faster than Nmap but less feature-rich\n- Good for large-scale network scanning\n\n**Common uses:**\n- Network reconnaissance\n- Security assessments\n- Service discovery\n- Vulnerability scanning",
-    "type": "cybersec",
-    "tags": ["port-scanning", "nmap", "masscan", "enumeration"],
-    "code": "// Nmap commands:\n// nmap -sS target.com - Stealth scan\n// nmap -sV target.com - Service version detection\n// nmap -O target.com - OS detection\n// nmap -A target.com - Aggressive scan\n// nmap -p 1-1000 target.com - Port range scan\n\n// Masscan commands:\n// masscan -p80,443 192.168.1.0/24 - Port scan\n// masscan --rate=1000 -p1-65535 target.com - High speed scan"
-  },
-  {
-    "question": "What are Ettercap and Bettercap used for?",
-    "answer": "**Ettercap / Bettercap – MITM & ARP Spoofing**\n\n**Ettercap:**\n- Man-in-the-Middle (MITM) attacks\n- ARP spoofing and poisoning\n- Network traffic interception\n- Password sniffing\n- DNS spoofing\n\n**Bettercap:**\n- Modern replacement for Ettercap\n- More features and better interface\n- WiFi and Bluetooth attacks\n- Real-time network manipulation\n- Modular architecture\n\n**Common attacks:**\n- ARP poisoning\n- DNS hijacking\n- SSL stripping\n- Credential harvesting\n- Session hijacking",
-    "type": "cybersec",
-    "tags": ["mitm", "arp-spoofing", "ettercap", "bettercap"],
-    "code": "// Ettercap commands:\n// ettercap -T -M arp:remote /target/ //gateway// - ARP poisoning\n// ettercap -T -M arp:remote /192.168.1.100/ //192.168.1.1// - Target specific IP\n\n// Bettercap commands:\n// bettercap -iface eth0 -caplet hstshijack/hstshijack - SSL stripping\n// bettercap -iface wlan0 -wifi - WiFi attacks\n// bettercap -iface eth0 -sniff - Network sniffing"
-  },
-  {
-    "question": "What is Responder used for?",
-    "answer": "**Responder – Network-Level Credential Theft**\n\n**What Responder does:**\n- Performs LLMNR, NBT-NS, and MDNS poisoning\n- Captures network authentication attempts\n- Steals Windows credentials (NTLM hashes)\n- Performs SMB and HTTP authentication attacks\n- Creates fake authentication servers\n\n**How it works:**\n1. Listens for network name resolution requests\n2. Responds with fake services\n3. Captures authentication attempts\n4. Extracts credentials and hashes\n\n**Common targets:**\n- Windows networks\n- SMB shares\n- HTTP authentication\n- SQL Server authentication\n- LDAP authentication",
-    "type": "cybersec",
-    "tags": ["responder", "credential-theft", "ntlm", "llmnr"],
-    "code": "// Responder commands:\n// responder -I eth0 - Start on interface\n// responder -I eth0 -rdw - Enable all modules\n// responder -I eth0 -A - Analyze mode\n// responder -I eth0 -Pv - Verbose output\n\n// Common captured hashes:\n// NTLMv1/NTLMv2 - Windows authentication\n// LM - Legacy Windows authentication\n// Basic Auth - HTTP authentication"
-  },
-  {
-    "question": "What are Metasploit and Cobalt Strike used for?",
-    "answer": "**Metasploit / Cobalt Strike – Exploit & Post-Exploitation Framework**\n\n**Metasploit:**\n- Open-source penetration testing framework\n- Exploit development and execution\n- Post-exploitation modules\n- Payload generation\n- Social engineering tools\n\n**Cobalt Strike:**\n- Commercial penetration testing platform\n- Advanced persistent threat (APT) simulation\n- Team collaboration features\n- Malleable C2 profiles\n- Beacon payload system\n\n**Common capabilities:**\n- Vulnerability exploitation\n- Privilege escalation\n- Lateral movement\n- Data exfiltration\n- Persistence mechanisms",
-    "type": "cybersec",
-    "tags": ["metasploit", "cobalt-strike", "exploitation", "post-exploitation"],
-    "code": "// Metasploit commands:\n// msfconsole - Start Metasploit\n// use exploit/windows/smb/ms17_010_eternalblue - Select exploit\n// set RHOSTS target.com - Set target\n// exploit - Run exploit\n// sessions -l - List active sessions\n\n// Cobalt Strike commands:\n// ./teamserver server password - Start team server\n// ./cobaltstrike - Connect to team server\n// beacon> help - Show beacon commands\n// beacon> shell - Execute shell commands"
-  },
-  {
-    "question": "What is JTAG and UART debugging used for?",
-    "answer": "**JTAG / UART Debugging – Hardware Analysis**\n\n**JTAG (Joint Test Action Group):**\n- Hardware debugging interface\n- Direct access to processor internals\n- Bypass security mechanisms\n- Extract firmware and data\n- Modify device behavior\n\n**UART (Universal Asynchronous Receiver-Transmitter):**\n- Serial communication interface\n- Console access to embedded devices\n- Bootloader interaction\n- Firmware extraction\n- Command injection\n\n**Common targets:**\n- Routers and IoT devices\n- Embedded systems\n- Mobile devices\n- Industrial control systems\n- Automotive systems",
-    "type": "cybersec",
-    "tags": ["jtag", "uart", "hardware", "debugging"],
-    "code": "// JTAG tools:\n// OpenOCD - Open On-Chip Debugger\n// J-Link - Segger debugger\n// Bus Pirate - Multi-protocol tool\n// JTAGulator - JTAG pinout finder\n\n// UART tools:\n// PuTTY - Serial terminal\n// minicom - Linux serial terminal\n// screen /dev/ttyUSB0 115200 - Linux UART access\n// Arduino IDE Serial Monitor - Basic UART tool"
-  },
-  {
-    "question": "What is Binwalk used for?",
-    "answer": "**Binwalk – Firmware Extraction**\n\n**What Binwalk does:**\n- Analyzes binary files for embedded data\n- Extracts firmware from devices\n- Identifies file systems and compression\n- Recovers deleted or hidden files\n- Analyzes firmware structure\n\n**Common uses:**\n- Firmware reverse engineering\n- IoT device analysis\n- Router firmware extraction\n- Embedded system analysis\n- Digital forensics\n\n**File types it can extract:**\n- SquashFS filesystems\n- CramFS filesystems\n- JFFS2 filesystems\n- Compressed archives\n- Executable files",
-    "type": "cybersec",
-    "tags": ["binwalk", "firmware", "extraction", "iot"],
-    "code": "// Binwalk commands:\n// binwalk firmware.bin - Analyze firmware\n// binwalk -e firmware.bin - Extract files\n// binwalk -A firmware.bin - Analyze architecture\n// binwalk -f signatures.txt firmware.bin - Custom signatures\n// binwalk -B firmware.bin - Binary diffing\n\n// Common extracted files:\n// /bin/ - Binary executables\n// /etc/ - Configuration files\n// /lib/ - Shared libraries\n// /usr/ - User programs"
-  },
-  {
-    "question": "What is ChipWhisperer used for?",
-    "answer": "**ChipWhisperer – Side-Channel Attacks**\n\n**What ChipWhisperer does:**\n- Performs side-channel analysis attacks\n- Power analysis and electromagnetic analysis\n- Timing attacks on cryptographic implementations\n- Fault injection attacks\n- Hardware security research\n\n**Attack types:**\n- **DPA (Differential Power Analysis)** - Extract keys from power consumption\n- **CPA (Correlation Power Analysis)** - Statistical power analysis\n- **Template Attacks** - Machine learning-based attacks\n- **Fault Injection** - Glitch attacks to bypass security\n\n**Common targets:**\n- Smart cards\n- IoT devices\n- Cryptographic chips\n- Secure elements\n- Hardware security modules",
-    "type": "cybersec",
-    "tags": ["chipwhisperer", "side-channel", "power-analysis", "hardware"],
-    "code": "// ChipWhisperer workflow:\n// 1. Capture power traces during encryption\n// 2. Analyze power consumption patterns\n// 3. Correlate with known plaintext/ciphertext\n// 4. Extract secret keys\n\n// Common attack scenarios:\n// AES key extraction from smart cards\n// RSA private key recovery\n// ECC key extraction\n// Fault injection to bypass authentication"
-  },
-  {
-    "question": "What is PCILeech used for?",
-    "answer": "**PCILeech – DMA Memory Attacks**\n\n**What PCILeech does:**\n- Performs Direct Memory Access (DMA) attacks\n- Accesses system memory through PCIe devices\n- Bypasses operating system security\n- Extracts memory contents and secrets\n- Performs hardware-based attacks\n\n**How it works:**\n1. Attach PCIe device to target system\n2. Use DMA to access physical memory\n3. Bypass OS security mechanisms\n4. Extract sensitive data from memory\n5. Modify system behavior\n\n**Common attacks:**\n- Memory dumping\n- Credential extraction\n- Kernel bypass\n- Hypervisor attacks\n- Secure boot bypass",
-    "type": "cybersec",
-    "tags": ["pcilench", "dma", "memory-attacks", "hardware"],
-    "code": "// PCILeech setup:\n// 1. FPGA board with PCIe interface\n// 2. Custom firmware for DMA operations\n// 3. Software tools for memory analysis\n\n// Common targets:\n// Windows systems with DMA-enabled ports\n// Linux systems with Thunderbolt/USB-C\n// Virtual machines with PCIe passthrough\n// Embedded systems with PCIe interfaces"
-  },
-  {
     "question": "What is SQL injection and give examples?",
     "answer": "**SQL Injection – Database Attack**\n\n**What SQL injection is:**\nSQL injection is a code injection technique where malicious SQL statements are inserted into input fields, allowing attackers to manipulate databases.\n\n**How it works:**\n1. Attacker inputs malicious SQL code\n2. Application concatenates input into SQL query\n3. Database executes malicious query\n4. Attacker gains unauthorized access\n\n**Example attack:**\n```sql\n-- Login bypass:\nUsername: admin' OR '1'='1' --\nPassword: anything\n\n-- This creates:\nSELECT * FROM users WHERE username='admin' OR '1'='1' --' AND password='anything'\n```\n\n**Common payloads:**\n- `' OR '1'='1` - Always true condition\n- `'; DROP TABLE users; --` - Table deletion\n- `' UNION SELECT * FROM passwords --` - Data extraction",
     "type": "cybersec",
@@ -102,26 +46,6 @@
     "type": "security"
   },
   {
-    "question": "What is a shell in cybersecurity?",
-    "answer": "**Shell:**\n\n**What it is:**\n- Command-line interface between user and operating system\n- Interprets and executes commands\n- Acts as a bridge between user and kernel\n\n**Types:**\n- **Bash** (Bourne Again Shell) - Most common on Linux\n- **PowerShell** - Windows command shell\n- **Zsh** - Advanced shell with features\n- **Cmd** - Windows command prompt\n\n**In Cybersecurity:**\n- Used for system administration\n- Scripting and automation\n- Penetration testing\n- System monitoring\n\n**Common shells:**\n- `/bin/bash` - Linux default\n- `/bin/sh` - POSIX shell\n- `powershell.exe` - Windows PowerShell\n- `cmd.exe` - Windows command prompt"
-  },
-  {
-    "question": "What is shell scripting and give examples?",
-    "answer": "**Shell Scripting:**\n\n**What it is:**\n- Writing scripts using shell commands\n- Automating repetitive tasks\n- Creating executable files with shell commands\n\n**Basic Examples:**\n\n**1. Simple Script:**\n```bash\n#!/bin/bash\necho \"Hello World\"\ndate\nwhoami\n```\n\n**2. File Operations:**\n```bash\n#!/bin/bash\n# Backup script\ncp important.txt backup/\ndate >> backup/log.txt\n```\n\n**3. Loop Example:**\n```bash\n#!/bin/bash\nfor i in {1..5}\ndo\n    echo \"Count: $i\"\ndone\n```\n\n**4. Conditional:**\n```bash\n#!/bin/bash\nif [ -f \"file.txt\" ]\nthen\n    echo \"File exists\"\nelse\n    echo \"File not found\"\nfi\n```\n\n**Making executable:**\n```bash\nchmod +x script.sh\n./script.sh\n```"
-  },
-  {
-    "question": "What is shellcheck and give examples?",
-    "answer": "**Shellcheck:**\n\n**What it is:**\n- Static analysis tool for shell scripts\n- Finds bugs and potential issues\n- Suggests improvements\n- Supports bash, sh, dash, ksh\n\n**Installation:**\n```bash\n# Ubuntu/Debian\nsudo apt install shellcheck\n\n# macOS\nbrew install shellcheck\n\n# Windows\nscoop install shellcheck\n```\n\n**Usage:**\n```bash\n# Check a script\nshellcheck script.sh\n\n# Check with specific shell\nshellcheck -s bash script.sh\n\n# Fix suggestions\nshellcheck -f gcc script.sh\n```\n\n**Example Issues Found:**\n```bash\n# Problem: Unquoted variable\necho $USER\n\n# Shellcheck suggests:\necho \"$USER\"\n\n# Problem: Missing shebang\n#!/bin/bash\n\n# Shellcheck suggests:\n#!/usr/bin/env bash\n```\n\n**Common Checks:**\n- Unquoted variables\n- Missing shebang\n- Incorrect comparisons\n- Unused variables\n- Syntax errors"
-  },
-  {
-    "question": "What is CDN?",
-    "answer": "**CDN (Content Delivery Network):**\n\n**What it is:**\n- Network of distributed servers\n- Delivers content from locations closest to users\n- Reduces latency and improves performance\n\n**How it works:**\n- Caches content on multiple servers worldwide\n- Routes users to nearest server\n- Reduces load on origin server\n\n**Benefits:**\n- Faster content delivery\n- Reduced bandwidth costs\n- Better user experience\n- Improved reliability\n\n**Popular CDNs:**\n- **Cloudflare** - Security + performance\n- **AWS CloudFront** - Amazon's CDN\n- **Akamai** - Enterprise CDN\n- **MaxCDN** - Simple CDN service\n\n**Security Features:**\n- DDoS protection\n- SSL/TLS termination\n- Web application firewall\n- Bot protection"
-  },
-  {
-    "question": "What is DSS?",
-    "answer": "**DSS (Digital Signature Standard):**\n\n**What it is:**\n- Federal standard for digital signatures\n- Uses cryptographic algorithms\n- Ensures data integrity and authentication\n\n**Components:**\n- **DSA (Digital Signature Algorithm)**\n- **RSA** - Rivest-Shamir-Adleman\n- **ECDSA** - Elliptic Curve Digital Signature\n\n**How it works:**\n1. Create hash of message\n2. Sign hash with private key\n3. Verify with public key\n4. Confirm message integrity\n\n**Uses:**\n- Email authentication\n- Software distribution\n- Document signing\n- Certificate authorities\n\n**Security Features:**\n- Non-repudiation\n- Data integrity\n- Authentication\n- Tamper detection"
-  },
-  {
     "question": "What is a firewall?",
     "answer": "**Firewall:**\n\n**What it is:**\n- Network security device\n- Monitors and controls traffic\n- Acts as barrier between networks\n\n**Types:**\n- **Packet Filtering** - Examines packet headers\n- **Stateful** - Tracks connection state\n- **Application Layer** - Deep packet inspection\n- **Next-Generation** - Advanced features\n\n**Functions:**\n- Block unauthorized access\n- Allow legitimate traffic\n- Monitor network activity\n- Log security events\n\n**Deployment:**\n- **Network Firewall** - Between networks\n- **Host Firewall** - On individual devices\n- **Cloud Firewall** - Virtual firewall\n\n**Rules:**\n- Allow/deny based on IP, port, protocol\n- Time-based rules\n- User-based rules\n- Application-based rules"
   },
@@ -134,28 +58,8 @@
     "answer": "**Service Enumeration:**\n\n**What it is:**\n- Process of identifying services running on target\n- Discovering service versions and configurations\n- Mapping attack surface\n\n**Methods:**\n- **Banner Grabbing** - Service identification\n- **Version Detection** - Service versions\n- **Service Fingerprinting** - Detailed analysis\n\n**Tools:**\n- **Nmap** - Service detection\n- **Banner Grabbing** - Manual testing\n- **Nessus** - Vulnerability scanning\n\n**Common Services:**\n- **HTTP/HTTPS** - Web servers\n- **SSH** - Secure shell\n- **FTP** - File transfer\n- **SMTP** - Email\n- **DNS** - Domain name system\n\n**Information Gathered:**\n- Service name and version\n- Open ports\n- Service configuration\n- Potential vulnerabilities\n\n**Example:**\n```bash\n# Service detection\nnmap -sV target.com\n\n# Script scanning\nnmap --script vuln target.com\n```"
   },
   {
-    "question": "What is LLMNR?",
-    "answer": "**LLMNR (Link-Local Multicast Name Resolution):**\n\n**What it is:**\n- Protocol for name resolution on local networks\n- Windows alternative to DNS\n- Uses multicast for name queries\n\n**How it works:**\n- Sends multicast queries to local network\n- Receives responses from local hosts\n- Resolves names without DNS server\n\n**Port:**\n- **UDP 5355** - LLMNR traffic\n\n**Security Issues:**\n- **LLMNR Poisoning** - Attackers respond to queries\n- **Credential Harvesting** - Steal authentication\n- **Man-in-the-Middle** - Intercept traffic\n\n**Attack Scenario:**\n1. Attacker listens for LLMNR queries\n2. Responds with malicious IP\n3. Redirects traffic to attacker\n4. Harvests credentials\n\n**Defense:**\n- Disable LLMNR if not needed\n- Use DNS instead\n- Monitor network traffic\n- Implement network segmentation"
-  },
-  {
-    "question": "What is NBT-NS?",
-    "answer": "**NBT-NS (NetBIOS Name Service):**\n\n**What it is:**\n- Legacy name resolution protocol\n- Used in Windows networks\n- Resolves NetBIOS names to IP addresses\n\n**How it works:**\n- Broadcasts name queries on local network\n- Receives responses from hosts\n- Maps NetBIOS names to IPs\n\n**Ports:**\n- **UDP 137** - NetBIOS Name Service\n- **UDP 138** - NetBIOS Datagram Service\n- **TCP 139** - NetBIOS Session Service\n\n**Security Issues:**\n- **NBT-NS Poisoning** - Similar to LLMNR\n- **Credential Harvesting** - Steal authentication\n- **Network Reconnaissance** - Discover hosts\n\n**Attack Methods:**\n- Respond to name queries\n- Redirect traffic to attacker\n- Harvest authentication data\n\n**Defense:**\n- Disable NetBIOS if not needed\n- Use DNS for name resolution\n- Monitor network traffic\n- Implement proper network segmentation"
-  },
-  {
-    "question": "What is mDNS poisoning?",
-    "answer": "**mDNS Poisoning:**\n\n**What it is:**\n- Attack on multicast DNS (mDNS) protocol\n- Redirects traffic to attacker\n- Similar to LLMNR/NBT-NS poisoning\n\n**mDNS Protocol:**\n- Used by Apple devices (Bonjour)\n- Resolves names on local networks\n- Uses multicast for queries\n\n**Port:**\n- **UDP 5353** - mDNS traffic\n\n**Attack Process:**\n1. Attacker listens for mDNS queries\n2. Responds with malicious IP\n3. Redirects traffic to attacker\n4. Harvests credentials or data\n\n**Targets:**\n- Apple devices (Mac, iPhone, iPad)\n- Linux systems with Avahi\n- IoT devices\n\n**Tools:**\n- **Responder** - Multi-protocol poisoner\n- **Ettercap** - Network attack tool\n\n**Defense:**\n- Disable mDNS if not needed\n- Use DNS for name resolution\n- Monitor network traffic\n- Implement network segmentation"
-  },
-  {
-    "question": "What does SMB stand for?",
-    "answer": "**SMB (Server Message Block):**\n\n**What it is:**\n- Network file sharing protocol\n- Allows access to files and printers\n- Used in Windows networks\n\n**Versions:**\n- **SMB 1.0** - Legacy, insecure\n- **SMB 2.0** - Improved performance\n- **SMB 3.0** - Enhanced security\n- **SMB 3.1.1** - Latest version\n\n**Ports:**\n- **TCP 445** - Direct SMB\n- **TCP 139** - NetBIOS over TCP\n\n**Uses:**\n- File sharing\n- Printer sharing\n- Remote administration\n- Network authentication\n\n**Security Issues:**\n- **EternalBlue** - SMB vulnerability\n- **WannaCry** - Ransomware using SMB\n- **Pass-the-Hash** - Authentication bypass\n\n**Defense:**\n- Disable SMB 1.0\n- Use SMB 3.0+\n- Implement network segmentation\n- Regular security updates"
-  },
-  {
     "question": "What does SQL stand for?",
     "answer": "**SQL (Structured Query Language):**\n\n**What it is:**\n- Programming language for databases\n- Manages and manipulates data\n- Standard for relational databases\n\n**Types:**\n- **MySQL** - Open source database\n- **PostgreSQL** - Advanced open source\n- **SQL Server** - Microsoft database\n- **Oracle** - Enterprise database\n\n**Common Operations:**\n- **SELECT** - Retrieve data\n- **INSERT** - Add data\n- **UPDATE** - Modify data\n- **DELETE** - Remove data\n\n**Security Issues:**\n- **SQL Injection** - Code injection attack\n- **Privilege Escalation** - Unauthorized access\n- **Data Breaches** - Unauthorized data access\n\n**Example:**\n```sql\nSELECT * FROM users WHERE username = 'admin';\nINSERT INTO users (username, password) VALUES ('user', 'pass');\n```\n\n**Defense:**\n- Use parameterized queries\n- Input validation\n- Least privilege access\n- Regular security updates"
-  },
-  {
-    "question": "What does LDAP stand for?",
-    "answer": "**LDAP (Lightweight Directory Access Protocol):**\n\n**What it is:**\n- Protocol for accessing directory services\n- Manages user accounts and resources\n- Used for authentication and authorization\n\n**How it works:**\n- Client connects to LDAP server\n- Searches directory for information\n- Authenticates users\n- Manages access control\n\n**Ports:**\n- **TCP 389** - Standard LDAP\n- **TCP 636** - LDAPS (secure)\n\n**Uses:**\n- User authentication\n- Directory services\n- Single sign-on (SSO)\n- Network management\n\n**Common Implementations:**\n- **Active Directory** - Microsoft\n- **OpenLDAP** - Open source\n- **389 Directory Server** - Red Hat\n\n**Security Issues:**\n- **LDAP Injection** - Code injection\n- **Credential Theft** - Authentication bypass\n- **Privilege Escalation** - Unauthorized access\n\n**Defense:**\n- Use LDAPS (encrypted)\n- Input validation\n- Access control\n- Regular security updates"
   },
   {
     "question": "What is a man-in-the-middle attack?",

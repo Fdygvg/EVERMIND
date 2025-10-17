@@ -159,6 +159,9 @@ async function initLoadingScreen() {
                 setTimeout(() => {
                     loadingScreen.remove();
                     console.log('🚀 Loading screen removed, app ready!');
+                    
+                    // Load homepage sections immediately after loading screen is removed
+                    loadHomepageWithArchive();
                 }, 500);
             }, 300);
         }
@@ -1149,6 +1152,11 @@ function createSectionCard(sectionId, status) {
     card.setAttribute('data-status', status);
     card.onclick = () => openSection(sectionId);
     
+    // Hide archived sections by default
+    if (status === 'archived') {
+        card.style.display = 'none';
+    }
+    
     // Get question count
     const questionCount = state.allQuestions[sectionId] ? state.allQuestions[sectionId].length : 0;
     
@@ -1187,6 +1195,50 @@ function getSectionDescription(sectionId) {
         'languages': 'Learn translations and pronunciation'
     };
     return descriptions[sectionId] || 'Knowledge and learning';
+}
+
+function addSpecialCards() {
+    const container = document.querySelector('.sections-grid');
+    if (!container) return;
+    
+    // Create Bookmarked Questions card
+    const bookmarkedCard = document.createElement('div');
+    bookmarkedCard.className = 'section-card';
+    bookmarkedCard.setAttribute('data-status', 'special');
+    bookmarkedCard.onclick = () => openBookmarkedQuestions();
+    
+    const bookmarkedCount = state.bookmarks ? state.bookmarks.length : 0;
+    
+    bookmarkedCard.innerHTML = `
+        <div class="card-icon">📌</div>
+        <h2>Bookmarked Questions</h2>
+        <p>Review your flagged questions</p>
+        <div class="section-stats">
+            <span class="question-count" id="bookmarked-count">${bookmarkedCount} bookmarked</span>
+            <span class="bookmark-count">Click to review</span>
+        </div>
+    `;
+    
+    // Create Study Statistics card
+    const statsCard = document.createElement('div');
+    statsCard.className = 'section-card';
+    statsCard.setAttribute('data-status', 'special');
+    statsCard.onclick = () => openStatistics();
+    
+    const totalAnswered = state.correctCount + state.wrongCount;
+    
+    statsCard.innerHTML = `
+        <div class="card-icon">📊</div>
+        <h2>Study Statistics</h2>
+        <p>View your learning progress</p>
+        <div class="section-stats">
+            <span class="question-count" id="stats-summary">${totalAnswered} answered</span>
+            <span class="bookmark-count">View dashboard</span>
+        </div>
+    `;
+    
+    container.appendChild(bookmarkedCard);
+    container.appendChild(statsCard);
 }
 
 function addArchiveToggle() {
@@ -1290,6 +1342,9 @@ function loadHomepageWithArchive() {
     
     // Render active sections first
     renderSections(sectionConfig.active, 'active');
+    
+    // Add special cards (Bookmarked Questions and Study Statistics)
+    addSpecialCards();
     
     // Add archive toggle button
     addArchiveToggle();

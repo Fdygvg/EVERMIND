@@ -28,13 +28,6 @@
     "code": "// Alternative methods:\n// Right-click Start button → File Explorer\n// Click File Explorer icon in taskbar\n// Win + R → explorer → Enter\n// Ctrl + Shift + N - New folder in current location"
   },
   {
-    "question": "What is the shortcut to move cursor by one word?",
-    "answer": "**Ctrl + Left/Right Arrow**\n\n- **Ctrl + Left Arrow** - Move cursor one word to the left\n- **Ctrl + Right Arrow** - Move cursor one word to the right",
-    "type": "hotkeys",
-    "tags": ["text-editing", "cursor", "navigation"],
-    "code": "// Additional word navigation:\n// Ctrl + Shift + Left/Right - Select text word by word\n// Ctrl + Backspace - Delete previous word\n// Ctrl + Delete - Delete next word\n// Ctrl + A - Select all text"
-  },
-  {
     "question": "What is the shortcut to move cursor to start or end of a line?",
     "answer": "**Home / End**\n\n- **Home** - Move cursor to the beginning of the line\n- **End** - Move cursor to the end of the line",
     "type": "hotkeys",
@@ -75,5 +68,12 @@
     "type": "hotkeys",
     "tags": ["run-command", "windows", "system"],
     "code": "// Additional useful Run commands:\n// appwiz.cpl - Programs and Features\n// ncpa.cpl - Network Connections\n// desk.cpl - Display Settings\n// firewall.cpl - Windows Firewall\n// timedate.cpl - Date and Time\n// sysdm.cpl - System Properties"
+  },
+  {
+    "question": "What is the VS Code shortcut for HTML skeleton?",
+    "answer": "**HTML Skeleton:**\n`!` + `Tab`\n\n**Sample Text:**\n`lorem` + `Tab`\n\n**Example output:**\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Document</title>\n</head>\n<body>\n    \n</body>\n</html>\n```",
+    "type": "html",
+    "tags": ["html", "shortcuts", "vscode"],
+    "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>VS Code Shortcuts Demo</title>\n</head>\n<body>\n    <h1>HTML Skeleton Shortcut</h1>\n    <p>Type '!' then press Tab for HTML skeleton</p>\n    \n    <h2>Lorem Ipsum Shortcut</h2>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n</body>\n</html>"
   }
 ]
