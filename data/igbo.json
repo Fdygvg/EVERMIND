@@ -7,6 +7,61 @@
     "category": "greetings"
   },
   {
+    "question": "How do you say 'How are you?' in Igbo?",
+    "word": "Kedu",
+    "language": "igbo",
+    "answer": "Translated: Kedu? | Pronounced: KEH-doo"
+  },
+  {
+    "question": "How do you say 'I am fine' in Igbo?",
+    "word": "Adi m mma",
+    "language": "igbo",
+    "answer": "Translated: Adị m mma | Pronounced: AH-dee m mah"
+  },
+  {
+    "question": "How do you say 'bread' in Igbo?",
+    "word": "achịcha",
+    "language": "igbo",
+    "answer": "Translated: achịcha | Pronounced: ah-CHEE-chah"
+  },
+  {
+    "question": "How do you say 'rice' in Igbo?",
+    "word": "osikapa",
+    "language": "igbo",
+    "answer": "Translated: osikapa | Pronounced: oh-see-KAH-pah"
+  },
+  {
+    "question": "How do you say 'egg' in Igbo?",
+    "word": "àkwa",
+    "language": "igbo",
+    "answer": "Translated: àkwa | Pronounced: AH-kwah"
+  },
+  {
+    "question": "How do you say 'I want to eat' in Igbo?",
+    "word": "achọrọ m iri nri",
+    "language": "igbo",
+    "answer": "Translated: achọrọ  iri nri | Pronounced: ah-CHAW-raw ee-REE NREE"
+  },
+  {
+    "question": "How do you say 'shut up' in Igbo?",
+    "word": "kwụsị ikwu",
+    "language": "igbo",
+    "answer": "Translated: kwụsị ikwu | Pronounced: kwee-SEE ee-KWOO"
+  },
+  {
+    "question": "How do you say 'idiot person' in Igbo?",
+    "word": "onye nzuzu",
+    "language": "igbo",
+    "answer": "Translated: onye nzuzu | Pronounced: on-YEH n-ZOO-zoo"
+  },
+  {
+    "question": "How do you say 'I don't care' in Igbo?",
+    "word": "A naghị m eche",
+    "language": "igbo",
+    "answer": "I don't care: A naghị m eche | Pronounced: ah NAH-ghee m eh-CHEH"
+  },
+  
+  {
     "question": "How do you say \"Good afternoon\" in Igbo?",
     "answer": "Ehihie ọma",
     "fallback": "ehihie oma",
