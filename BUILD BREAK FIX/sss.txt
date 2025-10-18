@@ -1,0 +1,17 @@
+
+
+QUESTION=how to change a section , or div from reactangle to square, 
+ANS= add width and height
+
+QUESTION=How to make text bold
+ANS= Font Weight
+
+QUESTION= How to make single and multi line text allign center
+ANS=  singleline -- line height = height & text-align=center
+multiline -- display : flex| justify content:center |allign items:center|text-allign:center|
+
+QUESTION= Can users send data directly to databases
+ANS=Not exactly — you can’t write action="mongodb" directly, because:
+The action must be a URL or file path (something the browser can send a request to).
+MongoDB is a database, not a web page or file.
+Browsers can’t send data directly to a database — only to a server (like a PHP, Node.js, or Python file) that then talks to the database for you.
