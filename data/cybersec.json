@@ -1,25 +1,12 @@
 [
   {
-    "question": "What does the term 'raw packet sniffing' mean and what tool is commonly used?",
-    "answer": "**Raw Packet Sniffing:**\n\nRaw packet sniffing is the process of capturing and analyzing network traffic at the packet level. It involves intercepting data packets as they travel across a network.\n\n**Wireshark** is the most commonly used tool for packet sniffing and network analysis.\n\n**What it does:**\n- Captures live network traffic\n- Analyzes packet contents\n- Decodes various network protocols\n- Identifies network issues and security threats\n\n**Common uses:**\n- Network troubleshooting\n- Security analysis\n- Protocol analysis\n- Performance monitoring",
-    "type": "cybersec",
-    "tags": ["packet-sniffing", "wireshark", "network-analysis"],
-    "code": "// Wireshark filters:\n// ip.addr == 192.168.1.1 - Filter by IP\n// tcp.port == 80 - Filter by port\n// http - Show only HTTP traffic\n// dns - Show only DNS queries\n// tcp.flags.syn == 1 - Show SYN packets"
-  },
-  {
     "question": "What is SQL injection and give examples?",
     "answer": "**SQL Injection – Database Attack**\n\n**What SQL injection is:**\nSQL injection is a code injection technique where malicious SQL statements are inserted into input fields, allowing attackers to manipulate databases.\n\n**How it works:**\n1. Attacker inputs malicious SQL code\n2. Application concatenates input into SQL query\n3. Database executes malicious query\n4. Attacker gains unauthorized access\n\n**Example attack:**\n```sql\n-- Login bypass:\nUsername: admin' OR '1'='1' --\nPassword: anything\n\n-- This creates:\nSELECT * FROM users WHERE username='admin' OR '1'='1' --' AND password='anything'\n```\n\n**Common payloads:**\n- `' OR '1'='1` - Always true condition\n- `'; DROP TABLE users; --` - Table deletion\n- `' UNION SELECT * FROM passwords --` - Data extraction",
     "type": "cybersec",
     "tags": ["sql-injection", "database", "web-security"],
     "code": "// SQL injection examples:\n// Basic bypass: ' OR '1'='1' --\n// Union attack: ' UNION SELECT username,password FROM users --\n// Time-based: '; WAITFOR DELAY '00:00:05' --\n// Boolean-based: ' AND (SELECT COUNT(*) FROM users) > 0 --\n\n// Prevention:\n// Use parameterized queries\n// Input validation and sanitization\n// Least privilege principle\n// Web Application Firewall (WAF)"
   },
-  {
-    "question": "What is brute forcing?",
-    "answer": "**Brute Forcing – Password Attack**\n\n**What brute forcing is:**\nBrute forcing is an attack method that tries all possible combinations of characters to guess passwords or encryption keys.\n\n**Types of brute force attacks:**\n- **Dictionary Attack** - Uses common passwords\n- **Rainbow Table** - Precomputed hash tables\n- **Hybrid Attack** - Combines dictionary and brute force\n- **Credential Stuffing** - Uses leaked credentials\n\n**Common targets:**\n- Login pages\n- Encrypted files\n- WiFi networks\n- SSH/FTP services\n- Database passwords\n\n**Prevention methods:**\n- Account lockout policies\n- CAPTCHA challenges\n- Rate limiting\n- Strong password policies\n- Multi-factor authentication",
-    "type": "cybersec",
-    "tags": ["brute-force", "password-attack", "authentication"],
-    "code": "// Brute force tools:\n// Hydra - Network login cracker\n// John the Ripper - Password cracker\n// Hashcat - GPU-accelerated cracking\n// Aircrack-ng - WiFi password cracking\n// Medusa - Parallel login brute forcer\n\n// Example Hydra command:\n// hydra -l admin -P passwords.txt ssh://target.com\n// hydra -L users.txt -p password123 http-post-form://target.com/login:username=^USER^&password=^PASS^:error"
-  },
+
   {
     "question": "What are different HTTP status codes and their meanings?",
     "answer": "**HTTP Status Codes – Web Response Codes**\n\n**1xx Informational:**\n- **100** - Continue\n- **101** - Switching Protocols\n\n**2xx Success:**\n- **200** - OK (Request successful)\n- **201** - Created (Resource created)\n- **204** - No Content (Success, no content)\n\n**3xx Redirection:**\n- **301** - Moved Permanently\n- **302** - Found (Temporary redirect)\n- **304** - Not Modified (Cached version)\n\n**4xx Client Error:**\n- **400** - Bad Request (Invalid request)\n- **401** - Unauthorized (Authentication required)\n- **403** - Forbidden (Access denied)\n- **404** - Not Found (Resource not found)\n- **429** - Too Many Requests (Rate limited)\n\n**5xx Server Error:**\n- **500** - Internal Server Error\n- **502** - Bad Gateway\n- **503** - Service Unavailable\n- **504** - Gateway Timeout",
@@ -46,24 +33,8 @@
     "type": "security"
   },
   {
-    "question": "What is a firewall?",
-    "answer": "**Firewall:**\n\n**What it is:**\n- Network security device\n- Monitors and controls traffic\n- Acts as barrier between networks\n\n**Types:**\n- **Packet Filtering** - Examines packet headers\n- **Stateful** - Tracks connection state\n- **Application Layer** - Deep packet inspection\n- **Next-Generation** - Advanced features\n\n**Functions:**\n- Block unauthorized access\n- Allow legitimate traffic\n- Monitor network activity\n- Log security events\n\n**Deployment:**\n- **Network Firewall** - Between networks\n- **Host Firewall** - On individual devices\n- **Cloud Firewall** - Virtual firewall\n\n**Rules:**\n- Allow/deny based on IP, port, protocol\n- Time-based rules\n- User-based rules\n- Application-based rules"
-  },
-  {
-    "question": "What does port scanning mean?",
-    "answer": "**Port Scanning:**\n\n**What it is:**\n- Technique to discover open ports on a system\n- Identifies services running on target\n- Maps network attack surface\n\n**Types:**\n- **TCP Connect** - Full connection attempt\n- **TCP SYN** - Half-open connection\n- **UDP Scan** - UDP port discovery\n- **Stealth Scan** - Avoid detection\n\n**Common Tools:**\n- **Nmap** - Most popular scanner\n- **Masscan** - High-speed scanning\n- **Zmap** - Internet-wide scanning\n\n**Scan Types:**\n```bash\n# TCP SYN scan\nnmap -sS target.com\n\n# UDP scan\nnmap -sU target.com\n\n# Service detection\nnmap -sV target.com\n\n# OS detection\nnmap -O target.com\n```\n\n**Legal Considerations:**\n- Only scan your own systems\n- Get permission before scanning\n- Follow responsible disclosure"
-  },
-  {
-    "question": "What does service enumeration mean?",
-    "answer": "**Service Enumeration:**\n\n**What it is:**\n- Process of identifying services running on target\n- Discovering service versions and configurations\n- Mapping attack surface\n\n**Methods:**\n- **Banner Grabbing** - Service identification\n- **Version Detection** - Service versions\n- **Service Fingerprinting** - Detailed analysis\n\n**Tools:**\n- **Nmap** - Service detection\n- **Banner Grabbing** - Manual testing\n- **Nessus** - Vulnerability scanning\n\n**Common Services:**\n- **HTTP/HTTPS** - Web servers\n- **SSH** - Secure shell\n- **FTP** - File transfer\n- **SMTP** - Email\n- **DNS** - Domain name system\n\n**Information Gathered:**\n- Service name and version\n- Open ports\n- Service configuration\n- Potential vulnerabilities\n\n**Example:**\n```bash\n# Service detection\nnmap -sV target.com\n\n# Script scanning\nnmap --script vuln target.com\n```"
-  },
-  {
     "question": "What does SQL stand for?",
     "answer": "**SQL (Structured Query Language):**\n\n**What it is:**\n- Programming language for databases\n- Manages and manipulates data\n- Standard for relational databases\n\n**Types:**\n- **MySQL** - Open source database\n- **PostgreSQL** - Advanced open source\n- **SQL Server** - Microsoft database\n- **Oracle** - Enterprise database\n\n**Common Operations:**\n- **SELECT** - Retrieve data\n- **INSERT** - Add data\n- **UPDATE** - Modify data\n- **DELETE** - Remove data\n\n**Security Issues:**\n- **SQL Injection** - Code injection attack\n- **Privilege Escalation** - Unauthorized access\n- **Data Breaches** - Unauthorized data access\n\n**Example:**\n```sql\nSELECT * FROM users WHERE username = 'admin';\nINSERT INTO users (username, password) VALUES ('user', 'pass');\n```\n\n**Defense:**\n- Use parameterized queries\n- Input validation\n- Least privilege access\n- Regular security updates"
-  },
-  {
-    "question": "What is a man-in-the-middle attack?",
-    "answer": "**Man-in-the-Middle (MITM) Attack:**\n\n**What it is:**\n- Attack where attacker intercepts communication\n- Positions between two communicating parties\n- Can read, modify, or inject data\n\n**How it works:**\n1. Attacker intercepts communication\n2. Relays messages between parties\n3. Parties think they're communicating directly\n4. Attacker can modify or steal data\n\n**Types:**\n- **ARP Spoofing** - Layer 2 attack\n- **DNS Spoofing** - Redirect DNS queries\n- **SSL Stripping** - Remove encryption\n- **WiFi MITM** - Attack wireless networks\n\n**Tools:**\n- **Ettercap** - Network attack tool\n- **Bettercap** - Modern MITM framework\n- **Wireshark** - Traffic analysis\n\n**Targets:**\n- Web traffic\n- Email communication\n- Banking transactions\n- Corporate networks\n\n**Defense:**\n- Use HTTPS/TLS\n- Certificate pinning\n- VPN connections\n- Network monitoring"
   },
   {
     "question": "What is Burp Suite used for?",

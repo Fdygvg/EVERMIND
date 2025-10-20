@@ -4,7 +4,7 @@
     box-sizing: border-box !important;
 }
 
-/* Ensure all buttons have proper styling */
+
 button, .btn, .calendar-btn, .refresh-btn, .copy-btn {
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
@@ -2963,6 +2963,38 @@ body {
     line-height: 1.6;
     margin-bottom: 20px;
     color: var(--text-primary);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Double-click functionality styling - only on top 50% */
+.question-card {
+    cursor: pointer;
+    position: relative;
+}
+
+.question-card:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: scale(1.01);
+}
+
+/* Visual indicator for double-click area (top 50%) */
+.question-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.question-card:hover::before {
+    opacity: 1;
 }
 
 .answer-content {
@@ -8495,7 +8527,7 @@ div#noteEditModal .modal-content {
     .archive-toggle-btn {
         padding: 15px 25px;
         margin: 25px 0;
-        font-size: 1rem;
+    font-size: 1rem;
     }
     
     /* Reduce animation delays on mobile for faster feel */

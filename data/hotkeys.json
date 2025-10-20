@@ -75,5 +75,110 @@
     "type": "html",
     "tags": ["html", "shortcuts", "vscode"],
     "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>VS Code Shortcuts Demo</title>\n</head>\n<body>\n    <h1>HTML Skeleton Shortcut</h1>\n    <p>Type '!' then press Tab for HTML skeleton</p>\n    \n    <h2>Lorem Ipsum Shortcut</h2>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>\n</body>\n</html>"
+  },
+  {
+    "question": "Shortcut to quickly open a file in VS Code?",
+    "answer": "**Ctrl + P**\n\nThis opens the Quick Open dialog in VS Code, allowing you to quickly find and open any file in your project by typing its name.",
+    "type": "hotkeys",
+    "tags": ["vscode", "files", "productivity"],
+    "code": "// Additional VS Code file shortcuts:\n// Ctrl + Shift + P - Command Palette\n// Ctrl + O - Open file dialog\n// Ctrl + N - New file\n// Ctrl + S - Save file"
+  },
+  {
+    "question": "Shortcut to go to definition of a symbol?",
+    "answer": "**F12**\n\nThis shortcut takes you directly to the definition of a function, variable, or symbol in VS Code. Place your cursor on the symbol and press F12.",
+    "type": "hotkeys",
+    "tags": ["vscode", "navigation", "code"],
+    "code": "// Related navigation shortcuts:\n// Alt + F12 - Peek definition (without leaving current file)\n// Ctrl + F12 - Go to implementation\n// Shift + F12 - Find all references\n// Ctrl + T - Go to symbol in workspace"
+  },
+  {
+    "question": "Shortcut to peek definition without leaving the file?",
+    "answer": "**Alt + F12**\n\nThis shows a preview of the definition in a popup window without navigating away from your current file. Perfect for quick reference!",
+    "type": "hotkeys",
+    "tags": ["vscode", "peek", "definition"],
+    "code": "// Peek shortcuts:\n// Alt + F12 - Peek definition\n// Shift + F12 - Peek references\n// Ctrl + Shift + F12 - Peek implementation\n// Escape - Close peek window"
+  },
+  {
+    "question": "Shortcut to rename a symbol?",
+    "answer": "**F2**\n\nThis shortcut allows you to rename a variable, function, or any symbol throughout your entire codebase. VS Code will update all references automatically.",
+    "type": "hotkeys",
+    "tags": ["vscode", "refactor", "rename"],
+    "code": "// Refactoring shortcuts:\n// F2 - Rename symbol\n// Ctrl + Shift + R - Refactor menu\n// Ctrl + . - Quick fix suggestions\n// Shift + Alt + F - Format document"
+  },
+  {
+    "question": "Shortcut to format the entire document?",
+    "answer": "**Shift + Alt + F**\n\nThis formats your entire document according to your configured formatting rules. Essential for keeping code clean and consistent!",
+    "type": "hotkeys",
+    "tags": ["vscode", "format", "code"],
+    "code": "// Formatting shortcuts:\n// Shift + Alt + F - Format entire document\n// Ctrl + K, Ctrl + F - Format selection\n// Alt + Shift + I - Format on save (if enabled)\n// Ctrl + Shift + P → 'Format Document' - Command palette"
+  },
+  {
+    "question": "Shortcut to comment or uncomment a line?",
+    "answer": "**Ctrl + /**\n\nThis toggles line comments on/off. Works for single lines or selected blocks of code. The comment style depends on your file type.",
+    "type": "hotkeys",
+    "tags": ["vscode", "comments", "code"],
+    "code": "// Comment shortcuts:\n// Ctrl + / - Toggle line comment\n// Shift + Alt + A - Toggle block comment\n// Ctrl + Shift + / - Alternative line comment\n// Ctrl + K, Ctrl + C - Add line comment\n// Ctrl + K, Ctrl + U - Remove line comment"
+  },
+  {
+    "question": "Shortcut for multi-cursor editing?",
+    "answer": "**Alt + Click** or **Ctrl + Alt + Down/Up Arrow**\n\nMulti-cursor editing allows you to edit multiple lines simultaneously. Alt + Click adds cursors at specific positions, while Ctrl + Alt + Arrow adds cursors above/below.",
+    "type": "hotkeys",
+    "tags": ["vscode", "multi-cursor", "editing"],
+    "code": "// Multi-cursor shortcuts:\n// Alt + Click - Add cursor at click position\n// Ctrl + Alt + Up/Down - Add cursor above/below\n// Ctrl + D - Select next occurrence of word\n// Ctrl + Shift + L - Select all occurrences\n// Escape - Exit multi-cursor mode"
+  },
+  {
+    "question": "Shortcut to toggle terminal in VS Code?",
+    "answer": "**Ctrl + `** (backtick)\n\nThis opens/closes the integrated terminal in VS Code. The backtick key is usually located above the Tab key on most keyboards.",
+    "type": "hotkeys",
+    "tags": ["vscode", "terminal", "command"],
+    "code": "// Terminal shortcuts:\n// Ctrl + ` - Toggle terminal\n// Ctrl + Shift + ` - New terminal\n// Ctrl + Shift + C - Copy terminal text\n// Ctrl + Shift + V - Paste into terminal\n// Ctrl + C - Stop running command"
+  },
+  {
+    "question": "Shortcut to find in files?",
+    "answer": "**Ctrl + Shift + F**\n\nThis opens the Search panel to search for text across all files in your workspace. Much more powerful than regular find!",
+    "type": "hotkeys",
+    "tags": ["vscode", "search", "files"],
+    "code": "// Search shortcuts:\n// Ctrl + Shift + F - Find in files\n// Ctrl + F - Find in current file\n// Ctrl + H - Find and replace in current file\n// Ctrl + Shift + H - Find and replace in files\n// F3 - Find next occurrence"
+  },
+  {
+    "question": "Shortcut to replace in files?",
+    "answer": "**Ctrl + Shift + H**\n\nThis opens the Search and Replace panel to find and replace text across multiple files in your workspace. Great for refactoring!",
+    "type": "hotkeys",
+    "tags": ["vscode", "replace", "refactor"],
+    "code": "// Replace shortcuts:\n// Ctrl + Shift + H - Replace in files\n// Ctrl + H - Replace in current file\n// Alt + Enter - Replace all occurrences\n// Alt + C - Toggle case sensitivity\n// Alt + R - Toggle regex mode"
+  },
+  {
+    "question": "Shortcut to open a new tab in browser or editor?",
+    "answer": "**Ctrl + T**\n\nThis universal shortcut opens a new tab in most applications including browsers, VS Code, and other editors.",
+    "type": "hotkeys",
+    "tags": ["tabs", "browser", "editor"],
+    "code": "// Tab shortcuts:\n// Ctrl + T - New tab\n// Ctrl + W - Close current tab\n// Ctrl + Shift + T - Reopen last closed tab\n// Ctrl + Tab - Switch between tabs\n// Ctrl + 1,2,3... - Jump to specific tab"
+  },
+  {
+    "question": "Shortcut to close current tab?",
+    "answer": "**Ctrl + W**\n\nThis closes the currently active tab in browsers, editors, and most applications. Works universally across different programs.",
+    "type": "hotkeys",
+    "tags": ["tabs", "close", "browser"],
+    "code": "// Tab management:\n// Ctrl + W - Close current tab\n// Ctrl + Shift + W - Close all tabs\n// Ctrl + Shift + T - Reopen closed tab\n// Alt + F4 - Close entire application\n// Ctrl + Q - Quit application (some apps)"
+  },
+  {
+    "question": "Shortcut to reopen the last closed tab?",
+    "answer": "**Ctrl + Shift + T**\n\nThis reopens the most recently closed tab. You can use it multiple times to reopen several recently closed tabs in order.",
+    "type": "hotkeys",
+    "tags": ["tabs", "reopen", "browser"],
+    "code": "// Tab recovery:\n// Ctrl + Shift + T - Reopen last closed tab\n// Ctrl + Shift + N - New incognito/private window\n// Ctrl + Shift + Delete - Clear browsing data\n// Ctrl + R - Refresh current tab\n// F5 - Alternative refresh"
+  },
+  {
+    "question": "Shortcut to select all text?",
+    "answer": "**Ctrl + A**\n\nThis universal shortcut selects all text in the current document, input field, or text area. Works in almost every application.",
+    "type": "hotkeys",
+    "tags": ["select", "text", "universal"],
+    "code": "// Selection shortcuts:\n// Ctrl + A - Select all\n// Ctrl + C - Copy selected text\n// Ctrl + V - Paste text\n// Ctrl + X - Cut selected text\n// Ctrl + Z - Undo last action\n// Ctrl + Y - Redo last action"
+  },
+  {
+    "question": "Shortcut to jump between open tabs?",
+    "answer": "**Ctrl + Tab**\n\nThis cycles through open tabs in browsers and editors. Hold Ctrl and press Tab repeatedly to navigate through all open tabs.",
+    "type": "hotkeys",
+    "tags": ["tabs", "navigation", "browser"],
+    "code": "// Tab navigation:\n// Ctrl + Tab - Next tab\n// Ctrl + Shift + Tab - Previous tab\n// Ctrl + 1,2,3... - Jump to specific tab number\n// Ctrl + 9 - Jump to last tab\n// Alt + Left/Right - Navigate browser history"
   }
 ]

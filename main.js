@@ -1110,7 +1110,7 @@ const sections = [
     { id: 'science', name: 'Science', icon: '🔬', status: 'archived' },
     { id: 'history', name: 'History', icon: '🏛️', status: 'archived' },
     { id: 'facts', name: 'Random Facts', icon: '💡', status: 'archived' },
-    { id: 'country_flags', name: 'Country Flags', icon: '🚩', status: 'archived' },
+    { id: 'country_flags', name: 'Country Flags', icon: '🚩', status: 'active' },
     { id: 'new_words', name: 'New Words', icon: '📝', status: 'archived' },
     { id: 'youtube_knowledge', name: 'YouTube', icon: '🎥', status: 'archived' },
     { id: 'memes_brainrot', name: 'Memes & Brain Rot', icon: '💀', status: 'archived' },
@@ -1120,32 +1120,44 @@ const sections = [
     { id: 'anatomy', name: 'Anatomy', icon: '🫀', status: 'archived' },
     { id: 'hotkeys', name: 'Hotkeys', icon: '⌨️', status: 'active' },
     { id: 'cybersec', name: 'CyberSec', icon: '🔒', status: 'active' },
-    { id: 'country_flags', name: 'Country Flags', icon: '🚩', status: 'active' },
     { id: 'igbo', name: 'Igbo', icon: '🗣️', status: 'active' },
 ];
 
 // ==================== ARCHIVE FUNCTIONALITY ====================
 function renderSections(sectionList, status) {
+    console.log(`🎨 Rendering ${status} sections:`, sectionList);
+    
     const container = document.querySelector('.sections-grid');
     if (!container) {
         console.error('❌ Sections grid container not found');
         return;
     }
     
+    let renderedCount = 0;
     sectionList.forEach(sectionId => {
         const sectionCard = createSectionCard(sectionId, status);
         if (sectionCard) {
             container.appendChild(sectionCard);
+            renderedCount++;
+            console.log(`✅ Rendered ${status} section: ${sectionId}`);
+        } else {
+            console.error(`❌ Failed to create card for ${status} section: ${sectionId}`);
         }
     });
+    
+    console.log(`🎯 Successfully rendered ${renderedCount}/${sectionList.length} ${status} sections`);
 }
 
 function createSectionCard(sectionId, status) {
+    console.log(`🔨 Creating card for ${sectionId} with status ${status}`);
+    
     const section = sections.find(s => s.id === sectionId);
     if (!section) {
-        console.error(`❌ Section ${sectionId} not found`);
+        console.error(`❌ Section ${sectionId} not found in sections array:`, sections.map(s => s.id));
         return null;
     }
+    
+    console.log(`✅ Found section:`, section);
     
     const card = document.createElement('div');
     card.className = 'section-card';
@@ -1155,10 +1167,14 @@ function createSectionCard(sectionId, status) {
     // Hide archived sections by default
     if (status === 'archived') {
         card.style.display = 'none';
+        console.log(`📦 Hidden archived section: ${sectionId}`);
+    } else {
+        console.log(`✅ Visible active section: ${sectionId}`);
     }
     
     // Get question count
     const questionCount = state.allQuestions[sectionId] ? state.allQuestions[sectionId].length : 0;
+    console.log(`📊 Question count for ${sectionId}: ${questionCount}`);
     
     card.innerHTML = `
         <div class="card-icon">${section.icon}</div>
@@ -1169,6 +1185,9 @@ function createSectionCard(sectionId, status) {
             <span class="bookmark-count" id="${sectionId}-bookmarks">0 bookmarked</span>
         </div>
     `;
+    
+    console.log(`🎯 Created card for ${sectionId}:`, card);
+    console.log(`🎯 Card HTML:`, card.outerHTML);
     
     return card;
 }
@@ -1327,6 +1346,15 @@ function loadHomepageWithArchive() {
         return;
     }
     
+    // Check if data is loaded
+    if (!state.allQuestions || Object.keys(state.allQuestions).length === 0) {
+        console.warn('⚠️ Data not loaded yet, retrying in 100ms...');
+        setTimeout(() => loadHomepageWithArchive(), 100);
+        return;
+    }
+    
+    console.log('✅ Data loaded, rendering sections:', Object.keys(state.allQuestions));
+    
     // Clear existing content
     container.innerHTML = '';
     
@@ -1341,16 +1369,27 @@ function loadHomepageWithArchive() {
     container.appendChild(archiveHeader);
     
     // Render active sections first
+    console.log('🎯 Rendering active sections:', sectionConfig.active);
     renderSections(sectionConfig.active, 'active');
-    
-    // Add special cards (Bookmarked Questions and Study Statistics)
-    addSpecialCards();
     
     // Add archive toggle button
     addArchiveToggle();
     
     // Render archived sections (hidden by default)
+    console.log('📦 Rendering archived sections:', sectionConfig.archived);
     renderSections(sectionConfig.archived, 'archived');
+    
+    // Add special cards AFTER all sections are rendered
+    addSpecialCards();
+    
+    // Debug: Check what's actually in the container
+    const allCards = container.querySelectorAll('.section-card');
+    console.log(`🔍 Total cards in container: ${allCards.length}`);
+    allCards.forEach((card, index) => {
+        const status = card.getAttribute('data-status');
+        const title = card.querySelector('h2')?.textContent || 'Unknown';
+        console.log(`  Card ${index + 1}: ${title} (${status})`);
+    });
     
     // Initialize archive state
     initializeArchiveState();
@@ -2095,6 +2134,7 @@ function displayCurrentQuestion() {
     
     // Add section label for global and bookmark revision modes
     let questionHtml = '';
+    let sectionLabelHtml = '';
     console.log('🔍 DEBUG: displayCurrentQuestion called with:', {
         revisionMode: state.revisionMode,
         questionData: question,
@@ -2122,8 +2162,8 @@ function displayCurrentQuestion() {
         if (sectionId && sectionId !== 'null' && sectionId !== 'undefined') {
             const sectionInfo = getSectionInfo(sectionId);
             console.log('🏷️ DEBUG: Adding section label:', sectionInfo);
-        questionHtml += `<div class="question-section-label">${sectionInfo.icon} From ${sectionInfo.name}</div>`;
-            console.log('✅ DEBUG: Section label HTML added:', questionHtml);
+            sectionLabelHtml = `<div class="question-section-label">${sectionInfo.icon} From ${sectionInfo.name}</div>`;
+            console.log('✅ DEBUG: Section label HTML added:', sectionLabelHtml);
         } else {
             console.log('⚠️ DEBUG: No section label added - sectionId:', sectionId);
         }
@@ -2217,6 +2257,49 @@ function displayCurrentQuestion() {
     
     console.log('🔍 DEBUG: Final question HTML before setting innerHTML:', questionHtml);
     questionContent.innerHTML = questionHtml;
+    
+    // Add section label to question card if it exists
+    if (sectionLabelHtml) {
+        const questionCard = document.getElementById('questionCard');
+        if (questionCard) {
+            // Remove any existing section label first
+            const existingLabel = questionCard.querySelector('.question-section-label');
+            if (existingLabel) {
+                existingLabel.remove();
+            }
+            // Add the new section label
+            questionCard.insertAdjacentHTML('afterbegin', sectionLabelHtml);
+            console.log('✅ Section label added to question card');
+        }
+    }
+    
+    // Add double-click event listener to reveal answer (only on top 50% of question card)
+    const questionCard = document.getElementById('questionCard');
+    if (questionCard) {
+        questionCard.addEventListener('dblclick', function(e) {
+            console.log('🖱️ Double-click detected on question card');
+            
+            // Check if click is in the top 50% of the question card (same as swipe area)
+            const rect = questionCard.getBoundingClientRect();
+            const clickY = e.clientY - rect.top;
+            const cardHeight = rect.height;
+            const top50Percent = cardHeight * 0.5;
+            
+            if (clickY <= top50Percent) {
+                console.log('✅ Double-click in top 50% - showing answer');
+                // Only show answer if it's not already shown
+                if (!state.isAnswerShown) {
+                    console.log('✅ Showing answer via double-click');
+                    showAnswer();
+                }
+            } else {
+                console.log('❌ Double-click in bottom 50% - ignoring');
+            }
+        });
+    }
+    
+    // Add visual hint for double-click functionality
+    // Note: Cursor styling is now handled in CSS for the question card
     
     // Check if section label was actually added to DOM
     const sectionLabel = document.querySelector('.question-section-label');
@@ -2376,6 +2459,7 @@ function showAnswer() {
     document.getElementById('showAnswerBtn').style.display = 'none';
     document.getElementById('answerControls').style.display = 'flex';
     state.isAnswerShown = true;
+    
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('click');
     }
@@ -6764,13 +6848,13 @@ function resetQuestionTimer() {
         
         // Clear any existing timer interval
         if (timerMode.interval) {
-        clearInterval(timerMode.interval);
+            clearInterval(timerMode.interval);
             timerMode.interval = null;
         }
         
         // Small delay to ensure the interval is fully cleared before starting new one
         setTimeout(() => {
-        startQuestionTimer();
+            startQuestionTimer();
         }, 50);
     }
 }
