@@ -2971,11 +2971,20 @@ body {
 .question-card {
     cursor: pointer;
     position: relative;
+    /* Mobile-friendly touch improvements */
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    touch-action: manipulation;
 }
 
 .question-card:hover {
     background-color: rgba(255, 255, 255, 0.05);
     transform: scale(1.01);
+}
+
+/* Mobile touch feedback */
+.question-card:active {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(0.99);
 }
 
 /* Visual indicator for double-click area (top 50%) */

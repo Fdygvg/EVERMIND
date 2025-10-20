@@ -2276,8 +2276,30 @@ function displayCurrentQuestion() {
     // Add double-click event listener to reveal answer (only on top 50% of question card)
     const questionCard = document.getElementById('questionCard');
     if (questionCard) {
-        questionCard.addEventListener('dblclick', function(e) {
+        // Remove any existing double-click listeners to prevent duplicates
+        const existingHandler = questionCard._doubleClickHandler;
+        const existingClickHandler = questionCard._clickHandler;
+        if (existingHandler) {
+            questionCard.removeEventListener('dblclick', existingHandler);
+        }
+        if (existingClickHandler) {
+            questionCard.removeEventListener('click', existingClickHandler);
+            questionCard.removeEventListener('touchstart', existingClickHandler);
+        }
+        
+        // Create the double-click handler function
+        const handleDoubleClick = function(e) {
             console.log('🖱️ Double-click detected on question card');
+            console.log('🖱️ Event details:', {
+                clientY: e.clientY,
+                target: e.target,
+                currentTarget: e.currentTarget,
+                timeStamp: e.timeStamp
+            });
+            
+            // Prevent event bubbling to avoid conflicts
+            e.preventDefault();
+            e.stopPropagation();
             
             // Check if click is in the top 50% of the question card (same as swipe area)
             const rect = questionCard.getBoundingClientRect();
@@ -2285,17 +2307,95 @@ function displayCurrentQuestion() {
             const cardHeight = rect.height;
             const top50Percent = cardHeight * 0.5;
             
+            console.log('🖱️ Position check:', {
+                clickY: clickY,
+                cardHeight: cardHeight,
+                top50Percent: top50Percent,
+                isInTop50: clickY <= top50Percent
+            });
+            
             if (clickY <= top50Percent) {
                 console.log('✅ Double-click in top 50% - showing answer');
                 // Only show answer if it's not already shown
                 if (!state.isAnswerShown) {
                     console.log('✅ Showing answer via double-click');
                     showAnswer();
+                } else {
+                    console.log('⚠️ Answer already shown, ignoring double-click');
                 }
             } else {
                 console.log('❌ Double-click in bottom 50% - ignoring');
             }
-        });
+        };
+        
+        // Add reliable double-click detection using click counter (faster and mobile-friendly)
+        let clickCount = 0;
+        let clickTimer = null;
+        
+        const handleClick = function(e) {
+            console.log('🖱️ Click detected - count:', clickCount + 1);
+            
+            // Prevent event bubbling to avoid conflicts
+            e.preventDefault();
+            e.stopPropagation();
+            
+            clickCount++;
+            
+            // Clear existing timer
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+            }
+            
+            // Set timer for double-click detection (200ms window - faster!)
+            clickTimer = setTimeout(() => {
+                if (clickCount === 2) {
+                    console.log('🖱️ Double-click detected via click counter');
+                    
+                    // Check if click is in the top 50% of the question card
+                    const rect = questionCard.getBoundingClientRect();
+                    const clickY = e.clientY - rect.top;
+                    const cardHeight = rect.height;
+                    const top50Percent = cardHeight * 0.5;
+                    
+                    console.log('🖱️ Position check:', {
+                        clickY: clickY,
+                        cardHeight: cardHeight,
+                        top50Percent: top50Percent,
+                        isInTop50: clickY <= top50Percent
+                    });
+                    
+                    if (clickY <= top50Percent) {
+                        console.log('✅ Double-click in top 50% - showing answer');
+                        if (!state.isAnswerShown) {
+                            console.log('✅ Showing answer via double-click');
+                            showAnswer();
+                        } else {
+                            console.log('⚠️ Answer already shown, ignoring double-click');
+                        }
+                    } else {
+                        console.log('❌ Double-click in bottom 50% - ignoring');
+                    }
+                }
+                clickCount = 0;
+            }, 200); // Faster: 200ms instead of 300ms
+        };
+        
+        // Store reference to handlers for cleanup
+        questionCard._doubleClickHandler = handleDoubleClick;
+        questionCard._clickHandler = handleClick;
+        
+        // Add both click and touchstart events for mobile compatibility
+        questionCard.addEventListener('click', handleClick);
+        questionCard.addEventListener('touchstart', handleClick);
+        console.log('✅ Fast double-click event listener added (mobile-friendly)');
+        
+        // Add a temporary visual indicator for testing
+        questionCard.style.border = '2px dashed rgba(255, 255, 255, 0.3)';
+        setTimeout(() => {
+            questionCard.style.border = '';
+        }, 2000);
+    } else {
+        console.error('❌ Question card not found for double-click listener');
     }
     
     // Add visual hint for double-click functionality
