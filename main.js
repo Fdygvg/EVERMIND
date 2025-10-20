@@ -2332,53 +2332,92 @@ function displayCurrentQuestion() {
         let clickCount = 0;
         let clickTimer = null;
         
-        const handleClick = function(e) {
-            console.log('🖱️ Click detected - count:', clickCount + 1);
-            
-            // Prevent event bubbling to avoid conflicts
-            e.preventDefault();
-            e.stopPropagation();
-            
-            clickCount++;
-            
-            // Clear existing timer
-            if (clickTimer) {
-                clearTimeout(clickTimer);
-            }
-            
-            // Set timer for double-click detection (200ms window - faster!)
-            clickTimer = setTimeout(() => {
-                if (clickCount === 2) {
-                    console.log('🖱️ Double-click detected via click counter');
-                    
-                    // Check if click is in the top 50% of the question card
-                    const rect = questionCard.getBoundingClientRect();
-                    const clickY = e.clientY - rect.top;
-                    const cardHeight = rect.height;
-                    const top50Percent = cardHeight * 0.5;
-                    
-                    console.log('🖱️ Position check:', {
-                        clickY: clickY,
-                        cardHeight: cardHeight,
-                        top50Percent: top50Percent,
-                        isInTop50: clickY <= top50Percent
-                    });
-                    
-                    if (clickY <= top50Percent) {
-                        console.log('✅ Double-click in top 50% - showing answer');
-                        if (!state.isAnswerShown) {
-                            console.log('✅ Showing answer via double-click');
-                            showAnswer();
-                        } else {
-                            console.log('⚠️ Answer already shown, ignoring double-click');
-                        }
-                    } else {
-                        console.log('❌ Double-click in bottom 50% - ignoring');
-                    }
-                }
-                clickCount = 0;
-            }, 200); // Faster: 200ms instead of 300ms
-        };
+           const handleClick = function(e) {
+               console.log('🖱️ Click detected - count:', clickCount + 1);
+               
+               // Prevent event bubbling to avoid conflicts
+               e.preventDefault();
+               e.stopPropagation();
+               
+               clickCount++;
+               
+               // Clear existing timer
+               if (clickTimer) {
+                   clearTimeout(clickTimer);
+               }
+               
+               // Set timer for double-click detection (200ms window - faster!)
+               clickTimer = setTimeout(() => {
+                   if (clickCount === 2) {
+                       console.log('🖱️ Double-click detected via click counter');
+                       
+                       // Get click position - handle both mouse and touch events
+                       let clickY;
+                       if (e.touches && e.touches.length > 0) {
+                           // Touch event
+                           clickY = e.touches[0].clientY;
+                           console.log('📱 Touch event detected');
+                       } else {
+                           // Mouse event
+                           clickY = e.clientY;
+                           console.log('🖱️ Mouse event detected');
+                       }
+                       
+                       // Get question card position and dimensions
+                       const rect = questionCard.getBoundingClientRect();
+                       const relativeClickY = clickY - rect.top;
+                       const cardHeight = rect.height;
+                       const top50Percent = cardHeight * 0.5;
+                       
+                       console.log('🖱️ Position check:', {
+                           clickY: clickY,
+                           rectTop: rect.top,
+                           relativeClickY: relativeClickY,
+                           cardHeight: cardHeight,
+                           top50Percent: top50Percent,
+                           isInTop50: relativeClickY <= top50Percent,
+                           eventType: e.type,
+                           hasTouches: e.touches ? e.touches.length : 0
+                       });
+                       
+                       // For mobile, be more lenient with the top 50% check
+                       // Allow clicks in the top 60% on mobile devices
+                       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                       const allowedTopPercent = isMobile ? 0.6 : 0.5;
+                       const allowedTopArea = cardHeight * allowedTopPercent;
+                       
+                       // Check if position calculation is valid
+                       const isValidPosition = !isNaN(relativeClickY) && relativeClickY >= 0 && relativeClickY <= cardHeight;
+                       
+                       if (!isValidPosition) {
+                           console.log('⚠️ Invalid position calculation, allowing double-click anywhere on mobile');
+                           if (isMobile) {
+                               console.log('✅ Mobile fallback - showing answer');
+                               if (!state.isAnswerShown) {
+                                   showAnswer();
+                               }
+                               return;
+                           }
+                       }
+                       
+                       if (relativeClickY <= allowedTopArea) {
+                           console.log('✅ Double-click in allowed area - showing answer');
+                           if (!state.isAnswerShown) {
+                               console.log('✅ Showing answer via double-click');
+                               showAnswer();
+                           } else {
+                               console.log('⚠️ Answer already shown, ignoring double-click');
+                           }
+                       } else {
+                           console.log('❌ Double-click outside allowed area - ignoring');
+                           console.log('📱 Mobile device detected:', isMobile);
+                           console.log('📱 Allowed area:', allowedTopArea, 'vs clicked:', relativeClickY);
+                           console.log('📱 Position valid:', isValidPosition);
+                       }
+                   }
+                   clickCount = 0;
+               }, 200); // Faster: 200ms instead of 300ms
+           };
         
         // Store reference to handlers for cleanup
         questionCard._doubleClickHandler = handleDoubleClick;
@@ -2389,11 +2428,40 @@ function displayCurrentQuestion() {
         questionCard.addEventListener('touchstart', handleClick);
         console.log('✅ Fast double-click event listener added (mobile-friendly)');
         
-        // Add a temporary visual indicator for testing
-        questionCard.style.border = '2px dashed rgba(255, 255, 255, 0.3)';
-        setTimeout(() => {
-            questionCard.style.border = '';
-        }, 2000);
+           // Add a temporary visual indicator for testing (mobile-friendly)
+           const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+           if (isMobile) {
+               // Add a subtle overlay to show the allowed double-click area
+               const overlay = document.createElement('div');
+               overlay.style.cssText = `
+                   position: absolute;
+                   top: 0;
+                   left: 0;
+                   right: 0;
+                   height: 60%;
+                   background: linear-gradient(to bottom, rgba(0, 255, 0, 0.1), transparent);
+                   pointer-events: none;
+                   z-index: 10;
+                   border: 1px dashed rgba(0, 255, 0, 0.3);
+               `;
+               overlay.id = 'double-click-indicator';
+               questionCard.style.position = 'relative';
+               questionCard.appendChild(overlay);
+               
+               // Remove after 5 seconds
+               setTimeout(() => {
+                   const indicator = document.getElementById('double-click-indicator');
+                   if (indicator) {
+                       indicator.remove();
+                   }
+               }, 5000);
+           } else {
+               // Desktop indicator
+               questionCard.style.border = '2px dashed rgba(255, 255, 255, 0.3)';
+               setTimeout(() => {
+                   questionCard.style.border = '';
+               }, 2000);
+           }
     } else {
         console.error('❌ Question card not found for double-click listener');
     }

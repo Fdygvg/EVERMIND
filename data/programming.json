@@ -85,12 +85,12 @@
     "type": "shell",
     "tags": ["git"]
   },
-{
+  {
   "question": "How do you open Command Prompt or PowerShell directly from File Explorer in a directory?",
   "answer": "Go to the folder location in File Explorer. To open Command Prompt, click the address/search bar, type `cmd`, and press Enter. To open PowerShell, click the address bar, type `powershell`, and press Enter. Alternatively, you can hold Shift, then right-click on an empty area in the folder and choose 'Open PowerShell window here' or 'Open Command window here' if the option is available.",
-  "type": "shell",
-  "tags": ["terminal", "windows"]
-},
+    "type": "shell",
+    "tags": ["terminal", "windows"]
+  },
 
   {
     "question": "How do you run scrcpy?",
