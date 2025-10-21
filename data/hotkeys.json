@@ -56,13 +56,6 @@
     "code": "// Additional deletion shortcuts:\n// Backspace - Delete character to the left\n// Delete - Delete character to the right\n// Shift + Delete - Delete selected item permanently\n// Ctrl + Shift + Delete - Open disk cleanup"
   },
   {
-    "question": "What is the shortcut to open the command palette in VS Code?",
-    "answer": "**Ctrl + Shift + P**\n\nThis shortcut opens the Command Palette in VS Code, allowing you to access all commands and features.",
-    "type": "hotkeys",
-    "tags": ["vscode", "command-palette", "developer"],
-    "code": "// Additional VS Code shortcuts:\n// Ctrl + P - Quick Open (files)\n// Ctrl + Shift + N - New window\n// Ctrl + ` - Toggle terminal\n// Ctrl + B - Toggle sidebar\n// Ctrl + Shift + E - Focus explorer"
-  },
-  {
     "question": "What command do you use to open Run terminal and some common commands?",
     "answer": "**Windows + R** to open Run dialog\n\n**Common Run Commands:**\n- **msconfig** - System Configuration\n- **msinfo32** - System Information\n- **devmgmt.msc** - Device Manager\n- **services.msc** - Services\n- **eventvwr.msc** - Event Viewer\n- **gpedit.msc** - Group Policy Editor\n- **regedit** - Registry Editor\n- **cmd** - Command Prompt\n- **powershell** - PowerShell\n- **calc** - Calculator\n- **notepad** - Notepad\n- **mspaint** - Paint",
     "type": "hotkeys",
@@ -82,13 +75,6 @@
     "type": "hotkeys",
     "tags": ["vscode", "files", "productivity"],
     "code": "// Additional VS Code file shortcuts:\n// Ctrl + Shift + P - Command Palette\n// Ctrl + O - Open file dialog\n// Ctrl + N - New file\n// Ctrl + S - Save file"
-  },
-  {
-    "question": "Shortcut to go to definition of a symbol?",
-    "answer": "**F12**\n\nThis shortcut takes you directly to the definition of a function, variable, or symbol in VS Code. Place your cursor on the symbol and press F12.",
-    "type": "hotkeys",
-    "tags": ["vscode", "navigation", "code"],
-    "code": "// Related navigation shortcuts:\n// Alt + F12 - Peek definition (without leaving current file)\n// Ctrl + F12 - Go to implementation\n// Shift + F12 - Find all references\n// Ctrl + T - Go to symbol in workspace"
   },
   {
     "question": "Shortcut to peek definition without leaving the file?",
@@ -125,13 +111,7 @@
     "tags": ["vscode", "multi-cursor", "editing"],
     "code": "// Multi-cursor shortcuts:\n// Alt + Click - Add cursor at click position\n// Ctrl + Alt + Up/Down - Add cursor above/below\n// Ctrl + D - Select next occurrence of word\n// Ctrl + Shift + L - Select all occurrences\n// Escape - Exit multi-cursor mode"
   },
-  {
-    "question": "Shortcut to toggle terminal in VS Code?",
-    "answer": "**Ctrl + `** (backtick)\n\nThis opens/closes the integrated terminal in VS Code. The backtick key is usually located above the Tab key on most keyboards.",
-    "type": "hotkeys",
-    "tags": ["vscode", "terminal", "command"],
-    "code": "// Terminal shortcuts:\n// Ctrl + ` - Toggle terminal\n// Ctrl + Shift + ` - New terminal\n// Ctrl + Shift + C - Copy terminal text\n// Ctrl + Shift + V - Paste into terminal\n// Ctrl + C - Stop running command"
-  },
+  
   {
     "question": "Shortcut to find in files?",
     "answer": "**Ctrl + Shift + F**\n\nThis opens the Search panel to search for text across all files in your workspace. Much more powerful than regular find!",
@@ -139,6 +119,7 @@
     "tags": ["vscode", "search", "files"],
     "code": "// Search shortcuts:\n// Ctrl + Shift + F - Find in files\n// Ctrl + F - Find in current file\n// Ctrl + H - Find and replace in current file\n// Ctrl + Shift + H - Find and replace in files\n// F3 - Find next occurrence"
   },
+
   {
     "question": "Shortcut to replace in files?",
     "answer": "**Ctrl + Shift + H**\n\nThis opens the Search and Replace panel to find and replace text across multiple files in your workspace. Great for refactoring!",
@@ -175,10 +156,87 @@
     "code": "// Selection shortcuts:\n// Ctrl + A - Select all\n// Ctrl + C - Copy selected text\n// Ctrl + V - Paste text\n// Ctrl + X - Cut selected text\n// Ctrl + Z - Undo last action\n// Ctrl + Y - Redo last action"
   },
   {
-    "question": "Shortcut to jump between open tabs?",
-    "answer": "**Ctrl + Tab**\n\nThis cycles through open tabs in browsers and editors. Hold Ctrl and press Tab repeatedly to navigate through all open tabs.",
+    "question": "What is the shortcut to open multiple cursors at all matching words?",
+    "answer": "**Ctrl + Shift + L**\n\nThis VS Code shortcut selects all instances of the currently selected word and places cursors at each occurrence, allowing you to edit multiple instances simultaneously.",
     "type": "hotkeys",
-    "tags": ["tabs", "navigation", "browser"],
-    "code": "// Tab navigation:\n// Ctrl + Tab - Next tab\n// Ctrl + Shift + Tab - Previous tab\n// Ctrl + 1,2,3... - Jump to specific tab number\n// Ctrl + 9 - Jump to last tab\n// Alt + Left/Right - Navigate browser history"
+    "tags": ["vscode", "multi-cursor", "editing"],
+    "code": "// Multi-cursor shortcuts:\n// Ctrl + Shift + L - Select all matching words\n// Alt + Click - Add cursor at click position\n// Ctrl + Alt + Up/Down - Add cursor above/below\n// Ctrl + D - Select next occurrence of word\n// Ctrl + Shift + K - Delete current line"
+  },
+  {
+    "question": "What is the shortcut to toggle full-screen editor mode in VS Code?",
+    "answer": "**F11**\n\nThis shortcut toggles full-screen mode in VS Code, hiding the title bar and maximizing the editor to use the entire screen space.",
+    "type": "hotkeys",
+    "tags": ["vscode", "fullscreen", "editor"],
+    "code": "// Full-screen alternatives:\n// F11 - Toggle full-screen\n// Alt + Enter - Toggle full-screen (some apps)\n// F - Toggle full-screen (browsers)\n// Win + Up Arrow - Maximize window\n// Win + Down Arrow - Minimize window"
+  },
+  {
+    "question": "What is the shortcut to toggle Zen Mode in VS Code?",
+    "answer": "**Ctrl + K then Z**\n\nThis VS Code shortcut enters Zen Mode, which hides the sidebar, tabs, and other UI elements to provide a distraction-free coding environment.",
+    "type": "hotkeys",
+    "tags": ["vscode", "zen-mode", "focus"],
+    "code": "// Zen Mode shortcuts:\n// Ctrl + K then Z - Enter Zen Mode\n// Escape - Exit Zen Mode\n// Ctrl + B - Toggle sidebar visibility\n// Ctrl + Shift + P - Command palette\n// Ctrl + ` - Toggle terminal"
+  },
+  {
+    "question": "What is the shortcut to split the editor horizontally/vertically in VS Code?",
+    "answer": "**Ctrl + \\** (horizontal split)\n**Ctrl + K then \\** (vertical split)\n\nThese shortcuts split the VS Code editor to work with multiple files side by side or stacked vertically.",
+    "type": "hotkeys",
+    "tags": ["vscode", "split-editor", "multi-pane"],
+    "code": "// Editor splitting shortcuts:\n// Ctrl + \\ - Split editor horizontally\n// Ctrl + K then \\ - Split editor vertically\n// Ctrl + 1,2,3... - Focus specific editor group\n// Ctrl + Shift + P - Command palette\n// Ctrl + W - Close current editor"
+  },
+  {
+    "question": "What is the shortcut to close all open editors at once in VS Code?",
+    "answer": "**Ctrl + K then W**\n\nThis VS Code shortcut closes all open editor tabs at once, keeping VS Code open but clearing the workspace.",
+    "type": "hotkeys",
+    "tags": ["vscode", "close-editors", "workspace"],
+    "code": "// Editor management shortcuts:\n// Ctrl + K then W - Close all editors\n// Ctrl + W - Close current editor\n// Ctrl + Shift + T - Reopen closed editor\n// Ctrl + Tab - Switch between open editors\n// Ctrl + K then Ctrl + W - Close all editors in group"
+  },
+  {
+    "question": "What is the shortcut to view or hide the outline (symbols, functions list) in VS Code?",
+    "answer": "**Ctrl + Shift + O**\n\nThis VS Code shortcut opens the Outline view, showing all symbols, functions, classes, and other code structures in the current file for quick navigation.",
+    "type": "hotkeys",
+    "tags": ["vscode", "outline", "navigation"],
+    "code": "// Navigation shortcuts:\n// Ctrl + Shift + O - Go to symbol in file\n// Ctrl + T - Go to symbol in workspace\n// Ctrl + G - Go to line number\n// F12 - Go to definition\n// Alt + F12 - Peek definition"
+  },
+  {
+    "question": "What is the shortcut to duplicate a line or selection in VS Code?",
+    "answer": "**Shift + Alt + Down Arrow** (or **Up Arrow**)\n\nThis VS Code shortcut duplicates the current line or selected text, placing the copy above or below the original.",
+    "type": "hotkeys",
+    "tags": ["vscode", "duplicate", "line-editing"],
+    "code": "// Line manipulation shortcuts:\n// Shift + Alt + Down - Duplicate line down\n// Shift + Alt + Up - Duplicate line up\n// Alt + Up/Down - Move line up/down\n// Ctrl + Shift + K - Delete line\n// Ctrl + Enter - Insert line below"
+  },
+  {
+    "question": "What is the shortcut to move a line or block of code up or down in VS Code?",
+    "answer": "**Alt + Up Arrow** (move up) / **Alt + Down Arrow** (move down)\n\nThis VS Code shortcut moves the current line or selected block of code up or down without changing its content.",
+    "type": "hotkeys",
+    "tags": ["vscode", "move-line", "code-reorganization"],
+    "code": "// Line movement shortcuts:\n// Alt + Up/Down - Move line up/down\n// Shift + Alt + Up/Down - Duplicate line\n// Ctrl + Shift + K - Delete line\n// Ctrl + ] - Indent line\n// Ctrl + [ - Outdent line"
+  },
+  {
+    "question": "What is the shortcut to open a new instance of the integrated terminal in VS Code?",
+    "answer": "**Ctrl + Shift + `** (backtick key)\n\nThis VS Code shortcut opens a new terminal instance in the integrated terminal panel, allowing you to run multiple terminal sessions.",
+    "type": "hotkeys",
+    "tags": ["vscode", "terminal", "new-instance"],
+    "code": "// Terminal shortcuts:\n// Ctrl + Shift + ` - New terminal\n// Ctrl + ` - Toggle terminal\n// Ctrl + Shift + C - Open external terminal\n// Ctrl + Shift + 5 - Split terminal\n// Ctrl + Shift + P - Terminal commands"
+  },
+  {
+    "question": "What is the shortcut to toggle sidebar visibility in VS Code?",
+    "answer": "**Ctrl + B**\n\nThis VS Code shortcut toggles the sidebar (Explorer, Search, Source Control, etc.) on and off to maximize editor space.",
+    "type": "hotkeys",
+    "tags": ["vscode", "sidebar", "ui-toggle"],
+    "code": "// UI toggle shortcuts:\n// Ctrl + B - Toggle sidebar\n// Ctrl + J - Toggle panel (terminal, problems, output)\n// Ctrl + Shift + E - Focus Explorer\n// Ctrl + Shift + F - Focus Search\n// Ctrl + Shift + G - Focus Source Control"
+  },
+  {
+    "question": "What is the shortcut to jump to a specific line number in VS Code?",
+    "answer": "**Ctrl + G**\n\nThis VS Code shortcut opens the 'Go to Line' dialog, allowing you to quickly jump to any specific line number in the current file.",
+    "type": "hotkeys",
+    "tags": ["vscode", "goto-line", "navigation"],
+    "code": "// Navigation shortcuts:\n// Ctrl + G - Go to line\n// Ctrl + Shift + O - Go to symbol in file\n// Ctrl + T - Go to symbol in workspace\n// F12 - Go to definition\n// Alt + Left/Right - Go back/forward"
+  },
+  {
+    "question": "What is the shortcut to lock your computer instantly?",
+    "answer": "**Win + L**\n\nThis Windows shortcut instantly locks your computer, requiring a password or PIN to unlock. Useful for quickly securing your computer when stepping away.",
+    "type": "hotkeys",
+    "tags": ["windows", "security", "lock"],
+    "code": "// Security shortcuts:\n// Win + L - Lock computer\n// Ctrl + Alt + Del - Security options\n// Win + X - Power user menu\n// Alt + F4 - Close application\n// Ctrl + Shift + Esc - Task Manager"
   }
 ]

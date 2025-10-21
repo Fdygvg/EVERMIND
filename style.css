@@ -2994,7 +2994,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 50%;
+    height: 200px; /* Fixed height instead of 50% to ensure it's always visible */
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -3004,6 +3004,13 @@ body {
 
 .question-card:hover::before {
     opacity: 1;
+}
+
+/* Make swipe area more visible when answer is shown */
+.question-card.answer-shown::before {
+    opacity: 0.3;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
 }
 
 .answer-content {

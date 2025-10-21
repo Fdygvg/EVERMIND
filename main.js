@@ -2274,7 +2274,6 @@ function displayCurrentQuestion() {
     }
     
     // Add double-click event listener to reveal answer (only on top 50% of question card)
-    const questionCard = document.getElementById('questionCard');
     if (questionCard) {
         // Remove any existing double-click listeners to prevent duplicates
         const existingHandler = questionCard._doubleClickHandler;
@@ -2286,47 +2285,6 @@ function displayCurrentQuestion() {
             questionCard.removeEventListener('click', existingClickHandler);
             questionCard.removeEventListener('touchstart', existingClickHandler);
         }
-        
-        // Create the double-click handler function
-        const handleDoubleClick = function(e) {
-            console.log('🖱️ Double-click detected on question card');
-            console.log('🖱️ Event details:', {
-                clientY: e.clientY,
-                target: e.target,
-                currentTarget: e.currentTarget,
-                timeStamp: e.timeStamp
-            });
-            
-            // Prevent event bubbling to avoid conflicts
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // Check if click is in the top 50% of the question card (same as swipe area)
-            const rect = questionCard.getBoundingClientRect();
-            const clickY = e.clientY - rect.top;
-            const cardHeight = rect.height;
-            const top50Percent = cardHeight * 0.5;
-            
-            console.log('🖱️ Position check:', {
-                clickY: clickY,
-                cardHeight: cardHeight,
-                top50Percent: top50Percent,
-                isInTop50: clickY <= top50Percent
-            });
-            
-            if (clickY <= top50Percent) {
-                console.log('✅ Double-click in top 50% - showing answer');
-                // Only show answer if it's not already shown
-                if (!state.isAnswerShown) {
-                    console.log('✅ Showing answer via double-click');
-                    showAnswer();
-                } else {
-                    console.log('⚠️ Answer already shown, ignoring double-click');
-                }
-            } else {
-                console.log('❌ Double-click in bottom 50% - ignoring');
-            }
-        };
         
         // Add reliable double-click detection using click counter (faster and mobile-friendly)
         let clickCount = 0;
@@ -2367,7 +2325,9 @@ function displayCurrentQuestion() {
                        const rect = questionCard.getBoundingClientRect();
                        const relativeClickY = clickY - rect.top;
                        const cardHeight = rect.height;
-                       const top50Percent = cardHeight * 0.5;
+                       // Use a fixed height for the swipe area instead of percentage to ensure it's always accessible
+                       const swipeAreaHeight = Math.min(200, cardHeight * 0.5); // Max 200px or 50% of card height
+                       const top50Percent = swipeAreaHeight;
                        
                        console.log('🖱️ Position check:', {
                            clickY: clickY,
@@ -2380,28 +2340,18 @@ function displayCurrentQuestion() {
                            hasTouches: e.touches ? e.touches.length : 0
                        });
                        
-                       // For mobile, be more lenient with the top 50% check
-                       // Allow clicks in the top 60% on mobile devices
-                       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                       const allowedTopPercent = isMobile ? 0.6 : 0.5;
-                       const allowedTopArea = cardHeight * allowedTopPercent;
-                       
                        // Check if position calculation is valid
                        const isValidPosition = !isNaN(relativeClickY) && relativeClickY >= 0 && relativeClickY <= cardHeight;
                        
                        if (!isValidPosition) {
-                           console.log('⚠️ Invalid position calculation, allowing double-click anywhere on mobile');
-                           if (isMobile) {
-                               console.log('✅ Mobile fallback - showing answer');
-                               if (!state.isAnswerShown) {
-                                   showAnswer();
-                               }
-                               return;
-                           }
+                           console.log('⚠️ Invalid position calculation - ignoring double-click');
+                           return;
                        }
                        
-                       if (relativeClickY <= allowedTopArea) {
-                           console.log('✅ Double-click in allowed area - showing answer');
+                       // Only allow double-click in top 50% of the card (same as swipe gesture)
+                       
+                       if (relativeClickY <= top50Percent) {
+                           console.log('✅ Double-click in top 50% - showing answer');
                            if (!state.isAnswerShown) {
                                console.log('✅ Showing answer via double-click');
                                showAnswer();
@@ -2409,59 +2359,21 @@ function displayCurrentQuestion() {
                                console.log('⚠️ Answer already shown, ignoring double-click');
                            }
                        } else {
-                           console.log('❌ Double-click outside allowed area - ignoring');
-                           console.log('📱 Mobile device detected:', isMobile);
-                           console.log('📱 Allowed area:', allowedTopArea, 'vs clicked:', relativeClickY);
-                           console.log('📱 Position valid:', isValidPosition);
+                           console.log('❌ Double-click outside top 50% - ignoring');
+                           console.log('📱 Clicked at:', relativeClickY, 'vs allowed area:', top50Percent);
                        }
                    }
                    clickCount = 0;
                }, 200); // Faster: 200ms instead of 300ms
            };
         
-        // Store reference to handlers for cleanup
-        questionCard._doubleClickHandler = handleDoubleClick;
+        // Store reference to handler for cleanup
         questionCard._clickHandler = handleClick;
         
         // Add both click and touchstart events for mobile compatibility
         questionCard.addEventListener('click', handleClick);
         questionCard.addEventListener('touchstart', handleClick);
-        console.log('✅ Fast double-click event listener added (mobile-friendly)');
-        
-           // Add a temporary visual indicator for testing (mobile-friendly)
-           const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-           if (isMobile) {
-               // Add a subtle overlay to show the allowed double-click area
-               const overlay = document.createElement('div');
-               overlay.style.cssText = `
-                   position: absolute;
-                   top: 0;
-                   left: 0;
-                   right: 0;
-                   height: 60%;
-                   background: linear-gradient(to bottom, rgba(0, 255, 0, 0.1), transparent);
-                   pointer-events: none;
-                   z-index: 10;
-                   border: 1px dashed rgba(0, 255, 0, 0.3);
-               `;
-               overlay.id = 'double-click-indicator';
-               questionCard.style.position = 'relative';
-               questionCard.appendChild(overlay);
-               
-               // Remove after 5 seconds
-               setTimeout(() => {
-                   const indicator = document.getElementById('double-click-indicator');
-                   if (indicator) {
-                       indicator.remove();
-                   }
-               }, 5000);
-           } else {
-               // Desktop indicator
-               questionCard.style.border = '2px dashed rgba(255, 255, 255, 0.3)';
-               setTimeout(() => {
-                   questionCard.style.border = '';
-               }, 2000);
-           }
+        console.log('✅ Fast double-click event listener added (top 50% only)');
     } else {
         console.error('❌ Question card not found for double-click listener');
     }
@@ -2615,6 +2527,11 @@ function displayCurrentQuestion() {
     document.getElementById('answerControls').style.display = 'none';
     state.isAnswerShown = false;
     
+    // Remove answer-shown class to reset swipe area visibility
+    if (questionCard) {
+        questionCard.classList.remove('answer-shown');
+    }
+    
     // Initialize timer for this question if timer mode is enabled
     if (timerMode.enabled) {
         console.log('⏱️ Timer mode enabled, initializing timer for new question');
@@ -2627,6 +2544,12 @@ function showAnswer() {
     document.getElementById('showAnswerBtn').style.display = 'none';
     document.getElementById('answerControls').style.display = 'flex';
     state.isAnswerShown = true;
+    
+    // Add class to make swipe area more visible
+    const questionCard = document.getElementById('questionCard');
+    if (questionCard) {
+        questionCard.classList.add('answer-shown');
+    }
     
     if (window.SoundEffects && typeof window.SoundEffects.playSound === 'function') {
         window.SoundEffects.playSound('click');
@@ -4420,7 +4343,9 @@ function isTouchInTopHalf(touch) {
     const cardLeft = rect.left;
     
     // Calculate the central swipe zone boundaries
-    const cardMiddle = cardTop + (cardHeight / 2); // Top 50% height
+    // Use a fixed height for the swipe area instead of percentage to ensure it's always accessible
+    const swipeAreaHeight = Math.min(200, cardHeight * 0.5); // Max 200px or 50% of card height
+    const cardMiddle = cardTop + swipeAreaHeight;
     const leftBoundary = cardLeft + (cardWidth * 0.3); // Remove 30% from left
     const rightBoundary = cardLeft + (cardWidth * 0.7); // Remove 30% from right (keep middle 40%)
     
@@ -4441,7 +4366,9 @@ function isMouseInTopHalf(mouseEvent) {
     const cardLeft = rect.left;
     
     // Calculate the central swipe zone boundaries
-    const cardMiddle = cardTop + (cardHeight / 2); // Top 50% height
+    // Use a fixed height for the swipe area instead of percentage to ensure it's always accessible
+    const swipeAreaHeight = Math.min(200, cardHeight * 0.5); // Max 200px or 50% of card height
+    const cardMiddle = cardTop + swipeAreaHeight;
     const leftBoundary = cardLeft + (cardWidth * 0.3); // Remove 30% from left
     const rightBoundary = cardLeft + (cardWidth * 0.7); // Remove 30% from right (keep middle 40%)
     

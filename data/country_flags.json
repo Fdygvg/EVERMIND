@@ -543,5 +543,80 @@
     "question": "Which country's flag is this?",
     "image": "https://flagcdn.com/w320/kh.png",
     "answer": "Cambodia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/kp.png",
+    "answer": "North Korea"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mn.png",
+    "answer": "Mongolia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mv.png",
+    "answer": "Maldives"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/il.png",
+    "answer": "Israel"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ps.png",
+    "answer": "Palestine"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/cy.png",
+    "answer": "Cyprus"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/am.png",
+    "answer": "Armenia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/az.png",
+    "answer": "Azerbaijan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ge.png",
+    "answer": "Georgia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/kz.png",
+    "answer": "Kazakhstan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/uz.png",
+    "answer": "Uzbekistan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/tm.png",
+    "answer": "Turkmenistan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/kg.png",
+    "answer": "Kyrgyzstan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/tj.png",
+    "answer": "Tajikistan"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ir.png",
+    "answer": "Iran"
   }
 ]
