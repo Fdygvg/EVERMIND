@@ -2325,8 +2325,8 @@ function displayCurrentQuestion() {
                        const rect = questionCard.getBoundingClientRect();
                        const relativeClickY = clickY - rect.top;
                        const cardHeight = rect.height;
-                       // Use a fixed height for the swipe area instead of percentage to ensure it's always accessible
-                       const swipeAreaHeight = Math.min(200, cardHeight * 0.5); // Max 200px or 50% of card height
+                       // Always use top 200px of the question card, regardless of answer content
+                       const swipeAreaHeight = 200; // Fixed 200px from top
                        const top50Percent = swipeAreaHeight;
                        
                        console.log('🖱️ Position check:', {
@@ -4331,20 +4331,19 @@ const SWIPE_THRESHOLDS = {
 // Debounce delay
 const SWIPE_DEBOUNCE = 150; // milliseconds
 
-// Helper function to check if touch is in the central swipe zone (top 50% height, middle 40% width)
+// Helper function to check if touch is in the central swipe zone (top 200px of question content)
 function isTouchInTopHalf(touch) {
     const questionCard = document.getElementById('questionCard');
     if (!questionCard) return false;
     
     const rect = questionCard.getBoundingClientRect();
-    const cardHeight = rect.height;
     const cardWidth = rect.width;
     const cardTop = rect.top;
     const cardLeft = rect.left;
     
     // Calculate the central swipe zone boundaries
-    // Use a fixed height for the swipe area instead of percentage to ensure it's always accessible
-    const swipeAreaHeight = Math.min(200, cardHeight * 0.5); // Max 200px or 50% of card height
+    // Always use top 200px of the question card, regardless of answer content
+    const swipeAreaHeight = 200; // Fixed 200px from top
     const cardMiddle = cardTop + swipeAreaHeight;
     const leftBoundary = cardLeft + (cardWidth * 0.3); // Remove 30% from left
     const rightBoundary = cardLeft + (cardWidth * 0.7); // Remove 30% from right (keep middle 40%)
@@ -4354,20 +4353,19 @@ function isTouchInTopHalf(touch) {
            touch.clientX >= leftBoundary && touch.clientX <= rightBoundary;
 }
 
-// Helper function to check if mouse click is in the central swipe zone (top 50% height, middle 40% width)
+// Helper function to check if mouse click is in the central swipe zone (top 200px of question content)
 function isMouseInTopHalf(mouseEvent) {
     const questionCard = document.getElementById('questionCard');
     if (!questionCard) return false;
     
     const rect = questionCard.getBoundingClientRect();
-    const cardHeight = rect.height;
     const cardWidth = rect.width;
     const cardTop = rect.top;
     const cardLeft = rect.left;
     
     // Calculate the central swipe zone boundaries
-    // Use a fixed height for the swipe area instead of percentage to ensure it's always accessible
-    const swipeAreaHeight = Math.min(200, cardHeight * 0.5); // Max 200px or 50% of card height
+    // Always use top 200px of the question card, regardless of answer content
+    const swipeAreaHeight = 200; // Fixed 200px from top
     const cardMiddle = cardTop + swipeAreaHeight;
     const leftBoundary = cardLeft + (cardWidth * 0.3); // Remove 30% from left
     const rightBoundary = cardLeft + (cardWidth * 0.7); // Remove 30% from right (keep middle 40%)
