@@ -2278,24 +2278,103 @@ function displayCurrentQuestion() {
         // Remove any existing double-click listeners to prevent duplicates
         const existingHandler = questionCard._doubleClickHandler;
         const existingClickHandler = questionCard._clickHandler;
+        const existingMobileTouchHandler = questionCard._mobileTouchHandler;
         if (existingHandler) {
             questionCard.removeEventListener('dblclick', existingHandler);
         }
         if (existingClickHandler) {
             questionCard.removeEventListener('click', existingClickHandler);
-            questionCard.removeEventListener('touchstart', existingClickHandler);
+        }
+        if (existingMobileTouchHandler) {
+            questionCard.removeEventListener('touchstart', existingMobileTouchHandler);
         }
         
         // Add reliable double-click detection using click counter (faster and mobile-friendly)
         let clickCount = 0;
         let clickTimer = null;
         
+        // Mobile-specific touch handler
+        const handleMobileTouch = function(e) {
+            console.log('📱 Mobile touch detected');
+            
+            // Get touch position
+            const touch = e.touches[0];
+            if (!touch) return;
+            
+            const clickY = touch.clientY;
+            const clickX = touch.clientX;
+            
+            // Get question card position and dimensions
+            const rect = questionCard.getBoundingClientRect();
+            const relativeClickY = clickY - rect.top;
+            const relativeClickX = clickX - rect.left;
+            const cardHeight = rect.height;
+            const cardWidth = rect.width;
+            
+            // Top 50% vertically
+            const swipeAreaHeight = cardHeight * 0.5;
+            
+            // Middle 40% horizontally (30% from each edge)
+            const leftBoundary = cardWidth * 0.3;
+            const rightBoundary = cardWidth * 0.7;
+            
+            console.log('📱 Mobile position check:', {
+                clickY: clickY,
+                clickX: clickX,
+                relativeClickY: relativeClickY,
+                relativeClickX: relativeClickX,
+                swipeAreaHeight: swipeAreaHeight,
+                leftBoundary: leftBoundary,
+                rightBoundary: rightBoundary
+            });
+            
+            // Check if position calculation is valid
+            const isValidPosition = !isNaN(relativeClickY) && !isNaN(relativeClickX) && 
+                                   relativeClickY >= 0 && relativeClickY <= cardHeight &&
+                                   relativeClickX >= 0 && relativeClickX <= cardWidth;
+            
+            if (!isValidPosition) {
+                console.log('⚠️ Invalid mobile position calculation - ignoring');
+                return;
+            }
+            
+            // Check both vertical AND horizontal boundaries
+            const isInSwipeArea = relativeClickY <= swipeAreaHeight && 
+                                 relativeClickX >= leftBoundary && 
+                                 relativeClickX <= rightBoundary;
+            
+            if (isInSwipeArea) {
+                console.log('📱 Mobile touch in allowed area - processing double-tap');
+                clickCount++;
+                
+                // Clear existing timer
+                if (clickTimer) {
+                    clearTimeout(clickTimer);
+                }
+                
+                // Set timer for double-tap detection (300ms for mobile)
+                clickTimer = setTimeout(() => {
+                    if (clickCount === 2) {
+                        console.log('📱 Double-tap detected on mobile');
+                        // Only prevent event when we're actually handling the double-tap
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!state.isAnswerShown) {
+                            console.log('📱 Showing answer via double-tap');
+                            showAnswer();
+                        } else {
+                            console.log('📱 Answer already shown, ignoring double-tap');
+                        }
+                    }
+                    clickCount = 0;
+                }, 300); // Slightly longer for mobile
+            } else {
+                console.log('📱 Mobile touch outside allowed area - ignoring');
+            }
+        };
+        
            const handleClick = function(e) {
                console.log('🖱️ Click detected - count:', clickCount + 1);
-               
-               // Prevent event bubbling to avoid conflicts
-               e.preventDefault();
-               e.stopPropagation();
                
                clickCount++;
                
@@ -2311,47 +2390,69 @@ function displayCurrentQuestion() {
                        
                        // Get click position - handle both mouse and touch events
                        let clickY;
+                       let clickX;
                        if (e.touches && e.touches.length > 0) {
                            // Touch event
                            clickY = e.touches[0].clientY;
+                           clickX = e.touches[0].clientX;
                            console.log('📱 Touch event detected');
                        } else {
                            // Mouse event
                            clickY = e.clientY;
+                           clickX = e.clientX;
                            console.log('🖱️ Mouse event detected');
                        }
                        
                        // Get question card position and dimensions
                        const rect = questionCard.getBoundingClientRect();
                        const relativeClickY = clickY - rect.top;
+                       const relativeClickX = clickX - rect.left;
                        const cardHeight = rect.height;
-                       // Always use top 200px of the question card, regardless of answer content
-                       const swipeAreaHeight = 200; // Fixed 200px from top
-                       const top50Percent = swipeAreaHeight;
+                       const cardWidth = rect.width;
+                       
+                       // Top 50% vertically
+                       const swipeAreaHeight = cardHeight * 0.5;
+                       
+                       // Middle 40% horizontally (30% from each edge)
+                       const leftBoundary = cardWidth * 0.3;
+                       const rightBoundary = cardWidth * 0.7;
                        
                        console.log('🖱️ Position check:', {
                            clickY: clickY,
+                           clickX: clickX,
                            rectTop: rect.top,
+                           rectLeft: rect.left,
                            relativeClickY: relativeClickY,
+                           relativeClickX: relativeClickX,
                            cardHeight: cardHeight,
-                           top50Percent: top50Percent,
-                           isInTop50: relativeClickY <= top50Percent,
+                           cardWidth: cardWidth,
+                           swipeAreaHeight: swipeAreaHeight,
+                           leftBoundary: leftBoundary,
+                           rightBoundary: rightBoundary,
                            eventType: e.type,
                            hasTouches: e.touches ? e.touches.length : 0
                        });
                        
                        // Check if position calculation is valid
-                       const isValidPosition = !isNaN(relativeClickY) && relativeClickY >= 0 && relativeClickY <= cardHeight;
+                       const isValidPosition = !isNaN(relativeClickY) && !isNaN(relativeClickX) && 
+                                              relativeClickY >= 0 && relativeClickY <= cardHeight &&
+                                              relativeClickX >= 0 && relativeClickX <= cardWidth;
                        
                        if (!isValidPosition) {
                            console.log('⚠️ Invalid position calculation - ignoring double-click');
                            return;
                        }
                        
-                       // Only allow double-click in top 50% of the card (same as swipe gesture)
+                       // Check both vertical AND horizontal boundaries
+                       const isInSwipeArea = relativeClickY <= swipeAreaHeight && 
+                                           relativeClickX >= leftBoundary && 
+                                           relativeClickX <= rightBoundary;
                        
-                       if (relativeClickY <= top50Percent) {
-                           console.log('✅ Double-click in top 50% - showing answer');
+                       if (isInSwipeArea) {
+                           console.log('✅ Double-click in allowed area - showing answer');
+                           // Only prevent event when we're actually handling the double-click
+                           e.preventDefault();
+                           e.stopPropagation();
                            if (!state.isAnswerShown) {
                                console.log('✅ Showing answer via double-click');
                                showAnswer();
@@ -2359,21 +2460,25 @@ function displayCurrentQuestion() {
                                console.log('⚠️ Answer already shown, ignoring double-click');
                            }
                        } else {
-                           console.log('❌ Double-click outside top 50% - ignoring');
-                           console.log('📱 Clicked at:', relativeClickY, 'vs allowed area:', top50Percent);
+                           console.log('❌ Double-click outside allowed area - ignoring');
+                           console.log('📱 Clicked at:', relativeClickY, relativeClickX, 'vs allowed area:', swipeAreaHeight, leftBoundary, rightBoundary);
                        }
                    }
                    clickCount = 0;
                }, 200); // Faster: 200ms instead of 300ms
            };
         
-        // Store reference to handler for cleanup
+        // Store reference to handlers for cleanup
         questionCard._clickHandler = handleClick;
+        questionCard._mobileTouchHandler = handleMobileTouch;
         
         // Add both click and touchstart events for mobile compatibility
+        // Use different handlers for mobile vs desktop to avoid conflicts
         questionCard.addEventListener('click', handleClick);
-        questionCard.addEventListener('touchstart', handleClick);
-        console.log('✅ Fast double-click event listener added (top 50% only)');
+        
+        // Add mobile-specific touch handler with proper event handling
+        questionCard.addEventListener('touchstart', handleMobileTouch, { passive: false });
+        console.log('✅ Fast double-click event listener added (mobile-friendly)');
     } else {
         console.error('❌ Question card not found for double-click listener');
     }
@@ -4331,19 +4436,25 @@ const SWIPE_THRESHOLDS = {
 // Debounce delay
 const SWIPE_DEBOUNCE = 150; // milliseconds
 
-// Helper function to check if touch is in the central swipe zone (top 200px of question content)
+// Mobile device detection
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Helper function to check if touch is in the central swipe zone (top 50% height, middle 40% width)
 function isTouchInTopHalf(touch) {
     const questionCard = document.getElementById('questionCard');
     if (!questionCard) return false;
     
     const rect = questionCard.getBoundingClientRect();
+    const cardHeight = rect.height;
     const cardWidth = rect.width;
     const cardTop = rect.top;
     const cardLeft = rect.left;
     
     // Calculate the central swipe zone boundaries
-    // Always use top 200px of the question card, regardless of answer content
-    const swipeAreaHeight = 200; // Fixed 200px from top
+    // Top 50% of card height, middle 40% width (30% removed from each edge)
+    const swipeAreaHeight = cardHeight * 0.5; // Top 50% of card height
     const cardMiddle = cardTop + swipeAreaHeight;
     const leftBoundary = cardLeft + (cardWidth * 0.3); // Remove 30% from left
     const rightBoundary = cardLeft + (cardWidth * 0.7); // Remove 30% from right (keep middle 40%)
@@ -4353,19 +4464,20 @@ function isTouchInTopHalf(touch) {
            touch.clientX >= leftBoundary && touch.clientX <= rightBoundary;
 }
 
-// Helper function to check if mouse click is in the central swipe zone (top 200px of question content)
+// Helper function to check if mouse click is in the central swipe zone (top 50% height, middle 40% width)
 function isMouseInTopHalf(mouseEvent) {
     const questionCard = document.getElementById('questionCard');
     if (!questionCard) return false;
     
     const rect = questionCard.getBoundingClientRect();
+    const cardHeight = rect.height;
     const cardWidth = rect.width;
     const cardTop = rect.top;
     const cardLeft = rect.left;
     
     // Calculate the central swipe zone boundaries
-    // Always use top 200px of the question card, regardless of answer content
-    const swipeAreaHeight = 200; // Fixed 200px from top
+    // Top 50% of card height, middle 40% width (30% removed from each edge)
+    const swipeAreaHeight = cardHeight * 0.5; // Top 50% of card height
     const cardMiddle = cardTop + swipeAreaHeight;
     const leftBoundary = cardLeft + (cardWidth * 0.3); // Remove 30% from left
     const rightBoundary = cardLeft + (cardWidth * 0.7); // Remove 30% from right (keep middle 40%)
@@ -4378,6 +4490,10 @@ function isMouseInTopHalf(mouseEvent) {
 function initSwipeGestures() {
     const questionCard = document.getElementById('questionCard');
     if (!questionCard) return;
+    
+    console.log('📱 Initializing swipe gestures...');
+    console.log('📱 Mobile device detected:', isMobileDevice());
+    console.log('📱 User agent:', navigator.userAgent);
     
     // Add touch event listeners
     questionCard.addEventListener('touchstart', handleTouchStart, { passive: false });
@@ -4396,7 +4512,7 @@ function initSwipeGestures() {
     // Hide swipe hint after first interaction
     hideSwipeHintAfterDelay();
     
-    console.log('Swipe gestures initialized');
+    console.log('✅ Swipe gestures initialized successfully');
 }
 
 // Hide swipe hint after a delay or first interaction
@@ -4430,11 +4546,19 @@ function hideSwipeHintAfterDelay() {
 function handleTouchStart(e) {
     const touch = e.touches[0];
     
+    console.log('📱 Touch start detected:', {
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        isInTopHalf: isTouchInTopHalf(touch)
+    });
+    
     // Check if touch is in the top 50% of the question card
     if (!isTouchInTopHalf(touch)) {
+        console.log('📱 Touch outside swipe area - ignoring');
         return; // Ignore touches in bottom half
     }
     
+    console.log('📱 Touch in swipe area - starting swipe detection');
     swipeState.startX = touch.clientX;
     swipeState.startY = touch.clientY;
     swipeState.startTime = Date.now();
@@ -4451,6 +4575,8 @@ function handleTouchMove(e) {
     const deltaX = touch.clientX - swipeState.startX;
     const deltaY = touch.clientY - swipeState.startY;
     
+    console.log('📱 Touch move:', { deltaX, deltaY });
+    
     // Show ghost preview
     showSwipeGhost(deltaX, deltaY);
     
@@ -4465,6 +4591,8 @@ function handleTouchEnd(e) {
     const deltaX = touch.clientX - swipeState.startX;
     const deltaY = touch.clientY - swipeState.startY;
     const deltaTime = Date.now() - swipeState.startTime;
+    
+    console.log('📱 Touch end:', { deltaX, deltaY, deltaTime });
     
     processSwipe(deltaX, deltaY, deltaTime);
     

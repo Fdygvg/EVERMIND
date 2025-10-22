@@ -1,11 +1,7 @@
-function comparison(a, b){
-    let result;
-    result = (a < b);
-    return result;
+function abTest(a, b) {
+if (a < 0 || b < 0)
 
+    return Math.round(Math.pow(Math.sqrt(a) + Math.sqrt(b), 2));
 }
-var compAns = comparison(15, 18);
-
-console.log(compAns);
-
-comparison(12, 13)
+console.log(abTest(12, 10))
+console.log()

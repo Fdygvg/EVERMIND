@@ -2987,31 +2987,9 @@ body {
     transform: scale(0.99);
 }
 
-/* Visual indicator for double-click area (top 200px) */
+/* Remove visual indicator overlay completely to prevent blocking interaction */
 .question-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 200px; /* Fixed height to ensure it's always visible */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 10; /* Higher z-index to ensure it's always on top */
-}
-
-.question-card:hover::before {
-    opacity: 1;
-}
-
-/* Make swipe area more visible when answer is shown */
-.question-card.answer-shown::before {
-    opacity: 0.4;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-    border-bottom: 3px dashed rgba(255, 255, 255, 0.5);
-    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+    display: none;
 }
 
 .answer-content {
@@ -3029,7 +3007,6 @@ body {
     overflow: hidden;
     line-height: 1.8;
     font-size: 1.1rem;
-    z-index: 1; /* Lower z-index than swipe area */
 }
 
 .answer-content::before {
@@ -6940,47 +6917,20 @@ body[aria-busy="true"] {
 }
 
 .revision-container .question-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 30%;
-    right: 30%;
-    height: 50%; /* Only cover top 50% height */
-    background: linear-gradient(45deg, 
-        transparent 0%, 
-        rgba(16, 185, 129, 0.1) 20%, 
-        transparent 40%,
-        transparent 60%,
-        rgba(239, 68, 68, 0.1) 80%,
-        transparent 100%);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 1;
+    display: none;
 }
 
 .revision-container .question-card:hover::before {
-    opacity: 1;
+    display: none;
 }
 
-/* Add a subtle border to show the central swipe zone */
+/* Remove swipe zone border overlay */
 .revision-container .question-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 30%;
-    right: 30%;
-    height: 50%;
-    border: 2px dashed rgba(255, 255, 255, 0.2);
-    border-radius: 12px 12px 0 0;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 2;
+    display: none;
 }
 
 .revision-container .question-card:hover::after {
-    opacity: 0.5;
+    display: none;
 }
 
 /* Swipe hint styling */
