@@ -233,6 +233,48 @@
     "code": "// Navigation shortcuts:\n// Ctrl + G - Go to line\n// Ctrl + Shift + O - Go to symbol in file\n// Ctrl + T - Go to symbol in workspace\n// F12 - Go to definition\n// Alt + Left/Right - Go back/forward"
   },
   {
+    "question": "What is the shortcut to close the active terminal instance in VS Code?",
+    "answer": "**Ctrl + Shift + W**\n\nThis VS Code shortcut closes the currently active terminal instance in the integrated terminal panel. If you have multiple terminal instances open, this will close only the active one.",
+    "type": "hotkeys",
+    "tags": ["vscode", "terminal", "close"],
+    "code": "// Terminal management shortcuts:\n// Ctrl + Shift + W - Close active terminal\n// Ctrl + Shift + ` - Open new terminal\n// Ctrl + ` - Toggle terminal panel\n// Ctrl + Shift + 5 - Split terminal\n// Ctrl + Shift + C - Open external terminal"
+  },
+  {
+    "question": "What is the shortcut to fold (collapse) a block of code in VS Code?",
+    "answer": "**Ctrl + Shift + [**\n\nThis VS Code shortcut folds (collapses) the current code block, hiding its contents to make the code more compact and easier to navigate.",
+    "type": "hotkeys",
+    "tags": ["vscode", "fold", "collapse", "code"],
+    "code": "// Code folding shortcuts:\n// Ctrl + Shift + [ - Fold current block\n// Ctrl + Shift + ] - Unfold current block\n// Ctrl + K, Ctrl + 0 - Fold all blocks\n// Ctrl + K, Ctrl + J - Unfold all blocks\n// Ctrl + K, Ctrl + 1 - Fold level 1"
+  },
+  {
+    "question": "What is the shortcut to unfold (expand) a folded block in VS Code?",
+    "answer": "**Ctrl + Shift + ]**\n\nThis VS Code shortcut unfolds (expands) a previously folded code block, revealing its contents again.",
+    "type": "hotkeys",
+    "tags": ["vscode", "unfold", "expand", "code"],
+    "code": "// Code unfolding shortcuts:\n// Ctrl + Shift + ] - Unfold current block\n// Ctrl + Shift + [ - Fold current block\n// Ctrl + K, Ctrl + J - Unfold all blocks\n// Ctrl + K, Ctrl + 0 - Fold all blocks\n// Ctrl + K, Ctrl + 1-9 - Fold/unfold specific levels"
+  },
+  {
+    "question": "What is the shortcut to open recent files/projects menu in VS Code?",
+    "answer": "**Ctrl + R**\n\nThis VS Code shortcut opens the Recent Files menu, allowing you to quickly access recently opened files and projects.",
+    "type": "hotkeys",
+    "tags": ["vscode", "recent", "files", "projects"],
+    "code": "// Recent files shortcuts:\n// Ctrl + R - Recent files menu\n// Ctrl + P - Quick Open (search files)\n// Ctrl + Shift + P - Command Palette\n// Ctrl + O - Open file dialog\n// Ctrl + N - New file"
+  },
+  {
+    "question": "What is the shortcut to open Problems/Errors panel in VS Code?",
+    "answer": "**Ctrl + Shift + M**\n\nThis VS Code shortcut opens the Problems panel, showing all errors, warnings, and other issues detected in your code by the language server and extensions.",
+    "type": "hotkeys",
+    "tags": ["vscode", "problems", "errors", "debugging"],
+    "code": "// Problems panel shortcuts:\n// Ctrl + Shift + M - Open Problems panel\n// F8 - Go to next problem\n// Shift + F8 - Go to previous problem\n// Ctrl + Shift + P - Command Palette\n// Ctrl + ` - Toggle terminal"
+  },
+  {
+    "question": "What is the shortcut to quickly switch between split editors in VS Code?",
+    "answer": "**Ctrl + 1, Ctrl + 2, etc.**\n\nThese VS Code shortcuts allow you to quickly switch focus between different editor groups when you have split editors open. The number corresponds to the editor column position.",
+    "type": "hotkeys",
+    "tags": ["vscode", "split-editor", "navigation", "multi-pane"],
+    "code": "// Split editor navigation:\n// Ctrl + 1 - Focus first editor group\n// Ctrl + 2 - Focus second editor group\n// Ctrl + 3 - Focus third editor group\n// Ctrl + \\ - Split editor horizontally\n// Ctrl + K then \\ - Split editor vertically\n// Ctrl + W - Close current editor"
+  },
+  {
     "question": "What is the shortcut to lock your computer instantly?",
     "answer": "**Win + L**\n\nThis Windows shortcut instantly locks your computer, requiring a password or PIN to unlock. Useful for quickly securing your computer when stepping away.",
     "type": "hotkeys",

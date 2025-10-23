@@ -683,5 +683,50 @@
     "question": "Which country's flag is this?",
     "image": "https://flagcdn.com/w320/mk.png",
     "answer": "North Macedonia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/si.png",
+    "answer": "Slovenia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/xk.png",
+    "answer": "Kosovo"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/al.png",
+    "answer": "Albania"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mt.png",
+    "answer": "Malta"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ad.png",
+    "answer": "Andorra"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/sm.png",
+    "answer": "San Marino"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mc.png",
+    "answer": "Monaco"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/li.png",
+    "answer": "Liechtenstein"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/lu.png",
+    "answer": "Luxembourg"
   }
 ]
