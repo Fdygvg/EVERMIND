@@ -2129,6 +2129,7 @@ body {
 .revision-container {
     max-width: 100%;
     overflow-x: hidden;
+    position: relative;
 }
 
 .question-card {
@@ -7555,6 +7556,7 @@ body[aria-busy="true"] {
     #notesPage span {
         color: #ffffff !important;
     }
+    
 }
 
 /* Desktop/Laptop specific fixes - REMOVED PROBLEMATIC OVERRIDES */
@@ -7584,32 +7586,6 @@ body[aria-busy="true"] {
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
-}
-
-/* UNIVERSAL TIMER AND MODAL STYLES - APPLY TO ALL SCREEN SIZES */
-.timer-display {
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    z-index: 99999 !important;
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background: rgba(239, 68, 68, 0.9) !important;
-    color: white !important;
-    padding: 15px 25px !important;
-    border-radius: 12px !important;
-    font-size: 1.2rem !important;
-    font-weight: bold !important;
-    animation: timerPulse 1s ease-in-out infinite !important;
-    align-items: center !important;
-    gap: 8px !important;
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    flex-direction: column !important;
-    border: 2px solid rgba(255, 255, 255, 0.2) !important;
-    pointer-events: auto !important;
 }
 
 /* Universal modal styles for ALL screen sizes */
@@ -7878,32 +7854,6 @@ body[aria-busy="true"] {
     backdrop-filter: blur(5px) !important;
 }
 
-/* Timer Display - Works on ALL screen sizes */
-.timer-display {
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    background: rgba(239, 68, 68, 0.9) !important;
-    color: white !important;
-    padding: 15px 25px !important;
-    border-radius: 12px !important;
-    font-size: 1.2rem !important;
-    font-weight: bold !important;
-    animation: timerPulse 1s ease-in-out infinite !important;
-    z-index: 99999 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    flex-direction: column !important;
-    border: 2px solid rgba(255, 255, 255, 0.2) !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-}
-
 .timer-countdown {
     font-size: 2rem;
     font-weight: 900;
@@ -8034,13 +7984,6 @@ div#timerConfigModal .modal-content,
         margin: 20px !important;
         padding: 20px !important;
     }
-    
-    .timer-display {
-        top: 10px !important;
-        right: 10px !important;
-        padding: 10px 15px !important;
-        font-size: 1rem !important;
-    }
 }
 
 /* Ensure timer modal works on all screen sizes */
@@ -8048,9 +7991,130 @@ div#timerConfigModal .modal-content,
     #timerConfigModal {
         z-index: 10000 !important;
     }
-    
-    .timer-display {
+}
+
+/* ==================== NUCLEAR TIMER DISPLAY - MAXIMUM SPECIFICITY ==================== */
+div#questionTimer.question-timer,
+#questionTimer,
+.question-timer,
+div.question-timer {
+    position: fixed !important;
+    top: 80px !important;
+    right: 20px !important;
+    left: auto !important;
+    bottom: auto !important;
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    background-color: #ef4444 !important;
+    color: white !important;
+    padding: 20px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 32px rgba(239, 68, 68, 0.4) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    z-index: 99999 !important;
+    border: 3px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    font-family: 'Inter', sans-serif !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 0 !important;
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 120px !important;
+    min-height: 120px !important;
+}
+
+.timer-circle,
+div.timer-circle,
+.question-timer .timer-circle {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#timerCountdown,
+span#timerCountdown,
+.timer-circle #timerCountdown {
+    font-size: 1.8rem !important;
+    font-weight: 900 !important;
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+}
+
+.question-timer .timer-label,
+div.timer-label,
+.question-timer div.timer-label {
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* iPad specific adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .question-timer {
+        position: fixed !important;
+        top: 100px !important;
+        right: 30px !important;
+        padding: 25px !important;
+        border-radius: 25px !important;
+        background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+        color: white !important;
+        box-shadow: 0 8px 32px rgba(239, 68, 68, 0.4) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 8px !important;
         z-index: 99999 !important;
+        border: 3px solid rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        font-family: 'Inter', sans-serif !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .timer-circle {
+        width: 70px !important;
+        height: 70px !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    }
+    
+    #timerCountdown {
+        font-size: 2.2rem !important;
+        font-weight: 900 !important;
+        color: white !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .question-timer .timer-label {
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
     }
 }
 
@@ -8826,4 +8890,44 @@ div#noteEditModal .modal-content {
 }
 
 /* ==================== END ENHANCED CODE EDITOR STYLING ==================== */
+}
+
+/* ==================== FINAL TIMER OVERRIDE - LAST RESORT ==================== */
+#questionTimer {
+    position: fixed !important;
+    top: 80px !important;
+    right: 20px !important;
+    background: #ef4444 !important;
+    color: white !important;
+    padding: 20px !important;
+    border-radius: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    z-index: 99999 !important;
+    border: 3px solid white !important;
+    box-shadow: 0 8px 32px rgba(239, 68, 68, 0.4) !important;
+    font-family: Arial, sans-serif !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 0 !important;
+    transform: none !important;
+    width: 120px !important;
+    height: 120px !important;
+}
+
+#timerCountdown {
+    font-size: 2rem !important;
+    font-weight: bold !important;
+    color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.question-timer .timer-label {
+    font-size: 0.8rem !important;
+    color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
 }

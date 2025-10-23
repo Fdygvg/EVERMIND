@@ -231,6 +231,14 @@
                      ⏱️ <span id="timerModeText">Timer</span>
                  </button>
                 </div>
+                
+                <!-- Clean Timer Display -->
+                <div id="questionTimer" class="question-timer" style="display: none;">
+                    <div class="timer-circle">
+                        <span id="timerCountdown">30</span>
+                    </div>
+                    <div class="timer-label">seconds left</div>
+                </div>
              </div>
             <div class="progress-bar-container">
                 <div class="progress-bar-bg">
@@ -549,12 +557,6 @@
 
     <script src="sound_effects.js"></script>
     <script src="gamification.js"></script>
-    <!-- Timer Display (Fixed Position at Body Level) -->
-    <div id="timerDisplay" class="timer-display" style="display: none;">
-        <span class="timer-countdown">30</span>
-        <span class="timer-label">seconds left</span>
-    </div>
-
     <script src="audio_player.js"></script>
     <script src="code_editor.js"></script>
     <script src="statistics.js"></script>

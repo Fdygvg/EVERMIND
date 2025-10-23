@@ -1539,6 +1539,14 @@ function exitRevision() {
     // Stop the persistent timer
     stopTimer();
     
+    // Stop question countdown timer
+    if (timerMode.enabled && timerMode.interval) {
+        console.log('⏱️ Clearing question timer on exit');
+        clearInterval(timerMode.interval);
+        timerMode.interval = null;
+        hideTimerDisplay();
+    }
+    
     if (state.revisionMode === 'bookmarked') {
         // Return to bookmark section view (not homepage)
         showPage('sectionView');
@@ -3036,6 +3044,13 @@ function resetRevision() {
     // Stop timer
     stopRevisionTimer();
     clearRevisionTimer();
+    
+    // Clear question countdown timer
+    if (timerMode.interval) {
+        clearInterval(timerMode.interval);
+        timerMode.interval = null;
+    }
+    hideTimerDisplay();
     
     // Clear any completion message from previous sessions
     const questionCard = document.getElementById('questionCard');
@@ -7039,7 +7054,7 @@ function startQuestionTimer() {
 
 // Show timer display
 function showTimerDisplay() {
-    const display = document.getElementById('timerDisplay');
+    const display = document.getElementById('questionTimer');
     if (display) {
         display.style.display = 'flex';
         updateTimerDisplay();
@@ -7048,7 +7063,7 @@ function showTimerDisplay() {
 
 // Hide timer display
 function hideTimerDisplay() {
-    const display = document.getElementById('timerDisplay');
+    const display = document.getElementById('questionTimer');
     if (display) {
         display.style.display = 'none';
     }
@@ -7056,7 +7071,7 @@ function hideTimerDisplay() {
 
 // Update timer display
 function updateTimerDisplay() {
-    const countdown = document.querySelector('.timer-countdown');
+    const countdown = document.getElementById('timerCountdown');
     if (countdown) {
         countdown.textContent = timerMode.currentTime;
     }

@@ -1,50 +1,29 @@
-var recordCollection = {
-  2548: {
-    albumTitle: "Slippery When Wet",
-    artist: "Bon Jovi",
-    tracks: ["Let It Rock", "You Give Love a Bad Name"],
-  },
-  2468: {
-    albumTitle: "1999",
-    artist: "Prince",
-    tracks: ["1999", "Little Red Corvette"],
-  },
-  1245: {
-    artist: "Robert Palmer",
-    tracks: [],
-  },
-  5439: {
-    albumTitle: "ABBA Gold",
-  },
-};
-var backUp = recordCollection;
+// function multiplyAll(arr) {
+//   var product = 1;
 
-function updateRecords(records, id, prop, value) {
-  if (prop !== "tracks" && value !== "") {
-    records[id][prop] = value;
-  } else if (prop === "tracks" && !records[id][prop]) {
-    records[id][prop] = [value];
-  } else if (prop === "tracks" && value !== "") {
-    records[id][prop].push(value);
-  } else if (value === "") {
-    delete records[id][prop];
+//   for (var i=0; i < arr.length; i++){
+//     for(var j=0; j < arr[i].length; j++){
+//       product*= arr[i][j];
+//     }
+//   }
+//   return product;
+// }
+// var product = multiplyAll([[1,2], [3,4], [5,6,7]]);
+// console.log(product);
+
+
+function multiply(arr) {
+  var product = 1;
+
+  for(var i = 0; i < arr.length; i++){
+    for(var j = 0; j < arr[i].length; j++ ){
+      console.log("Now Multiplying:", product, "x", arr[i][j]  )
+      product *= arr[i][j]
+      
+      console.log("Product so Far:", product)
+    }
   }
-  return records;
+  return product
 }
 
-// console.log(
-//   updateRecords(recordCollection, 2468, "tracks", "Never Gonna Give You")
-// );
-
-
-
-
-
-const jsonString = '{"name": "John", "age": 30, "city": "New York"}';
-const jsonString1 = "name"
-
-console.log(jsonString1)
-console.log(jsonString)
-
-var jsonArr = JSON.parse(jsonString1)
-console.log(jsonArr)
+console.log(multiply([[1,2], [3,4], [5,6,7]]))
