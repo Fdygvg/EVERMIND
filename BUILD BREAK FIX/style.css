@@ -1,118 +1,32 @@
-/* .box1 { 
-    border-top: ridge 10px red;
-    border-bottom: ridge 10px rgb(0, 47, 255);
-    border-left: outset 15px green;
-    border-right: inset 20px yellow;
-    background: linear-gradient(rgb(72, 18, 18), rgb(255, 222, 222));
-    width: 200px;
-    height: 200px;
-    position: fixed;
-    top: 0;
-    right: 0;
-} */
-
-
-
-.box2 { 
-    border: ridge 10px rgb(43, 255, 0);
-    background: linear-gradient(rgb(42, 128, 8), rgb(229, 222, 222));
-    width: 100px;
-    height: 100px;
-    margin-left: auto;
-    margin-right: auto;
-
+body {
+  background: #223347;
+  color: white;
+  font-family: Arial, sans-serif;
 }
-/*
-.box3 { 
-    border: ridge 10px rgb(212, 255, 0);
-    background: linear-gradient(rgb(239, 226, 226), rgb(254, 250, 0));
-    width: 100px;
-    height: 100px;
-
-}
-.box4 { 
-    border: ridge 10px rgb(0, 21, 255);
-    background: linear-gradient(rgb(5, 34, 84), rgb(58, 61, 234));
-    width: 100px;
-    height: 100px;
-
-}
-.box5 { 
-    border: ridge 10px rgb(255, 0, 170);
-    background: linear-gradient(rgb(140, 14, 134), rgb(82, 15, 130));
-    width: 100px;
-    height: 100px;
-
-} */
-
-/* .box6 { 
-    border: ridge 10px red;
-    background: linear-gradient(rgb(72, 18, 18), rgb(255, 222, 222));
-    width: 100px;
-    height: 100px;
-
-}
-.box7 { 
-    border: ridge 10px rgb(43, 255, 0);
-    background: linear-gradient(rgb(42, 128, 8), rgb(229, 222, 222));
-    width: 100px;
-    height: 100px;
-
-}
-.box8 { 
-    border: ridge 10px rgb(212, 255, 0);
-    background: linear-gradient(rgb(239, 226, 226), rgb(254, 250, 0));
-    width: 100px;
-    height: 100px;
-
-}
-.box9 { 
-    border: ridge 10px rgb(0, 21, 255);
-    background: linear-gradient(rgb(5, 34, 84), rgb(58, 61, 234));
-    width: 100px;
-    height: 100px;
-
-}
-.box10 { 
-    border: ridge 10px rgb(255, 0, 170);
-    background: linear-gradient(rgb(140, 14, 134), rgb(82, 15, 130));
-    width: 100px;
-    height: 100px;
-
-} */
 
 .container {
-    display: flex;
-    flex-wrap: nowrap;
-    /* justify-content: space-evenly; */
-    flex-direction: column;
-    
-    gap: 30px;
-    background: lightblue;
-    margin: 10px;
-    height: 300px;
+  width: 400px;
+  margin: 40px auto;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 24px 16px;
+  text-align: center;
 }
 
-
-.container div:nth-child(5) {
-   align-self: center;
-   order: -1;
-
+.title {
+  font-size: 30px;
+  margin-bottom: 30px;
 }
 
-
-.container div:nth-child(4) {
-   align-self: center;
-   order: -2;
-
+.choices {
+  margin-top: 10px;
 }
 
-.container div:nth-child(1) {
-   align-self: center;
-   order: 1;
-
-}
-.container div:nth-child(3) {
-   align-self: flex-start;
-   order: 2;
+.choices {
+  background: #f5f5f5;
+  color: #222;
+  border: 1px solid #222;
+  padding: 15px 0;
+  margin: 0 0 10px 0;
+  font-size: 20px;
 }
