@@ -1,0 +1,38 @@
+[
+  {
+    "question": "CSS Units: px, em, fr, and rem?",
+    "answer": "**CSS Units Comparison:**\n\n**1. px (Pixels):**\n- Absolute unit, fixed size\n- Use for borders, precise positioning\n- Example: `width: 200px`\n\n**2. em:**\n- Relative to parent's font-size\n- Example: `font-size: 1.5em` (1.5 × parent)\n- Use for scalable typography\n\n**3. rem:**\n- Relative to root element's font-size\n- Example: `font-size: 1.5rem` (1.5 × root)\n- Use for consistent sizing across nested elements\n\n**4. fr (Fractional):**\n- Fractional unit for CSS Grid\n- Example: `grid-template-columns: 1fr 2fr 1fr`\n- Use for flexible grid layouts",
+    "type": "css",
+    "tags": ["css", "units", "px", "em", "rem", "fr"]
+  },
+  {
+    "question": "How to link JavaScript files in HTML with regular and module scripts?",
+    "answer": "**Linking JavaScript Files:**\n\n**Regular script (inline/head):**\n```html\n<script src=\"file.js\"></script>\n```\n\n**Regular script (recommended before </body>):**\n```html\n<body>\n    <script src=\"file.js\"></script>\n</body>\n```\n\n**Module script:**\n```html\n<script type=\"module\" src=\"module.js\"></script>\n```\n\n**Why modules?**\n- Import/export functionality\n- Strict mode by default\n- Top-level await\n- Automatic defer loading",
+    "type": "html",
+    "tags": ["html", "javascript", "module", "script-tag", "linking"]
+  },
+  {
+    "question": "How to create line breaks in HTML and JavaScript?",
+    "answer": "**HTML Line Breaks:**\n\n**New line:**\n```html\n<br> or <br/>\n```\n\n**Horizontal line:**\n```html\n<hr> or <hr/>\n```\n\n**JavaScript Escape Sequences:**\n\n**New line:** `\\n`\n**Tab:** `\\t`\n\n**Examples:**\n```javascript\nconsole.log(\"Line 1\\nLine 2\");\n// Output:\n// Line 1\n// Line 2\n\nconsole.log(\"Name:\\tJohn\");\n// Output: Name:    John\n```",
+    "type": "html",
+    "tags": ["html", "javascript", "formatting", "line-breaks"]
+  },
+  {
+    "question": "How to create ordered and unordered lists in HTML?",
+    "answer": "**Unordered Lists (<ul>):**\n```html\n<ul>\n    <li>Item 1</li>\n    <li>Item 2</li>\n    <li>Item 3</li>\n</ul>\n```\n\n**Ordered Lists (<ol>):**\n```html\n<!-- Numbers -->\n<ol type=\"1\">\n    <li>First item</li>\n    <li>Second item</li>\n</ol>\n\n<!-- Letters -->\n<ol type=\"A\">\n    <li>Item A</li>\n    <li>Item B</li>\n</ol>\n\n<!-- Roman numerals -->\n<ol type=\"I\">\n    <li>Item I</li>\n    <li>Item II</li>\n</ol>\n```\n\n**Use cases:**\n- Unordered: Navigation, feature lists, bullet points\n- Ordered: Instructions, rankings, numbered steps",
+    "type": "html",
+    "tags": ["html", "lists", "navigation", "ordered", "unordered"]
+  },
+  {
+    "question": "How to create HTML tables with colspan?",
+    "answer": "**Basic Table:**\n```html\n<table>\n    <tr>\n        <th>Name</th>\n        <th>Math</th>\n        <th>Science</th>\n    </tr>\n    <tr>\n        <td>John</td>\n        <td>85</td>\n        <td>90</td>\n    </tr>\n</table>\n```\n\n**With colspan:**\n```html\n<table>\n    <tr>\n        <th>Name</th>\n        <th>Subject</th>\n        <th>Grade</th>\n    </tr>\n    <tr>\n        <td>John</td>\n        <td colspan=\"2\">Math - A</td>\n    </tr>\n</table>\n```\n\n**What colspan does:**\n- Makes cell span multiple columns\n- Useful for headers covering multiple columns",
+    "type": "html",
+    "tags": ["html", "tables", "colspan", "data"]
+  },
+  {
+    "question": "HTML Forms: Input types and form structure",
+    "answer": "**Common Input Types:**\n```html\n<input type=\"text\" placeholder=\"Enter name\">\n<input type=\"password\" placeholder=\"Password\">\n<input type=\"email\" placeholder=\"Email\">\n<input type=\"date\">\n<input type=\"number\" min=\"1\" max=\"100\">\n<input type=\"checkbox\" id=\"agree\">\n<input type=\"radio\" name=\"gender\" value=\"male\">\n<input type=\"submit\" value=\"Submit\">\n```\n\n**Basic Form Structure:**\n```html\n<form action=\"submit.php\" method=\"POST\">\n    <label for=\"name\">Name:</label>\n    <input type=\"text\" id=\"name\" name=\"name\" required>\n    \n    <label for=\"email\">Email:</label>\n    <input type=\"email\" id=\"email\" name=\"email\" required>\n    \n    <input type=\"submit\" value=\"Send\">\n</form>\n```\n\n**Form attributes:**\n- `action` - Where to send data\n- `method` - GET or POST\n- `required` - Makes field mandatory",
+    "type": "html",
+    "tags": ["html", "forms", "input", "submission"]
+  }
+]

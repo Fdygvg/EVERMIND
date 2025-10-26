@@ -1,11 +1,4 @@
 [
-  {
-    "question": "What is SQL injection and give examples?",
-    "answer": "**SQL Injection – Database Attack**\n\n**What SQL injection is:**\nSQL injection is a code injection technique where malicious SQL statements are inserted into input fields, allowing attackers to manipulate databases.\n\n**How it works:**\n1. Attacker inputs malicious SQL code\n2. Application concatenates input into SQL query\n3. Database executes malicious query\n4. Attacker gains unauthorized access\n\n**Example attack:**\n```sql\n-- Login bypass:\nUsername: admin' OR '1'='1' --\nPassword: anything\n\n-- This creates:\nSELECT * FROM users WHERE username='admin' OR '1'='1' --' AND password='anything'\n```\n\n**Common payloads:**\n- `' OR '1'='1` - Always true condition\n- `'; DROP TABLE users; --` - Table deletion\n- `' UNION SELECT * FROM passwords --` - Data extraction",
-    "type": "cybersec",
-    "tags": ["sql-injection", "database", "web-security"],
-    "code": "// SQL injection examples:\n// Basic bypass: ' OR '1'='1' --\n// Union attack: ' UNION SELECT username,password FROM users --\n// Time-based: '; WAITFOR DELAY '00:00:05' --\n// Boolean-based: ' AND (SELECT COUNT(*) FROM users) > 0 --\n\n// Prevention:\n// Use parameterized queries\n// Input validation and sanitization\n// Least privilege principle\n// Web Application Firewall (WAF)"
-  },
 
   {
     "question": "What are different HTTP status codes and their meanings?",
@@ -13,28 +6,6 @@
     "type": "cybersec",
     "tags": ["http-status", "web-security", "response-codes"],
     "code": "// Common status codes in security testing:\n// 200 - Successful request\n// 301/302 - Redirects (potential security issues)\n// 401 - Authentication required\n// 403 - Access denied (forbidden)\n// 404 - Not found (information disclosure)\n// 500 - Server error (potential vulnerability)\n\n// Security implications:\n// 401 - Weak authentication\n// 403 - Access control issues\n// 500 - Information disclosure\n// 429 - Rate limiting bypass"
-  },
-  {
-    "question": "What is phishing?",
-    "answer": "**Phishing – Social Engineering Attack**\n\n**What phishing is:**\nPhishing is a social engineering attack where attackers impersonate legitimate entities to steal sensitive information like passwords, credit card numbers, or personal data.\n\n**Common phishing methods:**\n- **Email Phishing** - Fake emails from trusted sources\n- **Spear Phishing** - Targeted attacks on specific individuals\n- **Whaling** - Attacks on high-profile targets\n- **Smishing** - SMS-based phishing\n- **Vishing** - Voice call phishing\n\n**Red flags to watch for:**\n- Urgent or threatening language\n- Suspicious sender addresses\n- Poor grammar and spelling\n- Requests for sensitive information\n- Suspicious links or attachments\n\n**Prevention:**\n- Verify sender identity\n- Don't click suspicious links\n- Use multi-factor authentication\n- Keep software updated\n- Educate users about phishing",
-    "type": "cybersec",
-    "tags": ["phishing", "social-engineering", "email-security"],
-    "code": "// Common phishing indicators:\n// Suspicious URLs (amaz0n.com vs amazon.com)\n// Urgent language (\"Act now!\", \"Your account will be closed\")\n// Requests for sensitive data (passwords, SSN, credit cards)\n// Poor grammar and spelling\n// Suspicious attachments (.exe, .zip files)\n\n// Protection measures:\n// Email filtering and spam detection\n// User awareness training\n// Multi-factor authentication\n// Regular security updates\n// Incident response procedures"
-  },
-  {
-    "question": "What is the Gobuster tool?",
-    "answer": "**Gobuster:**\n\n**What it is:**\n- Directory/file brute-forcing tool\n- Written in Go programming language\n- Used for web application security testing\n\n**What it does:**\n- Discovers hidden directories and files\n- Brute-forces common web paths\n- Finds sensitive files (admin panels, config files)\n\n**Basic usage:**\n```bash\n# Directory brute-forcing\ngobuster dir -u http://target.com -w wordlist.txt\n\n# DNS subdomain enumeration\ngobuster dns -d target.com -w subdomains.txt\n\n# VHost enumeration\ngobuster vhost -u http://target.com -w vhosts.txt\n```\n\n**Common wordlists:**\n- `/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt`\n- `/usr/share/wordlists/dirb/common.txt`\n\n**Example output:**\n```\n/admin (Status: 200)\n/config (Status: 403)\n/backup (Status: 200)\n```\n\n**Legal use only:**\n- Only test your own systems\n- Get permission before testing",
-    "type": "security",
-    "tags": ["gobuster", "security", "brute-force", "pentesting"]
-  },
-  {
-    "question": "What is the Hydra tool?",
-    "answer": "**Hydra:**\n\n**What it is:**\n- Password brute-forcing tool\n- Supports many protocols (HTTP, FTP, SSH, etc.)\n- Fast parallel attacks\n\n**What it does:**\n- Tests username/password combinations\n- Brute-forces login credentials\n- Supports various authentication methods\n\n**Basic usage:**\n```bash\n# HTTP form login\nhydra -l admin -P passwords.txt target.com http-post-form \"/login:username=^USER^&password=^PASS^:Invalid\"\n\n# SSH brute-force\nhydra -l root -P passwords.txt ssh://192.168.1.100\n\n# FTP brute-force\nhydra -l admin -P passwords.txt ftp://target.com\n```\n\n**Common options:**\n- `-l` = single username\n- `-L` = username list\n- `-p` = single password\n- `-P` = password list\n- `-t` = number of threads\n\n**Example:**\n```bash\nhydra -l admin -P /usr/share/wordlists/rockyou.txt -t 4 target.com http-post-form \"/login:user=^USER^&pass=^PASS^:Login failed\"\n```\n\n**Legal use only:**\n- Only test your own systems\n- Get permission before testing",
-    "type": "security"
-  },
-  {
-    "question": "What does SQL stand for?",
-    "answer": "**SQL (Structured Query Language):**\n\n**What it is:**\n- Programming language for databases\n- Manages and manipulates data\n- Standard for relational databases\n\n**Types:**\n- **MySQL** - Open source database\n- **PostgreSQL** - Advanced open source\n- **SQL Server** - Microsoft database\n- **Oracle** - Enterprise database\n\n**Common Operations:**\n- **SELECT** - Retrieve data\n- **INSERT** - Add data\n- **UPDATE** - Modify data\n- **DELETE** - Remove data\n\n**Security Issues:**\n- **SQL Injection** - Code injection attack\n- **Privilege Escalation** - Unauthorized access\n- **Data Breaches** - Unauthorized data access\n\n**Example:**\n```sql\nSELECT * FROM users WHERE username = 'admin';\nINSERT INTO users (username, password) VALUES ('user', 'pass');\n```\n\n**Defense:**\n- Use parameterized queries\n- Input validation\n- Least privilege access\n- Regular security updates"
   },
   {
     "question": "What is Burp Suite used for?",
@@ -63,29 +34,5 @@
     "type": "cybersec",
     "tags": ["burp-suite", "repeater", "manual-testing", "web-testing"],
     "code": "// Burp Suite Repeater Workflow:\n// 1. Right-click request → 'Send to Repeater'\n// 2. Modify request parameters:\n//    - Change parameter values\n//    - Add/remove headers\n//    - Modify request body\n// 3. Click 'Send' to execute\n// 4. Analyze response:\n//    - Status code\n//    - Response headers\n//    - Response body\n// 5. Iterate with different values\n\n// Common modifications:\n// Original: username=admin\n// Modified: username=admin' OR '1'='1' --\n// Add header: X-Forwarded-For: 127.0.0.1\n// Change method: GET → POST"
-  },
-
-  {
-    "question": "How to make SQL injection always return true?",
-    "answer": "**SQL Injection - Always True Conditions**\n\n**Purpose:**\nTo bypass authentication or make queries always return true, allowing unauthorized access.\n\n**Common techniques:**\n\n**1. OR '1'='1'**\n```sql\n-- Login bypass:\nUsername: admin' OR '1'='1' --\nPassword: anything\n\n-- Creates: SELECT * FROM users WHERE username='admin' OR '1'='1' --' AND password='anything'\n```\n\n**2. OR 1=1**\n```sql\n-- Numeric bypass:\nID: 1 OR 1=1 --\n\n-- Creates: SELECT * FROM products WHERE id=1 OR 1=1 --\n```\n\n**3. OR 'a'='a'**\n```sql\n-- String comparison:\nName: admin' OR 'a'='a' --\n```\n\n**4. UNION-based true conditions:**\n```sql\n-- Union with true:\n' UNION SELECT 1,1,1 WHERE '1'='1' --\n```\n\n**Why it works:**\n- `'1'='1'` is always true in SQL\n- `OR` operator makes entire condition true\n- `--` comments out rest of query\n- Bypasses password validation\n\n**Prevention:**\n- Use parameterized queries\n- Input validation\n- Least privilege access",
-    "type": "cybersec",
-    "tags": ["sql-injection", "bypass", "authentication", "database"],
-    "code": "// SQL Injection Always True Examples:\n// 1. Basic bypass: ' OR '1'='1' --\n// 2. Numeric bypass: 1 OR 1=1 --\n// 3. String bypass: ' OR 'a'='a' --\n// 4. Union bypass: ' UNION SELECT 1,1,1 WHERE '1'='1' --\n\n// Login bypass example:\n// Original query: SELECT * FROM users WHERE username='admin' AND password='123'\n// Injected: admin' OR '1'='1' --\n// Result: SELECT * FROM users WHERE username='admin' OR '1'='1' --' AND password='123'\n// This returns all users because '1'='1' is always true\n\n// Prevention:\n// Use parameterized queries:\n// SELECT * FROM users WHERE username=? AND password=?\n// PreparedStatement.setString(1, username);\n// PreparedStatement.setString(2, password);"
-  },
-
-  {
-    "question": "How to comment out fields in SQL injection?",
-    "answer": "**SQL Injection - Commenting Out Fields**\n\n**Purpose:**\nComments in SQL injection are used to ignore the rest of the query after the injection point, allowing attackers to bypass additional conditions.\n\n**Common comment techniques:**\n\n**1. Double Dash (--)**\n```sql\n-- Most common comment method\nUsername: admin' --\nPassword: anything\n\n-- Creates: SELECT * FROM users WHERE username='admin' --' AND password='anything'\n-- Everything after -- is ignored\n```\n\n**2. Hash (#)**\n```sql\n-- Alternative comment method\nUsername: admin' #\nPassword: anything\n\n-- Creates: SELECT * FROM users WHERE username='admin' #' AND password='anything'\n```\n\n**3. Multi-line comments (/* */)**\n```sql\n-- Block comments\nUsername: admin' /*\nPassword: anything\n\n-- Creates: SELECT * FROM users WHERE username='admin' /*' AND password='anything'\n```\n\n**4. URL encoding:**\n```sql\n-- URL encoded comments\n%27%20--%20    (for ' --)\n%27%20%23%20   (for ' #)\n```\n\n**Why comments are important:**\n- Ignore password validation\n- Bypass additional WHERE clauses\n- Clean up malformed queries\n- Focus injection on specific parameters\n\n**Database-specific differences:**\n- **MySQL**: `--` and `#` work\n- **PostgreSQL**: `--` works\n- **SQL Server**: `--` works\n- **Oracle**: `--` works",
-    "type": "cybersec",
-    "tags": ["sql-injection", "comments", "bypass", "database"],
-    "code": "// SQL Comment Techniques:\n// 1. Single line: -- (double dash)\n// 2. Hash: # (hash symbol)\n// 3. Block: /* */ (multi-line)\n// 4. URL encoded: %27%20--%20\n\n// Examples:\n// Original: SELECT * FROM users WHERE username='admin' AND password='123'\n// Injected: admin' --\n// Result: SELECT * FROM users WHERE username='admin' --' AND password='123'\n// Everything after -- is ignored\n\n// URL encoding:\n// ' -- becomes %27%20--%20\n// ' # becomes %27%20%23%20\n\n// Database compatibility:\n// MySQL: -- and #\n// PostgreSQL: --\n// SQL Server: --\n// Oracle: --"
-  },
-
-  {
-    "question": "What are Unicode SQL injection techniques for database entries?",
-    "answer": "**Unicode SQL Injection - Invisible Characters**\n\n**What it is:**\nUsing Unicode invisible characters to create duplicate entries in databases that appear identical but are technically different.\n\n**Common Unicode characters:**\n\n**1. Zero-Width Space (U+200B)**\n```\nja​mes  (contains invisible zero-width space)\n```\n\n**2. Zero-Width Joiner (U+200D)**\n```\nja‍mes  (contains invisible zero-width joiner)\n```\n\n**3. Non-Breaking Space (U+00A0)**\n```\njames   (contains non-breaking space at end)\n```\n\n**4. Tab Character (U+0009)**\n```\nja\tmes  (contains tab between characters)\n```\n\n**5. Zero-Width Non-Joiner (U+200C)**\n```\nj‌ames  (contains zero-width non-joiner)\n```\n\n**Database storage example:**\n```\nid | name\n1  | james     (standard)\n2  | ja​mes     (zero-width space)\n3  | ja‍mes     (zero-width joiner)\n4  | james     (non-breaking space)\n5  | ja\tmes    (tab character)\n6  | j‌ames     (zero-width non-joiner)\n```\n\n**Attack scenarios:**\n- Bypass duplicate username checks\n- Create multiple accounts with same name\n- Confuse user identification systems\n- Exploit case sensitivity issues\n\n**Detection:**\n- Use hex editors to view raw data\n- Check character length vs visual length\n- Use Unicode-aware validation\n- Implement proper normalization",
-    "type": "cybersec",
-    "tags": ["unicode", "sql-injection", "invisible-characters", "database"],
-    "code": "// Unicode SQL Injection Examples:\n// 1. Zero-width space: ja\u200Bmes\n// 2. Zero-width joiner: ja\u200Dmes\n// 3. Non-breaking space: james\u00A0\n// 4. Tab character: ja\tmes\n// 5. Zero-width non-joiner: j\u200Cames\n\n// Database entries:\n// INSERT INTO users (name) VALUES ('james');\n// INSERT INTO users (name) VALUES ('ja\u200Bmes');\n// INSERT INTO users (name) VALUES ('ja\u200Dmes');\n// INSERT INTO users (name) VALUES ('james\u00A0');\n// INSERT INTO users (name) VALUES ('ja\tmes');\n// INSERT INTO users (name) VALUES ('j\u200Cames');\n\n// Detection methods:\n// SELECT LENGTH(name) FROM users WHERE name LIKE 'james%';\n// SELECT HEX(name) FROM users WHERE name LIKE 'james%';\n// SELECT name, LENGTH(name) FROM users;\n\n// Prevention:\n// - Unicode normalization\n// - Character filtering\n// - Length validation\n// - Hex inspection"
   }
 ]
