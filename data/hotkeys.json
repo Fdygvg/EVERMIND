@@ -190,7 +190,13 @@
     "tags": ["vscode", "close-editors", "workspace"],
     "code": "// Editor management shortcuts:\n// Ctrl + K then W - Close all editors\n// Ctrl + W - Close current editor\n// Ctrl + Shift + T - Reopen closed editor\n// Ctrl + Tab - Switch between open editors\n// Ctrl + K then Ctrl + W - Close all editors in group"
   },
-
+  {
+    "question": "What is the shortcut to view or hide the outline (symbols, functions list) in VS Code?",
+    "answer": "**Ctrl + Shift + O**\n\nThis VS Code shortcut opens the Outline view, showing all symbols, functions, classes, and other code structures in the current file for quick navigation.",
+    "type": "hotkeys",
+    "tags": ["vscode", "outline", "navigation"],
+    "code": "// Navigation shortcuts:\n// Ctrl + Shift + O - Go to symbol in file\n// Ctrl + T - Go to symbol in workspace\n// Ctrl + G - Go to line number\n// F12 - Go to definition\n// Alt + F12 - Peek definition"
+  },
   {
     "question": "What is the shortcut to duplicate a line or selection in VS Code?",
     "answer": "**Shift + Alt + Down Arrow** (or **Up Arrow**)\n\nThis VS Code shortcut duplicates the current line or selected text, placing the copy above or below the original.",
@@ -241,13 +247,6 @@
     "code": "// Code folding shortcuts:\n// Ctrl + Shift + [ - Fold current block\n// Ctrl + Shift + ] - Unfold current block\n// Ctrl + K, Ctrl + 0 - Fold all blocks\n// Ctrl + K, Ctrl + J - Unfold all blocks\n// Ctrl + K, Ctrl + 1 - Fold level 1"
   },
   {
-    "question": "What is the shortcut to unfold (expand) a folded block in VS Code?",
-    "answer": "**Ctrl + Shift + ]**\n\nThis VS Code shortcut unfolds (expands) a previously folded code block, revealing its contents again.",
-    "type": "hotkeys",
-    "tags": ["vscode", "unfold", "expand", "code"],
-    "code": "// Code unfolding shortcuts:\n// Ctrl + Shift + ] - Unfold current block\n// Ctrl + Shift + [ - Fold current block\n// Ctrl + K, Ctrl + J - Unfold all blocks\n// Ctrl + K, Ctrl + 0 - Fold all blocks\n// Ctrl + K, Ctrl + 1-9 - Fold/unfold specific levels"
-  },
-  {
     "question": "What is the shortcut to open recent files/projects menu in VS Code?",
     "answer": "**Ctrl + R**\n\nThis VS Code shortcut opens the Recent Files menu, allowing you to quickly access recently opened files and projects.",
     "type": "hotkeys",
@@ -274,5 +273,12 @@
     "type": "hotkeys",
     "tags": ["windows", "security", "lock"],
     "code": "// Security shortcuts:\n// Win + L - Lock computer\n// Ctrl + Alt + Del - Security options\n// Win + X - Power user menu\n// Alt + F4 - Close application\n// Ctrl + Shift + Esc - Task Manager"
+  },
+  {
+    "question": "What is the shortcut to switch between multiple terminals?",
+    "answer": "**Ctrl + Page Up** / **Ctrl + Page Down**\n\nThis shortcut allows you to navigate between multiple terminal instances in VS Code. You can cycle through all open terminal tabs quickly.",
+    "type": "hotkeys",
+    "tags": ["vscode", "terminal", "navigation"],
+    "code": "// Terminal navigation shortcuts:\n// Ctrl + Page Up - Previous terminal\n// Ctrl + Page Down - Next terminal\n// Ctrl + Shift + ` - Open new terminal\n// Ctrl + ` - Toggle terminal panel\n// Ctrl + Shift + W - Close active terminal"
   }
 ]

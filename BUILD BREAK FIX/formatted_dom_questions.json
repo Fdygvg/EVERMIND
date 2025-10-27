@@ -1,0 +1,112 @@
+[
+  {
+    "question": "In JavaScript DOM selection, what's the key difference between getElementById() and querySelector() when targeting an element by its ID?",
+    "answer": "**Answer:** `getElementById()` directly matches an element's ID without requiring a `#` symbol, while `querySelector()` uses CSS selector syntax and requires the `#` prefix. For example:\n\n```js\n// getElementById - no # symbol needed\ndocument.getElementById(\"header\");\n\n// querySelector - requires # symbol\ndocument.querySelector(\"#header\");\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "What do getElementsByClassName() and querySelectorAll() return, and how do you access individual elements from each?",
+    "answer": "**Answer:** Both return array-like structures that you access using square brackets `[]` with an index. `getElementsByClassName()` returns an HTMLCollection, while `querySelectorAll()` returns a NodeList. Examples:\n\n```js\n// getElementsByClassName returns HTMLCollection\nconst items = document.getElementsByClassName(\"menu-item\");\nitems[0].style.color = \"blue\";\n\n// querySelectorAll returns NodeList\nconst list = document.querySelectorAll(\"li\");\nlist[2].style.fontWeight = \"bold\";\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "Why does including a return statement inside a for loop cause the loop to stop after the first iteration?",
+    "answer": "**Answer:** The `return` statement exits the entire function immediately when executed, which stops the loop after just one iteration. To apply changes to all items in a loop, use only statements without `return`:\n\n```js\n// Wrong - stops after first iteration\nfor (let i = 0; i < choice.length; i++) {\n  return (choice[i].style.color = \"red\");\n}\n\n// Correct - processes all items\nfor (let i = 0; i < choice.length; i++) {\n  choice[i].style.color = \"red\";\n}\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "What are the three main ways to read and display text content from a DOM element in JavaScript (innerText, innerHTML, textContent), and when should you use each?",
+    "answer": "**Answer:**\n\n- `innerText` - Returns visible text as shown to the user, formatted as it appears on screen\n- `innerHTML` - Returns the HTML code inside the element, including tags. **Security risk:** Using `innerHTML` with unsanitized user input can introduce script injection (XSS attacks)\n- `textContent` - Returns all text content including hidden elements\n\nUse `innerText` or `textContent` for plain text; use `innerHTML` only when intentionally injecting HTML and never with unsanitized user input.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you manipulate element attributes and IDs in JavaScript using DOM methods?",
+    "answer": "**Answer:**\n\n```js\n// Reading an attribute\nconst title = document.querySelector(\"#mainHeading\");\nconsole.log(title.getAttribute(\"id\"));\n\n// Setting/modifying an attribute\nelement.setAttribute(\"type\", \"button\");\n\n// Removing an attribute\nelement.removeAttribute(\"type\");\n\n// Setting ID directly\nelement.id = \"myButton\";\nconsole.log(element.id);\n\n// Setting ID with setAttribute\nelement.setAttribute(\"id\", \"myButton\");\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you manage CSS classes on an element in JavaScript DOM?",
+    "answer": "**Answer:** Use the `classList` property which provides methods to control CSS classes:\n\n```js\nconst newDiv = document.createElement(\"div\");\n\n// Add a class\nnewDiv.classList.add(\"choice\");\n\n// Remove a class\nnewDiv.classList.remove(\"choice\");\n\n// Check if a class exists (returns true or false)\nconsole.log(newDiv.classList.contains(\"choice\"));\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you remove an element from the DOM in JavaScript?",
+    "answer": "**Answer:** Call the `.remove()` method on the element:\n\n```js\nnewDiv.remove();\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "What is parent node traversal in JavaScript DOM, and what's the difference between parentNode and parentElement?",
+    "answer": "**Answer:** Parent node traversal allows you to navigate up the DOM tree from a child element to its ancestors. Both `parentNode` and `parentElement` move up one level in the hierarchy, and you can chain them to go multiple levels up:\n```js\nlet div = document.querySelector('.choice');\n\n// Both navigate up 4 levels to ancestor elements\nconsole.log(div.parentNode.parentNode.parentNode.parentNode);\nconsole.log(div.parentElement.parentElement.parentElement.parentElement);\n```\n\nIn most cases, `parentNode` and `parentElement` work the same way for HTML elements.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is child node traversal in JavaScript DOM, and what properties can you use to access child elements?",
+    "answer": "**Answer:** Child node traversal allows you to navigate down the DOM tree to access an element's children. You can use these properties:\n\n```js\nlet div = document.querySelector(\".choices\");\n\nconsole.log(div.childNodes); // All nodes including text/comments\nconsole.log(div.firstChild); // First node (any type)\nconsole.log(div.lastChild); // Last node (any type)\nconsole.log(div.firstElementChild); // First element node only\nconsole.log(div.lastElementChild); // Last element node only\n\n// Access by index\ndiv.childNodes[1].style.backgroundColor = \"blue\";\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "Why does using childNodes sometimes cause a \"Cannot set properties of undefined\" error when trying to style elements, and what's the solution?",
+    "answer": "**Answer:** `childNodes` returns a NodeList that includes all types of nodes: element nodes, text nodes (spaces, newlines), and comment nodes. If you try to access `.style` on a text node, you get an error because text nodes don't have a `.style` property.\n\n**Solution:** Use `.children` instead of `.childNodes` because `.children` only returns element nodes that have a `.style` property:\n\n```js\n// Wrong - might access a text node\ndiv.childNodes[2].style.backgroundColor = \"blue\"; // Error!\n\n// Correct - only element nodes\nconsole.log(div.children);\ndiv.children[1].style.backgroundColor = \"blue\";\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "What is a Node and a NodeList in JavaScript DOM?",
+    "answer": "**Answer:**\n\n- **Node:** A single piece of your webpage's structure. Nodes can be:\n\n  - Element nodes: HTML tags like `<div>`, `<p>`, `<span>`\n  - Text nodes: Actual text content like \"Hello World!\"\n  - Comment nodes: HTML comments like `<!-- comment -->`\n\n- **NodeList:** A collection (list) of nodes returned by DOM methods like `querySelectorAll()`:\n\n```js\nconst divs = document.querySelectorAll(\"div\"); // Returns a NodeList\n```\n\nThink of nodes as building blocks and a NodeList as a box holding multiple building blocks. You can access items by index, but remember not everything in a NodeList is an HTML element.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is sibling node traversal in JavaScript DOM, and how do you navigate between sibling elements?",
+    "answer": "**Answer:** Sibling node traversal lets you move horizontally between elements at the same level in the DOM tree. You can use these properties:\n\n```js\nlet div = document.querySelector(\".choi\");\nlet divs = document.querySelector(\".choices\");\n\nconsole.log(divs.childNodes); // All child nodes\nconsole.log(div.previousElementSibling); // Previous element only\nconsole.log(div.nextElementSibling); // Next element only\nconsole.log(div.previousSibling); // Previous node (any type)\nconsole.log(div.nextSibling); // Next node (any type)\n```\n\nUse `previousElementSibling` and `nextElementSibling` to avoid text nodes; use `previousSibling` and `nextSibling` for all node types.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you apply event listeners directly in HTML using inline JavaScript?",
+    "answer": "**Answer:** Add the `onclick` attribute directly to an HTML element with JavaScript code:\n\n```html\n<button onclick=\"alert('BRUHHHHHH')\">Enter</button>\n```\n\nThis method is simple but not recommended for larger applications because it mixes HTML and JavaScript.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you apply event listeners in JavaScript using the addEventListener() method with functions?",
+    "answer": "**Answer:** Select the element, define a function, and attach it using `addEventListener()`:\n\n```js\nconst btn2 = document.querySelector(\".btn2\");\n\nfunction alertbtn() {\n  alert(\"BRUDAHHH\");\n}\n\n// Note: Pass function name without () - don't call it immediately\nbtn2.addEventListener(\"click\", alertbtn);\n```\n\n**Important:** Pass the function name without parentheses (`alertbtn`, not `alertbtn()`) so it executes when clicked, not immediately when the code runs.",
+    "type": "javascript"
+  },
+  {
+    "question": "What are the most common event types in JavaScript DOM, and when do they occur?",
+    "answer": "**Answer:** Here are the main event categories:\n\n**Mouse Events:**\n- `click` - User clicks an element\n- `dblclick` - Double-click\n- `mouseover` - Mouse pointer enters an element (hover)\n- `mouseout` - Pointer leaves an element\n- `mouseenter` - Enters element, doesn't bubble\n- `mouseleave` - Leaves element, doesn't bubble\n- `mousedown` - Mouse button pressed down\n- `mouseup` - Mouse button released\n- `mousemove` - Mouse moves over an element\n\n**Keyboard Events:**\n- `keydown` - Key is pressed\n- `keyup` - Key is released\n- `keypress` - Key is pressed (deprecated, less common)\n\n**Form Events:**\n- `submit` - Form is submitted\n- `focus` - Element gets focus\n- `blur` - Element loses focus\n- `change` - Input value changes\n- `input` - User types (captures every character)\n\n**Other Events:**\n- `load` - Page/element finishes loading\n- `resize` - Window size changes\n- `scroll` - User scrolls page/element",
+    "type": "javascript"
+  },
+  {
+    "question": "What's the simplest way to revert a background color using event listeners in JavaScript?",
+    "answer": "**Answer:** Set the `backgroundColor` property to an empty string, which removes the inline style:\n```js\nbtn2.style.backgroundColor = '';  // Removes inline style\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you create a button that toggles the visibility of hidden content using event listeners and CSS classes?",
+    "answer": "**Answer:** Use `classList.toggle()` or check if a class exists, then add/remove it:\n```js\nconst revealBtn = document.querySelector(\".reveal-center\");\nconst hiddenContent = document.querySelector(\".hidden-content\");\n\nfunction revealBot() {\n  if (hiddenContent.classList.contains(\"revealBtn\")) {\n    hiddenContent.classList.remove(\"revealBtn\");\n  } else {\n    hiddenContent.classList.add(\"revealBtn\");\n  }\n}\n\nrevealBtn.addEventListener(\"click\", revealBot);\n```\n\n**CSS:**\n```css\n.hidden-content {\n  display: none; /* Hidden by default */\n}\n.hidden-content.revealBtn {\n  display: block; /* Visible when class added */\n}\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "What is event propagation in JavaScript DOM, and what are its three phases?",
+    "answer": "**Answer:** Event propagation is the process of how events travel through elements in the DOM. It has three phases:\n\n1. **Event Capturing** - The event travels from the outermost parent down to the target element\n2. **Target** - The exact element that was clicked or triggered\n3. **Event Bubbling** - After hitting the target, the event travels back up from the target to the outermost parent\n\n**Summary:** Capturing goes inward → Target is the clicked item → Bubbling goes outward",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the window object in JavaScript?",
+    "answer": "**Answer:** `window` is the global browser object that represents the entire browser window or tab. It's the top-level object in the browser's JavaScript environment.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is event delegation in JavaScript DOM, and why is it useful?",
+    "answer": "**Answer:** Event delegation means putting a single event listener on a parent element to handle events for many child elements—even children added later—by checking what was actually clicked using event bubbling.\n\n**Example without delegation:**\n```js\ndocument.querySelector('.btn-1').addEventListener(\"click\", function(e) {\n  console.log('One is clicked');\n  const target = e.target;\n  \n  if (target.matches('button')) {\n    target.style.color = 'red';\n  }\n});\n```\n\n**Example with delegation:**\n```js\ndocument.querySelector('.items').addEventListener('click', function(e) {\n  console.log(e.target.getAttribute('class') + ' is clicked');\n});\n```\n\n**Why it's useful:** One parent, one listener handles all children. Perfect for lists, tables, and menus with similar elements!\n\n**Note:** `e` contains details about the click, and `e.target` is the element that was clicked.",
+    "type": "javascript"
+  },
+  {
+    "question": "What does the .matches() method do in JavaScript DOM?",
+    "answer": "**Answer:** `.matches(selector)` checks if an element fits a given CSS selector (tag, class, or id). It returns `true` or `false`:\n```js\ndocument.querySelector('.items').addEventListener('click', function(e) {\n  if (e.target.matches('button')) {\n    // Only true if clicked thing is a <button>\n    e.target.style.backgroundColor = 'blue';\n  }\n  if (e.target.matches('#btn1')) {\n    // Only true if it's the button with id=\"btn1\"\n    alert('Button 1 clicked!');\n  }\n  if (e.target.matches('.special')) {\n    // Only true if clicked thing has class=\"special\"\n    e.target.style.fontWeight = 'bold';\n  }\n});\n```\n**Summary:** `.matches()` asks \"does this thing fit the criteria?\"",
+    "type": "javascript"
+  },
+  {
+    "question": "What is e.target in JavaScript DOM events?",
+    "answer": "**Answer:** `e.target` tells you what element was clicked (or what triggered the event):\n```html\n<ul class=\"items\">\n  <li><button id=\"btn1\">Button 1</button></li>\n  <li><button id=\"btn2\">Button 2</button></li>\n</ul>\n```\n```js\ndocument.querySelector('.items').addEventListener('click', function(e) {\n  console.log(e.target.tagName); // \"BUTTON\" if you click a button\n});\n```\nIf you click Button 1, `e.target` is `<button id=\"btn1\">` and `e.target.tagName` is \"BUTTON\".\n\n**Summary:** `.target` is \"who did the action\"",
+    "type": "javascript"
+  }
+]
