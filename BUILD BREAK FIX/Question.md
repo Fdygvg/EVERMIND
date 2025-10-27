@@ -1,18 +1,4 @@
 
------------------
-  {
-    "question": "How to set image as background in CSS, make image stay in middle and make image fit the screen?",
-    "answer": "**Background Image Properties:**\n```css\nbody {\n    background-image: url('my-background.jpg');\n    background-position: center;\n    background-size: cover;\n    background-repeat: no-repeat;\n}\n\n/* Alternative sizes */\n.contain {\n    background-size: contain;\n}\n\n.specific-size {\n    background-size: 800px 600px;\n}\n\n.percentage {\n    background-size: 100% 100%;\n}\n```",
-    "type": "css",
-    "tags": ["css", "backgrounds", "images"],
-&&
-  {
-    "question": "How to stop background from repeating and fix empty background with background-attachment: fixed?",
-    "answer": "**Background Repeat Control:**\n```css\n.no-repeat {\n    background-repeat: no-repeat;\n}\n\n.fixed-background {\n    background-attachment: fixed;\n    background-repeat: no-repeat;\n}\n\n.cover-background {\n    background-size: cover;\n    background-repeat: no-repeat;\n}\n```\n\n**Common with gradients:**\n- Gradients don't repeat by default\n- Use `background-attachment: fixed` to keep background in place when scrolling\n- Use `background-size: cover` to make image fit screen",
-    "type": "css",
-    "tags": ["css", "backgrounds", "repeating"],
-
-  ----------------------
 
     {
     "question": "Difference between em, px and fr",

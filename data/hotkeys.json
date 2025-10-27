@@ -190,13 +190,7 @@
     "tags": ["vscode", "close-editors", "workspace"],
     "code": "// Editor management shortcuts:\n// Ctrl + K then W - Close all editors\n// Ctrl + W - Close current editor\n// Ctrl + Shift + T - Reopen closed editor\n// Ctrl + Tab - Switch between open editors\n// Ctrl + K then Ctrl + W - Close all editors in group"
   },
-  {
-    "question": "What is the shortcut to view or hide the outline (symbols, functions list) in VS Code?",
-    "answer": "**Ctrl + Shift + O**\n\nThis VS Code shortcut opens the Outline view, showing all symbols, functions, classes, and other code structures in the current file for quick navigation.",
-    "type": "hotkeys",
-    "tags": ["vscode", "outline", "navigation"],
-    "code": "// Navigation shortcuts:\n// Ctrl + Shift + O - Go to symbol in file\n// Ctrl + T - Go to symbol in workspace\n// Ctrl + G - Go to line number\n// F12 - Go to definition\n// Alt + F12 - Peek definition"
-  },
+
   {
     "question": "What is the shortcut to duplicate a line or selection in VS Code?",
     "answer": "**Shift + Alt + Down Arrow** (or **Up Arrow**)\n\nThis VS Code shortcut duplicates the current line or selected text, placing the copy above or below the original.",

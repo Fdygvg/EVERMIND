@@ -1097,10 +1097,10 @@ function loadTheme() {
 // Old showSwipeFeedback removed - using advanced implementation below
 // Archive Configuration
 const sectionConfig = {
-    active: ['programming', 'cybersec', 'hotkeys', 'country_flags', 'igbo'],
+    active: ['programming', 'cybersec', 'hotkeys', 'country_flags'],
     archived: ['bible', 'chess', 'psychology', 'new_words', 'facts', 
                'history', 'science', 'youtube_knowledge', 'anatomy', 
-               'binance_futures', 'memes_brainrot', 'languages']
+               'binance_futures', 'memes_brainrot', 'languages', 'igbo']
 };
 
 const sections = [
@@ -1120,7 +1120,7 @@ const sections = [
     { id: 'anatomy', name: 'Anatomy', icon: '🫀', status: 'archived' },
     { id: 'hotkeys', name: 'Hotkeys', icon: '⌨️', status: 'active' },
     { id: 'cybersec', name: 'CyberSec', icon: '🔒', status: 'active' },
-    { id: 'igbo', name: 'Igbo', icon: '🗣️', status: 'active' },
+    { id: 'igbo', name: 'Igbo', icon: '🗣️', status: 'archived' },
 ];
 
 // ==================== ARCHIVE FUNCTIONALITY ====================
