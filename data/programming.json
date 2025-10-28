@@ -1307,52 +1307,52 @@
   },
   {
     "question": "How do you add a remote origin in git and what should you do if it isn't working?",
-    "answer": "First, initialize your repository with `git init`. Then add the remote with `git remote add origin <your-repo-url>`. If you run into problems, make sure you've also done `git branch -M main` and `git push -u origin main`. This will set your main branch and push to the remote.",
+    "answer": "First, initialize your repository:\n\ngit init\ngit remote add origin <your-repo-url>\ngit branch -M main\ngit push -u origin main\n\nIf you run into problems, make sure you've set your branch and pushed as above.",
     "type": "git"
   },
   {
     "question": "How do you push changes when you are in a detached HEAD state in git?",
-    "answer": "If you're in a detached HEAD state, you should create a new branch: `git switch -c your-branch-name` (or `git checkout -b your-branch-name` if using older git), then push: `git push origin your-branch-name`.",
+    "answer": "If you're in a detached HEAD state, create and switch to a new branch, then push:\n\ngit switch -c your-branch-name\n# or for older git\ngit checkout -b your-branch-name\ngit push origin your-branch-name",
     "type": "git"
   },
   {
     "question": "What is Font Awesome and how can you use it in your project?",
-    "answer": "Font Awesome is a library of vector icons and social logos. To use it, add the following CDN link to your HTML: `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css`.",
+    "answer": "Font Awesome is a library of vector icons and social logos. To use it, add this CDN tag in your HTML head:\n\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css\">\n<i class=\"fas fa-home\"></i>\n\nThis renders a home icon.",
     "type": "css"
   },
   {
     "question": "How do you select all elements in CSS?",
-    "answer": "You use the universal selector: `* { /* styles */ }`. This targets every element on the page.",
+    "answer": "Use the universal selector:\n\n* {\n  margin: 0;\n  padding: 0;\n}",
     "type": "css"
   },
   {
     "question": "What is box-sizing in CSS and how does box-sizing: border-box work?",
-    "answer": "Box sizing is a CSS property that determines how width and height are calculated. With `box-sizing: border-box`, the declared width and height include padding and border, making layouts more predictable.",
+    "answer": "Box sizing controls how width/height is calculated:\n\n.box {\n  box-sizing: border-box;\n  width: 250px;\n  padding: 10px;\n  border: 2px solid #333;\n}\n\nWidth stays 250px regardless of padding/border.",
     "type": "css"
   },
   {
     "question": "What are vh units and how do you tell which axis is which in flexbox?",
-    "answer": "`vh` is a viewport height unit where 100vh is 100% of the viewport's height. In flexbox, the main axis is determined by `flex-direction` (row = horizontal, column = vertical). `justify-content` aligns along the main axis; `align-items` aligns along the cross axis.",
+    "answer": "`vh` stands for viewport height. Example:\n\n.container {\n  height: 100vh;\n  display: flex;\n  flex-direction: row; /* main axis is horizontal here */\n  justify-content: center;\n  align-items: center;\n}",
     "type": "css"
   },
   {
     "question": "What is the shorthand for adding background images in CSS?",
-    "answer": "You can use the background shorthand: `.box { background: url('image.jpg') center/cover no-repeat #eee; }`. Don't add the image property more than once or the shorthand will be ignored.",
+    "answer": "Background shorthand example:\n\n.box {\n  background: url('image.jpg') center/cover no-repeat #eee;\n}",
     "type": "css"
   },
   {
     "question": "How do you add shadow to elements with CSS?",
-    "answer": "Use the `box-shadow` property: `box-shadow: offset-x offset-y blur-radius color;`.",
+    "answer": "Add a shadow like this:\n\n.box {\n  box-shadow: 4px 8px 16px rgba(0,0,0,0.2);\n}",
     "type": "css"
   },
   {
     "question": "How do you add space between lines in CSS?",
-    "answer": "Use `line-height`. For example: `line-height: 1.5;` (1.5 times the font size), `line-height: 24px;`, or `line-height: 150%;`.",
+    "answer": "Set line spacing:\n\np {\n  line-height: 1.5;\n}",
     "type": "css"
   },
   {
     "question": "How do you change text capitalization in CSS?",
-    "answer": "Use the `text-transform` property: `uppercase` makes all letters caps, `lowercase` makes them small, and `capitalize` capitalizes the first letter of each word.",
+    "answer": "Use text-transform:\n\n.upper { text-transform: uppercase; }\n.lower { text-transform: lowercase; }\n.cap { text-transform: capitalize; }",
     "type": "css"
   },
   {
@@ -1362,67 +1362,67 @@
   },
   {
     "question": "How do you use the padding shorthand in CSS?",
-    "answer": "The property `padding: 10px 10px;` sets 10px padding on the top/bottom and left/right.",
+    "answer": "Padding shorthand:\n\n.box {\n  padding: 10px 20px;\n}\n\nTop/bottom = 10px, left/right = 20px.",
     "type": "css"
   },
   {
     "question": "How do you update two objects at once in JavaScript?",
-    "answer": "Use multiple properties in one object or multiple objects if you want to track separate things.",
+    "answer": "Update object properties like this:\n\nobj1.a = 2;\nobj2.b = 99;\n\nOr use destructuring if you need to.",
     "type": "javascript"
   },
   {
     "question": "What's the difference between a single object and an array of objects in JSON?",
-    "answer": "A single object uses `{}` for its properties; an array of objects uses `[]` with multiple `{}` inside.",
+    "answer": "Single object:\n\n{\n  \"name\": \"Alice\"\n}\n\nArray of objects:\n\n[\n  { \"name\": \"Alice\" },\n  { \"name\": \"Bob\" }\n]",
     "type": "javascript"
   },
   {
     "question": "How do you get a random element from an array, and how do you use min/max in Math.random?",
-    "answer": "Use `Math.random()` times the length: `array[Math.floor(Math.random() * array.length)]`. To generate a number in a range, use `Math.random() * (max - min) + min`.",
+    "answer": "Pick random:\n\nlet arr = [1, 2, 3];\nlet rand = arr[Math.floor(Math.random() * arr.length)];\n\nMin/max random number:\n\n// random between min and max\nlet num = Math.random() * (max - min) + min;",
     "type": "javascript"
   },
   {
     "question": "What are some common HTML entities?",
-    "answer": "HTML entities include: `&times;` × (Multiply), `&amp;` & (Ampersand), `&lt;` < (Less-than), `&gt;` > (Greater-than), `&copy;` © (Copyright), `&trade;` ™ (Trademark), `&euro;` € (Euro), `&quot;` \" (Quote), `&apos;` ' (Apostrophe), `&cent;` ¢ (Cent), `&plusmn;` ± (Plus/Minus).",
+    "answer": "Entities examples:\n\n&times;   <!-- × -->\n&amp;     <!-- & -->\n&lt;      <!-- < -->\n&gt;      <!-- > -->\n&copy;    <!-- © -->\n&trade;   <!-- ™ -->\n&cent;    <!-- ¢ -->\n&plusmn;  <!-- ± -->\n\nPaste into HTML for those symbols.",
     "type": "html"
   },
   {
     "question": "What is the transition property in CSS used for?",
-    "answer": "The `transition` property in CSS allows changes to happen smoothly over a period of time instead of instantly. For example, `transition: .5s;` animates all changes over a half-second.",
+    "answer": "Animated change example:\n\n.box {\n  transition: background 0.5s;\n}\n.box:hover {\n  background: yellow;\n}",
     "type": "css"
   },
   {
     "question": "Do you add the dot (.) or hash (#) when using pseudo-classes in CSS selectors?",
-    "answer": "Yes, you include the . for classes and # for ids when using pseudo-classes, e.g., `.btn:hover` or `#header:active`.",
+    "answer": "Yes. Examples:\n\n.btn:hover { background: orange; }\n#header:active { color: red; }",
     "type": "css"
   },
   {
     "question": "How do you center an absolutely (or fixed) positioned element perfectly?",
-    "answer": "Use `top: 50%; left: 50%; transform: translate(-50%, -50%);` together. The 50%/50% moves the top-left corner to the center, then the transform shifts the element itself by half its own size for perfect centering.",
+    "answer": "Center like this:\n\n.centered {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}",
     "type": "css"
   },
   {
     "question": "What attribute controls the transparency or appearance of elements in CSS, and how to make a see-through background?",
-    "answer": "Use the `opacity` property to control how see-through something is (`opacity: 0` = invisible, `1` = solid). For backgrounds like modals/navbars, use RGBA color (`rgba(0,0,0,0.2)`)—here, .2 is 20% black and 80% transparent.",
+    "answer": "Make transparent with opacity and rgba:\n\n.modal {\n  background: rgba(0,0,0,0.2);\n  opacity: 0.7;\n}",
     "type": "css"
   },
   {
     "question": "What does the ::after pseudo-class do?",
-    "answer": "The `::after` pseudo-element adds content after an element (not in the HTML, just visually), e.g., `.question::after { content: '+'; position: absolute; }` adds a plus sign after each .question.",
+    "answer": "Adds content after an element:\n\n.question::after {\n  content: '+';\n  position: absolute;\n}",
     "type": "css"
   },
   {
     "question": "How do you hide overflowing content in CSS?",
-    "answer": "Set `overflow` property: `visible` lets content spill out, `hidden` clips extra content, `scroll` adds scrollbars, and `auto` shows scrollbars only if needed. Example: `.box { width: 100%; height: 0px; overflow: hidden; }`",
+    "answer": "Use:\n\n.box {\n  overflow: hidden;\n}\nOther options: visible, scroll, auto.",
     "type": "css"
   },
   {
     "question": "What does toggle.active do?",
-    "answer": "It adds or removes the 'active' class on the section clicked. If 'active' is added, the section shows; if removed, it hides. It's useful for making things open and close like a switch whenever you click.",
+    "answer": "Toggle the 'active' class:\n\nsection.classList.toggle('active');\n\nAdds or removes 'active' for open/close UX.",
     "type": "javascript"
   },
   {
     "question": "How do you make an input only display text?",
-    "answer": "Add the `readonly` attribute to your input tag; this lets users see the text but not edit it.",
+    "answer": "Set readonly attribute:\n\n<input type=\"text\" value=\"Hello\" readonly>",
     "type": "html"
   }
 ]
