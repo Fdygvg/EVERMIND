@@ -280,5 +280,68 @@
     "type": "hotkeys",
     "tags": ["vscode", "terminal", "navigation"],
     "code": "// Terminal navigation shortcuts:\n// Ctrl + Page Up - Previous terminal\n// Ctrl + Page Down - Next terminal\n// Ctrl + Shift + ` - Open new terminal\n// Ctrl + ` - Toggle terminal panel\n// Ctrl + Shift + W - Close active terminal"
+  },
+  {
+    "question": "What happens if you type .button and hit Tab in Emmet?",
+    "answer": "It expands to <div class=\"button\"></div>\n\nEmmet recognizes CSS-like selectors and automatically converts them to HTML. The dot (.) represents a class attribute.",
+    "type": "hotkeys",
+    "tags": ["emmet", "html", "shortcuts"],
+    "code": "// Emmet class syntax:\n// .button → <div class=\"button\"></div>\n// .container → <div class=\"container\"></div>\n// p.text → <p class=\"text\"></p>\n// span.highlight → <span class=\"highlight\"></span>"
+  },
+  {
+    "question": "What if you type #app and press Tab in Emmet?",
+    "answer": "You get <div id=\"app\"></div>\n\nThe hash (#) represents an id attribute. Emmet automatically creates the div with the specified id.",
+    "type": "hotkeys",
+    "tags": ["emmet", "html", "id"],
+    "code": "// Emmet id syntax:\n// #app → <div id=\"app\"></div>\n// #header → <div id=\"header\"></div>\n// section#main → <section id=\"main\"></section>\n// nav#navbar → <nav id=\"navbar\"></nav>"
+  },
+  {
+    "question": "How to make an element with both class and id in Emmet?",
+    "answer": "Use syntax like: div#hero.banner\n\nResult: <div id=\"hero\" class=\"banner\"></div>\n\nThe # is for id, and . is for class. You can combine them in any order.",
+    "type": "hotkeys",
+    "tags": ["emmet", "html", "class", "id"],
+    "code": "// Emmet class and id combinations:\n// div#hero.banner → <div id=\"hero\" class=\"banner\"></div>\n// div.container.main → <div class=\"container main\"></div>\n// p.text.highlight#intro → <p id=\"intro\" class=\"text highlight\"></p>\n// span.icon.small#logo → <span id=\"logo\" class=\"icon small\"></span>"
+  },
+  {
+    "question": "How to quickly create a button with text inside using Emmet?",
+    "answer": "Type: button{Click Me} then press Tab\n\nResult: <button>Click Me</button>\n\nUse curly braces {} to add text content inside elements.",
+    "type": "hotkeys",
+    "tags": ["emmet", "html", "text-content"],
+    "code": "// Emmet text content:\n// button{Click Me} → <button>Click Me</button>\n// h1{Hello World} → <h1>Hello World</h1>\n// p{Lorem ipsum} → <p>Lorem ipsum</p>\n// a{Link Text} → <a>Link Text</a>"
+  },
+  {
+    "question": "How to nest elements instantly in Emmet?",
+    "answer": "Type: ul>li*3 then press Tab\n\nResult: <ul><li></li><li></li><li></li></ul>\n\nThe > creates parent-child relationships, and *N repeats elements N times.",
+    "type": "hotkeys",
+    "tags": ["emmet", "html", "nesting", "repetition"],
+    "code": "// Emmet nesting and repetition:\n// ul>li*3 → <ul><li></li><li></li><li></li></ul>\n// div>p*4 → <div><p></p><p></p><p></p><p></p></div>\n// nav>a*5 → <nav><a></a><a></a><a></a><a></a><a></a></nav>\n// section>h2+p → <section><h2></h2><p></p></section>"
+  },
+  {
+    "question": "How to add multiple sibling elements in Emmet?",
+    "answer": "Type: h1+p+footer then press Tab\n\nResult: <h1></h1><p></p><footer></footer>\n\nThe + creates sibling elements that appear at the same level.",
+    "type": "hotkeys",
+    "tags": ["emmet", "html", "siblings"],
+    "code": "// Emmet sibling syntax:\n// h1+p+footer → <h1></h1><p></p><footer></footer>\n// header+main+footer → <header></header><main></main><footer></footer>\n// nav+a+button → <nav></nav><a></a><button></button>\n// div+section+article → <div></div><section></section><article></article>"
+  },
+  {
+    "question": "How to number repeated elements automatically in Emmet?",
+    "answer": "Type: li.item$*5 then press Tab\n\nResult: <li class=\"item1\"></li><li class=\"item2\"></li>...<li class=\"item5\"></li>\n\nThe dollar sign ($) creates sequential numbers in repeated elements.",
+    "type": "hotkeys",
+    "tags": ["emmet", "html", "numbering", "repetition"],
+    "code": "// Emmet numbering:\n// li.item$*5 → items with classes item1, item2, item3, item4, item5\n// div.box$$ → <div class=\"box01\"></div> (double $$ for zero-padded numbers)\n// h2.sec$$$*3 → h2.sec001, h2.sec002, h2.sec003\n// a.item-$*10 → a.item-1, a.item-2, etc."
+  },
+  {
+    "question": "How to wrap selected text in a tag using Emmet in VS Code?",
+    "answer": "Highlight the text → press Ctrl + Shift + P → type 'Emmet: Wrap with Abbreviation' → enter tag name (e.g. div.container)\n\nThis wraps your selected text inside a new HTML element without manually typing tags.",
+    "type": "hotkeys",
+    "tags": ["emmet", "vscode", "wrap", "refactoring"],
+    "code": "// Wrapping shortcuts:\n// Ctrl + Shift + P → 'Emmet: Wrap with Abbreviation'\n// Enter tag like: div, div.container, span.highlight\n// Can wrap multiple selections with div.item$*\n// Alt + F12 - Peek definition\n// F2 - Rename symbol"
+  },
+  {
+    "question": "How to create a complex structure like section > article > h2 + p in one go with Emmet?",
+    "answer": "Type: section>article>h2+p then press Tab\n\nResult: <section><article><h2></h2><p></p></article></section>\n\nCombine > for nesting and + for siblings to build complex structures instantly.",
+    "type": "hotkeys",
+    "tags": ["emmet", "html", "complex-structures"],
+    "code": "// Complex Emmet structures:\n// section>article>h2+p → nested section with article containing h2 and p\n// nav>ul>li*3>a → nav with ul containing 3 lis, each with an anchor\n// div.container>header+main+footer → div with three siblings\n// form>label+input+button → form with label, input, and button"
   }
 ]

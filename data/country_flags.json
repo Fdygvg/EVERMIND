@@ -803,5 +803,70 @@
     "question": "Which country's flag is this?",
     "image": "https://flagcdn.com/w320/gd.png",
     "answer": "Grenada"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/co.png",
+    "answer": "Colombia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ve.png",
+    "answer": "Venezuela"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ec.png",
+    "answer": "Ecuador"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/pe.png",
+    "answer": "Peru"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/bo.png",
+    "answer": "Bolivia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/cl.png",
+    "answer": "Chile"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/py.png",
+    "answer": "Paraguay"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/uy.png",
+    "answer": "Uruguay"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/sr.png",
+    "answer": "Suriname"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/gy.png",
+    "answer": "Guyana"
+  },
+  {
+    "question": "Which territory's flag is this?",
+    "image": "https://flagcdn.com/w320/gf.png",
+    "answer": "French Guiana"
+  },
+  {
+    "question": "Which territory's flag is this?",
+    "image": "https://flagcdn.com/w320/fk.png",
+    "answer": "Falkland Islands"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/bz.png",
+    "answer": "Belize"
   }
 ]

@@ -1304,5 +1304,125 @@
     "question": "What is e.target in JavaScript DOM events?",
     "answer": "e.target tells you what element was clicked or what triggered the event:\n\nHTML:\n<ul class='items'>\n    <li><button id='btn1'>Button 1</button></li>\n    <li><button id='btn2'>Button 2</button></li>\n</ul>\n\nJavaScript:\ndocument.querySelector('.items').addEventListener('click', function(e) {\n    console.log(e.target.tagName); // 'BUTTON' if you click a button\n});\n\nIf you click Button 1, e.target is the button with id='btn1' and e.target.tagName is 'BUTTON'. Summary: .target is 'who did the action'",
     "type": "javascript"
+  },
+  {
+    "question": "How do you add a remote origin in git and what should you do if it isn't working?",
+    "answer": "First, initialize your repository with `git init`. Then add the remote with `git remote add origin <your-repo-url>`. If you run into problems, make sure you've also done `git branch -M main` and `git push -u origin main`. This will set your main branch and push to the remote.",
+    "type": "git"
+  },
+  {
+    "question": "How do you push changes when you are in a detached HEAD state in git?",
+    "answer": "If you're in a detached HEAD state, you should create a new branch: `git switch -c your-branch-name` (or `git checkout -b your-branch-name` if using older git), then push: `git push origin your-branch-name`.",
+    "type": "git"
+  },
+  {
+    "question": "What is Font Awesome and how can you use it in your project?",
+    "answer": "Font Awesome is a library of vector icons and social logos. To use it, add the following CDN link to your HTML: `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css`.",
+    "type": "css"
+  },
+  {
+    "question": "How do you select all elements in CSS?",
+    "answer": "You use the universal selector: `* { /* styles */ }`. This targets every element on the page.",
+    "type": "css"
+  },
+  {
+    "question": "What is box-sizing in CSS and how does box-sizing: border-box work?",
+    "answer": "Box sizing is a CSS property that determines how width and height are calculated. With `box-sizing: border-box`, the declared width and height include padding and border, making layouts more predictable.",
+    "type": "css"
+  },
+  {
+    "question": "What are vh units and how do you tell which axis is which in flexbox?",
+    "answer": "`vh` is a viewport height unit where 100vh is 100% of the viewport's height. In flexbox, the main axis is determined by `flex-direction` (row = horizontal, column = vertical). `justify-content` aligns along the main axis; `align-items` aligns along the cross axis.",
+    "type": "css"
+  },
+  {
+    "question": "What is the shorthand for adding background images in CSS?",
+    "answer": "You can use the background shorthand: `.box { background: url('image.jpg') center/cover no-repeat #eee; }`. Don't add the image property more than once or the shorthand will be ignored.",
+    "type": "css"
+  },
+  {
+    "question": "How do you add shadow to elements with CSS?",
+    "answer": "Use the `box-shadow` property: `box-shadow: offset-x offset-y blur-radius color;`.",
+    "type": "css"
+  },
+  {
+    "question": "How do you add space between lines in CSS?",
+    "answer": "Use `line-height`. For example: `line-height: 1.5;` (1.5 times the font size), `line-height: 24px;`, or `line-height: 150%;`.",
+    "type": "css"
+  },
+  {
+    "question": "How do you change text capitalization in CSS?",
+    "answer": "Use the `text-transform` property: `uppercase` makes all letters caps, `lowercase` makes them small, and `capitalize` capitalizes the first letter of each word.",
+    "type": "css"
+  },
+  {
+    "question": "What is the shortcut to delete an entire line in VS Code?",
+    "answer": "Windows/Linux: Ctrl + Shift + K.",
+    "type": "vscode"
+  },
+  {
+    "question": "How do you use the padding shorthand in CSS?",
+    "answer": "The property `padding: 10px 10px;` sets 10px padding on the top/bottom and left/right.",
+    "type": "css"
+  },
+  {
+    "question": "How do you update two objects at once in JavaScript?",
+    "answer": "Use multiple properties in one object or multiple objects if you want to track separate things.",
+    "type": "javascript"
+  },
+  {
+    "question": "What's the difference between a single object and an array of objects in JSON?",
+    "answer": "A single object uses `{}` for its properties; an array of objects uses `[]` with multiple `{}` inside.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you get a random element from an array, and how do you use min/max in Math.random?",
+    "answer": "Use `Math.random()` times the length: `array[Math.floor(Math.random() * array.length)]`. To generate a number in a range, use `Math.random() * (max - min) + min`.",
+    "type": "javascript"
+  },
+  {
+    "question": "What are some common HTML entities?",
+    "answer": "HTML entities include: `&times;` × (Multiply), `&amp;` & (Ampersand), `&lt;` < (Less-than), `&gt;` > (Greater-than), `&copy;` © (Copyright), `&trade;` ™ (Trademark), `&euro;` € (Euro), `&quot;` \" (Quote), `&apos;` ' (Apostrophe), `&cent;` ¢ (Cent), `&plusmn;` ± (Plus/Minus).",
+    "type": "html"
+  },
+  {
+    "question": "What is the transition property in CSS used for?",
+    "answer": "The `transition` property in CSS allows changes to happen smoothly over a period of time instead of instantly. For example, `transition: .5s;` animates all changes over a half-second.",
+    "type": "css"
+  },
+  {
+    "question": "Do you add the dot (.) or hash (#) when using pseudo-classes in CSS selectors?",
+    "answer": "Yes, you include the . for classes and # for ids when using pseudo-classes, e.g., `.btn:hover` or `#header:active`.",
+    "type": "css"
+  },
+  {
+    "question": "How do you center an absolutely (or fixed) positioned element perfectly?",
+    "answer": "Use `top: 50%; left: 50%; transform: translate(-50%, -50%);` together. The 50%/50% moves the top-left corner to the center, then the transform shifts the element itself by half its own size for perfect centering.",
+    "type": "css"
+  },
+  {
+    "question": "What attribute controls the transparency or appearance of elements in CSS, and how to make a see-through background?",
+    "answer": "Use the `opacity` property to control how see-through something is (`opacity: 0` = invisible, `1` = solid). For backgrounds like modals/navbars, use RGBA color (`rgba(0,0,0,0.2)`)—here, .2 is 20% black and 80% transparent.",
+    "type": "css"
+  },
+  {
+    "question": "What does the ::after pseudo-class do?",
+    "answer": "The `::after` pseudo-element adds content after an element (not in the HTML, just visually), e.g., `.question::after { content: '+'; position: absolute; }` adds a plus sign after each .question.",
+    "type": "css"
+  },
+  {
+    "question": "How do you hide overflowing content in CSS?",
+    "answer": "Set `overflow` property: `visible` lets content spill out, `hidden` clips extra content, `scroll` adds scrollbars, and `auto` shows scrollbars only if needed. Example: `.box { width: 100%; height: 0px; overflow: hidden; }`",
+    "type": "css"
+  },
+  {
+    "question": "What does toggle.active do?",
+    "answer": "It adds or removes the 'active' class on the section clicked. If 'active' is added, the section shows; if removed, it hides. It's useful for making things open and close like a switch whenever you click.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you make an input only display text?",
+    "answer": "Add the `readonly` attribute to your input tag; this lets users see the text but not edit it.",
+    "type": "html"
   }
 ]
