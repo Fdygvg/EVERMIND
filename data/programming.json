@@ -1424,5 +1424,30 @@
     "question": "How do you make an input only display text?",
     "answer": "Set readonly attribute:\n\n<input type=\"text\" value=\"Hello\" readonly>",
     "type": "html"
+  },
+  {
+    "question": "What is the shorthand for selecting elements with the 'active' class in CSS?",
+    "answer": "To quickly target any element with the 'active' class, use this CSS selector:\n\n.active {\n  /* add styles for active state */\n  background: yellow;\n}\n\nYou can write .element.active to select 'element' tags that ALSO have the 'active' class. This is commonly used to highlight or reveal menu items, tabs, sliders, etc.",
+    "type": "css"
+  },
+  {
+    "question": "How do you add the CSS ::after pseudoclass?",
+    "answer": "The ::after pseudo-element lets you insert extra content after an element, without putting anything new in the HTML itself. You use two colons :: before the name:\n\n.element::after {\n  content: \" ➔\";\n  color: red;\n}\n\nThis is excellent for adding icons, separators, or markers next to text like links or headings.",
+    "type": "css"
+  },
+  {
+    "question": "What does the setInterval function do in JavaScript?",
+    "answer": "window.setInterval() schedules a function to run repeatedly at a set time interval (in milliseconds). Think of it as setting a repeating alarm that keeps calling your code.\n\nExample:\n\nfunction showTime() {\n  console.log(new Date());\n}\nwindow.setInterval(showTime, 1000); // logs the current time every second\n\nUse clearInterval() to stop it. This is great for clocks, auto-updating games, timed effects, etc.",
+    "type": "javascript"
+  },
+  {
+    "question": "What does .padStart() do in JavaScript?",
+    "answer": ".padStart() is a string method that adds characters to the beginning of a string until it hits the length you want. Commonly used to show numbers with leading zeros (for clock timers, IDs, etc).\n\nExamples:\n\n\"9\".padStart(2, \"0\");      // \"09\"\n\"42\".padStart(5, \"*\");      // \"***42\"\n\"cat\".padStart(6, \"ab\");    // \"ababat\"\n\nIt only works on strings, not numbers. Useful for formatting or showing uniform lists.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you convert a number to a string in JavaScript?",
+    "answer": "Use .toString() to turn numbers into strings:\n\nlet num = 7;\nlet text = num.toString(); // \"7\"\n\nThis is the opposite of parseInt():\n\nparseInt(\"99\") // 99\n(returns a number)\n\n.toString() gives you text, useful for display, IDs, or formatting output.",
+    "type": "javascript"
   }
 ]
