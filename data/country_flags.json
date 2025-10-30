@@ -868,5 +868,50 @@
     "question": "Which country's flag is this?",
     "image": "https://flagcdn.com/w320/bz.png",
     "answer": "Belize"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/nz.png",
+    "answer": "New Zealand"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/fj.png",
+    "answer": "Fiji"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/pg.png",
+    "answer": "Papua New Guinea"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/sb.png",
+    "answer": "Solomon Islands"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/vu.png",
+    "answer": "Vanuatu"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ws.png",
+    "answer": "Samoa"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/to.png",
+    "answer": "Tonga"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ki.png",
+    "answer": "Kiribati"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/nr.png",
+    "answer": "Nauru"
   }
 ]

@@ -343,5 +343,47 @@
     "type": "hotkeys",
     "tags": ["emmet", "html", "complex-structures"],
     "code": "// Complex Emmet structures:\n// section>article>h2+p → nested section with article containing h2 and p\n// nav>ul>li*3>a → nav with ul containing 3 lis, each with an anchor\n// div.container>header+main+footer → div with three siblings\n// form>label+input+button → form with label, input, and button"
+  },
+  {
+    "question": "Shortcut to cut an entire line (no selection) in VS Code?",
+    "answer": "**Ctrl + X**\n\nIf nothing is selected, VS Code cuts the whole line automatically.",
+    "type": "hotkeys",
+    "tags": ["vscode", "line-editing", "cut"],
+    "code": "// Line operations:\n// Ctrl + X - Cut entire line when nothing is selected\n// Ctrl + C - Copy entire line when nothing is selected\n// Ctrl + Shift + K - Delete current line"
+  },
+  {
+    "question": "Shortcut to select the entire line instantly?",
+    "answer": "**Ctrl + L**\n\nQuickly selects the current line; press again to extend to the next line.",
+    "type": "hotkeys",
+    "tags": ["vscode", "line-editing", "select"],
+    "code": "// Line selection tips:\n// Ctrl + L - Select current line (repeat to extend)\n// Shift + Home/End - Select to start/end of line"
+  },
+  {
+    "question": "Shortcut to insert a line below without moving the cursor?",
+    "answer": "**Ctrl + Enter**\n\nInserts a blank line below and keeps your cursor in place.",
+    "type": "hotkeys",
+    "tags": ["vscode", "line-editing", "insert"],
+    "code": "// Insertion shortcuts:\n// Ctrl + Enter - Insert line below\n// Ctrl + Shift + Enter - Insert line above"
+  },
+  {
+    "question": "Shortcut to insert a line above without moving the cursor?",
+    "answer": "**Ctrl + Shift + Enter**\n\nInserts a blank line above and keeps your cursor in place.",
+    "type": "hotkeys",
+    "tags": ["vscode", "line-editing", "insert"],
+    "code": "// Insertion shortcuts:\n// Ctrl + Shift + Enter - Insert line above\n// Ctrl + Enter - Insert line below"
+  },
+  {
+    "question": "Shortcut to copy the entire line (no selection)?",
+    "answer": "**Ctrl + C**\n\nLike cut, if nothing is selected, VS Code copies the whole line.",
+    "type": "hotkeys",
+    "tags": ["vscode", "line-editing", "copy"],
+    "code": "// Copy variations:\n// Ctrl + C - Copy entire line when nothing is selected\n// Shift + Alt + Down/Up - Duplicate line down/up"
+  },
+  {
+    "question": "Shortcut to select the next matching word (multi-select)?",
+    "answer": "**Ctrl + D**\n\nAdds the next occurrence of the current selection to the selection for multi-cursor editing.",
+    "type": "hotkeys",
+    "tags": ["vscode", "multi-cursor", "selection"],
+    "code": "// Multi-select flow:\n// Ctrl + D - Add next occurrence\n// Ctrl + U - Undo last cursor\n// Ctrl + Shift + L - Select all occurrences"
   }
 ]
