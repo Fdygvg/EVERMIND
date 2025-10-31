@@ -913,5 +913,55 @@
     "question": "Which country's flag is this?",
     "image": "https://flagcdn.com/w320/nr.png",
     "answer": "Nauru"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/pw.png",
+    "answer": "Palau"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/mh.png",
+    "answer": "Marshall Islands"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/fm.png",
+    "answer": "Micronesia"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/tv.png",
+    "answer": "Tuvalu"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/ck.png",
+    "answer": "Cook Islands"
+  },
+  {
+    "question": "Which country's flag is this?",
+    "image": "https://flagcdn.com/w320/nu.png",
+    "answer": "Niue"
+  },
+  {
+    "question": "Which territory's flag is this?",
+    "image": "https://flagcdn.com/w320/tk.png",
+    "answer": "Tokelau"
+  },
+  {
+    "question": "Which territory's flag is this?",
+    "image": "https://flagcdn.com/w320/pf.png",
+    "answer": "French Polynesia"
+  },
+  {
+    "question": "Which territory's flag is this?",
+    "image": "https://flagcdn.com/w320/nc.png",
+    "answer": "New Caledonia"
+  },
+  {
+    "question": "Which territory's flag is this?",
+    "image": "https://flagcdn.com/w320/wf.png",
+    "answer": "Wallis and Futuna"
   }
 ]

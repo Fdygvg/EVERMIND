@@ -212,13 +212,6 @@
     "code": "// Line movement shortcuts:\n// Alt + Up/Down - Move line up/down\n// Shift + Alt + Up/Down - Duplicate line\n// Ctrl + Shift + K - Delete line\n// Ctrl + ] - Indent line\n// Ctrl + [ - Outdent line"
   },
   {
-    "question": "What is the shortcut to open a new instance of the integrated terminal in VS Code?",
-    "answer": "**Ctrl + Shift + `** (backtick key)\n\nThis VS Code shortcut opens a new terminal instance in the integrated terminal panel, allowing you to run multiple terminal sessions.",
-    "type": "hotkeys",
-    "tags": ["vscode", "terminal", "new-instance"],
-    "code": "// Terminal shortcuts:\n// Ctrl + Shift + ` - New terminal\n// Ctrl + ` - Toggle terminal\n// Ctrl + Shift + C - Open external terminal\n// Ctrl + Shift + 5 - Split terminal\n// Ctrl + Shift + P - Terminal commands"
-  },
-  {
     "question": "What is the shortcut to toggle sidebar visibility in VS Code?",
     "answer": "**Ctrl + B**\n\nThis VS Code shortcut toggles the sidebar (Explorer, Search, Source Control, etc.) on and off to maximize editor space.",
     "type": "hotkeys",
@@ -232,13 +225,7 @@
     "tags": ["vscode", "goto-line", "navigation"],
     "code": "// Navigation shortcuts:\n// Ctrl + G - Go to line\n// Ctrl + Shift + O - Go to symbol in file\n// Ctrl + T - Go to symbol in workspace\n// F12 - Go to definition\n// Alt + Left/Right - Go back/forward"
   },
-  {
-    "question": "What is the shortcut to close the active terminal instance in VS Code?",
-    "answer": "**Ctrl + Shift + W**\n\nThis VS Code shortcut closes the currently active terminal instance in the integrated terminal panel. If you have multiple terminal instances open, this will close only the active one.",
-    "type": "hotkeys",
-    "tags": ["vscode", "terminal", "close"],
-    "code": "// Terminal management shortcuts:\n// Ctrl + Shift + W - Close active terminal\n// Ctrl + Shift + ` - Open new terminal\n// Ctrl + ` - Toggle terminal panel\n// Ctrl + Shift + 5 - Split terminal\n// Ctrl + Shift + C - Open external terminal"
-  },
+
   {
     "question": "What is the shortcut to fold (collapse) a block of code in VS Code?",
     "answer": "**Ctrl + Shift + [**\n\nThis VS Code shortcut folds (collapses) the current code block, hiding its contents to make the code more compact and easier to navigate.",
@@ -274,13 +261,7 @@
     "tags": ["windows", "security", "lock"],
     "code": "// Security shortcuts:\n// Win + L - Lock computer\n// Ctrl + Alt + Del - Security options\n// Win + X - Power user menu\n// Alt + F4 - Close application\n// Ctrl + Shift + Esc - Task Manager"
   },
-  {
-    "question": "What is the shortcut to switch between multiple terminals?",
-    "answer": "**Ctrl + Page Up** / **Ctrl + Page Down**\n\nThis shortcut allows you to navigate between multiple terminal instances in VS Code. You can cycle through all open terminal tabs quickly.",
-    "type": "hotkeys",
-    "tags": ["vscode", "terminal", "navigation"],
-    "code": "// Terminal navigation shortcuts:\n// Ctrl + Page Up - Previous terminal\n// Ctrl + Page Down - Next terminal\n// Ctrl + Shift + ` - Open new terminal\n// Ctrl + ` - Toggle terminal panel\n// Ctrl + Shift + W - Close active terminal"
-  },
+
   {
     "question": "What happens if you type .button and hit Tab in Emmet?",
     "answer": "It expands to <div class=\"button\"></div>\n\nEmmet recognizes CSS-like selectors and automatically converts them to HTML. The dot (.) represents a class attribute.",

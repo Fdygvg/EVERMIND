@@ -1519,6 +1519,50 @@
 "question": "How do you force push to GitHub?",
 "answer": "To forcefully overwrite the remote branch on GitHub with your local changes, use the --force flag when pushing. This is useful if you need to rewrite history (e.g., after a rebase), but be careful—force-pushing will replace the remote branch and might overwrite others' work.\n\nExample:\n\ngit push origin main --force\n\nAlways communicate with your team before using --force, as this can disrupt shared branches.",
 "type": "git"
+},
+{
+  "question": "How does a click event handler safely detect whether a button was clicked, and why is it necessary to check the result before using it?",
+  "answer": "In JavaScript, you use:\n\nconst USERINPUT = e.target.closest('button');\nif (!USERINPUT) return;\n\nThis searches upward from the clicked element to find the nearest <button>. If no button was found, USERINPUT will be null and the function exits immediately,\nwhich prevents errors from trying to read properties of null.",
+  "type": "javascript"
+},
+{
+  "question": "What is synchronous programming and asynchronous programming?",
+  "answer": "Synchronous programming means code runs in order: each step waits for the previous step to finish. Example:\n\nconsole.log(\"Step 1: Wake up\");\nconsole.log(\"Step 2: Brush teeth\");\nconsole.log(\"Step 3: Eat breakfast\");\n// Output:\nStep 1: Wake up\nStep 2: Brush teeth\nStep 3: Eat breakfast\n\nAsynchronous programming lets you run tasks without blocking—other code can run while waiting for results. Example:\n\nconsole.log(\"Step 1: Wake up\");\nsetTimeout(() => {\n  console.log(\"Step 2: Eat breakfast (after 2 seconds)\");\n}, 2000);\nconsole.log(\"Step 3: Brush teeth\");\n// Output:\nStep 1: Wake up\nStep 3: Brush teeth\nStep 2: Eat breakfast (after 2 seconds)",
+  "type": "javascript"
+},
+{
+  "question": "What is the setTimeout Method in JavaScript?",
+  "answer": "setTimeout is a function (on window) that runs code once after a specified delay in milliseconds. It's non-blocking and lets other code run. Syntax:\n\nsetTimeout(functionToRun, delayInMilliseconds);\n\nExample:\nconsole.log(\"Start\");\nsetTimeout(() => {\n  console.log(\"This runs after 3 seconds\");\n}, 3000);\nconsole.log(\"End\");\n// Output:\nStart\nEnd\nThis runs after 3 seconds",
+  "type": "javascript"
+},
+{
+  "question": "What is a callback in JavaScript?",
+  "answer": "A callback is a function passed into another function to be called later, usually when an operation completes. Example:\n\nfunction stepOne(callback) {\n  console.log(\"Step 1: Turn on the computer\");\n  callback();\n}\nfunction stepTwo(callback) {\n  console.log(\"Step 2: Open your code editor\");\n  callback();\n}\nfunction stepThree() {\n  console.log(\"Step 3: Start coding!\");\n}\n// Chained callbacks:\nstepOne(() => {\n  stepTwo(() => {\n    stepThree();\n  });\n});",
+  "type": "javascript"
+},
+{
+  "question": "What is 'callback hell'?",
+  "answer": "Callback hell happens when you nest callbacks inside callbacks to ensure things happen in sequence. It becomes hard to read and maintain—code looks like a pyramid. Example:\n\nstepOne(function() {\n  stepTwo(function() {\n    stepThree(function() {\n      stepFour(function() {\n        stepFive(function() {\n          console.log(\"All steps done!\");\n        });\n      });\n    });\n  });\n});\n// Each level is indented more—easy to get lost if something breaks!",
+  "type": "javascript"
+},
+{
+  "question": "What is a Promise in JavaScript?",
+  "answer": "A Promise is an object representing the eventual completion or failure of an async operation. It has states: pending, fulfilled, or rejected.\n\nCreating a Promise:\nconst promise = new Promise((resolve, reject) => {\n  if (everythingIsGood) {\n    resolve('Success value');\n  } else {\n    reject('Error value');\n  }\n});\n\nUsing a Promise:\npromise.then(result => {\n  console.log('Got:', result);\n});\npromise.catch(error => {\n  console.log('Error:', error);\n});\n// resolve/reject is for inside the Promise, .then/.catch is for outside.",
+  "type": "javascript"
+},
+{
+  "question": "How is (value) in .then() and (error) in .catch() related to Promises in JavaScript?",
+  "answer": "In a Promise chain, the parameter inside .then() receives what was passed to resolve(...) in your Promise. The parameter inside .catch() gets whatever was sent to reject(...).\n\nExample:\n\npromise\n  .then(value => {\n    // 'value' is what resolve(...) sent\n    console.log('Success:', value);\n  })\n  .catch(error => {\n    // 'error' is what reject(...) sent\n    console.log('Failure:', error);\n  });\n\nIf resolve('done!') runs, .then() receives 'done!'. If reject('fail!'), .catch gets 'fail!'.\n\nSummary:\n- parameter in .then() = value from resolve\n- parameter in .catch() = value from reject",
+  "type": "javascript"
+},
+{
+  "question": "How do you chain Promises in JavaScript and what happens if one fails?",
+  "answer": "You can chain Promises by returning a new promise (or value) from each .then(). Each .then() waits until the previous promise resolves. If any promise rejects, execution goes immediately to .catch().\n\nStep-by-step example:\n\nconst promise = new Promise((resolve, reject) => {\n  resolve('Well Done! Promise One is Resolved');\n});\n\nconst promiseTwo = new Promise((resolve, reject) => {\n  resolve('Well Done! Promise Two is Resolved');\n});\nconst promiseThree = new Promise((resolve, reject) => {\n  reject('Promise Three is Rejected. Unlucky!');\n});\n\npromise\n  .then((value) => {\n    console.log(value); // Logs from promise one\n    return promiseTwo; // Return the next promise\n  })\n  .then((value) => {\n    console.log(value); // Logs promise two result\n    return promiseThree;\n  })\n  .catch((error) => {\n    console.log(error); // Handles promise three's rejection, or any earlier error\n  });\n\nEach .then() gets the previous result. If you return a new value instead of a Promise, the next .then() runs immediately with that value. If a promise is rejected, .catch() runs, and later .then() handlers are skipped.",
+  "type": "javascript"
+},
+{
+  "question": "How do you run multiple Promises at once in JavaScript?",
+  "answer": "You can run concurrent Promises using Promise.all. Pass it an array of Promises. It waits for all of them to resolve before running .then() with an array of results. If any promise rejects, .catch() is called right away and gives the error.\n\nExample:\n\nconst promiseOne = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Promise One Resolved!');\n  }, 2000);\n});\nconst promiseTwo = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Promise Two Resolved!');\n  }, 1500);\n});\nPromise.all([promiseOne, promiseTwo])\n  .then(data => console.log(data, data))\n  .catch(error => console.log(error));\n\nHow it works: Results are in order, matching the input array. If any promise fails, no results are returned, only the first error. Other promises still run, but you won't receive their values",
+  "type": "javascript"
 }
-
 ]

@@ -1,621 +1,423 @@
-What does flex: 5 and flex: 1 mean in CSS, and how do they affect how elements share space inside a flex container? 🤔
+<!-- Example (JavaScript):
+console.log("Start");
 
-💡 Answer:
-
-flex tells the browser how much space each flex item should take compared to the others.
-When you write a number like flex: 5, it means:
-
-“Give this element 5 parts of the available space.”
-
-And flex: 1 means:
-
-“Give this element 1 part of the available space.”
-
-So if two elements have flex: 5 and flex: 1, the total space is divided into 6 parts.
-🧮 The first gets 5 parts, the second gets 1 part.
-
-🧩 Example Code:
-<div class="task-container">
-  <input type="text" placeholder="Enter task..." />
-  <button>Add</button>
-</div>
-
-.task-container {
-  display: flex;
-  background: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+function wait(ms) {
+  const start = Date.now();
+  while (Date.now() - start < ms) {} // blocks execution
 }
 
-.task-container input {
-  flex: 5; /* 🧠 Takes 5 parts of space */
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
+wait(2000); // waits 2 seconds
 
-.task-container button {
-  flex: 1; /* 💪 Takes 1 part of space */
-  padding: 8px;
-  border-radius: 8px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-🎨 Result Visually:
-
-🧱 [Input Field — takes 5/6 width]
-🟩 [Button — takes 1/6 width]
-
-🧠 Analogy:
-
-Think of a pizza 🍕 sliced into 6 equal pieces:
-
-The input says, “I’m hungry! I’ll take 5 slices.”
-
-The button says, “I’ll just take 1 slice.”
-
-That’s flex: 5 vs flex: 1 — it’s all about sharing space fairly between flex items! 💪✨
----------------------------------
-how do you make list items display plain
-list-style is a CSS property that controls how list markers (bullets or numbers) appear on <ul> or <ol> elements.
-
-The value none removes the default bullets or numbers from the list items.
-
-Example:
-
-<ul>
-  <li>Item 1</li>
-  <li>Item 2</li>
-</ul>
-
-ul {
-  list-style: none; /* removes bullets */
-  padding: 0;       /* optional: removes default indentation */
-  margin: 0;
-}
-
-
-Result:
-
-Item 1
-Item 2
-
-
-No bullets or numbers appear next to the list items.
-
-list-style is a property, and none is its value.
-------------------------
-What is OOP and its 4 Pillars
-
-OOP (Object-Oriented Programming) is a way of writing code where you organize your program using objects. Each object can have data (properties) and actions (methods), making your code more organized, reusable, and easier to maintain.
-
-The 4 pillars of OOP are:
-
-Encapsulation – Hiding internal details and exposing only what’s needed.
-keeping the data inside an object safe and only letting other parts of the code interact with it through controlled methods.
-
-Abstraction – Showing only essential features while hiding complexity.
-hiding the complex details of how something works and showing only what’s necessary to the user.
-
-The idea is: the user doesn’t need to know all the internal steps, just the functionality.
-
-You provide a simple interface while keeping the inner workings hidden.
-
-
-Inheritance – Creating new classes based on existing ones to reuse code.
-Inheritance = creating a new class based on an existing class, so the new class inherits properties and methods from the original.
-
-It helps reuse code instead of writing the same stuff again.
-
-The new class can also add or override methods.
-
-
-Polymorphism – Allowing the same method name to behave differently in different classes.
-Polymorphism = “many forms”.
-In programming, it means the same method name can behave differently depending on the object.
-
-This usually happens when a child class overrides a method from a parent class.
------------------
-what is the .call function
-call()
-
-call() is a method in JavaScript that lets you call a function and set what this means inside it.
-
-Normally, this points to the object that calls the function.
-
-call() lets you force this to be another object.
-
-Example:
-function sayHello() {
-  console.log("Hello, I am " + this.name);
-}
-
-const person = { name: "Chuks" };
-
-sayHello();           // Hello, I am undefined (no object)
-sayHello.call(person); // Hello, I am Chuks
-
-
-Here, call(person) sets this inside sayHello() to the person object.
------------------------------------
-what is the .prototype 
-What is .prototype?
-
-Every function in JavaScript has a prototype object.
-
-When you use a function as a constructor (with new), the objects created inherit from that prototype.
-
-It’s used to share methods between all objects created by that constructor.
-
-Example 1: Basic Prototype
-function Vehicle(brand) {
-  this.brand = brand;
-}
-
-// Add method to prototype
-Vehicle.prototype.drive = function() {
-  console.log(this.brand + " is driving");
-};
-
-const car1 = new Vehicle("Toyota");
-const car2 = new Vehicle("Honda");
-
-car1.drive(); // Toyota is driving
-car2.drive(); // Honda is driving
-
-
-drive() is not stored inside car1 or car2, it’s in Vehicle.prototype.
-
-All vehicles share the same drive function, saving memory.
-
-Example 2: Adding another method later
-Vehicle.prototype.honk = function() {
-  console.log(this.brand + " says beep!");
-};
-
-car1.honk(); // Toyota says beep!
-car2.honk(); // Honda says beep!
-
-
-You can add methods to the prototype anytime, and all existing objects get access.
-
-Summary in One Line
-
-.prototype = a place to put methods that all objects created from a constructor can share.
-
-How to “override” or remove it for a specific child
-
-You can shadow the property by setting it to undefined or another value on the child.
-
-car.wheels = undefined; // now car has its own 'wheels', hiding the prototype one
-console.log(car.wheels); // undefined
-console.log(Vehicle.prototype.wheels); // 4 → parent unaffected
-
-
-The parent (Vehicle.prototype) is never changed.
----------------
-what is the extends class 
-extends
-
-extends is used in JavaScript classes to say:
-“This class is a child of another class.”
-It means the child will inherit everything (variables + functions) from the parent.
---------------------------
-what  is the .foreach function
-.forEach() is just a loop for arrays.
-It means “for every item in this array, do something.”
-
-Example:
-
-const fruits = ["apple", "banana", "orange"];
-
-fruits.forEach(function(fruit) {
-  console.log(fruit);
-});
+console.log("End");
 
 
 Output:
 
-apple
-banana
-orange
+Start
+(wait 2 seconds)
+End
 
 
-It’s just a cleaner version of:
+Here, the program stops at wait(2000) before printing "End". -->
 
-for (let i = 0; i < fruits.length; i++) {
-  console.log(fruits[i]);
-}
-----------------------
-what are getters and setters in js 
-They’re special methods used to control access to object properties.
 
-Getters
+How does a click event handler safely detect whether a button was clicked, and why is it necessary to check the result before using it?
 
-Used to get a property value safely.
+Answer:
+In JavaScript, you can use:
 
-const person = {
-  firstName: "John",
-  lastName: "Doe",
-  get fullName() {
-    return this.firstName + " " + this.lastName;
-  }
-};
+const USERINPUT = e.target.closest('button');
+if (!USERINPUT) return;
 
-console.log(person.fullName); // John Doe
 
-Setters
+Here’s what’s happening:
 
-Used to set (change) a property safely.
+e.target.closest('button') searches upward from the clicked element to find the nearest <button>.
 
-const person = {
-  firstName: "John",
-  lastName: "Doe",
- set name(newName) {
-    if (newName.length < 3) {
-      console.log("Name too short!");
-    } else {
-      this._name = newName;
-    }
-  }
-}
+If it finds a button, it returns that <button> element.
 
-✅ Summary
+If it doesn’t find any button, it returns null.
 
-get → reads a value
+if (!USERINPUT) return; is a guard clause.
 
-set → updates a value
+It checks if .closest('button') returned null.
 
-nb: that underscore (_) isn’t a special operator or syntax in JavaScript.
-It’s just a naming convention — something developers use by habit to signal:
+If no button was found, the function exits immediately.
 
-“This property is private — don’t touch it directly.”
----------------------------
-What is Object Literal Syntax?
+This prevents the code from trying to access properties of null, which would otherwise cause an error.
+-----------------------------------------
+what is synchronous programming  and asynchronius
+Synchronous programming is a style of programming where tasks are performed one after another, in a sequential order. Each operation must complete before the next one starts. In other words, the program waits for a task to finish before moving on.
+console.log("Step 1: Wake up");
+console.log("Step 2: Brush teeth");
+console.log("Step 3: Eat breakfast");
+Output:
 
-Object literal syntax is the easiest way to create an object in JavaScript without using a class or constructor.
+vbnet
+Copy code
+Step 1: Wake up
+Step 2: Brush teeth
+Step 3: Eat breakfast
+Explanation:
 
-You just write the object directly using curly braces {}.
+Each step happens one after the other.
 
-You define properties (data) and methods (functions) inside it.
-const car = {
-  brand: "Toyota",      // property
-  color: "red",         // property
-  drive: function() {   // method
-    console.log(this.brand + " is driving");
-  }
-};
+Step 2 waits for Step 1 to finish.
 
-console.log(car.brand); // Toyota
-car.drive();            // Toyota is driving
-car is an object.
+Step 3 waits for Step 2 to finish.
 
-Properties: brand, color
+Asynchronous programming
+Asynchronous programming lets tasks start without waiting for previous tasks to finish. Instead of blocking the program, it continues running other code and handles the result later, usually with callbacks, promises, or async/await.
 
-Method: drive()
---------------------------
-what is a constructor function and how do you use it 
-constructor  function is a function that is used to create new objects basedon the parameters given 
-example code 
- class Person
- constructor (name, age){
-  this.age=age
-  this.car =car
- }
-ps. you can use the this to call any parameter anywhere in the code , and you need the "new" variable, to create a new variable 
-it is recommended to creare functions to easily access variables inside a function 
+In simple terms: “Do this task, but don’t stop everything else while waiting for it.”
 
-console.log(person1.name)  xxx
+Simple Example (JavaScript)
+console.log("Step 1: Wake up");
 
-getName = () => {
-  return this.name;
-};
+setTimeout(() => {
+  console.log("Step 2: Eat breakfast (after 2 seconds)");
+}, 2000); // waits 2 seconds but doesn't block the next step
 
-let Person1 = new Person ("Pedro", 19);
-console.log(Person1.getName()) //thsi is correct
--------------------------------
-can you constructor in another constructor 
-yes you can 
-class Person {
-constructor(name, age){
-this.age=age;
-this.name=name
-}
-}
---------------------
-what is the super constructor
-What it is:
+console.log("Step 3: Brush teeth");
+Output:
 
-super is a special keyword used in a child class to call the constructor or methods of the parent class (superclass).
+Step 1: Wake up
+Step 3: Brush teeth
+Step 2: Eat breakfast (after 2 seconds)
+Explanation:
 
-When you use it:
+Step 1 runs first. ✅
 
-Only needed when a class extends another class.
+setTimeout schedules Step 2 to run after 2 seconds but doesn’t stop the code, so Step 3 runs immediately. ✅
 
-In the constructor of a child class, you must call super() before using this.
+After 2 seconds, the asynchronous task (Step 2) executes. ✅
+---------------------------------------
+what is the setTimeout Method in javascript
 
-What it does:
 
-Runs the parent class constructor, setting up all parent properties.
+setTimeout is
 
-Allows the child class to inherit parent behavior safely.
+Type: Function (sometimes called a “method” because it belongs to the window object in browsers).
 
-How it works:
+Purpose: Runs a piece of code once after a specified delay (in milliseconds).
 
-Think of the parent class as the “base” of the object.
+Non-blocking: It doesn’t stop the rest of the code from running—this is why it’s asynchronous.
 
-super() builds the base first.
+Syntax
+setTimeout(functionToRun, delayInMilliseconds);
 
-After that, the child class can add its own properties or methods.
 
-Example:
+functionToRun: A function or code you want to execute later.
 
-class Animal {
-  constructor(name) {
-    this.name = name;
-  }
+delayInMilliseconds: How long to wait before running the function (1000 ms = 1 second).
+
+Simple Example
+console.log("Start");
+
+setTimeout(() => {
+  console.log("This runs after 3 seconds");
+}, 3000);
+
+console.log("End");
+
+
+Output:
+
+Start
+End
+This runs after 3 seconds
+
+
+✅ Notice how "End" prints before the delayed message. That’s because setTimeout is asynchronous.
+----------------------------------------
+what is a callback
+A callback is simply a function that you pass into another function, so that it can be called (or “called back”) later, usually after something happens or when a task finishes.
+
+function stepOne(callback) {
+  console.log("Step 1: Turn on the computer");
+  callback(); // call the next step
 }
 
-class Dog extends Animal {
-  constructor(name, breed) {
-    super(name);        // call parent constructor first
-    this.breed = breed; // then add child properties
-  }
+function stepTwo(callback) {
+  console.log("Step 2: Open your code editor");
+  callback(); // call the next step
 }
 
-const d = new Dog("Max", "Golden Retriever");
-console.log(d.name);  // Max
-console.log(d.breed); // Golden Retriever
+function stepThree() {
+  console.log("Step 3: Start coding!");
+}
 
+// Calling them in order using callbacks
+stepOne(() => {
+  stepTwo(() => {
+    stepThree();
+  });
+});
 
-Rule of thumb:
+You can think of it like saying:
 
-Child class with extends → always call super() first
-
-Then safely use this to add child-specific properties.
--------------------------
-how to use font awesome icons for buttons
-
-1️⃣ Include Font Awesome in your project
-
-You need the Font Awesome library in your HTML. The easiest way is via a <link> in your <head>:
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-This gives you access to all Font Awesome icons.
-
-2️⃣ Add icons to a button
-
-Font Awesome uses <i> or <span> with specific classes.
-
-<button>
-  <i class="fa-solid fa-plus"></i>
-</button>
-
-
-fa-solid → the style of the icon (solid, regular, light, etc.)
-
-fa-plus → the icon itself (here, a plus sign)
-nb incase youre seeing extra icons , The <i> tag is opened but never closed.
-
-Browsers try to “fix” broken HTML automatically, and this often creates extra empty buttons or icons in the rendered page.
-
-How to fix it
-
-Always close the <i> tag:
---------------------------
-how do you make a list of horizontally allignht items vertical in rows with css grid
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-columns
-
-Defines how many columns your grid will have, and how wide each column is.
-
-repeat(4, …)
-
-Shortcut to avoid writing the same thing 4 times.
-
-Instead of:
-
-grid-template-columns: 1fr 1fr 1fr 1fr;
-
-
-You write:
-
-grid-template-columns: repeat(4, 1fr);
-
-
-Means: repeat 1fr 4 times → 4 equal columns.
-
-1fr
-
-“Fractional unit” → the column takes up one fraction of the available space.
-
-If all 4 columns are 1fr, they each take 25% of the width.
----------------------
-what is root in css
-:root is a CSS pseudo-class selector that targets the highest-level element in the document — in HTML, that’s the <html> element.
-
-So:
-
-:root { ... }
-
-
-is basically the same as:
-
-html { ... }
-
-
-…but :root has higher specificity, which makes it better for defining global variables.
--------------------------
-is it possible to overwrite e.target ?
-assigning e.target = "" does nothing useful — you can’t overwrite the event target.
+“Hey, when you’re done with that, run this function.”
 --------------------------------
-what is the closest and trim method
-closest()
+What is “Callback Hell”?
 
-What it does:
+Callback hell happens when you have too many nested callbacks — one inside another — usually to make sure things happen in sequence (one after the other).
 
-Searches up the DOM tree from the current element until it finds a matching selector.
+The result?
+Your code becomes hard to read, hard to debug, and a nightmare to maintain.
 
-Returns the first ancestor that matches, including the element itself.
+Basically:
 
-If no match is found, it returns null.
+You start with neat callbacks…
+then it turns into a pyramid of chaos. 😅
 
-Why we use it here:
-
-Your buttons have <i> icons inside them.
-
-If someone clicks the <i>, e.target is the <i>, not the <button>.
-
-closest("button") ensures we always get the parent button that was clicked, no matter where inside it the user clicks.
-
-Example:
-
-<button id="1">
-  <i class="fa-solid fa-1"></i>
-</button>
-
-document.querySelector("i").addEventListener("click", e => {
-  const btn = e.target.closest("button");
-  console.log(btn.id); // will print "1"
+💻 Example of Callback Hell
+stepOne(function() {
+  stepTwo(function() {
+    stepThree(function() {
+      stepFour(function() {
+        stepFive(function() {
+          console.log("All steps done!");
+        });
+      });
+    });
+  });
 });
 
 
-Without closest(), clicking the <i> would give you the <i> element, and .textContent wouldn’t behave as expected.
+It works — but it looks awful.
+It’s indented like a staircase to the center of the earth 🔥
+And if something breaks, good luck finding which function caused it.
+----------------------
+what is a promise in javascript 
+A Promise in JavaScript is an object that represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+States of a Promise
+Pending: Work isn’t finished yet.
 
-2️⃣ trim()
+Fulfilled: The operation completed successfully.
 
-What it does:
+Rejected: Something went wrong.
+There are four key things involved when working with Promises in JavaScript:
 
-Removes whitespace from the start and end of a string.
+1. resolve
+Used inside a Promise to tell it: "I'm done! Everything went well."
 
-Keeps the content in the middle untouched.
+Pass a result/value you want to deliver.
 
-Why we use it here:
+2. reject
+Used inside a Promise to tell it: "Something went wrong!"
 
-Sometimes button.textContent can include extra spaces or line breaks.
+Pass an error message or object.
 
-trim() cleans it up so " 1 " becomes "1".
+3. .then()
+Used outside (when consuming/using) a Promise.
 
-Example:
+Sets up a function that runs if the Promise resolved successfully.
 
-const text = "   +   ";
-console.log(text.trim()); // prints "+"
+4. .catch()
+Used outside (when consuming/using) a Promise.
 
+Sets up a function that runs if the Promise was rejected (failed).
 
-✅ In your code:
+How They All Work Together:
+js
+// --- Creating a Promise ---
+const promise = new Promise((resolve, reject) => {
+  // some async work
+  if (everythingIsGood) {
+    resolve('Success value'); // call this if it's successful
+  } else {
+    reject('Error value');    // call this if there is an error
+  }
+});
 
-const value = button.textContent.trim();
+// --- Using/Consuming a Promise ---
+promise.then(result => {
+  console.log('Got:', result); // if resolved, this runs
+});
 
+promise.catch(error => {
+  console.log('Error:', error); // if rejected, this runs
+});
+resolve/reject: Only used inside the Promise when creating it.
 
-button.textContent → gets everything inside the button (1, +, etc.)
+then/catch: Used outside the Promise when you consume/"wait for" the result.
 
-.trim() → removes any accidental spaces
+Summary:
 
-Now value is clean and ready to push to your calc array.
--------------------------------------
-what is the isNAN 
-isNaN is a JavaScript function that checks whether a value is “Not-a-Number”. It tells you if something cannot be interpreted as a numeric value.
+resolve and reject tell the promise what happened (success or error).
 
-Basic usage:
-isNaN(123);      // false → 123 is a number
-isNaN("123");    // false → "123" can be converted to a number
-isNaN("abc");    // true  → "abc" cannot be converted to a number
-isNaN(NaN);      // true  → NaN is, by definition, not a number
------------------------------
-how do you update input in js
-you use value in js not textcontent or innerText.
-------------------------
-what is the .join function
-The .join() function in JavaScript is used with arrays. It takes all the elements of an array and joins them into a single string, with an optional separator you specify.
+.then() and .catch() let you react to those outcomes.
+-------------------------------
+how is (value) and (catch ) related to promises
+How it works
+.then(value => { ... })
+The parameter inside .then() (often called value, result, etc.)
 
-Syntax:
-array.join(separator)
+It receives whatever was passed to resolve(...) inside your Promise.
 
+.catch(error => { ... })
+The parameter inside .catch() (often called error, err, etc.)
 
-separator (optional) → what you put between the elements in the resulting string.
+It receives whatever was passed to reject(...) inside your Promise.
 
-If you don’t provide a separator, it defaults to a comma ,.
+Example
+js
+// Imagine this Promise is already created
+promise
+  .then(value => {
+    // 'value' is what resolve(...) sent
+    console.log('Success:', value);
+  })
+  .catch(error => {
+    // 'error' is what reject(...) sent
+    console.log('Failure:', error);
+  });
+If resolve('done!') is called in the Promise, .then runs and value is 'done!'.
 
-Examples:
-let arr = ["apple", "banana", "cherry"];
+If reject('fail!') is called, .catch runs and error is 'fail!'.
 
-arr.join();         // "apple,banana,cherry"  → default is comma
-arr.join(" ");      // "apple banana cherry"  → space as separator
-arr.join(" - ");    // "apple - banana - cherry" → custom separator
+In Summary:
 
+The parameter inside .then() = value from resolve
 
-It works for arrays of numbers too:
+The parameter inside .catch() = value from reject
+-------------------
+how to chain promises
+Step-by-step with your code:
+js
+const promise = new Promise((resolve, reject) => {
+  resolve('Well Done! Promise One is Resolved');
+});
 
-let nums = [1, 2, 3, 4];
-nums.join("");      // "1234" → no separator
-nums.join("-");     // "1-2-3-4"
+const promiseTwo = new Promise((resolve, reject) => {
+  resolve('Well Done! Promise Two is Resolved');
+});
+
+const promiseThree = new Promise((resolve, reject) => {
+  reject('Promise Three is Rejected. Unlucky!');
+});
+You create 3 different promises:
+
+promise resolves (success)
+
+promiseTwo resolves (success)
+
+promiseThree rejects (error)
+
+Chaining
+js
+promise
+  .then((value) => {
+    console.log(value);       // Logs the result from promise one
+    return promiseTwo;        // Returns the next promise
+  })
+  .then((value) => {
+    console.log(value);       // Logs the result from promise two
+    return promiseThree;      // Returns the next promise
+  })
+  .catch((error) => {
+    console.log(error);       // Logs the error from promise three (if any earlier promise rejects, this runs)
+  });
+How does chaining work?
+
+Each .then() returns a new promise.
+
+The value inside .then() is the resolve result from the previous promise.
+
+If you return a promise from a .then(), the chain waits for that promise to finish before moving to the next .then().
+
+What if there’s an error?
+
+If any promise rejects, .catch() runs immediately and handles the error.
+
+After .catch() runs, later .then() in the chain are skipped.
+
+In your code, the flow is:
+promise resolves, logs "Promise One is Resolved"
+
+Returns promiseTwo
+
+promiseTwo resolves, logs "Promise Two is Resolved"
+
+Returns promiseThree
+
+promiseThree rejects, so .catch() runs and logs "Promise Three is Rejected. Unlucky!"
+
+Key Points of Chaining:
+Always return the next promise inside .then() to build a chain.
+
+If you return a value (not a Promise), the next .then() gets that value immediately.
+
+If you return a promise, the next .then() waits for it to resolve/reject.
+
+Any error or rejection moves immediately to .catch(); the chain stops there.
 ---------------------------------
-what is the eval function
-In JavaScript, the eval() function is a built-in function that takes a string as input and executes it as JavaScript code. Essentially, it evaluates a string as if it were actual code in your program.
+how do you run multiple promises at once 
 
-Syntax
-eval(string)
+You can run multiple promises at once using Promise.all.
 
+What Your Code Does:
+js
+Promise.all([promiseOne, promiseTwo])
+  .then(data => console.log(data[0], data[1]))
+  .catch(error => console.log(error));
+Promise.all takes an array of promises and waits for all to resolve.
 
-string: A string containing JavaScript code to be executed.
+When both finish, the .then() handler runs:
 
-Examples
-let x = 10;
-let y = 20;
-let result = eval("x + y");  // evaluates the string as code
-console.log(result);          // 30
+data is an array with results from each promise, in order.
 
-let code = "console.log('Hello from eval!')";
-eval(code);  // prints: Hello from eval!
+data[0] has the result from promiseOne.
 
-let a = 5;
-eval("a = a * 2");
-console.log(a);  // 10
-----------------------------
-what is try catch
-try...catch is used to handle errors gracefully instead of letting your program crash. It lets you “try” a block of code and “catch” any exceptions (errors) that occur.
+data[1] has the result from promiseTwo.
 
-Syntax
-try {
-    // Code that might throw an error
-} catch (error) {
-    // Code to handle the error
-} finally {
-    // Optional: code that always runs, whether an error occurred or not
-}
+How It Works
+Both promises start at the same time.
 
+Each promise resolves after its own timeout (promiseOne after 2000ms, promiseTwo after 1500ms).
 
-try: The block of code you want to test for errors.
+Once both promises are resolved, .then() is called with an array of their results.
 
-catch: Executes if an error occurs in the try block. The error object (commonly named error or e) contains information about what went wrong.
+What Happens If One Fails?
+If any of the promises in the array rejects (errors), .catch() runs right away.
 
-finally (optional): Always runs after try and catch, even if there was no error.
+You see the error message from whichever promise failed.
+You can run multiple promises at once using Promise.all.
 
-Example 1: Basic Error Handling
-try {
-    let result = riskyFunction();  // might throw an error
-    console.log(result);
-} catch (error) {
-    console.log("An error occurred: " + error.message);
-}
+What Your Code Does:
 
-Example 2: With finally
-try {
-    let data = JSON.parse('invalid json');  // will throw a SyntaxError
-} catch (e) {
-    console.log("Caught an error:", e.message);
-} finally {
-    console.log("This always runs, cleanup or logging code here.");
-}
+const promiseTwo = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Promise Two Resolved!');
+  }, 1500);
+});
 
+const promiseOne = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Promise One Resolved!');
+  }, 2000);
+});
+Promise.all([promiseOne, promiseTwo])
+  .then(data => console.log(data[0], data[1]))
+  .catch(error => console.log(error));
+Promise.all takes an array of promises and waits for all to resolve.
 
-Output:
+When both finish, the .then() handler runs:
 
-Caught an error: Unexpected token i in JSON at position 0
-This always runs, cleanup or logging code here.
+data is an array with results from each promise, in order.
+
+data[0] has the result from promiseOne.
+
+data[1] has the result from promiseTwo.
+
+How It Works
+Both promises start at the same time.
+
+Each promise resolves after its own timeout (promiseOne after 2000ms, promiseTwo after 1500ms).
+
+Once both promises are resolved, .then() is called with an array of their results.
+
+What Happens If One Fails?
+If any of the promises in the array rejects (errors), .catch() runs right away.
+
+You see the error message from whichever promise failed.
