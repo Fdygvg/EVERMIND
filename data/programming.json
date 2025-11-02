@@ -1564,5 +1564,65 @@
   "question": "How do you run multiple Promises at once in JavaScript?",
   "answer": "You can run concurrent Promises using Promise.all. Pass it an array of Promises. It waits for all of them to resolve before running .then() with an array of results. If any promise rejects, .catch() is called right away and gives the error.\n\nExample:\n\nconst promiseOne = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Promise One Resolved!');\n  }, 2000);\n});\nconst promiseTwo = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Promise Two Resolved!');\n  }, 1500);\n});\nPromise.all([promiseOne, promiseTwo])\n  .then(data => console.log(data, data))\n  .catch(error => console.log(error));\n\nHow it works: Results are in order, matching the input array. If any promise fails, no results are returned, only the first error. Other promises still run, but you won't receive their values",
   "type": "javascript"
+},
+{
+  "question": "What is the Date.now() method in JavaScript?",
+  "answer": "Date.now() is a static method that returns the number of milliseconds elapsed since January 1, 1970 (the Unix epoch). It's useful for creating timestamps and measuring time durations.\n\nExample:\n\nconst timestamp = Date.now();\nconsole.log(timestamp); // e.g. 1633568194182\n\nYou can subtract two Date.now() values to find out how many milliseconds have passed between events.",
+  "type": "javascript"
+},
+{
+  "question": "How do you use multiple colors in linear-gradient and what do the percentages mean?",
+  "answer": "In CSS, linear-gradient() lets you blend multiple colors along a line. You can specify where each color starts and ends using percentages (color stops).\n\nExample:\n\nbody {\n  height: 100vh;\n  margin: 0;\n  background: linear-gradient(to left, red, lime, orange, purple);\n}\n\nEach color can have an optional stop position:\n\nlinear-gradient(to right, red 0%, yellow 50%, blue 100%);\n\n- 0% = start\n- 50% = halfway\n- 100% = end\n\nIf you don't give percentages, the browser spaces them evenly. For hard stops (no blending), place two colors at the same position:\n\nlinear-gradient(to right, red 0%, red 50%, blue 50%, blue 100%);\n\nThis creates solid red until 50%, then instant blue.",
+  "type": "css"
+},
+{
+  "question": "Explain the box-shadow shorthand code in CSS",
+  "answer": "The box-shadow shorthand follows this pattern:\n\n[inset] offset-x offset-y blur-radius spread-radius color\n\n- inset (optional): shadow goes inside the box (remove for outside shadow)\n- offset-x: horizontal shift (positive = right, negative = left)\n- offset-y: vertical shift (positive = down, negative = up)\n- blur-radius: how soft/blurry the shadow is (bigger = fuzzier)\n- spread-radius (optional): makes shadow bigger or smaller than the box\n- color: shadow color\n\nExample:\n\nbox-shadow: 2px 4px 10px 0px rgba(0,0,0,0.3);",
+  "type": "css"
+},
+{
+  "question": "Can you use two position or display values in CSS?",
+  "answer": "No. CSS properties only take one value at a time. If you write the same property twice, the second one overwrites the first:\n\n.title {\n  position: relative;\n  position: absolute; /* THIS OVERRIDES the previous one */\n}\n\nSame with display—you can't do display: block; display: flex; in the same rule. The last one always wins.",
+  "type": "css"
+},
+{
+  "question": "What is the ::before pseudo-element in CSS?",
+  "answer": "::before creates a new invisible element before the content of an element. You must include content: '' or it won't appear. Useful for adding decorative effects like glare, borders, or icons.\n\nExample:\n\n.title::before {\n  content: '';\n  position: absolute;\n  /* styling for the pseudo-element */\n}",
+  "type": "css"
+},
+{
+  "question": "What is the CSS code to add a glare effect to an element?",
+  "answer": "You can create a glare effect using ::before with a gradient and animation:\n\n.title::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: -75%;\n  width: 50%;\n  height: 100%;\n  background: linear-gradient(\n    120deg,\n    rgba(255, 255, 255, 0) 0%,\n    rgba(255, 255, 255, 0.4) 50%,\n    rgba(255, 255, 255, 0) 100%\n  );\n  transform: skewX(-20deg);\n  animation: glare 2.5s infinite;\n}\n\n@keyframes glare {\n  0% { left: -75%; }\n  100% { left: 125%; }\n}\n\nThis creates a moving light that sweeps across the element.",
+  "type": "css"
+},
+{
+  "question": "What is display: inline-block in CSS?",
+  "answer": "display: inline-block; makes an element act like inline text (sits next to other content on the same line) but also like a block (you can apply width, height, transforms, etc.).\n\nWithout inline-block, you can't move inline text with transform properties. It's perfect for animating individual words or letters:\n\n.title span {\n  display: inline-block;\n  transform: translateY(-100px);\n}\n\nThis lets each word or letter move independently while staying on the same line.",
+  "type": "css"
+},
+{
+  "question": "What does 'forwards' mean in CSS animation?",
+  "answer": "animation-fill-mode: forwards; tells the browser to keep the final state of the animation instead of jumping back to the start.\n\nExample:\n\nanimation: dropdown 0.8s forwards;\n\nWith forwards: stays at end position (e.g. visible and in place)\nWithout it: jumps back to start (e.g. invisible and above)",
+  "type": "css"
+},
+{
+  "question": "How do you make a cool dropdown animation with <span> words inside a <div>?",
+  "answer": "Use display: inline-block on each word, start them above and invisible, then animate them down with staggered delays:\n\n.title span {\n  display: inline-block;\n  transform: translateY(-100px);\n  opacity: 0;\n  animation: dropdown 0.8s forwards;\n}\n\n.title .guess { animation-delay: 0s; }\n.title .that  { animation-delay: 0.3s; }\n.title .number{ animation-delay: 0.6s; }\n\n@keyframes dropdown {\n  to {\n    transform: translateY(0);\n    opacity: 1;\n  }\n}\n\nEach word drops in sequence, creating a cascading effect.",
+  "type": "css"
+},
+{
+  "question": "What does (0) mean in CSS transform properties?",
+  "answer": "In CSS transform properties, 0 means 'no change from the element's original state':\n\n- translate(0) = no movement\n- rotate(0deg) = no rotation\n- skew(0deg) = no tilt\n- scale(1) = no size change (1 = 100%)\n\nIn short: 0 resets the transform, keeping the element in its natural position.",
+  "type": "css"
+},
+{
+  "question": "What happens if you use an animation without position: relative on the parent?",
+  "answer": "If an animated element has position: absolute but its parent doesn't have position: relative, the element will be positioned relative to the whole page (viewport) instead of the parent container.\n\nConsequences:\n- The animated element ignores the container\n- overflow: hidden on the parent won't work\n- Glare or moving pseudo-elements will spill across the page\n\nBottom line: position: relative on the parent tells absolute children 'stay in my box'. Without it, animations can go wild.",
+  "type": "css"
+},
+{
+  "question": "What do infinite, alternate, and ease-in-out mean in CSS animations?",
+  "answer": "These are animation properties that control how animations repeat and move:\n\ninfinite: Makes the animation loop forever (without it, runs once and stops)\n\nalternate: Makes animation go forward then backward (0%→100%→0%) creating smooth back-and-forth\n\nease-in-out: Controls speed—starts slow, speeds up in middle, ends slow (natural smooth feel)\n\nExamples:\n\n1. Smooth back-and-forth:\nanimation: slideLR 4s infinite alternate ease-in-out;\n\n2. Constant speed sliding:\nanimation: slideLR 5s infinite linear;\n\n3. Slide once and stay:\nanimation: slideLR 3s forwards ease-out;",
+  "type": "css"
 }
 ]

@@ -1,423 +1,253 @@
-<!-- Example (JavaScript):
-console.log("Start");
-
-function wait(ms) {
-  const start = Date.now();
-  while (Date.now() - start < ms) {} // blocks execution
+how do you use multiple colours in linear gradient 
+body {
+  height: 100vh; /* full viewport height */
+  margin: 0;     /* remove default browser margin */
+  background: linear-gradient(to left, red, lime, orange, purple);
 }
 
-wait(2000); // waits 2 seconds
+Each color in a linear-gradient() can have an optional stop position, like:
 
-console.log("End");
+red 0%, yellow 50%, blue 100%
 
 
-Output:
+These are color stops — they define where each color is “anchored” along the gradient line.
 
-Start
-(wait 2 seconds)
-End
+The first stop (0%) marks the beginning.
 
+The next stop defines where the previous color ends and blending begins.
 
-Here, the program stops at wait(2000) before printing "End". -->
+The last stop defines the final point (no blending after it).
 
+If you don’t give percentages, the browser evenly spaces them out automatically.
 
-How does a click event handler safely detect whether a button was clicked, and why is it necessary to check the result before using it?
+🧮 3. How the % Works
 
-Answer:
-In JavaScript, you can use:
+% = how far along the gradient line the color should appear:
 
-const USERINPUT = e.target.closest('button');
-if (!USERINPUT) return;
+0% → start of the gradient
 
+100% → end of the gradient
 
-Here’s what’s happening:
+anything in between (like 25%, 50%, 80%) tells the browser where along that line to reach that color
 
-e.target.closest('button') searches upward from the clicked element to find the nearest <button>.
+So:
 
-If it finds a button, it returns that <button> element.
+linear-gradient(to right, red 0%, yellow 50%, blue 100%)
 
-If it doesn’t find any button, it returns null.
 
-if (!USERINPUT) return; is a guard clause.
+means:
 
-It checks if .closest('button') returned null.
+start red
 
-If no button was found, the function exits immediately.
+gradually fade to yellow halfway (50%)
 
-This prevents the code from trying to access properties of null, which would otherwise cause an error.
------------------------------------------
-what is synchronous programming  and asynchronius
-Synchronous programming is a style of programming where tasks are performed one after another, in a sequential order. Each operation must complete before the next one starts. In other words, the program waits for a task to finish before moving on.
-console.log("Step 1: Wake up");
-console.log("Step 2: Brush teeth");
-console.log("Step 3: Eat breakfast");
-Output:
+gradually fade to blue by the end (100%)
 
-vbnet
-Copy code
-Step 1: Wake up
-Step 2: Brush teeth
-Step 3: Eat breakfast
-Explanation:
+🧱 4. Hard Stops (no blending)
 
-Each step happens one after the other.
+If two color stops share the same position, there’s no room to blend — it jumps instantly:
 
-Step 2 waits for Step 1 to finish.
+linear-gradient(to right, red 0%, red 50%, blue 50%, blue 100%);
 
-Step 3 waits for Step 2 to finish.
 
-Asynchronous programming
-Asynchronous programming lets tasks start without waiting for previous tasks to finish. Instead of blocking the program, it continues running other code and handles the result later, usually with callbacks, promises, or async/await.
+→ solid red until 50%, then instant blue from 50% onward.
+That’s how you make stripes or sharp edges.
 
-In simple terms: “Do this task, but don’t stop everything else while waiting for it.”
+🧠 5. If You Don’t Specify %
 
-Simple Example (JavaScript)
-console.log("Step 1: Wake up");
+The browser just divides the space evenly.
 
-setTimeout(() => {
-  console.log("Step 2: Eat breakfast (after 2 seconds)");
-}, 2000); // waits 2 seconds but doesn't block the next step
+linear-gradient(to right, red, yellow, blue);
 
-console.log("Step 3: Brush teeth");
-Output:
 
-Step 1: Wake up
-Step 3: Brush teeth
-Step 2: Eat breakfast (after 2 seconds)
-Explanation:
+→ 3 colors = automatically at 0%, 50%, 100%.
+It behaves as if you’d written red 0%, yellow 50%, blue 100%.
 
-Step 1 runs first. ✅
+⚡ Summary in One Line:
 
-setTimeout schedules Step 2 to run after 2 seconds but doesn’t stop the code, so Step 3 runs immediately. ✅
-
-After 2 seconds, the asynchronous task (Step 2) executes. ✅
----------------------------------------
-what is the setTimeout Method in javascript
-
-
-setTimeout is
-
-Type: Function (sometimes called a “method” because it belongs to the window object in browsers).
-
-Purpose: Runs a piece of code once after a specified delay (in milliseconds).
-
-Non-blocking: It doesn’t stop the rest of the code from running—this is why it’s asynchronous.
-
-Syntax
-setTimeout(functionToRun, delayInMilliseconds);
-
-
-functionToRun: A function or code you want to execute later.
-
-delayInMilliseconds: How long to wait before running the function (1000 ms = 1 second).
-
-Simple Example
-console.log("Start");
-
-setTimeout(() => {
-  console.log("This runs after 3 seconds");
-}, 3000);
-
-console.log("End");
-
-
-Output:
-
-Start
-End
-This runs after 3 seconds
-
-
-✅ Notice how "End" prints before the delayed message. That’s because setTimeout is asynchronous.
-----------------------------------------
-what is a callback
-A callback is simply a function that you pass into another function, so that it can be called (or “called back”) later, usually after something happens or when a task finishes.
-
-function stepOne(callback) {
-  console.log("Step 1: Turn on the computer");
-  callback(); // call the next step
-}
-
-function stepTwo(callback) {
-  console.log("Step 2: Open your code editor");
-  callback(); // call the next step
-}
-
-function stepThree() {
-  console.log("Step 3: Start coding!");
-}
-
-// Calling them in order using callbacks
-stepOne(() => {
-  stepTwo(() => {
-    stepThree();
-  });
-});
-
-You can think of it like saying:
-
-“Hey, when you’re done with that, run this function.”
---------------------------------
-What is “Callback Hell”?
-
-Callback hell happens when you have too many nested callbacks — one inside another — usually to make sure things happen in sequence (one after the other).
-
-The result?
-Your code becomes hard to read, hard to debug, and a nightmare to maintain.
-
-Basically:
-
-You start with neat callbacks…
-then it turns into a pyramid of chaos. 😅
-
-💻 Example of Callback Hell
-stepOne(function() {
-  stepTwo(function() {
-    stepThree(function() {
-      stepFour(function() {
-        stepFive(function() {
-          console.log("All steps done!");
-        });
-      });
-    });
-  });
-});
-
-
-It works — but it looks awful.
-It’s indented like a staircase to the center of the earth 🔥
-And if something breaks, good luck finding which function caused it.
-----------------------
-what is a promise in javascript 
-A Promise in JavaScript is an object that represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
-States of a Promise
-Pending: Work isn’t finished yet.
-
-Fulfilled: The operation completed successfully.
-
-Rejected: Something went wrong.
-There are four key things involved when working with Promises in JavaScript:
-
-1. resolve
-Used inside a Promise to tell it: "I'm done! Everything went well."
-
-Pass a result/value you want to deliver.
-
-2. reject
-Used inside a Promise to tell it: "Something went wrong!"
-
-Pass an error message or object.
-
-3. .then()
-Used outside (when consuming/using) a Promise.
-
-Sets up a function that runs if the Promise resolved successfully.
-
-4. .catch()
-Used outside (when consuming/using) a Promise.
-
-Sets up a function that runs if the Promise was rejected (failed).
-
-How They All Work Together:
-js
-// --- Creating a Promise ---
-const promise = new Promise((resolve, reject) => {
-  // some async work
-  if (everythingIsGood) {
-    resolve('Success value'); // call this if it's successful
-  } else {
-    reject('Error value');    // call this if there is an error
-  }
-});
-
-// --- Using/Consuming a Promise ---
-promise.then(result => {
-  console.log('Got:', result); // if resolved, this runs
-});
-
-promise.catch(error => {
-  console.log('Error:', error); // if rejected, this runs
-});
-resolve/reject: Only used inside the Promise when creating it.
-
-then/catch: Used outside the Promise when you consume/"wait for" the result.
-
-Summary:
-
-resolve and reject tell the promise what happened (success or error).
-
-.then() and .catch() let you react to those outcomes.
--------------------------------
-how is (value) and (catch ) related to promises
-How it works
-.then(value => { ... })
-The parameter inside .then() (often called value, result, etc.)
-
-It receives whatever was passed to resolve(...) inside your Promise.
-
-.catch(error => { ... })
-The parameter inside .catch() (often called error, err, etc.)
-
-It receives whatever was passed to reject(...) inside your Promise.
-
-Example
-js
-// Imagine this Promise is already created
-promise
-  .then(value => {
-    // 'value' is what resolve(...) sent
-    console.log('Success:', value);
-  })
-  .catch(error => {
-    // 'error' is what reject(...) sent
-    console.log('Failure:', error);
-  });
-If resolve('done!') is called in the Promise, .then runs and value is 'done!'.
-
-If reject('fail!') is called, .catch runs and error is 'fail!'.
-
-In Summary:
-
-The parameter inside .then() = value from resolve
-
-The parameter inside .catch() = value from reject
+Percentages tell the browser where each color sits,
+stops are those anchor points,
+and when two stops share the same spot → no blend, just a sharp cut.
 -------------------
-how to chain promises
-Step-by-step with your code:
-js
-const promise = new Promise((resolve, reject) => {
-  resolve('Well Done! Promise One is Resolved');
-});
+explain teh box shadow , shorthand code
+[inset] offset-x offset-y blur-radius spread-radius color
+inset → shadow goes inside the box (remove it for outside shadow)
 
-const promiseTwo = new Promise((resolve, reject) => {
-  resolve('Well Done! Promise Two is Resolved');
-});
+offset-x → horizontal movement of the shadow
 
-const promiseThree = new Promise((resolve, reject) => {
-  reject('Promise Three is Rejected. Unlucky!');
-});
-You create 3 different promises:
+0px = straight, no left/right shift
 
-promise resolves (success)
+positive = shift right, negative = shift left
 
-promiseTwo resolves (success)
+offset-y → vertical movement
 
-promiseThree rejects (error)
+positive = shift down, negative = shift up
 
-Chaining
-js
-promise
-  .then((value) => {
-    console.log(value);       // Logs the result from promise one
-    return promiseTwo;        // Returns the next promise
-  })
-  .then((value) => {
-    console.log(value);       // Logs the result from promise two
-    return promiseThree;      // Returns the next promise
-  })
-  .catch((error) => {
-    console.log(error);       // Logs the error from promise three (if any earlier promise rejects, this runs)
-  });
-How does chaining work?
+blur-radius → how soft the shadow is
 
-Each .then() returns a new promise.
+bigger number = blurrier/fuzzier shadow
 
-The value inside .then() is the resolve result from the previous promise.
+spread-radius → optional, makes shadow bigger or smaller than the box
 
-If you return a promise from a .then(), the chain waits for that promise to finish before moving to the next .then().
+color → shadow color
+-------------------------------
+can you use two position or dispaly in css
+No — CSS properties take only one value at a time.
 
-What if there’s an error?
+For example:
 
-If any promise rejects, .catch() runs immediately and handles the error.
+.title {
+  position: relative;   /* correct */
+  position: absolute;   /* THIS WOULD OVERRIDE THE previous one */
+}
 
-After .catch() runs, later .then() in the chain are skipped.
 
-In your code, the flow is:
-promise resolves, logs "Promise One is Resolved"
+The second position simply overwrites the first one.
 
-Returns promiseTwo
+Same with display: you can’t do display: block; display: flex; in the same rule — the last one wins.
+--------------------
+what is the before pseudo element in css
 
-promiseTwo resolves, logs "Promise Two is Resolved"
 
-Returns promiseThree
+::before pseudo-element
+.title::before {
+  content: "";}
+::before creates a new invisible element before the content of .title.
 
-promiseThree rejects, so .catch() runs and logs "Promise Three is Rejected. Unlucky!"
+content: "" is mandatory — without it, the pseudo-element won’t appear.
 
-Key Points of Chaining:
-Always return the next promise inside .then() to build a chain.
+We’re using this element to draw the glare.
+-------------------
+what is the css code to add glare to an eleemnt
+.title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  animation: glare 2.5s infinite;
+}
 
-If you return a value (not a Promise), the next .then() gets that value immediately.
+@keyframes glare {
+  0% { left: -75%; }
+  100% { left: 125%; }
+}
+---------------------
+what is the inline blovk display ?
+display: inline-block;
 
-If you return a promise, the next .then() waits for it to resolve/reject.
+This makes each <span> act like:
 
-Any error or rejection moves immediately to .catch(); the chain stops there.
----------------------------------
-how do you run multiple promises at once 
+Inline (sits next to other text, not on a new line), but
 
-You can run multiple promises at once using Promise.all.
+Also a block (you can move it around, resize it, and apply transforms like translate, rotate, etc.).
 
-What Your Code Does:
-js
-Promise.all([promiseOne, promiseTwo])
-  .then(data => console.log(data[0], data[1]))
-  .catch(error => console.log(error));
-Promise.all takes an array of promises and waits for all to resolve.
+Without inline-block, you can’t move the span properly up and down with transform, because normal text (inline) can’t be positioned or animated that way.
 
-When both finish, the .then() handler runs:
+👉 In short:
+inline-block lets each word or letter move independently while still staying on the same line.
+------------------------
+what is the forwards in animation
+This tells the browser:
 
-data is an array with results from each promise, in order.
+“When the animation ends, keep the final look instead of jumping back to the start.”
 
-data[0] has the result from promiseOne.
+So:
 
-data[1] has the result from promiseTwo.
+animation-fill-mode: forwards; → stays in the end position (e.g. visible and in place)
 
-How It Works
-Both promises start at the same time.
+Without it → goes back to its start (e.g. invisible and up above)
+--------------------
+how do you make a cool drop down with <span > words in <div>
+.title span {
+  display: inline-block; /* important for vertical movement */
+  transform: translateY(-100px); /* start above */
+  opacity: 0;               /* start invisible */
+  animation: dropdown 0.8s forwards; /* forwards keeps final state */
+}
 
-Each promise resolves after its own timeout (promiseOne after 2000ms, promiseTwo after 1500ms).
+/* stagger each word */
+.title .guess { animation-delay: 0s; }
+.title .that  { animation-delay: 0.3s; }
+.title .number{ animation-delay: 0.6s; }
 
-Once both promises are resolved, .then() is called with an array of their results.
+@keyframes dropdown {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+---------------------
+what is the (0) in transform properties
+In CSS transform properties, the value 0 means “no change from the element’s original state.”
 
-What Happens If One Fails?
-If any of the promises in the array rejects (errors), .catch() runs right away.
+That is:
 
-You see the error message from whichever promise failed.
-You can run multiple promises at once using Promise.all.
+For translate(0) → no movement
 
-What Your Code Does:
+For rotate(0deg) → no rotation
 
-const promiseTwo = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('Promise Two Resolved!');
-  }, 1500);
-});
+For skew(0deg) → no tilt
 
-const promiseOne = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('Promise One Resolved!');
-  }, 2000);
-});
-Promise.all([promiseOne, promiseTwo])
-  .then(data => console.log(data[0], data[1]))
-  .catch(error => console.log(error));
-Promise.all takes an array of promises and waits for all to resolve.
+And for scale(1) → no size change (since 1 = 100%)
 
-When both finish, the .then() handler runs:
+✅ In short: 0 resets the transform — it keeps the element in its natural, untouched position or orientation.
+----------------------------
+what happens if you use an animation without relative position
 
-data is an array with results from each promise, in order.
+If you use an animation on an element with position: absolute but its parent doesn’t have position: relative, the element will be positioned relative to the whole page (viewport) instead of staying inside the parent.
 
-data[0] has the result from promiseOne.
+In other words:
 
-data[1] has the result from promiseTwo.
+The animated element will ignore the container.
 
-How It Works
-Both promises start at the same time.
+Any clipping like overflow: hidden on the parent won’t work, because the element isn’t “inside” the container in terms of positioning.
 
-Each promise resolves after its own timeout (promiseOne after 2000ms, promiseTwo after 1500ms).
+Visually, things like your glare or moving pseudo-elements will spill out across the page.
 
-Once both promises are resolved, .then() is called with an array of their results.
+✅ Bottom line:
+position: relative on the parent = tells absolute children “stay in my box”. Without it, the animation can go wild.
+infinite → repetition
 
-What Happens If One Fails?
-If any of the promises in the array rejects (errors), .catch() runs right away.
+Makes the animation loop forever.
 
-You see the error message from whichever promise failed.
+Without this, it would just run once and stop.
+alternate → direction toggle
+
+Normally, an animation always runs from 0% → 100% and then jumps back.
+
+alternate makes it go 0% → 100%, then 100% → 0%, creating a back-and-forth effect.
+
+Perfect for sliding text left and right smoothly.
+ease-in-out → timing function
+
+Controls how fast the animation moves at different points.
+
+ease-in-out → starts slow, speeds up in the middle, ends slow.
+
+Gives a natural, smooth feel instead of a constant robotic speed.
+Smooth back-and-forth
+animation: slideLR 4s infinite alternate ease-in-out;
+
+
+Bounces right → left → right smoothly forever.
+
+2️⃣ Constant speed sliding
+animation: slideLR 5s infinite linear;
+
+
+Slides right → left at constant speed, snaps back, repeats forever.
+
+3️⃣ Slide once and stay
+animation: slideLR 3s forwards ease-out;
+
+
+Slides from right → left once and stays at the end
