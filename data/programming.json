@@ -1624,5 +1624,10 @@
   "question": "What do infinite, alternate, and ease-in-out mean in CSS animations?",
   "answer": "These are animation properties that control how animations repeat and move:\n\ninfinite: Makes the animation loop forever (without it, runs once and stops)\n\nalternate: Makes animation go forward then backward (0%→100%→0%) creating smooth back-and-forth\n\nease-in-out: Controls speed—starts slow, speeds up in middle, ends slow (natural smooth feel)\n\nExamples:\n\n1. Smooth back-and-forth:\nanimation: slideLR 4s infinite alternate ease-in-out;\n\n2. Constant speed sliding:\nanimation: slideLR 5s infinite linear;\n\n3. Slide once and stay:\nanimation: slideLR 3s forwards ease-out;",
   "type": "css"
+},
+{
+  "question": "What are timing functions in CSS animations and transitions, and what does 'all' mean as a property?",
+  "answer": "Timing functions control the pacing of an animation or transition—how fast it moves at each stage:\n\nease: starts slow, speeds up, then slows down at the end (default)\nlinear: moves at a constant speed from start to end\nease-in: starts slow, then speeds up\nease-out: starts fast, then slows down\nease-in-out: starts slow, speeds up in the middle, then slows down at the end\n\nExample:\ntransition: all 0.3s ease-in-out;\n\nall (as a transition property): Make every property that changes—color, background, box-shadow, transform, etc.—animate smoothly with the timing function. You can specify a single property or use all for everything.",
+  "type": "css"
 }
 ]
