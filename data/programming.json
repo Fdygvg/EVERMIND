@@ -1629,5 +1629,40 @@
   "question": "What are timing functions in CSS animations and transitions, and what does 'all' mean as a property?",
   "answer": "Timing functions control the pacing of an animation or transition—how fast it moves at each stage:\n\nease: starts slow, speeds up, then slows down at the end (default)\nlinear: moves at a constant speed from start to end\nease-in: starts slow, then speeds up\nease-out: starts fast, then slows down\nease-in-out: starts slow, speeds up in the middle, then slows down at the end\n\nExample:\ntransition: all 0.3s ease-in-out;\n\nall (as a transition property): Make every property that changes—color, background, box-shadow, transform, etc.—animate smoothly with the timing function. You can specify a single property or use all for everything.",
   "type": "css"
+},
+{
+"question": "How do you make an async function in JavaScript and use await correctly?",
+"answer": "You create an async function by using the 'async' keyword before the function declaration (regular, arrow, or method). Inside, you can use the 'await' keyword to pause execution until a Promise resolves. Example:\n\nasync () => {\n const taskOne = await preHeatOven();\n console.log(taskOne);\n const taskTwo = await addSugar();\n console.log(taskTwo);\n const taskThree = await addFlour();\n console.log(taskThree);\n console.log('Enjoy Your Cookies');\n}\n\nNB: await only works inside an async function—it allows you to write asynchronous code that looks synchronous, making it cleaner and much less 'callback hell'. You can also use async with function declarations:\n\nasync function bakeCookies() {\n // code with await\n}\n\nAnd with arrow functions or methods within classes. If any awaited Promise fails, it throws an error you can catch with try/catch.",
+"type": "javascript"
+},
+{
+"question": "Give an example of fetching data from a dummy URL in JavaScript.",
+"answer": "You can fetch data using the 'fetch' API, which returns a Promise. Here is a step-by-step example:\n\nfetch('https://dummyjson.com/products/1', {})\n .then((response) => response.json())\n .then((data) => console.log(data))\n .catch((error) => console.log(error));\n\nWhat's happening in each step:\n- fetch() sends the request (like sending a letter to the server)\n- .then(response => response.json()) reads the reply and converts it to usable data\n- .then(data => console.log(data)) outputs the result\n- .catch(error => console.error(error)) handles any problems that come up (shows why your request failed)",
+"type": "javascript"
+},
+{
+"question": "What are the methods to fetch data from an API, and what do GET, POST, PUT, DELETE mean?",
+"answer": "REST APIs use four main HTTP methods to interact with data:\n- GET: Requests existing information (\"Show me the data.\")\n- POST: Adds new information (\"Here’s something new.\")\n- PUT: Updates existing information (\"Change this thing.\")\n- DELETE: Removes information (\"Delete this thing.\")\n\nExamples:\n1️⃣ GET: fetch('https://dummyjson.com/products/1')\n .then(res => res.json())\n .then(data => console.log(\"GET:\", data))\n .catch(err => console.error(err));\n\n2️⃣ POST: fetch('https://dummyjson.com/products/add', {\n method: 'POST',\n headers: { 'Content-Type': 'application/json' },\n body: JSON.stringify({ title: 'New Product', price: 99 })\n})\n .then(res => res.json())\n .then(data => console.log('POST:', data))\n .catch(err => console.error(err));\n\n3️⃣ PUT: fetch('https://dummyjson.com/products/1', {\n method: 'PUT',\n headers: { 'Content-Type': 'application/json' },\n body: JSON.stringify({ title: 'Updated Product', price: 150 })\n})\n .then(res => res.json())\n .then(data => console.log('PUT:', data))\n .catch(err => console.error(err));\n\n4️⃣ DELETE: fetch('https://dummyjson.com/products/1', {\n method: 'DELETE'\n})\n .then(res => res.json())\n .then(data => console.log('DELETE:', data))\n .catch(err => console.error(err));\n\nNotes:\n- fetch() defaults to GET if you don't specify method\n- Always JSON.stringify() your object for PUT/POST\n- Use correct headers\n- .catch handles server errors, network problems, etc.",
+"type": "javascript"
+},
+{
+"question": "How do you make buttons and inputs transparent in CSS?",
+"answer": "To make a button or input transparent, set its background-color property to transparent:\n\nbutton, input {\n background-color: transparent;\n}\n\nYou may also want to remove borders or shadows depending on the design. This lets the button/input blend in with the background or underlying gradient/image.",
+"type": "css"
+},
+{
+"question": "What are the requirements before z-index will work in CSS?",
+"answer": "z-index only works if your element has a 'position' property set to relative, absolute, fixed, or sticky. By default, position is 'static' and z-index does nothing. Example:\n\n.element {\n position: relative;\n z-index: 10;\n}\n\nSetting position lets the element layer above/below others with z-index.",
+"type": "css"
+},
+{
+"question": "How do you create a new Date, month, and year in JavaScript?",
+"answer": "Create a new Date object in JavaScript using:\n\nlet dateObj = new Date();\n// Or with a date string in ISO format:\nlet dateObj = new Date('2025-11-03'); // YYYY-MM-DD\n\nYou can include time:\nlet dateObj = new Date('2025-11-03T14:30:00'); // YYYY-MM-DDTHH:MM:SS\n\nExtract month, day, year:\nlet month = months[dateObj.getUTCMonth()];\nlet day = dateObj.getUTCDate();\nlet year = dateObj.getUTCFullYear();\ndate.innerHTML = ${month} ${day} ${year};\n\nTip: Always use ISO format for cross-browser compatibility.",
+"type": "javascript"
+},
+{
+"question": "What is CORS and why is it important for API requests?",
+"answer": "CORS (Cross-Origin Resource Sharing) is a security feature built into browsers. It restricts one website from requesting data from another website or server unless the server explicitly allows it. The browser reads the server’s CORS headers to decide.\n\n- It only applies to browser-based requests (fetch, XMLHttpRequest)\n- It does NOT apply to server-side code like Node.js\n- If the target server allows your website, the browser lets the request through; otherwise, it's blocked\n\nCORS protects users from malicious sites trying to steal data or do unauthorized requests.",
+"type": "network"
 }
 ]

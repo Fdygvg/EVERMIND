@@ -1,253 +1,165 @@
-how do you use multiple colours in linear gradient 
-body {
-  height: 100vh; /* full viewport height */
-  margin: 0;     /* remove default browser margin */
-  background: linear-gradient(to left, red, lime, orange, purple);
+how to make an async function 
+async ()=> {
+    const taskOne = await preHeatOven();
+    console.log(taskOne);
+
+    const taskTwo = await addSugar();
+    console.log(taskTwo);
+    const taskThree = await addFlour();
+    console.log(taskThree);
+    console.log('Enjoy Your Cookies')
 }
-
-Each color in a linear-gradient() can have an optional stop position, like:
-
-red 0%, yellow 50%, blue 100%
-
-
-These are color stops — they define where each color is “anchored” along the gradient line.
-
-The first stop (0%) marks the beginning.
-
-The next stop defines where the previous color ends and blending begins.
-
-The last stop defines the final point (no blending after it).
-
-If you don’t give percentages, the browser evenly spaces them out automatically.
-
-🧮 3. How the % Works
-
-% = how far along the gradient line the color should appear:
-
-0% → start of the gradient
-
-100% → end of the gradient
-
-anything in between (like 25%, 50%, 80%) tells the browser where along that line to reach that color
-
-So:
-
-linear-gradient(to right, red 0%, yellow 50%, blue 100%)
+nb , the await   keyword only works in the , async function
+--------------
+give an example of fetching data from a dummy url
+fetch("https://dummyjson.com/products/1", {})
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
 
 
-means:
-
-start red
-
-gradually fade to yellow halfway (50%)
-
-gradually fade to blue by the end (100%)
-
-🧱 4. Hard Stops (no blending)
-
-If two color stops share the same position, there’s no room to blend — it jumps instantly:
-
-linear-gradient(to right, red 0%, red 50%, blue 50%, blue 100%);
-
-
-→ solid red until 50%, then instant blue from 50% onward.
-That’s how you make stripes or sharp edges.
-
-🧠 5. If You Don’t Specify %
-
-The browser just divides the space evenly.
-
-linear-gradient(to right, red, yellow, blue);
-
-
-→ 3 colors = automatically at 0%, 50%, 100%.
-It behaves as if you’d written red 0%, yellow 50%, blue 100%.
-
-⚡ Summary in One Line:
-
-Percentages tell the browser where each color sits,
-stops are those anchor points,
-and when two stops share the same spot → no blend, just a sharp cut.
--------------------
-explain teh box shadow , shorthand code
-[inset] offset-x offset-y blur-radius spread-radius color
-inset → shadow goes inside the box (remove it for outside shadow)
-
-offset-x → horizontal movement of the shadow
-
-0px = straight, no left/right shift
-
-positive = shift right, negative = shift left
-
-offset-y → vertical movement
-
-positive = shift down, negative = shift up
-
-blur-radius → how soft the shadow is
-
-bigger number = blurrier/fuzzier shadow
-
-spread-radius → optional, makes shadow bigger or smaller than the box
-
-color → shadow color
--------------------------------
-can you use two position or dispaly in css
-No — CSS properties take only one value at a time.
-
-For example:
-
-.title {
-  position: relative;   /* correct */
-  position: absolute;   /* THIS WOULD OVERRIDE THE previous one */
-}
-
-
-The second position simply overwrites the first one.
-
-Same with display: you can’t do display: block; display: flex; in the same rule — the last one wins.
---------------------
-what is the before pseudo element in css
-
-
-::before pseudo-element
-.title::before {
-  content: "";}
-::before creates a new invisible element before the content of .title.
-
-content: "" is mandatory — without it, the pseudo-element won’t appear.
-
-We’re using this element to draw the glare.
--------------------
-what is the css code to add glare to an eleemnt
-.title::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.4) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: skewX(-20deg);
-  animation: glare 2.5s infinite;
-}
-
-@keyframes glare {
-  0% { left: -75%; }
-  100% { left: 125%; }
-}
----------------------
-what is the inline blovk display ?
-display: inline-block;
-
-This makes each <span> act like:
-
-Inline (sits next to other text, not on a new line), but
-
-Also a block (you can move it around, resize it, and apply transforms like translate, rotate, etc.).
-
-Without inline-block, you can’t move the span properly up and down with transform, because normal text (inline) can’t be positioned or animated that way.
-
-👉 In short:
-inline-block lets each word or letter move independently while still staying on the same line.
+Step	What’s happening	Like in real life
+fetch()	Ask the website for info	Sending a letter
+.then(response => response.json())	Open and read the reply	Reading the letter
+.then(data => console.log(data))	Show what was inside	Saying out loud what it says
+.catch(error => console.error(error))	Handle any problems	Saying “Oops, something went wrong!”
 ------------------------
-what is the forwards in animation
-This tells the browser:
-
-“When the animation ends, keep the final look instead of jumping back to the start.”
-
-So:
-
-animation-fill-mode: forwards; → stays in the end position (e.g. visible and in place)
-
-Without it → goes back to its start (e.g. invisible and up above)
---------------------
-how do you make a cool drop down with <span > words in <div>
-.title span {
-  display: inline-block; /* important for vertical movement */
-  transform: translateY(-100px); /* start above */
-  opacity: 0;               /* start invisible */
-  animation: dropdown 0.8s forwards; /* forwards keeps final state */
-}
-
-/* stagger each word */
-.title .guess { animation-delay: 0s; }
-.title .that  { animation-delay: 0.3s; }
-.title .number{ animation-delay: 0.6s; }
-
-@keyframes dropdown {
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
----------------------
-what is the (0) in transform properties
-In CSS transform properties, the value 0 means “no change from the element’s original state.”
-
-That is:
-
-For translate(0) → no movement
-
-For rotate(0deg) → no rotation
-
-For skew(0deg) → no tilt
-
-And for scale(1) → no size change (since 1 = 100%)
-
-✅ In short: 0 resets the transform — it keeps the element in its natural, untouched position or orientation.
-----------------------------
-what happens if you use an animation without relative position
-
-If you use an animation on an element with position: absolute but its parent doesn’t have position: relative, the element will be positioned relative to the whole page (viewport) instead of staying inside the parent.
-
-In other words:
-
-The animated element will ignore the container.
-
-Any clipping like overflow: hidden on the parent won’t work, because the element isn’t “inside” the container in terms of positioning.
-
-Visually, things like your glare or moving pseudo-elements will spill out across the page.
-
-✅ Bottom line:
-position: relative on the parent = tells absolute children “stay in my box”. Without it, the animation can go wild.
-infinite → repetition
-
-Makes the animation loop forever.
-
-Without this, it would just run once and stop.
-alternate → direction toggle
-
-Normally, an animation always runs from 0% → 100% and then jumps back.
-
-alternate makes it go 0% → 100%, then 100% → 0%, creating a back-and-forth effect.
-
-Perfect for sliding text left and right smoothly.
-ease-in-out → timing function
-
-Controls how fast the animation moves at different points.
-
-ease-in-out → starts slow, speeds up in the middle, ends slow.
-
-Gives a natural, smooth feel instead of a constant robotic speed.
-Smooth back-and-forth
-animation: slideLR 4s infinite alternate ease-in-out;
+what are the  methods to fetch data from an api 
+Method	What it does	Simple meaning
+GET	Ask for existing info	“Show me the data.”
+POST	Add new info	“Here’s something new.”
+PUT	Update existing info	“Change this thing.”
+DELETE	Remove info	“Delete this thing.”
+💻 Examples
+1️⃣ GET — ask for info
+fetch("https://dummyjson.com/products/1")
+  .then(res => res.json())
+  .then(data => console.log("GET:", data))
+  .catch(err => console.error(err));
 
 
-Bounces right → left → right smoothly forever.
+➡️ Gets product #1 and shows it.
 
-2️⃣ Constant speed sliding
-animation: slideLR 5s infinite linear;
+2️⃣ POST — add new info
+fetch("https://dummyjson.com/products/add", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    title: "New Product",
+    price: 99
+  })
+})
+  .then(res => res.json())
+  .then(data => console.log("POST:", data))
+  .catch(err => console.error(err));
 
 
-Slides right → left at constant speed, snaps back, repeats forever.
+➡️ Adds a new product.
 
-3️⃣ Slide once and stay
-animation: slideLR 3s forwards ease-out;
+3️⃣ PUT — update existing info
+fetch("https://dummyjson.com/products/1", {
+  method: "PUT",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    title: "Updated Product",
+    price: 150
+  })
+})
+  .then(res => res.json())
+  .then(data => console.log("PUT:", data))
+  .catch(err => console.error(err));
 
 
-Slides from right → left once and stays at the end
+➡️ Updates product #1.
+
+4️⃣ DELETE — remove info
+fetch("https://dummyjson.com/products/1", {
+  method: "DELETE"
+})
+  .then(res => res.json())
+  .then(data => console.log("DELETE:", data))
+  .catch(err => console.error(err));
+
+
+➡️ Deletes product #1.
+
+⚡ In one line:
+
+nota bene:
+GET = look, POST = create, PUT = edit, DELETE = remove.
+nb: method: 'POST' → tells the server you’re sending new data.
+
+headers → little notes that describe your message;
+'Content-Type': 'application/json' means “the stuff I’m sending is in JSON format.”
+
+body → the actual data you’re sending (the product info, in this case).
+
+JSON.stringify() → turns your JavaScript object into a text version (JSON) so the server can understand it.
+
+Without JSON.stringify, the server won’t be able to read your object — it’ll just get gibberish.
+
+fetch() defaults to the GET method automatically.
+
+So this:
+
+fetch('https://dummyjson.com/products')
+
+
+is exactly the same as this:
+
+fetch('https://dummyjson.com/products', { method: 'GET' })
+------------------
+how do you make buttonsand inputs trasnparent
+
+backgrounf-color:transparent;
+----------------
+what are the requirements before z-index will work 
+z-index only works on positioned elements. That means the element must have:
+
+position: relative | absolute | fixed | sticky;
+
+
+By default, z-index does nothing on static elements (the default positioning).
+
+ Fix:add position: relative; (or absolute if you want it floating somewhere)
+ -------------------
+ how do you create new date,month and year in js
+ let dateObj = new Date();
+ You can pass a string like "YYYY-MM-DD":
+
+let dateObj = new Date("2025-11-03");
+console.log(dateObj); // Mon Nov 03 2025 00:00:00
+
+
+You can also include time:
+
+let dateObj = new Date("2025-11-03T14:30:00");
+console.log(dateObj); // Mon Nov 03 2025 14:30:00
+
+
+Note: Always use the ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS) to avoid timezone issues.
+
+
+let month = months[dateObj.getUTCMonth()];
+let day = dateObj.getUTCDate();
+let year = dateObj.getUTCFullYear();
+
+date.innerHTML= `${month} ${day} ${year}`;
+
+-------------------
+what is cors 
+CORS (Cross-Origin Resource Sharing) is a security rule in browsers that controls whether a webpage can request data from a different website or server.
+
+Purpose: Protect users from malicious websites stealing data.
+
+Applies to: Browser-based JavaScript (fetch, XMLHttpRequest).
+
+Does not apply to: Node.js, backend scripts, or servers.
+
+✅ If the server allows your site, the browser lets the request through. If not, the browser blocks it.
+
+It’s basically the browser asking:
+"Are you allowed to talk to that other server?"
+----------------
+
+
