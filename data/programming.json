@@ -1664,5 +1664,57 @@
 "question": "What is CORS and why is it important for API requests?",
 "answer": "CORS (Cross-Origin Resource Sharing) is a security feature built into browsers. It restricts one website from requesting data from another website or server unless the server explicitly allows it. The browser reads the server’s CORS headers to decide.\n\n- It only applies to browser-based requests (fetch, XMLHttpRequest)\n- It does NOT apply to server-side code like Node.js\n- If the target server allows your website, the browser lets the request through; otherwise, it's blocked\n\nCORS protects users from malicious sites trying to steal data or do unauthorized requests.",
 "type": "network"
+},
+{
+"question": "What is the shortcut to rename a file in CMD?",
+"answer": "First, navigate to the directory where your file or folder is:\n\ncd C:\\Users\\USER\\Desktop\n\nUse ren (short for rename):\n\nren \"old_name\" \"new_name\"\n\nExamples:\nren \"ASYNC\" \"CHUCK NORRIS API\"  ← folder\nren \"notes.txt\" \"final_notes.txt\"   ← file\n\nAlways use quotes if the name contains spaces! You can use either rename or ren in Windows CMD—they work the same way.",
+"type": "cmd"
+},
+{
+"question": "Explain the .ok property and its logic.",
+"answer": "The .ok property is used on Response objects from fetch (and other HTTP APIs) in JavaScript. It tells you whether the HTTP response was successful (status 200–299) — like an 'if' for the status of your request. Example:\n\nfetch(url)\n .then(response => {\n if (response.ok) {\n // Proceed, status was good\n } else {\n // Something went wrong, e.g. 404 or 500\n }\n })\n\nSo .ok works like a quick Boolean check—'Is the network response good/successful?'",
+"type": "javascript"
+},
+{
+"question": "What is the difference between console.error and throw new Error in JavaScript?",
+"answer": "throw new Error:\n- Immediately interrupts execution with an error\n- Used to signal something went wrong and stop running code\n- Example:\nfunction eatCake(cakes) {\n if(cakes === 0) {\n throw new Error(\"No cake to eat!\");\n }\n console.log(\"Yum!\");\n}\neatCake(0); // Throws Error: No cake to eat!\n\nconsole.error:\n- Doesn't stop code, just prints the error message in red in the console\n- Helps debug or warn about issues without halting execution\n- Example:\nconsole.error(\"Uh-oh, something went wrong!\");\n\nSummary: throw stops code immediately, console.error just logs.",
+"type": "javascript"
+},
+{
+"question": "Explain the logic behind fetching variables using promises.",
+"answer": "Here's how the fetch → promises chain works:\n\n1️⃣ fetch(url)\n- Sends a network request and returns a Promise that resolves to a Response object if successful\n2️⃣ .then(response => response.json())\n- When you get a reply, parse the body to JSON (returns a new Promise)\n3️⃣ .then(data => {...})\n- Runs when JSON parsing completes; 'data' is now usable JS data\n4️⃣ .catch(error => {...})\n- Catches any error in the chain: network fails, bad URL, invalid JSON, code bugs, etc\n\nKey logic: Every .then() returns a new Promise; whatever you return inside one .then() becomes the input for the next. Any failure moves immediately to .catch().\n\nSummary: fetch → resolve promise → parse JSON → work with data → handle any errors in .catch().",
+"type": "javascript"
+},
+{
+"question": "How do you write an async function to fetch data from a website?",
+"answer": "Use async/await plus try/catch for clean async code:\n\nconst func = async () => {\n try {\n const response = await fetch(\"https://superheroapi.com/api/83f20e741e49830da2b1d9bea97259ee/300\", {\n method: \"GET\",\n headers: { \"Content-Type\": \"application/json\" },\n });\n const data = await response.json();\n console.log(data);\n } catch (error) {\n console.error(\"This is an error:\", error);\n }\n};\nfunc();\n\nThis handles network, server, and parse errors gracefully. You can move the URL, options, processing, etc anywhere you want using await for each step.",
+"type": "javascript"
+},
+{
+"question": "How do you get temporary access when you have a CORS error?",
+"answer": "Sometimes, fetching from external APIs triggers a CORS error (browser security blocks your call). To get temporary access:\n\nGo to: https://cors-anywhere.herokuapp.com/corsdemo\nClick 'Request temporary access to the demo server.'\n\nReload your page or try fetch/image URLs prefixed with https://cors-anywhere.herokuapp.com/\n\nExample for images:\n\nimage.src = \"https://cors-anywhere.herokuapp.com/\" + data.image.url\n\nThis routes your traffic through a CORS proxy, bypassing restrictions for testing or one-off requests!",
+"type": "network"
+},
+{
+"question": "What is a proxy, and how does it help with CORS?",
+"answer": "A proxy is a middleman server that passes requests and responses between you and another server. If you can't reach Class B directly, you ask Proxy Paul to fetch the data for you, and Paul returns the answer.\n\nIn the web, proxies are often used to bypass CORS errors — your code talks to the proxy, and the proxy relays your request to the desired server, then hands the response back.\n\nThis gets around browser restrictions and lets you access data that would normally be blocked.",
+"type": "network"
+},
+{
+"question": "How do you handle errors in async/await and Promises?",
+"answer": "Always use a try/catch block for async/await logic:\n\nasync function getData() {\n try {\n const data = await fetch(...);\n // ... more code ...\n } catch (error) {\n // handle error\n }\n}\n\nFor Promises, use .catch:\npromise\n .then(...)\n .catch(error => { ... })\n\nBoth catch network errors, server failures, bad JSON, or bugs, making your requests robust.",
+"type": "javascript"
+},
+{
+"question": "What does the 'disabled' property/attribute do in JavaScript and HTML forms?",
+"answer": "Disabled is built-in for form elements (<button>, <input>, <select>, etc). Set to true to make the element unclickable, uneditable, or inactive:\n\nconst btn = document.querySelector('.submit');\nbtn.disabled = true; // disables button\nbtn.disabled = false; // enables button\n\nYou don’t need to define it: <button disabled>Submit</button> does the same as btn.disabled = true.",
+"type": "html"
+},
+{
+"question": "How do you make Math.random never generate 0?",
+"answer": "You can force Math.random to start from 1 (never zero) using:\n\nrandomNum = Math.floor(Math.random() * maxVal) + 1;\n\nThis gives you a range from 1 to maxVal. Math.random itself is from 0 (inclusive) to 1 (exclusive), so this shift always excludes zero.",
+"type": "javascript"
 }
+
+
 ]

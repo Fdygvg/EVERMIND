@@ -1,165 +1,196 @@
-how to make an async function 
-async ()=> {
-    const taskOne = await preHeatOven();
-    console.log(taskOne);
+what is the shorcat to rename a file in cmd 
+You must be in the right directory
 
-    const taskTwo = await addSugar();
-    console.log(taskTwo);
-    const taskThree = await addFlour();
-    console.log(taskThree);
-    console.log('Enjoy Your Cookies')
+Before renaming, navigate to the folder containing your file or directory:
+
+cd C:\Users\USER\Desktop
+
+
+Then use ren (short for rename).
+
+🔹 2. Basic syntax
+
+For both files and folders:
+
+ren "old_name" "new_name"
+
+
+✅ Always use quotes if there are spaces in the names.
+
+Examples:
+
+ren "ASYNC" "CHUCK NORRIS API"        ← folder
+ren "notes.txt" "final_notes.txt"     ← file
+
+nb both rename and ren work the same way in Windows CMD.
+---------------------
+explain the .ok function
+its like teh if to know if something is true
+.ok / if → “Is this true?”
+--------------------
+what is the console.error and the throw new error function
+throw new Error
+
+This is plain JavaScript.
+
+It’s like shouting: “STOP! Something is wrong here!”
+
+Example:
+
+function eatCake(cakes) {
+  if(cakes === 0) {
+    throw new Error("No cake to eat!");
+  }
+  console.log("Yum!");
 }
-nb , the await   keyword only works in the , async function
+
+eatCake(0); // Shouts: Error: No cake to eat!
+
+
+JavaScript will stop running this part of the code when you throw.
+
+4. console.error
+
+This is like saying: “Hey, look! There’s a problem!”
+
+It doesn’t stop your code; it just prints the problem in red.
+
+Example:
+
+console.error("Uh-oh, something went wrong!");
+
+
+You’ll see it in the console, but your program keeps running.
+--------------------
+explain the logic behind fetching variables using promises 
+Fetch flow in plain logic
+
+1️⃣ fetch(url)
+→ Sends a request.
+→ Returns a promise that eventually gives you a Response object if the network works.
+
+2️⃣ .then((response) => response.json())
+→ Runs when the first promise resolves (you got a reply).
+→ response.json() parses the reply body and returns another promise.
+→ The next .then() will get whatever response.json() returns.
+
+3️⃣ .then((data) => { ... })
+→ Runs when the JSON parsing promise resolves.
+→ data is now a usable JS object with the actual info from the server.
+
+4️⃣ .catch((error) => { ... })
+→ Runs if anything fails anywhere above —
+
+network error (server down, bad URL, no internet),
+
+invalid JSON,
+
+or your own code threw an error.
+→ It automatically catches the first failure in the chain.
+
+🧠 The real logic behind the chain
+
+Each .then() returns a new promise.
+Whatever you return inside one .then() becomes the input for the next one.
+If any .then() fails (rejects), .catch() takes over.
+
+One line mental model:
+
+fetch → get response → parse JSON → use data → if anything breaks → catch error.
+
+nb : That {} in the fetch-url is the options object for fetch().
+---------------------------
+how do you write async function to fetch data from a website
+
+const func = async () => {
+  try {
+    const response = await fetch(
+      "https://superheroapi.com/api/83f20e741e49830da2b1d9bea97259ee/300",
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    // convert to JSON
+    const data = await response.json();
+
+    // log result
+    console.log(data);
+  } catch (error) {
+    console.error("This is an error:", error);
+  }
+};
+
+func();
+----------------  
+how do you get tempory access if haveing cors error 
+https://cors-anywhere.herokuapp.com
+
+sometimes you need to request  temporary access 
+How to fix that 403
+
+In your browser, open this link:
+👉 https://cors-anywhere.herokuapp.com/corsdemo
+
+Click “Request temporary access to the demo server.”
+
+Now try reloading your page again.
+Your fetch will work this time ✅
+    image.src="https://cors-anywhere.herokuapp.com/" + data.image.url
+can also be used in images ,
+---------------
+what is a proxy 
+Let’s say you really want to talk to Class B.
+But your teacher won’t let you.
+So you tell your friend — let’s call him Proxy Paul — who can talk to both classes.
+
+You whisper to Paul:
+
+“Hey, can you ask Class B what the hero data is and bring it to me?”
+
+Paul goes, asks Class B, gets the answer, and hands it to you.
+Now your teacher doesn’t complain — because technically, you only talked to Paul, not Class B directly.
+
+That’s what a proxy does.
+It’s a middleman that fetches things for you.
+Helps bypass CORS
+---------------------------
+how do you handle errors in async wait and promises 
+ put it in the catch(error) block  
 --------------
-give an example of fetching data from a dummy url
-fetch("https://dummyjson.com/products/1", {})
-  .then((response) => response.json())
-  .then((data) => console.log(data))
-  .catch((error) => console.log(error));
+what is the disabled in js 
+disabled is a built-in property and attribute that belongs to form elements like:
+
+<button>
+
+<input>
+
+<select>
+
+When you set it to true, it turns that element off — meaning the user can’t click or type in it.
+
+🧠 Example:
+const btn = document.querySelector(".submit");
+btn.disabled = true;  // 🚫 button is now unclickable
+btn.disabled = false; // ✅ button works again
+
+🧩 How it connects to HTML
+<button disabled>Submit</button>
 
 
-Step	What’s happening	Like in real life
-fetch()	Ask the website for info	Sending a letter
-.then(response => response.json())	Open and read the reply	Reading the letter
-.then(data => console.log(data))	Show what was inside	Saying out loud what it says
-.catch(error => console.error(error))	Handle any problems	Saying “Oops, something went wrong!”
-------------------------
-what are the  methods to fetch data from an api 
-Method	What it does	Simple meaning
-GET	Ask for existing info	“Show me the data.”
-POST	Add new info	“Here’s something new.”
-PUT	Update existing info	“Change this thing.”
-DELETE	Remove info	“Delete this thing.”
-💻 Examples
-1️⃣ GET — ask for info
-fetch("https://dummyjson.com/products/1")
-  .then(res => res.json())
-  .then(data => console.log("GET:", data))
-  .catch(err => console.error(err));
+This does the same thing as:
+
+btn.disabled = true;
+
+nb: you do not need to define it 
+--------------------
+how do you make math.rndm , never generate 0 
+ou can make it start from 1 like this:
+
+randomNum = Math.floor(Math.random() * maxVal) + 1;
 
 
-➡️ Gets product #1 and shows it.
-
-2️⃣ POST — add new info
-fetch("https://dummyjson.com/products/add", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    title: "New Product",
-    price: 99
-  })
-})
-  .then(res => res.json())
-  .then(data => console.log("POST:", data))
-  .catch(err => console.error(err));
-
-
-➡️ Adds a new product.
-
-3️⃣ PUT — update existing info
-fetch("https://dummyjson.com/products/1", {
-  method: "PUT",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    title: "Updated Product",
-    price: 150
-  })
-})
-  .then(res => res.json())
-  .then(data => console.log("PUT:", data))
-  .catch(err => console.error(err));
-
-
-➡️ Updates product #1.
-
-4️⃣ DELETE — remove info
-fetch("https://dummyjson.com/products/1", {
-  method: "DELETE"
-})
-  .then(res => res.json())
-  .then(data => console.log("DELETE:", data))
-  .catch(err => console.error(err));
-
-
-➡️ Deletes product #1.
-
-⚡ In one line:
-
-nota bene:
-GET = look, POST = create, PUT = edit, DELETE = remove.
-nb: method: 'POST' → tells the server you’re sending new data.
-
-headers → little notes that describe your message;
-'Content-Type': 'application/json' means “the stuff I’m sending is in JSON format.”
-
-body → the actual data you’re sending (the product info, in this case).
-
-JSON.stringify() → turns your JavaScript object into a text version (JSON) so the server can understand it.
-
-Without JSON.stringify, the server won’t be able to read your object — it’ll just get gibberish.
-
-fetch() defaults to the GET method automatically.
-
-So this:
-
-fetch('https://dummyjson.com/products')
-
-
-is exactly the same as this:
-
-fetch('https://dummyjson.com/products', { method: 'GET' })
-------------------
-how do you make buttonsand inputs trasnparent
-
-backgrounf-color:transparent;
-----------------
-what are the requirements before z-index will work 
-z-index only works on positioned elements. That means the element must have:
-
-position: relative | absolute | fixed | sticky;
-
-
-By default, z-index does nothing on static elements (the default positioning).
-
- Fix:add position: relative; (or absolute if you want it floating somewhere)
- -------------------
- how do you create new date,month and year in js
- let dateObj = new Date();
- You can pass a string like "YYYY-MM-DD":
-
-let dateObj = new Date("2025-11-03");
-console.log(dateObj); // Mon Nov 03 2025 00:00:00
-
-
-You can also include time:
-
-let dateObj = new Date("2025-11-03T14:30:00");
-console.log(dateObj); // Mon Nov 03 2025 14:30:00
-
-
-Note: Always use the ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS) to avoid timezone issues.
-
-
-let month = months[dateObj.getUTCMonth()];
-let day = dateObj.getUTCDate();
-let year = dateObj.getUTCFullYear();
-
-date.innerHTML= `${month} ${day} ${year}`;
-
+That gives you a range of
+✅ 1 to maxVal
 -------------------
-what is cors 
-CORS (Cross-Origin Resource Sharing) is a security rule in browsers that controls whether a webpage can request data from a different website or server.
-
-Purpose: Protect users from malicious websites stealing data.
-
-Applies to: Browser-based JavaScript (fetch, XMLHttpRequest).
-
-Does not apply to: Node.js, backend scripts, or servers.
-
-✅ If the server allows your site, the browser lets the request through. If not, the browser blocks it.
-
-It’s basically the browser asking:
-"Are you allowed to talk to that other server?"
-----------------
-
-
