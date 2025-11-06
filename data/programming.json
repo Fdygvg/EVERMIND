@@ -1714,7 +1714,100 @@
 "question": "How do you make Math.random never generate 0?",
 "answer": "You can force Math.random to start from 1 (never zero) using:\n\nrandomNum = Math.floor(Math.random() * maxVal) + 1;\n\nThis gives you a range from 1 to maxVal. Math.random itself is from 0 (inclusive) to 1 (exclusive), so this shift always excludes zero.",
 "type": "javascript"
+},
+{
+"question": "Why does type=\"module\" stop you from using onclick JS?",
+"answer": "<script type=\"module\"> hides your functions, so HTML buttons using onclick=\"...\" can’t see them.\n\nWhy:\nNormal scripts put functions in the global playground (window).\nModules put functions in a private box.\n\nFix:\nYou can make the function global by attaching it to window:\n\n<button onclick=\"sayHello()\">Click me</button>\n<script type=\"module\">\n window.sayHello = () => {\n alert(\"Hello!\");\n };\n</script>\n\nNow onclick works.",
+"type": "javascript"
+},
+{
+"question": "How are input box values saved when dealing with numbers?",
+"answer": "Input box values are ALWAYS strings, even if they look like numbers. So if you do:\n\nlet val = inputBox.value;\nlet result = val + 1;\n\nYou get string concatenation (\"1\" + 1 = \"11\") instead of addition. Always use parseInt or Number to convert:\n\nlet value = parseInt(inputBox.value);",
+"type": "javascript"
+},
+{
+"question": "In a div with two divs, how do you make them split to left and right?",
+"answer": "Use flexbox and space-between to push the children apart:\n\ntwoElementsDiv {\n display: flex;\n align-items: flex-start;\n justify-content: space-between;\n}\n\nThis makes one div stick to the left and one to the right.",
+"type": "css"
+},
+{
+"question": "How do you change the color of placeholder text with CSS?",
+"answer": "There's a special selector called ::placeholder. Example:\n\n.searchBox::placeholder {\n color: var(--yourColorHere);\n opacity: 1;\n}\n\n.searchBox is your input box. ::placeholder targets placeholder text only. opacity: 1 keeps the color fully visible.",
+"type": "css"
+},
+{
+"question": "Add that translateY is responsible for making things go to the top in CSS.",
+"answer": "transform: translateY(-VALUE); moves the element up by the given number of pixels. For example:\ntranslateY(-10px) moves it 10px up.\ntranslateY(10px) moves it 10px down.",
+"type": "css"
+},
+{
+"question": "What happens when you have two separate transform properties inside the same rule?",
+"answer": "CSS only uses the last transform property in a rule. So this:\n.searchBtn:hover {\n transform: translateY(-25px);\n transform: scale(1.1);\n}\nLeaves only scale(1.1), ignoring translateY(-25px).\n\nTo fix, combine transforms:\n.searchBtn:hover {\n transform: translateY(-25px) scale(1.1);\n transition: transform 0.3s ease, color 0.3s ease;\n}\nNow both effects work at once.",
+"type": "css"
+},
+{
+"question": "Q: What do you do if you want a list to show 'name: value' on the same line?",
+"answer": "Wrap each name and value in <span>s and use display: flex on your <li>:\n.moviedetails ul li {\n display: flex;\n flex-wrap: wrap;\n gap: 10px;\n}\n.label {\n font-weight: bold;\n}\n.value {\n flex: 1;\n}\n\nThis keeps labels and values together, side by side.",
+"type": "css"
+},
+{
+"question": "How do you convert minutes to hour & min format in JS?",
+"answer": "Use math:\nconst convertMinsToHours = (str) => {\n const mins = parseInt(str);\n const hours = Math.floor(mins / 60);\n const minutes = mins % 60;\n return ${hours}h ${minutes}m;\n};\nconsole.log(convertMinsToHours('123')); // '2h 3m'\nconsole.log(convertMinsToHours('150')); // '2h 30m'",
+"type": "javascript"
+},
+{
+"question": "What is encodeURIComponent in JavaScript?",
+"answer": "encodeURIComponent() turns text into a version that is safe for URLs. It replaces spaces, &, ?, /, = and other risky characters with codes like %20.\n\nExample:\nencodeURIComponent(\"Spider Man No Way Home\")\n// becomes 'Spider%20Man%20No%20Way%20Home'\n\nThis prevents URLs from breaking when special characters are present.",
+"type": "javascript"
+},
+{
+"question": "How do you use the e in event listeners for keyboard keys?",
+"answer": "In JavaScript, the 'e' (event object) lets you check which key was pressed inside a keydown handler. Keydown fires for ANY key press; to act only on Enter:\n\nuserInput.addEventListener(\"keydown\", async (e) => {\n if (e.key === \"Enter\") {\n // do fetch or other logic\n }\n});\n\n'e.key' contains the key name (like \"Enter\", \"a\", \"Escape\", etc).",
+"type": "javascript"
+},
+{
+"question": "What is JSON.parse?",
+"answer": "JSON.parse() converts a JSON string into a real JavaScript object or array. Commonly used with localStorage since it only stores strings.\n\nlet stored = localStorage.getItem(\"todos\");\nlet todos = JSON.parse(stored);\n\nWhy?\n- When saving: use JSON.stringify() to turn objects/arrays into strings.\n- When loading: use JSON.parse() to convert it back.",
+"type": "javascript"
+},
+{
+"question": "What is the Object.values method and related methods?",
+"answer": "Object.values(obj) returns all the values as an array.\n\nconst user = { name: \"Chuks\", age: 21, country: \"Nigeria\" };\nconsole.log(Object.values(user)); // [\"Chuks\", 21, \"Nigeria\"]\n\nOther related methods:\nObject.keys(obj) returns property names as array.\nObject.entries(obj) returns [[key, value], ...] pairs.\n\nconsole.log(Object.keys(user)); // [\"name\", \"age\", \"country\"]\nconsole.log(Object.entries(user)); // [[\"name\", \"Chuks\"], [\"age\", 21], [\"country\", \"Nigeria\"]]",
+"type": "javascript"
+},
+{
+"question": "What is the difference between sessionStorage and localStorage?",
+"answer": "Both store key-value pairs in the browser, but:\n- localStorage: data is persistent until user clears it or code removes it.\n- sessionStorage: data is cleared automatically when tab/window closes.\n\nSame API for both — just change which one you use.",
+"type": "javascript"
+},
+{
+"question": "How do you create a new item with localStorage?",
+"answer": "You can use window.localStorage.setItem or just localStorage.setItem:\n\nlocalStorage.setItem(\"identifier\", \"the value\");\n\nAll values are stored as strings.",
+"type": "javascript"
+},
+{
+"question": "What assignment operator is used to assign variables to objects and functions?",
+"answer": "Use = (equals sign) for assignment. For arrays, wrap elements in [].\n\nconst fruits = [\"apple\", \"banana\", \"orange\"];\n\nFor objects, wrap in {} and use key: value:\nconst user = { name: \"Chuks\", age: 20, dev: true };",
+"type": "javascript"
+},
+{
+"question": "How to store an object to localStorage?",
+"answer": "Convert the object to a string with JSON.stringify first:\n\nconst userObj = { name: \"Steve\", age: 25 };\nlocalStorage.setItem(\"obj\", JSON.stringify(userObj));\n\nTo retrieve, use JSON.parse to get the original object:\nconst retrievedObj = JSON.parse(localStorage.getItem(\"obj\"));",
+"type": "javascript"
+},
+{
+"question": "How do you retrieve data from localStorage?",
+"answer": "Console.log(localStorage.getItem(\"nickname\")); // for simple string values\n\nFor objects/arrays, use JSON.parse:\nconst obj = JSON.parse(localStorage.getItem(\"obj\"));\n\nYou can get all values:\nconsole.log(Object.values(localStorage));\nOr all keys:\nconsole.log(Object.keys(localStorage));\nOr both keys & values:\nconsole.log(Object.entries(localStorage));",
+"type": "javascript"
+},
+{
+"question": "What is a behavior of localStorage with overwriting?",
+"answer": "If you try to set an item with a key that already exists in localStorage, it overwrites the value — no error is thrown.\n\nCommon pattern to avoid overwriting:\nif (localStorage.getItem(\"nickname\") === null) {\n localStorage.setItem(\"nickname\", \"Steve\");\n}",
+"type": "javascript"
+},
+{
+"question": "How to remove items from localStorage?",
+"answer": "To remove a single item:\nlocalStorage.removeItem(\"nickname\");\n\nTo clear everything:\nlocalStorage.clear();",
+"type": "javascript"
 }
-
-
 ]
