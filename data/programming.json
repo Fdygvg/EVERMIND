@@ -1054,11 +1054,7 @@
     "question": "JavaScript Arrays and Nested Arrays: Creation and access",
     "answer": "**Creating Arrays:**\n```javascript\nvar arr = [\"john\", \"mary\", \"gambit\", 23, 22, 10];\n```\n\n**Key points:**\n- Use square brackets `[]`\n- Items separated by commas\n- Can contain different data types\n- Zero-indexed access\n\n**Nested Arrays:**\n```javascript\nvar nestedArray = [\n    [\"john\", \"mary\", \"gambit\", 23, 22, 10],\n    [\"alice\", \"bob\", \"charlie\", 30, 35, 40]\n];\n```\n\n**Accessing Arrays:**\n```javascript\narr[0]           // First item\narr[0][1]        // Second item of first nested array\nnestedArray[1][2] // Third item of second array\n```\n\n**Why nested arrays:**\n- Store related groups of data\n- Create tables or grids\n- Represent multi-dimensional data",
     "type": "javascript",
-    "tags": [
-      "javascript",
-      "arrays"
-  
-    ]
+    "tags": ["javascript", "arrays"]
   },
   {
     "question": "JavaScript Bracket Notation: Strings, arrays, and objects",
@@ -1372,7 +1368,8 @@
   },
   {
     "question": "What does toggle.active do?",
-    "answer": "Toggle the 'active' class:\n\nsection.classList.toggle('active');\n\nAdds or removes 'active' for open/close UX.",
+    "answer": "The toggle() method adds or removes the 'active' class from an element:\n\nsection.classList.toggle('active');\n\nIf the element doesn’t have the 'active' class, toggle() adds it → making the element “active” (for example, visible or highlighted). If it already has the class, toggle() removes it → returning the element to its normal/default state. This is commonly used for open/close effects, menus, tabs, or any feature where an element switches between hidden and active states.",
+
     "type": "javascript"
   },
   {
@@ -1405,7 +1402,7 @@
     "answer": "Use .toString() to turn numbers into strings:\n\nlet num = 7;\nlet text = num.toString(); // \"7\"\n\nThis is the opposite of parseInt():\n\nparseInt(\"99\") // 99\n(returns a number)\n\n.toString() gives you text, useful for display, IDs, or formatting output.",
     "type": "javascript"
   },
-    {
+  {
     "question": "What does flex: 5 and flex: 1 mean in CSS, and how do they affect how elements share space inside a flex container?",
     "answer": "In CSS Flexbox, the flex property tells the browser how much available space each flex item should receive, relative to others. If you give one element flex: 5 and another flex: 1, you are dividing the available space into 6 parts—one gets 5 slices, the other gets 1. Great for responsive layouts where you want some items to be larger than others.\n\nExample:\n\n<div class=\"task-container\">\n  <input type=\"text\" placeholder=\"Enter task...\" />\n  <button>Add</button>\n</div>\n\n.task-container {\n  display: flex;\n}\n.task-container input {\n  flex: 5;\n}\n.task-container button {\n  flex: 1;\n}\n\nHere, the input takes up 5/6 of the width, and the button gets 1/6.",
     "type": "css"
@@ -1431,383 +1428,443 @@
     "type": "javascript"
   },
   {
-  "question": "What does the extends keyword do in JavaScript classes?",
-  "answer": "In JavaScript, extends is used in a class definition to say: 'this class is a child of another class.' The child class will inherit all variables and methods from the parent, making it easier to reuse code and build on existing functionality.\n\nExample:\n\nclass Animal {\n  speak() {\n    console.log('Animal speaks');\n  }\n}\n\nclass Dog extends Animal {}\n\nconst d = new Dog();\nd.speak(); // 'Animal speaks'\n\nThe Dog now has everything Animal does, plus anything new you add to Dog.",
-  "type": "javascript"
-},
-{
-  "question": "What is the .forEach() function in JavaScript?",
-  "answer": ".forEach() is a method on arrays that lets you run code for every item. It's a cleaner, easier way of doing a loop.\n\nExample:\n\nconst fruits = ['apple', 'banana', 'orange'];\nfruits.forEach(function(fruit) {\n  console.log(fruit);\n});\n\nThis prints each fruit in the array. It's more readable than using a for loop.",
-  "type": "javascript"
-},
-{
-  "question": "What are getters and setters in JavaScript and how are they used?",
-  "answer": "Getters and setters in JavaScript are special methods for controlling access to properties in objects. 'get' lets you run code for reading a value, 'set' for updating it.\n\nExample (Getter):\n\nconst person = {\n  firstName: 'John',\n  lastName: 'Doe',\n  get fullName() {\n    return this.firstName + ' ' + this.lastName;\n  }\n};\nconsole.log(person.fullName); // John Doe\n\nExample (Setter):\n\nconst person2 = {\n  set name(newName) {\n    if(newName.length < 3) {\n      console.log('Name too short!');\n    } else {\n      this._name = newName;\n    }\n  }\n};\nperson2.name = 'Ed';\n\nDevelopers sometimes use _underscore to mark data as 'private'.",
-  "type": "javascript"
-},
-{
-  "question": "What is Object Literal Syntax in JavaScript?",
-  "answer": "Object literal syntax lets you make objects easily with curly braces, no class needed. Properties (data) and methods (functions) go inside.\n\nExample:\n\nconst car = {\n  brand: 'Toyota',\n  color: 'red',\n  drive: function() {\n    console.log(this.brand + ' is driving');\n  }\n};\n\nconsole.log(car.brand); // Toyota\ncar.drive(); // Toyota is driving",
-  "type": "javascript"
-},
-{
-  "question": "What is a constructor function and how do you use it in JavaScript?",
-  "answer": "A constructor function is a blueprint for creating objects with the same structure. In ES6, classes provide this pattern. Use 'new' to create an instance. Use 'this' to assign properties.\n\nExample:\n\nclass Person {\n  constructor(name, age) {\n    this.name = name;\n    this.age = age;\n  }\n  getName() {\n    return this.name;\n  }\n}\nlet person1 = new Person('Pedro', 19);\nconsole.log(person1.getName()); // Pedro",
-  "type": "javascript"
-},
-{
-  "question": "Can you use a constructor in another constructor in JavaScript?",
-  "answer": "Yes. If you want objects to share functionality, create one constructor and use it from another (with inheritance or by calling one in another's body).\n\nExample:\n\nclass Person {\n  constructor(name, age) {\n    this.name = name;\n    this.age = age;\n  }\n}\n\n// or calling one from another\nfunction Animal(type) {\n  this.type = type;\n}\nfunction Cat(type, name) {\n  Animal.call(this, type);\n  this.name = name;\n}",
-  "type": "javascript"
-},
-{
-  "question": "What is the super constructor in JavaScript and when do you use it?",
-  "answer": "'super' is used inside child classes (with extends) to call the constructor of the parent class. It sets up all the parent properties so you can safely use 'this' in the child.\n\nExample:\n\nclass Animal {\n  constructor(name) {\n    this.name = name;\n  }\n}\nclass Dog extends Animal {\n  constructor(name, breed) {\n    super(name);\n    this.breed = breed;\n  }\n}\nconst d = new Dog('Max', 'Golden Retriever');\nconsole.log(d.name); // Max\nconsole.log(d.breed); // Golden Retriever\n\nAlways call super() before this in the constructor of a subclass.",
-  "type": "javascript"
-},
-{
-  "question": "How do you use Font Awesome icons for buttons?",
-  "answer": "First, include the Font Awesome library in your HTML head:\n\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n\nThen add an icon inside your button using an <i> (or <span>) tag with icon classes. Always close your icon tags!\n\n<button>\n  <i class=\"fa-solid fa-plus\"></i>\n  Add\n</button>\n\nfa-solid controls style, fa-plus is the icon. Closing <i> is important to avoid layout bugs.",
-  "type": "html"
-},
-{
-  "question": "How do you make a list of horizontally aligned items vertical in rows with CSS Grid?",
-  "answer": "CSS Grid makes it easy to lay out items in rows and columns. To display your items as columns, use grid-template-columns. Example:\n\ngrid-template-columns: repeat(4, 1fr);\n\nThis repeats the '1fr' (fractional unit) 4 times, so you get 4 equal columns. You could also write grid-template-columns: 1fr 1fr 1fr 1fr, but repeat keeps your code tidy. With all columns set to 1fr, each gets 25% of the container's width.",
+    "question": "What does the extends keyword do in JavaScript classes?",
+    "answer": "In JavaScript, extends is used in a class definition to say: 'this class is a child of another class.' The child class will inherit all variables and methods from the parent, making it easier to reuse code and build on existing functionality.\n\nExample:\n\nclass Animal {\n  speak() {\n    console.log('Animal speaks');\n  }\n}\n\nclass Dog extends Animal {}\n\nconst d = new Dog();\nd.speak(); // 'Animal speaks'\n\nThe Dog now has everything Animal does, plus anything new you add to Dog.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the .forEach() function in JavaScript?",
+    "answer": ".forEach() is a method on arrays that lets you run code for every item. It's a cleaner, easier way of doing a loop.\n\nExample:\n\nconst fruits = ['apple', 'banana', 'orange'];\nfruits.forEach(function(fruit) {\n  console.log(fruit);\n});\n\nThis prints each fruit in the array. It's more readable than using a for loop.",
+    "type": "javascript"
+  },
+  {
+    "question": "What are getters and setters in JavaScript and how are they used?",
+    "answer": "Getters and setters in JavaScript are special methods for controlling access to properties in objects. 'get' lets you run code for reading a value, 'set' for updating it.\n\nExample (Getter):\n\nconst person = {\n  firstName: 'John',\n  lastName: 'Doe',\n  get fullName() {\n    return this.firstName + ' ' + this.lastName;\n  }\n};\nconsole.log(person.fullName); // John Doe\n\nExample (Setter):\n\nconst person2 = {\n  set name(newName) {\n    if(newName.length < 3) {\n      console.log('Name too short!');\n    } else {\n      this._name = newName;\n    }\n  }\n};\nperson2.name = 'Ed';\n\nDevelopers sometimes use _underscore to mark data as 'private'.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is Object Literal Syntax in JavaScript?",
+    "answer": "Object literal syntax lets you make objects easily with curly braces, no class needed. Properties (data) and methods (functions) go inside.\n\nExample:\n\nconst car = {\n  brand: 'Toyota',\n  color: 'red',\n  drive: function() {\n    console.log(this.brand + ' is driving');\n  }\n};\n\nconsole.log(car.brand); // Toyota\ncar.drive(); // Toyota is driving",
+    "type": "javascript"
+  },
+  {
+    "question": "What is a constructor function and how do you use it in JavaScript?",
+    "answer": "A constructor function is a blueprint for creating objects with the same structure. In ES6, classes provide this pattern. Use 'new' to create an instance. Use 'this' to assign properties.\n\nExample:\n\nclass Person {\n  constructor(name, age) {\n    this.name = name;\n    this.age = age;\n  }\n  getName() {\n    return this.name;\n  }\n}\nlet person1 = new Person('Pedro', 19);\nconsole.log(person1.getName()); // Pedro",
+    "type": "javascript"
+  },
+  {
+    "question": "Can you use a constructor in another constructor in JavaScript?",
+    "answer": "Yes. If you want objects to share functionality, create one constructor and use it from another (with inheritance or by calling one in another's body).\n\nExample:\n\nclass Person {\n  constructor(name, age) {\n    this.name = name;\n    this.age = age;\n  }\n}\n\n// or calling one from another\nfunction Animal(type) {\n  this.type = type;\n}\nfunction Cat(type, name) {\n  Animal.call(this, type);\n  this.name = name;\n}",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the super constructor in JavaScript and when do you use it?",
+    "answer": "'super' is used inside child classes (with extends) to call the constructor of the parent class. It sets up all the parent properties so you can safely use 'this' in the child.\n\nExample:\n\nclass Animal {\n  constructor(name) {\n    this.name = name;\n  }\n}\nclass Dog extends Animal {\n  constructor(name, breed) {\n    super(name);\n    this.breed = breed;\n  }\n}\nconst d = new Dog('Max', 'Golden Retriever');\nconsole.log(d.name); // Max\nconsole.log(d.breed); // Golden Retriever\n\nAlways call super() before this in the constructor of a subclass.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you use Font Awesome icons for buttons?",
+    "answer": "First, include the Font Awesome library in your HTML head:\n\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n\nThen add an icon inside your button using an <i> (or <span>) tag with icon classes. Always close your icon tags!\n\n<button>\n  <i class=\"fa-solid fa-plus\"></i>\n  Add\n</button>\n\nfa-solid controls style, fa-plus is the icon. Closing <i> is important to avoid layout bugs.",
+    "type": "html"
+  },
+  {
+    "question": "How do you make a list of horizontally aligned items vertical in rows with CSS Grid?",
+    "answer": "CSS Grid makes it easy to lay out items in rows and columns. To display your items as columns, use grid-template-columns. Example:\n\ngrid-template-columns: repeat(4, 1fr);\n\nThis repeats the '1fr' (fractional unit) 4 times, so you get 4 equal columns. You could also write grid-template-columns: 1fr 1fr 1fr 1fr, but repeat keeps your code tidy. With all columns set to 1fr, each gets 25% of the container's width.",
+    "type": "css"
+  },
+  {
+    "question": "What is :root in CSS?",
+    "answer": ":root is a special selector that targets the highest-level element — in HTML, that's the <html> tag. It's best for defining global CSS variables because it has higher specificity than just using html {}.\n\nExample:\n\n:root {\n  --primary-color: #4CAF50;\n}",
+    "type": "css"
+  },
+  {
+    "question": "Is it possible to overwrite e.target in JavaScript?",
+    "answer": "No, you can't overwrite e.target. Setting e.target = '' does nothing useful. e.target always refers to the element that triggered the event.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the closest and trim method in JavaScript?",
+    "answer": "closest(): Searches up the DOM tree for the nearest ancestor matching the selector (including the element itself). Useful for event delegation. Example:\n\ndocument.querySelector('i').addEventListener('click', e => {\n  const btn = e.target.closest('button');\n  console.log(btn.id);\n});\n\ntrim(): Removes whitespace from the start and end of a string. Example:\n\nconst text = '   +   ';\nconsole.log(text.trim()); // '+'\n\nCommon use:\n\nconst value = button.textContent.trim();",
+    "type": "javascript"
+  },
+  {
+    "question": "What is isNaN in JavaScript?",
+    "answer": "isNaN checks if a value is 'Not-a-Number'. Returns true for things that can't be interpreted as a number.\n\nisNaN(123);      // false (number)\nisNaN('123');    // false (can be parsed to number)\nisNaN('abc');    // true (not a number)\nisNaN(NaN);      // true (by definition)",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you update the value of an input in JavaScript?",
+    "answer": "Use .value instead of textContent or innerText to get or set the value of form inputs.\n\nExample:\n\ndocument.querySelector('input').value = 'Hello';",
+    "type": "javascript"
+  },
+  {
+    "question": "What does the .join function do in JavaScript?",
+    "answer": ".join() lets you combine all elements of an array into a single string, with an optional separator between them.\n\nExamples:\n\nlet arr = ['apple', 'banana', 'cherry'];\narr.join();        // 'apple,banana,cherry' (default: comma)\narr.join(' ');     // 'apple banana cherry' (space)\narr.join(' - ');   // 'apple - banana - cherry'\n\nWorks for numbers too:\nlet nums = [1,2,3];\nnums.join('');     // '123'\nnums.join('-');    // '1-2-3'",
+    "type": "javascript"
+  },
+  {
+    "question": "What does the eval function do in JavaScript?",
+    "answer": "eval() runs a string as JavaScript code. Be careful: eval can be dangerous because it will execute any code that a string contains. Useful for evaluating math expressions, but not recommended for general use.\n\nExamples:\nlet result = eval('2 + 3');      // 5\neval('console.log(\"Hello\")');  // logs Hello",
+    "type": "javascript"
+  },
+  {
+    "question": "What does try...catch do in JavaScript?",
+    "answer": "try...catch lets you handle errors gracefully. The code inside try is attempted. If it fails, the catch block runs instead.\n\nExample:\ntry {\n  let data = JSON.parse('{ name: Pedro }'); // malformed JSON will throw\n} catch (error) {\n  console.log('An error occurred: ' + error.message);\n} finally {\n  console.log('This runs no matter what.');\n}\n\ncatch receives an error object, and finally always runs after try/catch.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you force push to GitHub?",
+    "answer": "To forcefully overwrite the remote branch on GitHub with your local changes, use the --force flag when pushing. This is useful if you need to rewrite history (e.g., after a rebase), but be careful—force-pushing will replace the remote branch and might overwrite others' work.\n\nExample:\n\ngit push origin main --force\n\nAlways communicate with your team before using --force, as this can disrupt shared branches.",
+    "type": "git"
+  },
+  {
+    "question": "How does a click event handler safely detect whether a button was clicked, and why is it necessary to check the result before using it?",
+    "answer": "In JavaScript, you use:\n\nconst USERINPUT = e.target.closest('button');\nif (!USERINPUT) return;\n\nThis searches upward from the clicked element to find the nearest <button>. If no button was found, USERINPUT will be null and the function exits immediately,\nwhich prevents errors from trying to read properties of null.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is synchronous programming and asynchronous programming?",
+    "answer": "Synchronous programming means code runs in order: each step waits for the previous step to finish. Example:\n\nconsole.log(\"Step 1: Wake up\");\nconsole.log(\"Step 2: Brush teeth\");\nconsole.log(\"Step 3: Eat breakfast\");\n// Output:\nStep 1: Wake up\nStep 2: Brush teeth\nStep 3: Eat breakfast\n\nAsynchronous programming lets you run tasks without blocking—other code can run while waiting for results. Example:\n\nconsole.log(\"Step 1: Wake up\");\nsetTimeout(() => {\n  console.log(\"Step 2: Eat breakfast (after 2 seconds)\");\n}, 2000);\nconsole.log(\"Step 3: Brush teeth\");\n// Output:\nStep 1: Wake up\nStep 3: Brush teeth\nStep 2: Eat breakfast (after 2 seconds)",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the setTimeout Method in JavaScript?",
+    "answer": "setTimeout is a function (on window) that runs code once after a specified delay in milliseconds. It's non-blocking and lets other code run. Syntax:\n\nsetTimeout(functionToRun, delayInMilliseconds);\n\nExample:\nconsole.log(\"Start\");\nsetTimeout(() => {\n  console.log(\"This runs after 3 seconds\");\n}, 3000);\nconsole.log(\"End\");\n// Output:\nStart\nEnd\nThis runs after 3 seconds",
+    "type": "javascript"
+  },
+  {
+    "question": "What is a callback in JavaScript?",
+    "answer": "A callback is a function passed into another function to be called later, usually when an operation completes. Example:\n\nfunction stepOne(callback) {\n  console.log(\"Step 1: Turn on the computer\");\n  callback();\n}\nfunction stepTwo(callback) {\n  console.log(\"Step 2: Open your code editor\");\n  callback();\n}\nfunction stepThree() {\n  console.log(\"Step 3: Start coding!\");\n}\n// Chained callbacks:\nstepOne(() => {\n  stepTwo(() => {\n    stepThree();\n  });\n});",
+    "type": "javascript"
+  },
+  {
+    "question": "What is 'callback hell'?",
+    "answer": "Callback hell happens when you nest callbacks inside callbacks to ensure things happen in sequence. It becomes hard to read and maintain—code looks like a pyramid. Example:\n\nstepOne(function() {\n  stepTwo(function() {\n    stepThree(function() {\n      stepFour(function() {\n        stepFive(function() {\n          console.log(\"All steps done!\");\n        });\n      });\n    });\n  });\n});\n// Each level is indented more—easy to get lost if something breaks!",
+    "type": "javascript"
+  },
+  {
+    "question": "What is a Promise in JavaScript?",
+    "answer": "A Promise is an object representing the eventual completion or failure of an async operation. It has states: pending, fulfilled, or rejected.\n\nCreating a Promise:\nconst promise = new Promise((resolve, reject) => {\n  if (everythingIsGood) {\n    resolve('Success value');\n  } else {\n    reject('Error value');\n  }\n});\n\nUsing a Promise:\npromise.then(result => {\n  console.log('Got:', result);\n});\npromise.catch(error => {\n  console.log('Error:', error);\n});\n// resolve/reject is for inside the Promise, .then/.catch is for outside.",
+    "type": "javascript"
+  },
+  {
+    "question": "How is (value) in .then() and (error) in .catch() related to Promises in JavaScript?",
+    "answer": "In a Promise chain, the parameter inside .then() receives what was passed to resolve(...) in your Promise. The parameter inside .catch() gets whatever was sent to reject(...).\n\nExample:\n\npromise\n  .then(value => {\n    // 'value' is what resolve(...) sent\n    console.log('Success:', value);\n  })\n  .catch(error => {\n    // 'error' is what reject(...) sent\n    console.log('Failure:', error);\n  });\n\nIf resolve('done!') runs, .then() receives 'done!'. If reject('fail!'), .catch gets 'fail!'.\n\nSummary:\n- parameter in .then() = value from resolve\n- parameter in .catch() = value from reject",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you chain Promises in JavaScript and what happens if one fails?",
+    "answer": "You can chain Promises by returning a new promise (or value) from each .then(). Each .then() waits until the previous promise resolves. If any promise rejects, execution goes immediately to .catch().\n\nStep-by-step example:\n\nconst promise = new Promise((resolve, reject) => {\n  resolve('Well Done! Promise One is Resolved');\n});\n\nconst promiseTwo = new Promise((resolve, reject) => {\n  resolve('Well Done! Promise Two is Resolved');\n});\nconst promiseThree = new Promise((resolve, reject) => {\n  reject('Promise Three is Rejected. Unlucky!');\n});\n\npromise\n  .then((value) => {\n    console.log(value); // Logs from promise one\n    return promiseTwo; // Return the next promise\n  })\n  .then((value) => {\n    console.log(value); // Logs promise two result\n    return promiseThree;\n  })\n  .catch((error) => {\n    console.log(error); // Handles promise three's rejection, or any earlier error\n  });\n\nEach .then() gets the previous result. If you return a new value instead of a Promise, the next .then() runs immediately with that value. If a promise is rejected, .catch() runs, and later .then() handlers are skipped.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you run multiple Promises at once in JavaScript?",
+    "answer": "You can run concurrent Promises using Promise.all. Pass it an array of Promises. It waits for all of them to resolve before running .then() with an array of results. If any promise rejects, .catch() is called right away and gives the error.\n\nExample:\n\nconst promiseOne = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Promise One Resolved!');\n  }, 2000);\n});\nconst promiseTwo = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Promise Two Resolved!');\n  }, 1500);\n});\nPromise.all([promiseOne, promiseTwo])\n  .then(data => console.log(data, data))\n  .catch(error => console.log(error));\n\nHow it works: Results are in order, matching the input array. If any promise fails, no results are returned, only the first error. Other promises still run, but you won't receive their values",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the Date.now() method in JavaScript?",
+    "answer": "Date.now() is a static method that returns the number of milliseconds elapsed since January 1, 1970 (the Unix epoch). It's useful for creating timestamps and measuring time durations.\n\nExample:\n\nconst timestamp = Date.now();\nconsole.log(timestamp); // e.g. 1633568194182\n\nYou can subtract two Date.now() values to find out how many milliseconds have passed between events.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you use multiple colors in linear-gradient and what do the percentages mean?",
+    "answer": "In CSS, linear-gradient() lets you blend multiple colors along a line. You can specify where each color starts and ends using percentages (color stops).\n\nExample:\n\nbody {\n  height: 100vh;\n  margin: 0;\n  background: linear-gradient(to left, red, lime, orange, purple);\n}\n\nEach color can have an optional stop position:\n\nlinear-gradient(to right, red 0%, yellow 50%, blue 100%);\n\n- 0% = start\n- 50% = halfway\n- 100% = end\n\nIf you don't give percentages, the browser spaces them evenly. For hard stops (no blending), place two colors at the same position:\n\nlinear-gradient(to right, red 0%, red 50%, blue 50%, blue 100%);\n\nThis creates solid red until 50%, then instant blue.",
+    "type": "css"
+  },
+  {
+    "question": "Explain the box-shadow shorthand code in CSS",
+    "answer": "The box-shadow shorthand follows this pattern:\n\n[inset] offset-x offset-y blur-radius spread-radius color\n\n- inset (optional): shadow goes inside the box (remove for outside shadow)\n- offset-x: horizontal shift (positive = right, negative = left)\n- offset-y: vertical shift (positive = down, negative = up)\n- blur-radius: how soft/blurry the shadow is (bigger = fuzzier)\n- spread-radius (optional): makes shadow bigger or smaller than the box\n- color: shadow color\n\nExample:\n\nbox-shadow: 2px 4px 10px 0px rgba(0,0,0,0.3);",
+    "type": "css"
+  },
+  {
+    "question": "Can you use two position or display values in CSS?",
+    "answer": "No. CSS properties only take one value at a time. If you write the same property twice, the second one overwrites the first:\n\n.title {\n  position: relative;\n  position: absolute; /* THIS OVERRIDES the previous one */\n}\n\nSame with display—you can't do display: block; display: flex; in the same rule. The last one always wins.",
+    "type": "css"
+  },
+  {
+    "question": "What is the ::before pseudo-element in CSS?",
+    "answer": "::before creates a new invisible element before the content of an element. You must include content: '' or it won't appear. Useful for adding decorative effects like glare, borders, or icons.\n\nExample:\n\n.title::before {\n  content: '';\n  position: absolute;\n  /* styling for the pseudo-element */\n}",
+    "type": "css"
+  },
+  {
+    "question": "What is the CSS code to add a glare effect to an element?",
+    "answer": "You can create a glare effect using ::before with a gradient and animation:\n\n.title::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: -75%;\n  width: 50%;\n  height: 100%;\n  background: linear-gradient(\n    120deg,\n    rgba(255, 255, 255, 0) 0%,\n    rgba(255, 255, 255, 0.4) 50%,\n    rgba(255, 255, 255, 0) 100%\n  );\n  transform: skewX(-20deg);\n  animation: glare 2.5s infinite;\n}\n\n@keyframes glare {\n  0% { left: -75%; }\n  100% { left: 125%; }\n}\n\nThis creates a moving light that sweeps across the element.",
+    "type": "css"
+  },
+  {
+    "question": "What is display: inline-block in CSS?",
+    "answer": "display: inline-block; makes an element act like inline text (sits next to other content on the same line) but also like a block (you can apply width, height, transforms, etc.).\n\nWithout inline-block, you can't move inline text with transform properties. It's perfect for animating individual words or letters:\n\n.title span {\n  display: inline-block;\n  transform: translateY(-100px);\n}\n\nThis lets each word or letter move independently while staying on the same line.",
+    "type": "css"
+  },
+  {
+    "question": "What does 'forwards' mean in CSS animation?",
+    "answer": "animation-fill-mode: forwards; tells the browser to keep the final state of the animation instead of jumping back to the start.\n\nExample:\n\nanimation: dropdown 0.8s forwards;\n\nWith forwards: stays at end position (e.g. visible and in place)\nWithout it: jumps back to start (e.g. invisible and above)",
+    "type": "css"
+  },
+  {
+    "question": "How do you make a cool dropdown animation with <span> words inside a <div>?",
+    "answer": "Use display: inline-block on each word, start them above and invisible, then animate them down with staggered delays:\n\n.title span {\n  display: inline-block;\n  transform: translateY(-100px);\n  opacity: 0;\n  animation: dropdown 0.8s forwards;\n}\n\n.title .guess { animation-delay: 0s; }\n.title .that  { animation-delay: 0.3s; }\n.title .number{ animation-delay: 0.6s; }\n\n@keyframes dropdown {\n  to {\n    transform: translateY(0);\n    opacity: 1;\n  }\n}\n\nEach word drops in sequence, creating a cascading effect.",
+    "type": "css"
+  },
+  {
+    "question": "What does (0) mean in CSS transform properties?",
+    "answer": "In CSS transform properties, 0 means 'no change from the element's original state':\n\n- translate(0) = no movement\n- rotate(0deg) = no rotation\n- skew(0deg) = no tilt\n- scale(1) = no size change (1 = 100%)\n\nIn short: 0 resets the transform, keeping the element in its natural position.",
+    "type": "css"
+  },
+  {
+    "question": "What happens if you use an animation without position: relative on the parent?",
+    "answer": "If an animated element has position: absolute but its parent doesn't have position: relative, the element will be positioned relative to the whole page (viewport) instead of the parent container.\n\nConsequences:\n- The animated element ignores the container\n- overflow: hidden on the parent won't work\n- Glare or moving pseudo-elements will spill across the page\n\nBottom line: position: relative on the parent tells absolute children 'stay in my box'. Without it, animations can go wild.",
+    "type": "css"
+  },
+  {
+    "question": "What do infinite, alternate, and ease-in-out mean in CSS animations?",
+    "answer": "These are animation properties that control how animations repeat and move:\n\ninfinite: Makes the animation loop forever (without it, runs once and stops)\n\nalternate: Makes animation go forward then backward (0%→100%→0%) creating smooth back-and-forth\n\nease-in-out: Controls speed—starts slow, speeds up in middle, ends slow (natural smooth feel)\n\nExamples:\n\n1. Smooth back-and-forth:\nanimation: slideLR 4s infinite alternate ease-in-out;\n\n2. Constant speed sliding:\nanimation: slideLR 5s infinite linear;\n\n3. Slide once and stay:\nanimation: slideLR 3s forwards ease-out;",
+    "type": "css"
+  },
+  {
+    "question": "What are timing functions in CSS animations and transitions, and what does 'all' mean as a property?",
+    "answer": "Timing functions control the pacing of an animation or transition—how fast it moves at each stage:\n\nease: starts slow, speeds up, then slows down at the end (default)\nlinear: moves at a constant speed from start to end\nease-in: starts slow, then speeds up\nease-out: starts fast, then slows down\nease-in-out: starts slow, speeds up in the middle, then slows down at the end\n\nExample:\ntransition: all 0.3s ease-in-out;\n\nall (as a transition property): Make every property that changes—color, background, box-shadow, transform, etc.—animate smoothly with the timing function. You can specify a single property or use all for everything.",
+    "type": "css"
+  },
+  {
+    "question": "How do you make an async function in JavaScript and use await correctly?",
+    "answer": "You create an async function by using the 'async' keyword before the function declaration (regular, arrow, or method). Inside, you can use the 'await' keyword to pause execution until a Promise resolves. Example:\n\nasync () => {\n const taskOne = await preHeatOven();\n console.log(taskOne);\n const taskTwo = await addSugar();\n console.log(taskTwo);\n const taskThree = await addFlour();\n console.log(taskThree);\n console.log('Enjoy Your Cookies');\n}\n\nNB: await only works inside an async function—it allows you to write asynchronous code that looks synchronous, making it cleaner and much less 'callback hell'. You can also use async with function declarations:\n\nasync function bakeCookies() {\n // code with await\n}\n\nAnd with arrow functions or methods within classes. If any awaited Promise fails, it throws an error you can catch with try/catch.",
+    "type": "javascript"
+  },
+  {
+    "question": "Give an example of fetching data from a dummy URL in JavaScript.",
+    "answer": "You can fetch data using the 'fetch' API, which returns a Promise. Here is a step-by-step example:\n\nfetch('https://dummyjson.com/products/1', {})\n .then((response) => response.json())\n .then((data) => console.log(data))\n .catch((error) => console.log(error));\n\nWhat's happening in each step:\n- fetch() sends the request (like sending a letter to the server)\n- .then(response => response.json()) reads the reply and converts it to usable data\n- .then(data => console.log(data)) outputs the result\n- .catch(error => console.error(error)) handles any problems that come up (shows why your request failed)",
+    "type": "javascript"
+  },
+  {
+    "question": "What are the methods to fetch data from an API, and what do GET, POST, PUT, DELETE mean?",
+    "answer": "REST APIs use four main HTTP methods to interact with data:\n- GET: Requests existing information (\"Show me the data.\")\n- POST: Adds new information (\"Here’s something new.\")\n- PUT: Updates existing information (\"Change this thing.\")\n- DELETE: Removes information (\"Delete this thing.\")\n\nExamples:\n1️⃣ GET: fetch('https://dummyjson.com/products/1')\n .then(res => res.json())\n .then(data => console.log(\"GET:\", data))\n .catch(err => console.error(err));\n\n2️⃣ POST: fetch('https://dummyjson.com/products/add', {\n method: 'POST',\n headers: { 'Content-Type': 'application/json' },\n body: JSON.stringify({ title: 'New Product', price: 99 })\n})\n .then(res => res.json())\n .then(data => console.log('POST:', data))\n .catch(err => console.error(err));\n\n3️⃣ PUT: fetch('https://dummyjson.com/products/1', {\n method: 'PUT',\n headers: { 'Content-Type': 'application/json' },\n body: JSON.stringify({ title: 'Updated Product', price: 150 })\n})\n .then(res => res.json())\n .then(data => console.log('PUT:', data))\n .catch(err => console.error(err));\n\n4️⃣ DELETE: fetch('https://dummyjson.com/products/1', {\n method: 'DELETE'\n})\n .then(res => res.json())\n .then(data => console.log('DELETE:', data))\n .catch(err => console.error(err));\n\nNotes:\n- fetch() defaults to GET if you don't specify method\n- Always JSON.stringify() your object for PUT/POST\n- Use correct headers\n- .catch handles server errors, network problems, etc.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you make buttons and inputs transparent in CSS?",
+    "answer": "To make a button or input transparent, set its background-color property to transparent:\n\nbutton, input {\n background-color: transparent;\n}\n\nYou may also want to remove borders or shadows depending on the design. This lets the button/input blend in with the background or underlying gradient/image.",
+    "type": "css"
+  },
+  {
+    "question": "What are the requirements before z-index will work in CSS?",
+    "answer": "z-index only works if your element has a 'position' property set to relative, absolute, fixed, or sticky. By default, position is 'static' and z-index does nothing. Example:\n\n.element {\n position: relative;\n z-index: 10;\n}\n\nSetting position lets the element layer above/below others with z-index.",
+    "type": "css"
+  },
+  {
+    "question": "How do you create a new Date, month, and year in JavaScript?",
+    "answer": "Create a new Date object in JavaScript using:\n\nlet dateObj = new Date();\n// Or with a date string in ISO format:\nlet dateObj = new Date('2025-11-03'); // YYYY-MM-DD\n\nYou can include time:\nlet dateObj = new Date('2025-11-03T14:30:00'); // YYYY-MM-DDTHH:MM:SS\n\nExtract month, day, year:\nlet month = months[dateObj.getUTCMonth()];\nlet day = dateObj.getUTCDate();\nlet year = dateObj.getUTCFullYear();\ndate.innerHTML = ${month} ${day} ${year};\n\nTip: Always use ISO format for cross-browser compatibility.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is CORS and why is it important for API requests?",
+    "answer": "CORS (Cross-Origin Resource Sharing) is a security feature built into browsers. It restricts one website from requesting data from another website or server unless the server explicitly allows it. The browser reads the server’s CORS headers to decide.\n\n- It only applies to browser-based requests (fetch, XMLHttpRequest)\n- It does NOT apply to server-side code like Node.js\n- If the target server allows your website, the browser lets the request through; otherwise, it's blocked\n\nCORS protects users from malicious sites trying to steal data or do unauthorized requests.",
+    "type": "network"
+  },
+  {
+    "question": "What is the shortcut to rename a file in CMD?",
+    "answer": "First, navigate to the directory where your file or folder is:\n\ncd C:\\Users\\USER\\Desktop\n\nUse ren (short for rename):\n\nren \"old_name\" \"new_name\"\n\nExamples:\nren \"ASYNC\" \"CHUCK NORRIS API\"  ← folder\nren \"notes.txt\" \"final_notes.txt\"   ← file\n\nAlways use quotes if the name contains spaces! You can use either rename or ren in Windows CMD—they work the same way.",
+    "type": "cmd"
+  },
+  {
+    "question": "Explain the .ok property and its logic.",
+    "answer": "The .ok property is used on Response objects from fetch (and other HTTP APIs) in JavaScript. It tells you whether the HTTP response was successful (status 200–299) — like an 'if' for the status of your request. Example:\n\nfetch(url)\n .then(response => {\n if (response.ok) {\n // Proceed, status was good\n } else {\n // Something went wrong, e.g. 404 or 500\n }\n })\n\nSo .ok works like a quick Boolean check—'Is the network response good/successful?'",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the difference between console.error and throw new Error in JavaScript?",
+    "answer": "throw new Error:\n- Immediately interrupts execution with an error\n- Used to signal something went wrong and stop running code\n- Example:\nfunction eatCake(cakes) {\n if(cakes === 0) {\n throw new Error(\"No cake to eat!\");\n }\n console.log(\"Yum!\");\n}\neatCake(0); // Throws Error: No cake to eat!\n\nconsole.error:\n- Doesn't stop code, just prints the error message in red in the console\n- Helps debug or warn about issues without halting execution\n- Example:\nconsole.error(\"Uh-oh, something went wrong!\");\n\nSummary: throw stops code immediately, console.error just logs.",
+    "type": "javascript"
+  },
+  {
+    "question": "Explain the logic behind fetching variables using promises.",
+    "answer": "Here's how the fetch → promises chain works:\n\n1️⃣ fetch(url)\n- Sends a network request and returns a Promise that resolves to a Response object if successful\n2️⃣ .then(response => response.json())\n- When you get a reply, parse the body to JSON (returns a new Promise)\n3️⃣ .then(data => {...})\n- Runs when JSON parsing completes; 'data' is now usable JS data\n4️⃣ .catch(error => {...})\n- Catches any error in the chain: network fails, bad URL, invalid JSON, code bugs, etc\n\nKey logic: Every .then() returns a new Promise; whatever you return inside one .then() becomes the input for the next. Any failure moves immediately to .catch().\n\nSummary: fetch → resolve promise → parse JSON → work with data → handle any errors in .catch().",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you write an async function to fetch data from a website?",
+    "answer": "Use async/await plus try/catch for clean async code:\n\nconst func = async () => {\n try {\n const response = await fetch(\"https://superheroapi.com/api/83f20e741e49830da2b1d9bea97259ee/300\", {\n method: \"GET\",\n headers: { \"Content-Type\": \"application/json\" },\n });\n const data = await response.json();\n console.log(data);\n } catch (error) {\n console.error(\"This is an error:\", error);\n }\n};\nfunc();\n\nThis handles network, server, and parse errors gracefully. You can move the URL, options, processing, etc anywhere you want using await for each step.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you get temporary access when you have a CORS error?",
+    "answer": "Sometimes, fetching from external APIs triggers a CORS error (browser security blocks your call). To get temporary access:\n\nGo to: https://cors-anywhere.herokuapp.com/corsdemo\nClick 'Request temporary access to the demo server.'\n\nReload your page or try fetch/image URLs prefixed with https://cors-anywhere.herokuapp.com/\n\nExample for images:\n\nimage.src = \"https://cors-anywhere.herokuapp.com/\" + data.image.url\n\nThis routes your traffic through a CORS proxy, bypassing restrictions for testing or one-off requests!",
+    "type": "network"
+  },
+  {
+    "question": "What is a proxy, and how does it help with CORS?",
+    "answer": "A proxy is a middleman server that passes requests and responses between you and another server. If you can't reach Class B directly, you ask Proxy Paul to fetch the data for you, and Paul returns the answer.\n\nIn the web, proxies are often used to bypass CORS errors — your code talks to the proxy, and the proxy relays your request to the desired server, then hands the response back.\n\nThis gets around browser restrictions and lets you access data that would normally be blocked.",
+    "type": "network"
+  },
+  {
+    "question": "How do you handle errors in async/await and Promises?",
+    "answer": "Always use a try/catch block for async/await logic:\n\nasync function getData() {\n try {\n const data = await fetch(...);\n // ... more code ...\n } catch (error) {\n // handle error\n }\n}\n\nFor Promises, use .catch:\npromise\n .then(...)\n .catch(error => { ... })\n\nBoth catch network errors, server failures, bad JSON, or bugs, making your requests robust.",
+    "type": "javascript"
+  },
+  {
+    "question": "What does the 'disabled' property/attribute do in JavaScript and HTML forms?",
+    "answer": "Disabled is built-in for form elements (<button>, <input>, <select>, etc). Set to true to make the element unclickable, uneditable, or inactive:\n\nconst btn = document.querySelector('.submit');\nbtn.disabled = true; // disables button\nbtn.disabled = false; // enables button\n\nYou don’t need to define it: <button disabled>Submit</button> does the same as btn.disabled = true.",
+    "type": "html"
+  },
+  {
+    "question": "How do you make Math.random never generate 0?",
+    "answer": "You can force Math.random to start from 1 (never zero) using:\n\nrandomNum = Math.floor(Math.random() * maxVal) + 1;\n\nThis gives you a range from 1 to maxVal. Math.random itself is from 0 (inclusive) to 1 (exclusive), so this shift always excludes zero.",
+    "type": "javascript"
+  },
+  {
+    "question": "Why does type=\"module\" stop you from using onclick JS?",
+    "answer": "<script type=\"module\"> hides your functions, so HTML buttons using onclick=\"...\" can’t see them.\n\nWhy:\nNormal scripts put functions in the global playground (window).\nModules put functions in a private box.\n\nFix:\nYou can make the function global by attaching it to window:\n\n<button onclick=\"sayHello()\">Click me</button>\n<script type=\"module\">\n window.sayHello = () => {\n alert(\"Hello!\");\n };\n</script>\n\nNow onclick works.",
+    "type": "javascript"
+  },
+  {
+    "question": "How are input box values saved when dealing with numbers?",
+    "answer": "Input box values are ALWAYS strings, even if they look like numbers. So if you do:\n\nlet val = inputBox.value;\nlet result = val + 1;\n\nYou get string concatenation (\"1\" + 1 = \"11\") instead of addition. Always use parseInt or Number to convert:\n\nlet value = parseInt(inputBox.value);",
+    "type": "javascript"
+  },
+  {
+    "question": "In a div with two divs, how do you make them split to left and right?",
+    "answer": "Use flexbox and space-between to push the children apart:\n\ntwoElementsDiv {\n display: flex;\n align-items: flex-start;\n justify-content: space-between;\n}\n\nThis makes one div stick to the left and one to the right.",
+    "type": "css"
+  },
+  {
+    "question": "How do you change the color of placeholder text with CSS?",
+    "answer": "There's a special selector called ::placeholder. Example:\n\n.searchBox::placeholder {\n color: var(--yourColorHere);\n opacity: 1;\n}\n\n.searchBox is your input box. ::placeholder targets placeholder text only. opacity: 1 keeps the color fully visible.",
+    "type": "css"
+  },
+  {
+    "question": "Add that translateY is responsible for making things go to the top in CSS.",
+    "answer": "transform: translateY(-VALUE); moves the element up by the given number of pixels. For example:\ntranslateY(-10px) moves it 10px up.\ntranslateY(10px) moves it 10px down.",
+    "type": "css"
+  },
+  {
+    "question": "What happens when you have two separate transform properties inside the same rule?",
+    "answer": "CSS only uses the last transform property in a rule. So this:\n.searchBtn:hover {\n transform: translateY(-25px);\n transform: scale(1.1);\n}\nLeaves only scale(1.1), ignoring translateY(-25px).\n\nTo fix, combine transforms:\n.searchBtn:hover {\n transform: translateY(-25px) scale(1.1);\n transition: transform 0.3s ease, color 0.3s ease;\n}\nNow both effects work at once.",
+    "type": "css"
+  },
+  {
+    "question": "Q: What do you do if you want a list to show 'name: value' on the same line?",
+    "answer": "Wrap each name and value in <span>s and use display: flex on your <li>:\n.moviedetails ul li {\n display: flex;\n flex-wrap: wrap;\n gap: 10px;\n}\n.label {\n font-weight: bold;\n}\n.value {\n flex: 1;\n}\n\nThis keeps labels and values together, side by side.",
+    "type": "css"
+  },
+  {
+    "question": "How do you convert minutes to hour & min format in JS?",
+    "answer": "Use math:\nconst convertMinsToHours = (str) => {\n const mins = parseInt(str);\n const hours = Math.floor(mins / 60);\n const minutes = mins % 60;\n return ${hours}h ${minutes}m;\n};\nconsole.log(convertMinsToHours('123')); // '2h 3m'\nconsole.log(convertMinsToHours('150')); // '2h 30m'",
+    "type": "javascript"
+  },
+  {
+    "question": "What is encodeURIComponent in JavaScript?",
+    "answer": "encodeURIComponent() turns text into a version that is safe for URLs. It replaces spaces, &, ?, /, = and other risky characters with codes like %20.\n\nExample:\nencodeURIComponent(\"Spider Man No Way Home\")\n// becomes 'Spider%20Man%20No%20Way%20Home'\n\nThis prevents URLs from breaking when special characters are present.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you use the e in event listeners for keyboard keys?",
+    "answer": "In JavaScript, the 'e' (event object) lets you check which key was pressed inside a keydown handler. Keydown fires for ANY key press; to act only on Enter:\n\nuserInput.addEventListener(\"keydown\", async (e) => {\n if (e.key === \"Enter\") {\n // do fetch or other logic\n }\n});\n\n'e.key' contains the key name (like \"Enter\", \"a\", \"Escape\", etc).",
+    "type": "javascript"
+  },
+  {
+    "question": "What is JSON.parse?",
+    "answer": "JSON.parse() converts a JSON string into a real JavaScript object or array. Commonly used with localStorage since it only stores strings.\n\nlet stored = localStorage.getItem(\"todos\");\nlet todos = JSON.parse(stored);\n\nWhy?\n- When saving: use JSON.stringify() to turn objects/arrays into strings.\n- When loading: use JSON.parse() to convert it back.",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the Object.values method and related methods?",
+    "answer": "Object.values(obj) returns all the values as an array.\n\nconst user = { name: \"Chuks\", age: 21, country: \"Nigeria\" };\nconsole.log(Object.values(user)); // [\"Chuks\", 21, \"Nigeria\"]\n\nOther related methods:\nObject.keys(obj) returns property names as array.\nObject.entries(obj) returns [[key, value], ...] pairs.\n\nconsole.log(Object.keys(user)); // [\"name\", \"age\", \"country\"]\nconsole.log(Object.entries(user)); // [[\"name\", \"Chuks\"], [\"age\", 21], [\"country\", \"Nigeria\"]]",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the difference between sessionStorage and localStorage?",
+    "answer": "Both store key-value pairs in the browser, but:\n- localStorage: data is persistent until user clears it or code removes it.\n- sessionStorage: data is cleared automatically when tab/window closes.\n\nSame API for both — just change which one you use.",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you create a new item with localStorage?",
+    "answer": "You can use window.localStorage.setItem or just localStorage.setItem:\n\nlocalStorage.setItem(\"identifier\", \"the value\");\n\nAll values are stored as strings.",
+    "type": "javascript"
+  },
+  {
+    "question": "What assignment operator is used to assign variables to objects and functions?",
+    "answer": "Use = (equals sign) for assignment. For arrays, wrap elements in [].\n\nconst fruits = [\"apple\", \"banana\", \"orange\"];\n\nFor objects, wrap in {} and use key: value:\nconst user = { name: \"Chuks\", age: 20, dev: true };",
+    "type": "javascript"
+  },
+  {
+    "question": "How to store an object to localStorage?",
+    "answer": "Convert the object to a string with JSON.stringify first:\n\nconst userObj = { name: \"Steve\", age: 25 };\nlocalStorage.setItem(\"obj\", JSON.stringify(userObj));\n\nTo retrieve, use JSON.parse to get the original object:\nconst retrievedObj = JSON.parse(localStorage.getItem(\"obj\"));",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you retrieve data from localStorage?",
+    "answer": "Console.log(localStorage.getItem(\"nickname\")); // for simple string values\n\nFor objects/arrays, use JSON.parse:\nconst obj = JSON.parse(localStorage.getItem(\"obj\"));\n\nYou can get all values:\nconsole.log(Object.values(localStorage));\nOr all keys:\nconsole.log(Object.keys(localStorage));\nOr both keys & values:\nconsole.log(Object.entries(localStorage));",
+    "type": "javascript"
+  },
+  {
+    "question": "What is a behavior of localStorage with overwriting?",
+    "answer": "If you try to set an item with a key that already exists in localStorage, it overwrites the value — no error is thrown.\n\nCommon pattern to avoid overwriting:\nif (localStorage.getItem(\"nickname\") === null) {\n localStorage.setItem(\"nickname\", \"Steve\");\n}",
+    "type": "javascript"
+  },
+  {
+    "question": "How to remove items from localStorage?",
+    "answer": "To remove a single item:\nlocalStorage.removeItem(\"nickname\");\n\nTo clear everything:\nlocalStorage.clear();",
+    "type": "javascript"
+  },
+  {
+  "question": "CSS background code for movies, color gradient effect",
+  "answer": "body {\n  background: linear-gradient(120deg, #1e1e1e, #3b82f6, #9333ea);\n  background-size: 300% 300%;\n  animation: moveBg 12s ease infinite;\n  height: 100vh;\n}\n\n@keyframes moveBg {\n  0% { background-position: 0% 50%; }\n  50% { background-position: 100% 50%; }\n  100% { background-position: 0% 50%; }\n}\n\nThis creates a moving, colorful gradient background well-suited for movie apps or stylish web pages. The gradient animates smoothly between colors, making the background dynamic.",
   "type": "css"
 },
 {
-  "question": "What is :root in CSS?",
-  "answer": ":root is a special selector that targets the highest-level element — in HTML, that's the <html> tag. It's best for defining global CSS variables because it has higher specificity than just using html {}.\n\nExample:\n\n:root {\n  --primary-color: #4CAF50;\n}",
+  "question": "What is the startsWith string method?",
+  "answer": "startsWith() checks if a string begins with a specific sequence of characters.\n\nExample:\nlet key = \\\"newTask3\\\";\nconsole.log(key.startsWith(\\\"newTask\\\")); // true\nconsole.log(key.startsWith(\\\"oldTask\\\")); // false\n\nUseful for filtering, searching, and validation scenarios in JavaScript.",
+  "type": "javascript"
+},
+{
+  "question": "What is dataset/data-key in JavaScript and how is it used?",
+  "answer": "In HTML, you can use data-attributes (like data-key) to attach information to elements without affecting layout or behavior:\n<li data-key=\\\"todo_1234\\\">Buy milk</li>\n\nIn JavaScript, you access these with dataset (element.dataset.key):\nconsole.log(li.dataset.key); // \\\"todo_1234\\\"\n\nThis is helpful for connecting UI elements with storage or IDs behind the scenes. For example, deleting to-dos:\nlocalStorage.removeItem(li.dataset.key);",
+  "type": "javascript"
+},
+{
+  "question": "What is the difference between Promise.all and Promise.race?",
+  "answer": "Promise.all waits for all included promises to complete before running .then; any failure will trigger .catch immediately. Used for parallel and coordinated async work.\n\nPromise.race resolves or rejects as soon as the FIRST promise settles (fulfills or rejects). The result or error of the first one to finish is what you get.\n\nExample:\n\nPromise.race([\n  fetch(url1),\n  fetch(url2)\n])\n  .then(result => console.log(result))\n  .catch(err => console.log(err));\n\nGood for timeouts, fastest response wins, etc.",
+  "type": "javascript"
+},
+{
+  "question": "What are instance methods and properties in JS classes?",
+  "answer": "Instance properties are variables attached to each instance of a class, e.g., name, height, age. Instance methods are functions each instance can run, e.g., talk, run, jump.\n\nExample:\nclass Rectangle {\n  constructor(_width, _height, _color) {\n    console.log('The Rectangle is being created!');\n    this.width = _width;\n    this.height = _height;\n    this.color = _color;\n  }\n  getArea() {\n    return this.width * this.height;\n  }\n}\n\nlet myRectangle1 = new Rectangle(5, 3, 'blue');\nlet myRectangle2 = new Rectangle(10, 5, 'red');\nconsole.log(myRectangle1.getArea());\nconsole.log(myRectangle2.getArea());\n\nEach Rectangle has its own width, height, color (properties) and can run getArea() (method) independently.",
+  "type": "javascript"
+},
+{
+  "question": "What is a static method in JavaScript?",
+  "answer": "A static method in JavaScript belongs to the class itself, not to instances of that class. That means you call it on the class, not on an object made with that class.\n\nExample:\n\nclass MathUtils {\n  static add(a, b) {\n    return a + b;\n  }\n}\n\nMathUtils.add(2, 3); // ✅ works\n\nconst obj = new MathUtils();\nobj.add(2, 3); // ❌ error: add is not a function\n\nWhy? The method add is defined static, so it can only be called as MathUtils.add. This is good for utility functions that do not need instance data.",
+  "type": "javascript"
+},
+{
+  "question": "What is polymorphism in JavaScript classes?",
+  "answer": "Polymorphism means different classes have methods with the same name but different behavior. One function name, multiple forms.\n\nExample:\nclass Animal {\n  speak() { console.log(\"Animal makes a sound\"); }\n}\nclass Dog extends Animal {\n  speak() { console.log(\"Woof!\"); }\n}\nclass Cat extends Animal {\n  speak() { console.log(\"Meow!\"); }\n}\nfunction makeAnimalSpeak(animal) {\n  animal.speak();\n}\nmakeAnimalSpeak(new Dog()); // Woof!\nmakeAnimalSpeak(new Cat()); // Meow!\n\nWhy does this matter? You can write code that works on a generic class, and the right version (child or parent) is called depending on the object.",
+  "type": "javascript"
+},
+{
+  "question": "What is the splice function in JavaScript?",
+  "answer": "splice() is an array method that lets you add, remove, or replace items in-place:\nSyntax: array.splice(start, deleteCount, item1, item2, ...);\n\nstart: Where to begin changing the array (index)\ndeleteCount: How many items to remove\nitem1, item2: Optional, what to add in their place\n\nExamples:\n// Remove items\nlet fruits = [\"apple\", \"banana\", \"orange\", \"kiwi\"];\nfruits.splice(1, 2); // removes 'banana', 'orange'\nconsole.log(fruits); // [\"apple\", \"kiwi\"]\n\n// Add items\nfruits.splice(1, 0, \"banana\", \"orange\"); // adds back at index 1\nconsole.log(fruits); // [\"apple\", \"banana\", \"orange\", \"kiwi\"]\n\n// Replace items\nfruits.splice(1, 2, \"grape\", \"pear\");\nconsole.log(fruits); // [\"apple\", \"grape\", \"pear\", \"kiwi\"]",
+  "type": "javascript"
+},
+{
+  "question": "What is backdrop-filter in CSS?",
+  "answer": "backdrop-filter applies visual effects to whatever is behind an element (not the element itself). It can blur, brighten, grayscale, add contrast, etc, to the background.\n\nExamples:\n- blur(5px): Fuzzy background\n- brightness(150%): Brighter background\n- contrast(200%): More contrast\n- grayscale(100%): Black and white\n- opacity(50%): see-through behind element\n- sepia(100%): Warm, old-photo effect\n\nFor max browser support, use both:\n.frosted-panel {\n  backdrop-filter: blur(10px) brightness(120%);\n  -webkit-backdrop-filter: blur(10px) brightness(120%);\n}\n\nThis creates a \"frosted glass\" look, especially popular in modals, overlays, or sidebar panels.",
   "type": "css"
 },
 {
-  "question": "Is it possible to overwrite e.target in JavaScript?",
-  "answer": "No, you can't overwrite e.target. Setting e.target = '' does nothing useful. e.target always refers to the element that triggered the event.",
+  "question": "How do you hide elements with JavaScript?",
+  "answer": "You can hide elements in HTML/JavaScript using several methods:\n\n1. visibility: hidden -- The element is invisible but still takes up space.\n<button id=\\\"myButton2\\\">Click me</button>\n<script>\nlet btn2 = document.getElementById(\\\"myButton2\\\");\nbtn2.style.visibility = \\\"hidden\\\"; // invisible, but space remains\n</script>\n\n2. The 'hidden' attribute (HTML5) -- Completely hides the element, and it no longer takes up space (like display: none). Clean and declarative.\n<button id=\\\"myButton3\\\" hidden>Click me</button>\n<script>\nlet btn3 = document.getElementById(\\\"myButton3\\\");\nbtn3.hidden = false; // shows the button\nbtn3.hidden = true;  // hides the button\n</script>\n\nNote: The 'hidden' attribute is an HTML attribute, and it's better than toggling display manually because it separates structure from behavior.",
   "type": "javascript"
 },
 {
-  "question": "What is the closest and trim method in JavaScript?",
-  "answer": "closest(): Searches up the DOM tree for the nearest ancestor matching the selector (including the element itself). Useful for event delegation. Example:\n\ndocument.querySelector('i').addEventListener('click', e => {\n  const btn = e.target.closest('button');\n  console.log(btn.id);\n});\n\ntrim(): Removes whitespace from the start and end of a string. Example:\n\nconst text = '   +   ';\nconsole.log(text.trim()); // '+'\n\nCommon use:\n\nconst value = button.textContent.trim();",
+  "question": "What is the prompt in JavaScript?",
+  "answer": "prompt() shows a popup in the browser asking the user to type something.\n\nBasic usage:\nlet userInput = prompt(\\\"Enter your name:\\\");\nconsole.log(\\\"You entered: \\\" + userInput);\n\n- Shows a message and an input field.\n- Returns what the user typed or null if they clicked Cancel.\n\nExample:\nlet age = prompt(\\\"How old are you?\\\");\nif (age !== null) {\n    alert(\\\"You are \\\" + age + \\\" years old.\\\");\n} else {\n    alert(\\\"You didn't enter anything!\\\");\n}\n\nalert() just shows a message; prompt() asks for user text.",
   "type": "javascript"
 },
 {
-  "question": "What is isNaN in JavaScript?",
-  "answer": "isNaN checks if a value is 'Not-a-Number'. Returns true for things that can't be interpreted as a number.\n\nisNaN(123);      // false (number)\nisNaN('123');    // false (can be parsed to number)\nisNaN('abc');    // true (not a number)\nisNaN(NaN);      // true (by definition)",
+  "question": "What is confirm in JavaScript?",
+  "answer": "confirm() is a dialog box that asks the user a yes/no question.\n\nlet result = confirm(\\\"Do you want to proceed?\\\");\nconsole.log(result); // true if OK, false if Cancel\n\n- Shows a popup with a message and OK/Cancel buttons\n- Returns true if OK is clicked, false if Cancel\n\nExample usage:\nif (confirm(\\\"Are you sure you want to delete this file?\\\")) {\n    alert(\\\"File deleted!\\\");\n} else {\n    alert(\\\"Action canceled!\\\");\n}\n\nalert() just shows a message, prompt() lets user type, confirm() asks yes/no and returns boolean.",
   "type": "javascript"
-},
-{
-  "question": "How do you update the value of an input in JavaScript?",
-  "answer": "Use .value instead of textContent or innerText to get or set the value of form inputs.\n\nExample:\n\ndocument.querySelector('input').value = 'Hello';",
-  "type": "javascript"
-},
-{
-  "question": "What does the .join function do in JavaScript?",
-  "answer": ".join() lets you combine all elements of an array into a single string, with an optional separator between them.\n\nExamples:\n\nlet arr = ['apple', 'banana', 'cherry'];\narr.join();        // 'apple,banana,cherry' (default: comma)\narr.join(' ');     // 'apple banana cherry' (space)\narr.join(' - ');   // 'apple - banana - cherry'\n\nWorks for numbers too:\nlet nums = [1,2,3];\nnums.join('');     // '123'\nnums.join('-');    // '1-2-3'",
-  "type": "javascript"
-},
-{
-  "question": "What does the eval function do in JavaScript?",
-  "answer": "eval() runs a string as JavaScript code. Be careful: eval can be dangerous because it will execute any code that a string contains. Useful for evaluating math expressions, but not recommended for general use.\n\nExamples:\nlet result = eval('2 + 3');      // 5\neval('console.log(\"Hello\")');  // logs Hello",
-  "type": "javascript"
-},
-{
-  "question": "What does try...catch do in JavaScript?",
-  "answer": "try...catch lets you handle errors gracefully. The code inside try is attempted. If it fails, the catch block runs instead.\n\nExample:\ntry {\n  let data = JSON.parse('{ name: Pedro }'); // malformed JSON will throw\n} catch (error) {\n  console.log('An error occurred: ' + error.message);\n} finally {\n  console.log('This runs no matter what.');\n}\n\ncatch receives an error object, and finally always runs after try/catch.",
-  "type": "javascript"
-},
-{
-"question": "How do you force push to GitHub?",
-"answer": "To forcefully overwrite the remote branch on GitHub with your local changes, use the --force flag when pushing. This is useful if you need to rewrite history (e.g., after a rebase), but be careful—force-pushing will replace the remote branch and might overwrite others' work.\n\nExample:\n\ngit push origin main --force\n\nAlways communicate with your team before using --force, as this can disrupt shared branches.",
-"type": "git"
-},
-{
-  "question": "How does a click event handler safely detect whether a button was clicked, and why is it necessary to check the result before using it?",
-  "answer": "In JavaScript, you use:\n\nconst USERINPUT = e.target.closest('button');\nif (!USERINPUT) return;\n\nThis searches upward from the clicked element to find the nearest <button>. If no button was found, USERINPUT will be null and the function exits immediately,\nwhich prevents errors from trying to read properties of null.",
-  "type": "javascript"
-},
-{
-  "question": "What is synchronous programming and asynchronous programming?",
-  "answer": "Synchronous programming means code runs in order: each step waits for the previous step to finish. Example:\n\nconsole.log(\"Step 1: Wake up\");\nconsole.log(\"Step 2: Brush teeth\");\nconsole.log(\"Step 3: Eat breakfast\");\n// Output:\nStep 1: Wake up\nStep 2: Brush teeth\nStep 3: Eat breakfast\n\nAsynchronous programming lets you run tasks without blocking—other code can run while waiting for results. Example:\n\nconsole.log(\"Step 1: Wake up\");\nsetTimeout(() => {\n  console.log(\"Step 2: Eat breakfast (after 2 seconds)\");\n}, 2000);\nconsole.log(\"Step 3: Brush teeth\");\n// Output:\nStep 1: Wake up\nStep 3: Brush teeth\nStep 2: Eat breakfast (after 2 seconds)",
-  "type": "javascript"
-},
-{
-  "question": "What is the setTimeout Method in JavaScript?",
-  "answer": "setTimeout is a function (on window) that runs code once after a specified delay in milliseconds. It's non-blocking and lets other code run. Syntax:\n\nsetTimeout(functionToRun, delayInMilliseconds);\n\nExample:\nconsole.log(\"Start\");\nsetTimeout(() => {\n  console.log(\"This runs after 3 seconds\");\n}, 3000);\nconsole.log(\"End\");\n// Output:\nStart\nEnd\nThis runs after 3 seconds",
-  "type": "javascript"
-},
-{
-  "question": "What is a callback in JavaScript?",
-  "answer": "A callback is a function passed into another function to be called later, usually when an operation completes. Example:\n\nfunction stepOne(callback) {\n  console.log(\"Step 1: Turn on the computer\");\n  callback();\n}\nfunction stepTwo(callback) {\n  console.log(\"Step 2: Open your code editor\");\n  callback();\n}\nfunction stepThree() {\n  console.log(\"Step 3: Start coding!\");\n}\n// Chained callbacks:\nstepOne(() => {\n  stepTwo(() => {\n    stepThree();\n  });\n});",
-  "type": "javascript"
-},
-{
-  "question": "What is 'callback hell'?",
-  "answer": "Callback hell happens when you nest callbacks inside callbacks to ensure things happen in sequence. It becomes hard to read and maintain—code looks like a pyramid. Example:\n\nstepOne(function() {\n  stepTwo(function() {\n    stepThree(function() {\n      stepFour(function() {\n        stepFive(function() {\n          console.log(\"All steps done!\");\n        });\n      });\n    });\n  });\n});\n// Each level is indented more—easy to get lost if something breaks!",
-  "type": "javascript"
-},
-{
-  "question": "What is a Promise in JavaScript?",
-  "answer": "A Promise is an object representing the eventual completion or failure of an async operation. It has states: pending, fulfilled, or rejected.\n\nCreating a Promise:\nconst promise = new Promise((resolve, reject) => {\n  if (everythingIsGood) {\n    resolve('Success value');\n  } else {\n    reject('Error value');\n  }\n});\n\nUsing a Promise:\npromise.then(result => {\n  console.log('Got:', result);\n});\npromise.catch(error => {\n  console.log('Error:', error);\n});\n// resolve/reject is for inside the Promise, .then/.catch is for outside.",
-  "type": "javascript"
-},
-{
-  "question": "How is (value) in .then() and (error) in .catch() related to Promises in JavaScript?",
-  "answer": "In a Promise chain, the parameter inside .then() receives what was passed to resolve(...) in your Promise. The parameter inside .catch() gets whatever was sent to reject(...).\n\nExample:\n\npromise\n  .then(value => {\n    // 'value' is what resolve(...) sent\n    console.log('Success:', value);\n  })\n  .catch(error => {\n    // 'error' is what reject(...) sent\n    console.log('Failure:', error);\n  });\n\nIf resolve('done!') runs, .then() receives 'done!'. If reject('fail!'), .catch gets 'fail!'.\n\nSummary:\n- parameter in .then() = value from resolve\n- parameter in .catch() = value from reject",
-  "type": "javascript"
-},
-{
-  "question": "How do you chain Promises in JavaScript and what happens if one fails?",
-  "answer": "You can chain Promises by returning a new promise (or value) from each .then(). Each .then() waits until the previous promise resolves. If any promise rejects, execution goes immediately to .catch().\n\nStep-by-step example:\n\nconst promise = new Promise((resolve, reject) => {\n  resolve('Well Done! Promise One is Resolved');\n});\n\nconst promiseTwo = new Promise((resolve, reject) => {\n  resolve('Well Done! Promise Two is Resolved');\n});\nconst promiseThree = new Promise((resolve, reject) => {\n  reject('Promise Three is Rejected. Unlucky!');\n});\n\npromise\n  .then((value) => {\n    console.log(value); // Logs from promise one\n    return promiseTwo; // Return the next promise\n  })\n  .then((value) => {\n    console.log(value); // Logs promise two result\n    return promiseThree;\n  })\n  .catch((error) => {\n    console.log(error); // Handles promise three's rejection, or any earlier error\n  });\n\nEach .then() gets the previous result. If you return a new value instead of a Promise, the next .then() runs immediately with that value. If a promise is rejected, .catch() runs, and later .then() handlers are skipped.",
-  "type": "javascript"
-},
-{
-  "question": "How do you run multiple Promises at once in JavaScript?",
-  "answer": "You can run concurrent Promises using Promise.all. Pass it an array of Promises. It waits for all of them to resolve before running .then() with an array of results. If any promise rejects, .catch() is called right away and gives the error.\n\nExample:\n\nconst promiseOne = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Promise One Resolved!');\n  }, 2000);\n});\nconst promiseTwo = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Promise Two Resolved!');\n  }, 1500);\n});\nPromise.all([promiseOne, promiseTwo])\n  .then(data => console.log(data, data))\n  .catch(error => console.log(error));\n\nHow it works: Results are in order, matching the input array. If any promise fails, no results are returned, only the first error. Other promises still run, but you won't receive their values",
-  "type": "javascript"
-},
-{
-  "question": "What is the Date.now() method in JavaScript?",
-  "answer": "Date.now() is a static method that returns the number of milliseconds elapsed since January 1, 1970 (the Unix epoch). It's useful for creating timestamps and measuring time durations.\n\nExample:\n\nconst timestamp = Date.now();\nconsole.log(timestamp); // e.g. 1633568194182\n\nYou can subtract two Date.now() values to find out how many milliseconds have passed between events.",
-  "type": "javascript"
-},
-{
-  "question": "How do you use multiple colors in linear-gradient and what do the percentages mean?",
-  "answer": "In CSS, linear-gradient() lets you blend multiple colors along a line. You can specify where each color starts and ends using percentages (color stops).\n\nExample:\n\nbody {\n  height: 100vh;\n  margin: 0;\n  background: linear-gradient(to left, red, lime, orange, purple);\n}\n\nEach color can have an optional stop position:\n\nlinear-gradient(to right, red 0%, yellow 50%, blue 100%);\n\n- 0% = start\n- 50% = halfway\n- 100% = end\n\nIf you don't give percentages, the browser spaces them evenly. For hard stops (no blending), place two colors at the same position:\n\nlinear-gradient(to right, red 0%, red 50%, blue 50%, blue 100%);\n\nThis creates solid red until 50%, then instant blue.",
-  "type": "css"
-},
-{
-  "question": "Explain the box-shadow shorthand code in CSS",
-  "answer": "The box-shadow shorthand follows this pattern:\n\n[inset] offset-x offset-y blur-radius spread-radius color\n\n- inset (optional): shadow goes inside the box (remove for outside shadow)\n- offset-x: horizontal shift (positive = right, negative = left)\n- offset-y: vertical shift (positive = down, negative = up)\n- blur-radius: how soft/blurry the shadow is (bigger = fuzzier)\n- spread-radius (optional): makes shadow bigger or smaller than the box\n- color: shadow color\n\nExample:\n\nbox-shadow: 2px 4px 10px 0px rgba(0,0,0,0.3);",
-  "type": "css"
-},
-{
-  "question": "Can you use two position or display values in CSS?",
-  "answer": "No. CSS properties only take one value at a time. If you write the same property twice, the second one overwrites the first:\n\n.title {\n  position: relative;\n  position: absolute; /* THIS OVERRIDES the previous one */\n}\n\nSame with display—you can't do display: block; display: flex; in the same rule. The last one always wins.",
-  "type": "css"
-},
-{
-  "question": "What is the ::before pseudo-element in CSS?",
-  "answer": "::before creates a new invisible element before the content of an element. You must include content: '' or it won't appear. Useful for adding decorative effects like glare, borders, or icons.\n\nExample:\n\n.title::before {\n  content: '';\n  position: absolute;\n  /* styling for the pseudo-element */\n}",
-  "type": "css"
-},
-{
-  "question": "What is the CSS code to add a glare effect to an element?",
-  "answer": "You can create a glare effect using ::before with a gradient and animation:\n\n.title::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: -75%;\n  width: 50%;\n  height: 100%;\n  background: linear-gradient(\n    120deg,\n    rgba(255, 255, 255, 0) 0%,\n    rgba(255, 255, 255, 0.4) 50%,\n    rgba(255, 255, 255, 0) 100%\n  );\n  transform: skewX(-20deg);\n  animation: glare 2.5s infinite;\n}\n\n@keyframes glare {\n  0% { left: -75%; }\n  100% { left: 125%; }\n}\n\nThis creates a moving light that sweeps across the element.",
-  "type": "css"
-},
-{
-  "question": "What is display: inline-block in CSS?",
-  "answer": "display: inline-block; makes an element act like inline text (sits next to other content on the same line) but also like a block (you can apply width, height, transforms, etc.).\n\nWithout inline-block, you can't move inline text with transform properties. It's perfect for animating individual words or letters:\n\n.title span {\n  display: inline-block;\n  transform: translateY(-100px);\n}\n\nThis lets each word or letter move independently while staying on the same line.",
-  "type": "css"
-},
-{
-  "question": "What does 'forwards' mean in CSS animation?",
-  "answer": "animation-fill-mode: forwards; tells the browser to keep the final state of the animation instead of jumping back to the start.\n\nExample:\n\nanimation: dropdown 0.8s forwards;\n\nWith forwards: stays at end position (e.g. visible and in place)\nWithout it: jumps back to start (e.g. invisible and above)",
-  "type": "css"
-},
-{
-  "question": "How do you make a cool dropdown animation with <span> words inside a <div>?",
-  "answer": "Use display: inline-block on each word, start them above and invisible, then animate them down with staggered delays:\n\n.title span {\n  display: inline-block;\n  transform: translateY(-100px);\n  opacity: 0;\n  animation: dropdown 0.8s forwards;\n}\n\n.title .guess { animation-delay: 0s; }\n.title .that  { animation-delay: 0.3s; }\n.title .number{ animation-delay: 0.6s; }\n\n@keyframes dropdown {\n  to {\n    transform: translateY(0);\n    opacity: 1;\n  }\n}\n\nEach word drops in sequence, creating a cascading effect.",
-  "type": "css"
-},
-{
-  "question": "What does (0) mean in CSS transform properties?",
-  "answer": "In CSS transform properties, 0 means 'no change from the element's original state':\n\n- translate(0) = no movement\n- rotate(0deg) = no rotation\n- skew(0deg) = no tilt\n- scale(1) = no size change (1 = 100%)\n\nIn short: 0 resets the transform, keeping the element in its natural position.",
-  "type": "css"
-},
-{
-  "question": "What happens if you use an animation without position: relative on the parent?",
-  "answer": "If an animated element has position: absolute but its parent doesn't have position: relative, the element will be positioned relative to the whole page (viewport) instead of the parent container.\n\nConsequences:\n- The animated element ignores the container\n- overflow: hidden on the parent won't work\n- Glare or moving pseudo-elements will spill across the page\n\nBottom line: position: relative on the parent tells absolute children 'stay in my box'. Without it, animations can go wild.",
-  "type": "css"
-},
-{
-  "question": "What do infinite, alternate, and ease-in-out mean in CSS animations?",
-  "answer": "These are animation properties that control how animations repeat and move:\n\ninfinite: Makes the animation loop forever (without it, runs once and stops)\n\nalternate: Makes animation go forward then backward (0%→100%→0%) creating smooth back-and-forth\n\nease-in-out: Controls speed—starts slow, speeds up in middle, ends slow (natural smooth feel)\n\nExamples:\n\n1. Smooth back-and-forth:\nanimation: slideLR 4s infinite alternate ease-in-out;\n\n2. Constant speed sliding:\nanimation: slideLR 5s infinite linear;\n\n3. Slide once and stay:\nanimation: slideLR 3s forwards ease-out;",
-  "type": "css"
-},
-{
-  "question": "What are timing functions in CSS animations and transitions, and what does 'all' mean as a property?",
-  "answer": "Timing functions control the pacing of an animation or transition—how fast it moves at each stage:\n\nease: starts slow, speeds up, then slows down at the end (default)\nlinear: moves at a constant speed from start to end\nease-in: starts slow, then speeds up\nease-out: starts fast, then slows down\nease-in-out: starts slow, speeds up in the middle, then slows down at the end\n\nExample:\ntransition: all 0.3s ease-in-out;\n\nall (as a transition property): Make every property that changes—color, background, box-shadow, transform, etc.—animate smoothly with the timing function. You can specify a single property or use all for everything.",
-  "type": "css"
-},
-{
-"question": "How do you make an async function in JavaScript and use await correctly?",
-"answer": "You create an async function by using the 'async' keyword before the function declaration (regular, arrow, or method). Inside, you can use the 'await' keyword to pause execution until a Promise resolves. Example:\n\nasync () => {\n const taskOne = await preHeatOven();\n console.log(taskOne);\n const taskTwo = await addSugar();\n console.log(taskTwo);\n const taskThree = await addFlour();\n console.log(taskThree);\n console.log('Enjoy Your Cookies');\n}\n\nNB: await only works inside an async function—it allows you to write asynchronous code that looks synchronous, making it cleaner and much less 'callback hell'. You can also use async with function declarations:\n\nasync function bakeCookies() {\n // code with await\n}\n\nAnd with arrow functions or methods within classes. If any awaited Promise fails, it throws an error you can catch with try/catch.",
-"type": "javascript"
-},
-{
-"question": "Give an example of fetching data from a dummy URL in JavaScript.",
-"answer": "You can fetch data using the 'fetch' API, which returns a Promise. Here is a step-by-step example:\n\nfetch('https://dummyjson.com/products/1', {})\n .then((response) => response.json())\n .then((data) => console.log(data))\n .catch((error) => console.log(error));\n\nWhat's happening in each step:\n- fetch() sends the request (like sending a letter to the server)\n- .then(response => response.json()) reads the reply and converts it to usable data\n- .then(data => console.log(data)) outputs the result\n- .catch(error => console.error(error)) handles any problems that come up (shows why your request failed)",
-"type": "javascript"
-},
-{
-"question": "What are the methods to fetch data from an API, and what do GET, POST, PUT, DELETE mean?",
-"answer": "REST APIs use four main HTTP methods to interact with data:\n- GET: Requests existing information (\"Show me the data.\")\n- POST: Adds new information (\"Here’s something new.\")\n- PUT: Updates existing information (\"Change this thing.\")\n- DELETE: Removes information (\"Delete this thing.\")\n\nExamples:\n1️⃣ GET: fetch('https://dummyjson.com/products/1')\n .then(res => res.json())\n .then(data => console.log(\"GET:\", data))\n .catch(err => console.error(err));\n\n2️⃣ POST: fetch('https://dummyjson.com/products/add', {\n method: 'POST',\n headers: { 'Content-Type': 'application/json' },\n body: JSON.stringify({ title: 'New Product', price: 99 })\n})\n .then(res => res.json())\n .then(data => console.log('POST:', data))\n .catch(err => console.error(err));\n\n3️⃣ PUT: fetch('https://dummyjson.com/products/1', {\n method: 'PUT',\n headers: { 'Content-Type': 'application/json' },\n body: JSON.stringify({ title: 'Updated Product', price: 150 })\n})\n .then(res => res.json())\n .then(data => console.log('PUT:', data))\n .catch(err => console.error(err));\n\n4️⃣ DELETE: fetch('https://dummyjson.com/products/1', {\n method: 'DELETE'\n})\n .then(res => res.json())\n .then(data => console.log('DELETE:', data))\n .catch(err => console.error(err));\n\nNotes:\n- fetch() defaults to GET if you don't specify method\n- Always JSON.stringify() your object for PUT/POST\n- Use correct headers\n- .catch handles server errors, network problems, etc.",
-"type": "javascript"
-},
-{
-"question": "How do you make buttons and inputs transparent in CSS?",
-"answer": "To make a button or input transparent, set its background-color property to transparent:\n\nbutton, input {\n background-color: transparent;\n}\n\nYou may also want to remove borders or shadows depending on the design. This lets the button/input blend in with the background or underlying gradient/image.",
-"type": "css"
-},
-{
-"question": "What are the requirements before z-index will work in CSS?",
-"answer": "z-index only works if your element has a 'position' property set to relative, absolute, fixed, or sticky. By default, position is 'static' and z-index does nothing. Example:\n\n.element {\n position: relative;\n z-index: 10;\n}\n\nSetting position lets the element layer above/below others with z-index.",
-"type": "css"
-},
-{
-"question": "How do you create a new Date, month, and year in JavaScript?",
-"answer": "Create a new Date object in JavaScript using:\n\nlet dateObj = new Date();\n// Or with a date string in ISO format:\nlet dateObj = new Date('2025-11-03'); // YYYY-MM-DD\n\nYou can include time:\nlet dateObj = new Date('2025-11-03T14:30:00'); // YYYY-MM-DDTHH:MM:SS\n\nExtract month, day, year:\nlet month = months[dateObj.getUTCMonth()];\nlet day = dateObj.getUTCDate();\nlet year = dateObj.getUTCFullYear();\ndate.innerHTML = ${month} ${day} ${year};\n\nTip: Always use ISO format for cross-browser compatibility.",
-"type": "javascript"
-},
-{
-"question": "What is CORS and why is it important for API requests?",
-"answer": "CORS (Cross-Origin Resource Sharing) is a security feature built into browsers. It restricts one website from requesting data from another website or server unless the server explicitly allows it. The browser reads the server’s CORS headers to decide.\n\n- It only applies to browser-based requests (fetch, XMLHttpRequest)\n- It does NOT apply to server-side code like Node.js\n- If the target server allows your website, the browser lets the request through; otherwise, it's blocked\n\nCORS protects users from malicious sites trying to steal data or do unauthorized requests.",
-"type": "network"
-},
-{
-"question": "What is the shortcut to rename a file in CMD?",
-"answer": "First, navigate to the directory where your file or folder is:\n\ncd C:\\Users\\USER\\Desktop\n\nUse ren (short for rename):\n\nren \"old_name\" \"new_name\"\n\nExamples:\nren \"ASYNC\" \"CHUCK NORRIS API\"  ← folder\nren \"notes.txt\" \"final_notes.txt\"   ← file\n\nAlways use quotes if the name contains spaces! You can use either rename or ren in Windows CMD—they work the same way.",
-"type": "cmd"
-},
-{
-"question": "Explain the .ok property and its logic.",
-"answer": "The .ok property is used on Response objects from fetch (and other HTTP APIs) in JavaScript. It tells you whether the HTTP response was successful (status 200–299) — like an 'if' for the status of your request. Example:\n\nfetch(url)\n .then(response => {\n if (response.ok) {\n // Proceed, status was good\n } else {\n // Something went wrong, e.g. 404 or 500\n }\n })\n\nSo .ok works like a quick Boolean check—'Is the network response good/successful?'",
-"type": "javascript"
-},
-{
-"question": "What is the difference between console.error and throw new Error in JavaScript?",
-"answer": "throw new Error:\n- Immediately interrupts execution with an error\n- Used to signal something went wrong and stop running code\n- Example:\nfunction eatCake(cakes) {\n if(cakes === 0) {\n throw new Error(\"No cake to eat!\");\n }\n console.log(\"Yum!\");\n}\neatCake(0); // Throws Error: No cake to eat!\n\nconsole.error:\n- Doesn't stop code, just prints the error message in red in the console\n- Helps debug or warn about issues without halting execution\n- Example:\nconsole.error(\"Uh-oh, something went wrong!\");\n\nSummary: throw stops code immediately, console.error just logs.",
-"type": "javascript"
-},
-{
-"question": "Explain the logic behind fetching variables using promises.",
-"answer": "Here's how the fetch → promises chain works:\n\n1️⃣ fetch(url)\n- Sends a network request and returns a Promise that resolves to a Response object if successful\n2️⃣ .then(response => response.json())\n- When you get a reply, parse the body to JSON (returns a new Promise)\n3️⃣ .then(data => {...})\n- Runs when JSON parsing completes; 'data' is now usable JS data\n4️⃣ .catch(error => {...})\n- Catches any error in the chain: network fails, bad URL, invalid JSON, code bugs, etc\n\nKey logic: Every .then() returns a new Promise; whatever you return inside one .then() becomes the input for the next. Any failure moves immediately to .catch().\n\nSummary: fetch → resolve promise → parse JSON → work with data → handle any errors in .catch().",
-"type": "javascript"
-},
-{
-"question": "How do you write an async function to fetch data from a website?",
-"answer": "Use async/await plus try/catch for clean async code:\n\nconst func = async () => {\n try {\n const response = await fetch(\"https://superheroapi.com/api/83f20e741e49830da2b1d9bea97259ee/300\", {\n method: \"GET\",\n headers: { \"Content-Type\": \"application/json\" },\n });\n const data = await response.json();\n console.log(data);\n } catch (error) {\n console.error(\"This is an error:\", error);\n }\n};\nfunc();\n\nThis handles network, server, and parse errors gracefully. You can move the URL, options, processing, etc anywhere you want using await for each step.",
-"type": "javascript"
-},
-{
-"question": "How do you get temporary access when you have a CORS error?",
-"answer": "Sometimes, fetching from external APIs triggers a CORS error (browser security blocks your call). To get temporary access:\n\nGo to: https://cors-anywhere.herokuapp.com/corsdemo\nClick 'Request temporary access to the demo server.'\n\nReload your page or try fetch/image URLs prefixed with https://cors-anywhere.herokuapp.com/\n\nExample for images:\n\nimage.src = \"https://cors-anywhere.herokuapp.com/\" + data.image.url\n\nThis routes your traffic through a CORS proxy, bypassing restrictions for testing or one-off requests!",
-"type": "network"
-},
-{
-"question": "What is a proxy, and how does it help with CORS?",
-"answer": "A proxy is a middleman server that passes requests and responses between you and another server. If you can't reach Class B directly, you ask Proxy Paul to fetch the data for you, and Paul returns the answer.\n\nIn the web, proxies are often used to bypass CORS errors — your code talks to the proxy, and the proxy relays your request to the desired server, then hands the response back.\n\nThis gets around browser restrictions and lets you access data that would normally be blocked.",
-"type": "network"
-},
-{
-"question": "How do you handle errors in async/await and Promises?",
-"answer": "Always use a try/catch block for async/await logic:\n\nasync function getData() {\n try {\n const data = await fetch(...);\n // ... more code ...\n } catch (error) {\n // handle error\n }\n}\n\nFor Promises, use .catch:\npromise\n .then(...)\n .catch(error => { ... })\n\nBoth catch network errors, server failures, bad JSON, or bugs, making your requests robust.",
-"type": "javascript"
-},
-{
-"question": "What does the 'disabled' property/attribute do in JavaScript and HTML forms?",
-"answer": "Disabled is built-in for form elements (<button>, <input>, <select>, etc). Set to true to make the element unclickable, uneditable, or inactive:\n\nconst btn = document.querySelector('.submit');\nbtn.disabled = true; // disables button\nbtn.disabled = false; // enables button\n\nYou don’t need to define it: <button disabled>Submit</button> does the same as btn.disabled = true.",
-"type": "html"
-},
-{
-"question": "How do you make Math.random never generate 0?",
-"answer": "You can force Math.random to start from 1 (never zero) using:\n\nrandomNum = Math.floor(Math.random() * maxVal) + 1;\n\nThis gives you a range from 1 to maxVal. Math.random itself is from 0 (inclusive) to 1 (exclusive), so this shift always excludes zero.",
-"type": "javascript"
-},
-{
-"question": "Why does type=\"module\" stop you from using onclick JS?",
-"answer": "<script type=\"module\"> hides your functions, so HTML buttons using onclick=\"...\" can’t see them.\n\nWhy:\nNormal scripts put functions in the global playground (window).\nModules put functions in a private box.\n\nFix:\nYou can make the function global by attaching it to window:\n\n<button onclick=\"sayHello()\">Click me</button>\n<script type=\"module\">\n window.sayHello = () => {\n alert(\"Hello!\");\n };\n</script>\n\nNow onclick works.",
-"type": "javascript"
-},
-{
-"question": "How are input box values saved when dealing with numbers?",
-"answer": "Input box values are ALWAYS strings, even if they look like numbers. So if you do:\n\nlet val = inputBox.value;\nlet result = val + 1;\n\nYou get string concatenation (\"1\" + 1 = \"11\") instead of addition. Always use parseInt or Number to convert:\n\nlet value = parseInt(inputBox.value);",
-"type": "javascript"
-},
-{
-"question": "In a div with two divs, how do you make them split to left and right?",
-"answer": "Use flexbox and space-between to push the children apart:\n\ntwoElementsDiv {\n display: flex;\n align-items: flex-start;\n justify-content: space-between;\n}\n\nThis makes one div stick to the left and one to the right.",
-"type": "css"
-},
-{
-"question": "How do you change the color of placeholder text with CSS?",
-"answer": "There's a special selector called ::placeholder. Example:\n\n.searchBox::placeholder {\n color: var(--yourColorHere);\n opacity: 1;\n}\n\n.searchBox is your input box. ::placeholder targets placeholder text only. opacity: 1 keeps the color fully visible.",
-"type": "css"
-},
-{
-"question": "Add that translateY is responsible for making things go to the top in CSS.",
-"answer": "transform: translateY(-VALUE); moves the element up by the given number of pixels. For example:\ntranslateY(-10px) moves it 10px up.\ntranslateY(10px) moves it 10px down.",
-"type": "css"
-},
-{
-"question": "What happens when you have two separate transform properties inside the same rule?",
-"answer": "CSS only uses the last transform property in a rule. So this:\n.searchBtn:hover {\n transform: translateY(-25px);\n transform: scale(1.1);\n}\nLeaves only scale(1.1), ignoring translateY(-25px).\n\nTo fix, combine transforms:\n.searchBtn:hover {\n transform: translateY(-25px) scale(1.1);\n transition: transform 0.3s ease, color 0.3s ease;\n}\nNow both effects work at once.",
-"type": "css"
-},
-{
-"question": "Q: What do you do if you want a list to show 'name: value' on the same line?",
-"answer": "Wrap each name and value in <span>s and use display: flex on your <li>:\n.moviedetails ul li {\n display: flex;\n flex-wrap: wrap;\n gap: 10px;\n}\n.label {\n font-weight: bold;\n}\n.value {\n flex: 1;\n}\n\nThis keeps labels and values together, side by side.",
-"type": "css"
-},
-{
-"question": "How do you convert minutes to hour & min format in JS?",
-"answer": "Use math:\nconst convertMinsToHours = (str) => {\n const mins = parseInt(str);\n const hours = Math.floor(mins / 60);\n const minutes = mins % 60;\n return ${hours}h ${minutes}m;\n};\nconsole.log(convertMinsToHours('123')); // '2h 3m'\nconsole.log(convertMinsToHours('150')); // '2h 30m'",
-"type": "javascript"
-},
-{
-"question": "What is encodeURIComponent in JavaScript?",
-"answer": "encodeURIComponent() turns text into a version that is safe for URLs. It replaces spaces, &, ?, /, = and other risky characters with codes like %20.\n\nExample:\nencodeURIComponent(\"Spider Man No Way Home\")\n// becomes 'Spider%20Man%20No%20Way%20Home'\n\nThis prevents URLs from breaking when special characters are present.",
-"type": "javascript"
-},
-{
-"question": "How do you use the e in event listeners for keyboard keys?",
-"answer": "In JavaScript, the 'e' (event object) lets you check which key was pressed inside a keydown handler. Keydown fires for ANY key press; to act only on Enter:\n\nuserInput.addEventListener(\"keydown\", async (e) => {\n if (e.key === \"Enter\") {\n // do fetch or other logic\n }\n});\n\n'e.key' contains the key name (like \"Enter\", \"a\", \"Escape\", etc).",
-"type": "javascript"
-},
-{
-"question": "What is JSON.parse?",
-"answer": "JSON.parse() converts a JSON string into a real JavaScript object or array. Commonly used with localStorage since it only stores strings.\n\nlet stored = localStorage.getItem(\"todos\");\nlet todos = JSON.parse(stored);\n\nWhy?\n- When saving: use JSON.stringify() to turn objects/arrays into strings.\n- When loading: use JSON.parse() to convert it back.",
-"type": "javascript"
-},
-{
-"question": "What is the Object.values method and related methods?",
-"answer": "Object.values(obj) returns all the values as an array.\n\nconst user = { name: \"Chuks\", age: 21, country: \"Nigeria\" };\nconsole.log(Object.values(user)); // [\"Chuks\", 21, \"Nigeria\"]\n\nOther related methods:\nObject.keys(obj) returns property names as array.\nObject.entries(obj) returns [[key, value], ...] pairs.\n\nconsole.log(Object.keys(user)); // [\"name\", \"age\", \"country\"]\nconsole.log(Object.entries(user)); // [[\"name\", \"Chuks\"], [\"age\", 21], [\"country\", \"Nigeria\"]]",
-"type": "javascript"
-},
-{
-"question": "What is the difference between sessionStorage and localStorage?",
-"answer": "Both store key-value pairs in the browser, but:\n- localStorage: data is persistent until user clears it or code removes it.\n- sessionStorage: data is cleared automatically when tab/window closes.\n\nSame API for both — just change which one you use.",
-"type": "javascript"
-},
-{
-"question": "How do you create a new item with localStorage?",
-"answer": "You can use window.localStorage.setItem or just localStorage.setItem:\n\nlocalStorage.setItem(\"identifier\", \"the value\");\n\nAll values are stored as strings.",
-"type": "javascript"
-},
-{
-"question": "What assignment operator is used to assign variables to objects and functions?",
-"answer": "Use = (equals sign) for assignment. For arrays, wrap elements in [].\n\nconst fruits = [\"apple\", \"banana\", \"orange\"];\n\nFor objects, wrap in {} and use key: value:\nconst user = { name: \"Chuks\", age: 20, dev: true };",
-"type": "javascript"
-},
-{
-"question": "How to store an object to localStorage?",
-"answer": "Convert the object to a string with JSON.stringify first:\n\nconst userObj = { name: \"Steve\", age: 25 };\nlocalStorage.setItem(\"obj\", JSON.stringify(userObj));\n\nTo retrieve, use JSON.parse to get the original object:\nconst retrievedObj = JSON.parse(localStorage.getItem(\"obj\"));",
-"type": "javascript"
-},
-{
-"question": "How do you retrieve data from localStorage?",
-"answer": "Console.log(localStorage.getItem(\"nickname\")); // for simple string values\n\nFor objects/arrays, use JSON.parse:\nconst obj = JSON.parse(localStorage.getItem(\"obj\"));\n\nYou can get all values:\nconsole.log(Object.values(localStorage));\nOr all keys:\nconsole.log(Object.keys(localStorage));\nOr both keys & values:\nconsole.log(Object.entries(localStorage));",
-"type": "javascript"
-},
-{
-"question": "What is a behavior of localStorage with overwriting?",
-"answer": "If you try to set an item with a key that already exists in localStorage, it overwrites the value — no error is thrown.\n\nCommon pattern to avoid overwriting:\nif (localStorage.getItem(\"nickname\") === null) {\n localStorage.setItem(\"nickname\", \"Steve\");\n}",
-"type": "javascript"
-},
-{
-"question": "How to remove items from localStorage?",
-"answer": "To remove a single item:\nlocalStorage.removeItem(\"nickname\");\n\nTo clear everything:\nlocalStorage.clear();",
-"type": "javascript"
 }
 ]
