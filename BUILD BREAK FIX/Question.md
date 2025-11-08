@@ -6,203 +6,8 @@ edit root question
 CSS variables need var() like this → var(--first-color)
 
 add to the question the z index own , that to run animatipon you also need a position 
-======================================
-what is the starts with string method  ,
-startsWith() checks if a string begins with a specific sequence of characters.
 
-Example:
 
-let key = "newTask3";
-
-console.log(key.startsWith("newTask"));  // true
-console.log(key.startsWith("oldTask"));  // false
------------------------------------------
-what is the dataset/data-key  in javascript 
-
-In HTML, you can “glue” a small hidden label (a data-attribute) onto an element.
-
-Like this:
-
-<li data-key="todo_1234">Buy milk</li>
-
-
-That data-key="todo_1234" is the name tag.
-
-✅ What dataset means
-
-In JavaScript, if an element has data-xxx="value" in HTML,
-you can read it using:
-
-element.dataset.xxx
-
-
-So for:
-
-<li data-key="todo_1234">Buy milk</li>
-
-
-In JS:
-
-console.log(li.dataset.key); // "todo_1234"
-
-🍪 Why you need this
-
-When you save something to localStorage, you give it a key, right?
-
-Example:
-
-localStorage.setItem("todo_1234", "Buy milk");
-
-
-Later, user clicks delete.
-
-You MUST know which item to remove from both:
-
-The DOM (remove from the page)
-
-localStorage (delete the data)
-
-Because you stored the key in the element (data-key), you can do:
-
-localStorage.removeItem(li.dataset.key);
------------------------------------
-add promise.race to promise.all ,
- the first one to complete gets logged unlike , all , thats waits for all , to work
- -----------------------
- what are instance methods and properties in js classes
-  imstandce properties , what theyhave - name , height , age , 
-  instance  methods , what they can do - 
-talk , run, jump
-
-
-class Rectangle {
-  // Properties
-  constructor (_width, _height, _color) {
-    console.log('The Rectangle is being created!');
-    
-    this.width = _width;
-    this.height = _height;
-    this.color = _color;
-  }
-  //Method Syntax
-  getArea () {
-    return this.width * this.height;
-  }
-}
-
-let myRectangle1 = new Rectangle(5, 3, 'blue');
-let myRectangle2 = new Rectangle(10, 5, 'red');
-
-console.log(myRectangle1.getArea());
-console.log(myRectangle2.getArea());
-
----------------------------
-what is static method in jacvascript
-A static method in JavaScript is a function that belongs to the class itself, not to the objects created from that class.
-
-Straight to the point:
-
-static = the method is called on the class, not on an instance.
-
-Example:
-
-class MathUtils {
-  static add(a, b) {
-    return a + b;
-  }
-}
-
-MathUtils.add(2, 3); // ✅ works
-
-
-But this does NOT work:
-
-const obj = new MathUtils();
-obj.add(2, 3); // ❌ error: add is not a function
-
-
-Why?
-Because add is static, meaning: "Don’t call me from an object, call me from the class itself."
---------------------------
-what is polymorphysm in js classes
-Polymorphism means different classes can have methods with the same name but different behavior.
-
-In other words:
-
-One function name, multiple forms.
-
-Example:
-
-class Animal {
-  speak() {
-    console.log("Animal makes a sound");
-  }
-}
-
-class Dog extends Animal {
-  speak() {
-    console.log("Woof!");
-  }
-}
-
-class Cat extends Animal {
-  speak() {
-    console.log("Meow!");
-  }
-}
-
-function makeAnimalSpeak(animal) {
-  animal.speak(); // same method name, different output
-}
-
-makeAnimalSpeak(new Dog()); // Woof!
-makeAnimalSpeak(new Cat()); // Meow!
-
-
-What happened:
-
-speak() exists in Animal, Dog, and Cat
-
-The method name is the same
-
-Each class implements it differently
-
-Why it matters:
-
-You can write flexible code that doesn't care about the specific object type—just call the method, and the correct version runs.
--------------------------------
-what is the splice function in js
-he splice() function in JavaScript is a powerful array method that can add, remove, or replace items in an array in place (it modifies the original array).
-
-Syntax
-array.splice(start, deleteCount, item1, item2, ...);
-
-
-start → index to start at
-
-deleteCount → number of elements to remove
-
-item1, item2… → items to add (optional)
-
-Examples
-1️⃣ Remove items
-let fruits = ["apple", "banana", "orange", "kiwi"];
-fruits.splice(1, 2);  // remove 2 items starting at index 1
-console.log(fruits);  // ["apple", "kiwi"]
-
-2️⃣ Add items
-let fruits = ["apple", "kiwi"];
-fruits.splice(1, 0, "banana", "orange");  // add at index 1, remove 0
-console.log(fruits);  // ["apple", "banana", "orange", "kiwi"]
-
-3️⃣ Replace items
-let fruits = ["apple", "banana", "orange", "kiwi", "mango"];
-
-// Replace "banana" and "orange" with "grape" and "pear"
-fruits.splice(1, 2, "grape", "pear");
-
-console.log(fruits);
-// Output: ["apple", "grape", "pear", "kiwi", "mango"]
 
 ----------------
 edit thsi question -- What are getters and setters and the underscore? -- that it also works for encapsulation
@@ -216,199 +21,209 @@ this.textList.forEach((text) => {
 add this to input type question
         <input type="datetime-local" id="countdownTime" />
         <input type="time" id="countdownTime" /> for only time
-        ------------------------
-        css background code for movies , colour gradient ish 
 
-        body{
-background: linear-gradient(120deg, #1e1e1e, #3b82f6, #9333ea, );
-background-size: 300% 300%;
-animation: moveBg 12s ease infinite;
-
-
-height: 100vh;
-}
-@keyframes moveBg {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
 -----------------------
-what is backdrop filter in css
-It applies a filter effect (like blur, brightness, contrast) to whatever is behind an element, not the element itself.
-some backdrop properties , include 
-blur(px)
+add this example to .map question 
+.map(Number)
 
-Fuzziness behind the element.
+Takes each item in the array and runs it through the Number() function
 
-Bigger numbers = more blur.
+So ["12", "45"] becomes:
+.map(Number) is shorthand for:
 
-Example: blur(5px), blur(20px)
+.map((x) => Number(x))
+nb: it belongs to arrays 
+------------------------
+add to create new date question , running it woithout utc give you the exact date , but running it with utc , gives you , utc date , and add this example 
 
-2. brightness(%)
+nd , Date.now() is the one that returs seconds since 1970 jan 
+=================================
 
-Changes the brightness of the background.
 
-<100% → darker
 
->100% → brighter
 
-Example: brightness(50%), brightness(150%)
 
-3. contrast(%)
 
-Makes the background more or less contrasty.
 
-<100% → lower contrast (flatter colors)
 
->100% → higher contrast (more difference between light and dark)
 
-Example: contrast(50%), contrast(200%)
 
-4. grayscale(%)
 
-Turns the background into black-and-white.
 
-0% → original colors
 
-100% → fully grayscale
 
-Example: grayscale(100%)
 
-5. saturate(%)
 
-Changes the color intensity.
 
-<100% → duller colors
 
->100% → more vivid colors
 
-Example: saturate(200%)
 
-6. opacity()
 
-Makes the background behind the element darker or more transparent (without changing the element itself).
+what shoud you do for classList.remove("hidden");
 
-Example: opacity(50%)
 
-7. sepia(%)
+If you're calling:
 
-Gives the background a warm, brownish “old photo” tone.
+formContainer.classList.remove("hidden");
 
-0% → original
 
-100% → full sepia
-nb:If you only write backdrop-filter, Safari may ignore it → no blur.
+Then in your CSS you need to define what the hidden class actually does.
+Typically, you use it to hide the element:
 
-If you only write -webkit-backdrop-filter, other browsers might ignore it → no blur there.
-
-Writing both ensures maximum support across browsers.
-.frosted-panel {
-    backdrop-filter: blur(10px) brightness(120%);       /* modern browsers */
-    -webkit-backdrop-filter: blur(10px) brightness(120%); /* Safari */
+.hidden {
+    display: none;
 }
------------------
-what is the hide elements with javascript
-visibility: hidden
+---------------------------
+how do you give css prperties higher specifity
+.hidden {
+  display: none !important;
+}
+------------------
+how do you set a default value for time inputs , in html
+To set a default time value for an <input type="time"> in HTML, just assign a valid time string (24-hour format) to the value attribute.
 
-Hides the element, but it still takes up space.
+Example — defaulting to 09:30 AM:
 
-It’s invisible but “there.”
+<input type="time" id="countdownTime" value="09:30" />
 
-<button id="myButton2">Click me</button>
+A few things to remember:
 
-<script>
-let btn2 = document.getElementById("myButton2");
-btn2.style.visibility = "hidden"; // invisible, but space remains
-</script>
+The browser expects the format HH:MM (hours + minutes).
 
-C. The hidden attribute (HTML5)
+Seconds aren’t allowed unless you add step="1" (or any step allowing seconds). Example:
 
-Modern and clean way to hide elements.
-
-Equivalent to display: none in most browsers.
-
-Better than toggling .style.display manually because it separates structure from behavior.
-
-<button id="myButton3" hidden>Click me</button>
-
-<script>
-let btn3 = document.getElementById("myButton3");
-btn3.hidden = false; // shows the button
-btn3.hidden = true;  // hides the button
-</script>
-
-nd: they are calledd html attributes
+<input type="time" id="countdownTime" value="09:30:15" step="1" />
 --------------------
+is a A function is only block-scoped if you define it inside a block ({})
+A function is only block-scoped if you define it inside a block.
 
-----------------
-what is the prompt in javascript
-Basic Syntax:
-let userInput = prompt("Enter your name:");
-console.log("You entered: " + userInput);
+Example of block-scoped (NOT accessible outside):
 
-How it works step by step:
+function loadEpoch() {
+  function renderEpoch() {
+    console.log("hi");
+  }
+}
 
-prompt() pops up a dialog box in the browser.
+renderEpoch(); // ❌ ERROR (can't access — it's inside loadEpoch)
 
-The dialog shows a message (the text you pass as an argument, like "Enter your name:").
 
-The user can type something into a text field.
+Here, renderEpoch is inside loadEpoch’s {}.
+Anything defined inside {} only exists inside there.
+That’s what block scoped means.
 
-When the user clicks OK, the text they typed is returned by prompt().
+Example of NOT block-scoped (accessible anywhere):
 
-If the user clicks Cancel, it returns null.
+function renderEpoch() {
+  console.log("hi");
+}
+
+function loadEpoch() {
+  renderEpoch(); // ✅ works fine
+}
+
+loadEpoch();
+
+
+Here, renderEpoch is defined outside, at the top level.
+So loadEpoch can call it.
+----------------------------------------
+what is function hoisting in javascript
+In JavaScript, functions defined with function name() {} are hoisted.
+That means JS moves their definition to the top during compilation.
+
+So even if you write:
+
+doSomething();
+
+function doSomething() {
+  console.log("done");
+}
+
+
+It works.
+
+Because before your code runs, JavaScript internally rearranges it like:
+
+function doSomething() {
+  console.log("done");
+}
+
+doSomething();
+
+❓ Why is that allowed?
+
+Because of function hoisting.
+
+function funcName() {} → hoisted ✅
+
+const funcName = () => {} → NOT hoisted ❌
+
+let funcName = function() {} → NOT hoisted ❌
+------------------------
+what is the .split method is javascript 
+.split("X"):
+
+Takes a string
+
+Cuts it wherever it sees "X"
+
+Removes "X" from the result
+
+Returns an array of the pieces
 
 Example:
-let age = prompt("How old are you?");
-if (age !== null) {
-    alert("You are " + age + " years old.");
-} else {
-    alert("You didn't enter anything!");
-}
+
+"apple-orange-banana".split("-")
 
 
-So basically:
+➡️ Result:
 
-alert() → only shows a message.
-
-prompt() → shows a message and lets the user input text.
----------------------------
-what is confirm in jsavasctript
-How it works:
-let result = confirm("Do you want to proceed?");
-console.log(result);
+["apple", "orange", "banana"]
 
 
-Step by step:
-
-confirm() shows a popup with your message.
-
-The popup has two buttons: OK and Cancel.
-
-If the user clicks OK, it returns true.
-
-If the user clicks Cancel, it returns false.
-
-Example usage:
-if (confirm("Are you sure you want to delete this file?")) {
-    alert("File deleted!");
-} else {
-    alert("Action canceled!");
-}
+The - is gone — it's not included in the returned array.
+Now this case:
+timeStr.split("1")
 
 
-💡 So basically:
+Suppose:
 
-alert() → just shows a message.
-
-prompt() → shows a message and lets the user type something.
-
-confirm() → shows a message and asks yes/no, returning true or false
----------------------------------
+const timeStr = "12:15";
 
 
+Let’s split at "1":
+
+timeStr.split("1")  →  ["", "2:", "5"]
+------------------
+what is the number function in javascript
+Number is a built-in constructor function in JavaScript.
+
+It can be used in two ways:
+
+1. Used as a function (what we are doing)
+Number("42")  // → 42
+Number("abc") // → NaN (Not a Number)
 
 
+✅ Converts a value into a number
+✅ Most common usage
+-------------------------
+how do you use user time saved to localstorage
+    const name = localStorage.key(i);
+    const timeStr = localStorage.getItem(name);
+
+  const [hours, minutes] = timeStr.split(":").map(Number);
+    const now = new Date();
+    const target = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      hours,
+      minutes,
+      0
+    );
+    -------------------------------
 
 
 
