@@ -111,7 +111,7 @@
     "tags": ["vscode", "multi-cursor", "editing"],
     "code": "// Multi-cursor shortcuts:\n// Alt + Click - Add cursor at click position\n// Ctrl + Alt + Up/Down - Add cursor above/below\n// Ctrl + D - Select next occurrence of word\n// Ctrl + Shift + L - Select all occurrences\n// Escape - Exit multi-cursor mode"
   },
-  
+
   {
     "question": "Shortcut to find in files?",
     "answer": "**Ctrl + Shift + F**\n\nThis opens the Search panel to search for text across all files in your workspace. Much more powerful than regular find!",
@@ -228,10 +228,9 @@
 
   {
     "question": "What is the shortcut to fold (collapse) a block of code in VS Code?",
-    "answer": "**Ctrl + Shift + [**\n\nThis VS Code shortcut folds (collapses) the current code block, hiding its contents to make the code more compact and easier to navigate.",
+    "answer": "In VS Code, you can fold (collapse) code blocks using these hotkeys:\n\n- **Ctrl + Shift + [**: Folds the current block, hiding its contents so you can focus on structure or navigation.\n- **Ctrl + K, Ctrl + L**: Toggles all folds in the editor—expands or collapses every code section at once.\n- To expand a block, use **Ctrl + Shift + ]**.\n\nThese shortcuts let you expand, collapse, and quickly navigate between sections of your code for better organization.",
     "type": "hotkeys",
-    "tags": ["vscode", "fold", "collapse", "code"],
-    "code": "// Code folding shortcuts:\n// Ctrl + Shift + [ - Fold current block\n// Ctrl + Shift + ] - Unfold current block\n// Ctrl + K, Ctrl + 0 - Fold all blocks\n// Ctrl + K, Ctrl + J - Unfold all blocks\n// Ctrl + K, Ctrl + 1 - Fold level 1"
+    "tags": ["vscode", "fold", "collapse", "expand", "code"]
   },
   {
     "question": "What is the shortcut to open recent files/projects menu in VS Code?",
