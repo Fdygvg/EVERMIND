@@ -159,12 +159,7 @@
     "tags": ["html", "formatting"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Subscript and Superscript</title>\n</head>\n<body>\n    <h2>Chemistry Examples</h2>\n    <p>Water: H<sub>2</sub>O</p>\n    <p>Carbon dioxide: CO<sub>2</sub></p>\n    <p>Sulfuric acid: H<sub>2</sub>SO<sub>4</sub></p>\n    \n    <h2>Math Examples</h2>\n    <p>Einstein's equation: E=mc<sup>2</sup></p>\n    <p>Power of 2: 2<sup>3</sup> = 8</p>\n    <p>Square root: √<sup>2</sup></p>\n</body>\n</html>"
   },
-  {
-    "question": "How do you write comments in HTML?",
-    "answer": "Use the `<!-- -->` syntax:\n\n```html\n<!-- This is a single-line comment -->\n\n<!--\n  This is a\n  multi-line comment\n-->\n\n<p>Visible content</p> <!-- Inline comment -->\n```\n\n**Note:** Comments are not displayed in the browser but are visible in the HTML source code.",
-    "type": "html",
-    "tags": ["html", "syntax"]
-  },
+
   {
     "question": "How do you change the entire background color of a website?",
     "answer": "Add the `background-color` style to the `<body>` tag:\n\n```html\n<body style=\"background-color: lightblue;\">\n  <h1>My Website</h1>\n  <p>Content here</p>\n</body>\n```\n\n**Alternative using CSS:**\n```html\n<style>\n  body {\n    background-color: lightblue;\n  }\n</style>\n```",
@@ -417,13 +412,7 @@
     "tags": ["css", "pseudo-classes", "interactive"],
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Pseudo-classes Examples</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            margin: 20px;\n            line-height: 1.6;\n        }\n        \n        /* Link pseudo-classes */\n        a:link {\n            color: blue;\n            text-decoration: underline;\n        }\n        \n        a:visited {\n            color: purple;\n        }\n        \n        a:hover {\n            color: red;\n            text-decoration: none;\n            font-weight: bold;\n        }\n        \n        a:active {\n            color: green;\n            background-color: yellow;\n        }\n        \n        /* Button pseudo-classes */\n        .button {\n            background-color: #4CAF50;\n            color: white;\n            padding: 15px 30px;\n            border: none;\n            border-radius: 5px;\n            cursor: pointer;\n            font-size: 16px;\n            margin: 10px;\n            transition: all 0.3s;\n        }\n        \n        .button:hover {\n            background-color: #45a049;\n            transform: scale(1.05);\n        }\n        \n        .button:active {\n            background-color: #3e8e41;\n            transform: scale(0.95);\n        }\n        \n        .button:focus {\n            outline: 3px solid #2196F3;\n        }\n        \n        /* Input pseudo-classes */\n        input {\n            padding: 10px;\n            margin: 10px;\n            border: 2px solid #ccc;\n            border-radius: 4px;\n        }\n        \n        input:focus {\n            border-color: #4CAF50;\n            outline: none;\n        }\n        \n        input:hover {\n            border-color: #45a049;\n        }\n        \n        /* Div pseudo-classes */\n        .hover-box {\n            background-color: lightblue;\n            padding: 20px;\n            margin: 10px;\n            border: 2px solid blue;\n            transition: all 0.3s;\n        }\n        \n        .hover-box:hover {\n            background-color: lightcoral;\n            transform: translateY(-5px);\n            box-shadow: 0 5px 15px rgba(0,0,0,0.3);\n        }\n    </style>\n</head>\n<body>\n    <h1>Pseudo-classes Examples</h1>\n    \n    <h2>Link Pseudo-classes</h2>\n    <p><a href=\"#\">This is a link - hover over it!</a></p>\n    <p><a href=\"#visited\">This link changes when visited</a></p>\n    \n    <h2>Button Pseudo-classes</h2>\n    <button class=\"button\">Hover Button</button>\n    <button class=\"button\">Focus Button (click then press Tab)</button>\n    \n    <h2>Input Pseudo-classes</h2>\n    <input type=\"text\" placeholder=\"Focus and hover over this input\">\n    <input type=\"email\" placeholder=\"Email input\">\n    \n    <h2>Div Hover Effect</h2>\n    <div class=\"hover-box\">Hover over this box!</div>\n    \n    <p><strong>Try:</strong> Hovering, clicking, focusing, and visiting links to see different pseudo-class effects!</p>\n</body>\n</html>"
   },
-  {
-    "question": "How to write comments in CSS?",
-    "answer": "**CSS Comments:**\n```css\n/* This is a single-line comment */\n\n/*\nThis is a\nmulti-line comment\nin CSS\n*/\n\np {\n    color: red;\n    /* This is an inline comment */\n    font-size: 16px;\n}\n```\n\n**Important:**\n- CSS comments use `/* */` syntax\n- Comments are ignored by the browser\n- Useful for documentation and debugging\n- Can span multiple lines\n- Cannot be nested",
-    "type": "css",
-    "tags": ["css", "comments", "syntax"],
-    "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>CSS Comments Example</title>\n    <style>\n        /* This is a single-line comment */\n        \n        /*\n        This is a multi-line comment\n        that spans several lines\n        */\n        \n        body {\n            font-family: Arial, sans-serif;\n            margin: 20px;\n            /* This is an inline comment */\n        }\n        \n        /* Header styling */\n        h1 {\n            color: blue;\n            text-align: center;\n        }\n        \n        /* Paragraph styling with comments */\n        p {\n            color: #333;\n            line-height: 1.6;\n            /* margin: 10px; */ /* This line is commented out */\n        }\n        \n        /*\n        .commented-out {\n            background-color: red;\n            padding: 20px;\n        }\n        */\n        \n        .active {\n            background-color: lightblue;\n            padding: 15px;\n            border: 2px solid blue;\n            /* border-radius: 5px; */ /* Commented out property */\n        }\n    </style>\n</head>\n<body>\n    <h1>CSS Comments Example</h1>\n    <p>This page demonstrates CSS comments. Check the source code to see the comments!</p>\n    <div class=\"active\">This div has active styling</div>\n    <p>Comments in CSS use /* */ syntax and are ignored by the browser.</p>\n</body>\n</html>"
-  },
+
   {
     "question": "How to make a div animation in CSS using keyframes?",
     "answer": "**CSS Animations with Keyframes:**\n```css\n@keyframes myslide {\n    from { margin-left: 100px; }\n    to { margin-left: 0px; }\n}\n\n@keyframes myrotate {\n    100% { transform: rotateZ(360deg); }\n}\n\n@keyframes myopacity {\n    100% { opacity: 0; }\n}\n\n@keyframes mycolorchange {\n    20% { background-color: red; }\n    40% { background-color: orange; }\n    60% { background-color: yellow; }\n    80% { background-color: blue; }\n    100% { background-color: purple; }\n}\n\n.animated {\n    animation: myslide 3s linear 0s infinite running;\n}\n```\n\n**Animation Properties:**\n- `animation-name` - Name of keyframe\n- `animation-duration` - How long animation lasts\n- `animation-iteration-count` - How many times to repeat\n- `animation-timing-function` - Speed curve\n- `animation-delay` - Delay before starting",
@@ -494,11 +483,9 @@
     "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>HTML Containers</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            margin: 20px;\n            background-color: #f8f9fa;\n        }\n        \n        .container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 20px;\n        }\n        \n        .card-container {\n            border: 2px solid #e0e0e0;\n            padding: 20px;\n            margin: 15px 0;\n            border-radius: 8px;\n            background: white;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n        }\n        \n        .section-container {\n            background-color: #e3f2fd;\n            padding: 20px;\n            margin: 15px 0;\n            border-radius: 8px;\n            border-left: 4px solid #2196f3;\n        }\n        \n        .article-container {\n            background-color: #f3e5f5;\n            padding: 20px;\n            margin: 15px 0;\n            border-radius: 8px;\n            border-left: 4px solid #9c27b0;\n        }\n        \n        .nav-container {\n            background-color: #e8f5e8;\n            padding: 15px;\n            margin: 15px 0;\n            border-radius: 8px;\n            border-left: 4px solid #4caf50;\n        }\n        \n        .nav-container a {\n            margin-right: 20px;\n            text-decoration: none;\n            color: #333;\n            font-weight: bold;\n        }\n        \n        .nav-container a:hover {\n            color: #2196f3;\n        }\n        \n        h1, h2 {\n            color: #333;\n        }\n        \n        p {\n            line-height: 1.6;\n            color: #666;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>HTML Container Examples</h1>\n        \n        <nav class=\"nav-container\">\n            <h2>Navigation Container</h2>\n            <a href=\"#\">Home</a>\n            <a href=\"#\">About</a>\n            <a href=\"#\">Contact</a>\n        </nav>\n        \n        <section class=\"section-container\">\n            <h2>Section Container</h2>\n            <p>This is a semantic container for grouping related content together.</p>\n        </section>\n        \n        <article class=\"article-container\">\n            <h2>Article Container</h2>\n            <p>This container holds article content like blog posts or news articles.</p>\n        </article>\n        \n        <div class=\"card-container\">\n            <h2>Generic Div Container</h2>\n            <p>This is a generic container that groups elements together for styling and layout purposes.</p>\n            <button style=\"background-color: #2196f3; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;\">Click me</button>\n        </div>\n    </div>\n</body>\n</html>"
   },
   {
-    "question": "How do you write comments in JavaScript?",
-    "answer": "**JavaScript Comments**\n\n**1. Single-line comment:**\n```javascript\n// This is a single-line comment\n```\n\n**2. Multi-line comment:**\n```javascript\n/* This is a\n   multi-line\n   comment */\n```\n\n**When to use comments:**\n- Explain complex code\n- Temporarily disable code\n- Add notes for yourself or other developers\n- Document functions and logic\n\n**Best practices:**\n- Use `//` for short, single-line comments\n- Use `/* */` for longer explanations or multiple lines\n- Don't over-comment obvious code\n- Keep comments up to date with code changes",
-    "type": "javascript",
-    "tags": ["javascript", "comments", "syntax"],
-    "code": "// Single-line comment example\nvar name = \"John\"; // You can also put comments at the end of a line\n\n/* Multi-line comment example\n   This can span multiple lines\n   and is useful for longer explanations */\n\nfunction calculateTotal(price, tax) {\n    // Calculate the total with tax\n    var total = price + (price * tax);\n    \n    /* You can also use multi-line comments\n       to temporarily disable code:\n    console.log(\"Debug info\");\n    alert(\"Testing\");\n    */\n    \n    return total; // Return the calculated total\n}\n\nconsole.log(calculateTotal(100, 0.15)); // Output: 115"
+    "question": "How do you add comments in HTML, CSS, JavaScript, and React?",
+    "answer": "Comments are notes in your code that are ignored by the browser. They help explain what your code does.\n\n**HTML:**\n```html\n<!-- This is a comment in HTML -->\n```\n\n**CSS:**\n```css\n/* This is a comment in CSS */\n```\n\n**JavaScript:**\n```javascript\n// This is a single-line comment in JS\n/* This is a\nmulti-line comment in JS */\n```\n\n**React (JSX):**\nInside JSX, comments look like this:\n```javascript\nreturn (\n  <div>\n    {/* This is a comment inside JSX */}\n    <h1>Hello</h1>\n  </div>\n);\n```\nOutside JSX, normal JavaScript comments work as usual. ✅",
+    "type": "general"
   },
   {
     "question": "What are the seven data types in JavaScript?",
@@ -1839,5 +1826,134 @@
   "question": "What is a callback in JavaScript, and what is 'callback hell'?",
   "answer": "**Callback:**\n- A callback is a function passed into another function to be called later—usually after something finishes, like loading data, waiting for a timer, or user input.\n- Callbacks are how you make code run in order, especially with async or event-based operations.\n\n**Example of Callbacks:**\n```javascript\nfunction stepOne(callback) {\n  console.log(\"Step 1: Turn on the computer\");\n  callback();\n}\nfunction stepTwo(callback) {\n  console.log(\"Step 2: Open your code editor\");\n  callback();\n}\nfunction stepThree() {\n  console.log(\"Step 3: Start coding!\");\n}\n// Chained callbacks:\nstepOne(() => {\n  stepTwo(() => {\n    stepThree();\n  });\n});\n``````javascript\nstepOne(function() {\n  stepTwo(function() {\n    stepThree(function() {\n      stepFour(function() {\n        stepFive(function() {\n          console.log(\"All steps done!\");\n        });\n      });\n    });\n  });\n});\n```",
   "type": "javascript"
-}
+},
+  {
+    "question": "What is React?",
+    "answer": "React is a JavaScript library/framework for building user interfaces (UI). It was created by Facebook.",
+    "type": "react"
+  },
+  {
+    "question": "What are components in React?",
+    "answer": "Components are reusable pieces of code that build elements on a page. They allow breaking complex UI into smaller parts, making it easier to maintain and scale.\n\nComponents can be:\n- **Class components** (older style)\n- **Function components** (modern style)\n\nComponents can also accept **props**, which are inputs used to customize them.",
+    "type": "react"
+  },
+  {
+    "question": "What are states in React?",
+    "answer": "State represents the data a component manages internally. It is used for data that is expected to change, like input fields or fetched API data.",
+    "type": "react"
+  },
+  {
+    "question": "What are hooks in React?",
+    "answer": "Hooks allow us to use state and other React features in function components without writing classes.\n\nCommon hooks include:\n- `useState`\n- `useEffect`\n- `useRef`\n- `useReducer`",
+    "type": "react"
+  },
+  {
+    "question": "What does JSX stand for?",
+    "answer": "JSX stands for JavaScript Syntax Extension. It allows writing HTML-like code inside JavaScript.",
+    "type": "react"
+  },
+  {
+    "question": "What are SPA, SSR, and SSG in React?",
+    "answer": "- **SPA (Single Page App):** Loads a single HTML file and JS bundle; the entire UI, including routes, is handled in the browser.\n- **SSR (Server-Side Rendering):** The server generates HTML for each request.\n- **SSG (Static Site Generation):** Generates static HTML files at build time, which are very fast to load.",
+    "type": "react"
+  },
+  {
+    "question": "What is Vite?",
+    "answer": "Vite is a super fast front-end toolkit for building JavaScript projects. It's built on top of ESBuild, a very fast JS bundler.\n\nTo create a new Vite project:\n```\nnpm create vite@latest folder-name\n```\n\nTo install Tailwind CSS v3:\n```\nnpm install -D tailwindcss@3 postcss autoprefixer\nnpx tailwindcss init -p\n```",
+    "type": "react"
+  },
+  {
+    "question": "What is Vite's default port and how to change it?",
+    "answer": "The default Vite port is **5173**.\n\nTo change it, modify `vite.config.js`:\n```javascript\nimport react from '@vitejs/plugin-react'\n\nexport default {\n  plugins: [react()],\n  server: {\n    port: 3000,\n  },\n}\n```",
+    "type": "react"
+  },
+  {
+    "question": "What is StrictMode in React?",
+    "answer": "`<StrictMode>` is a React component (not a string). It watches your components and warns you if you use outdated or unsafe React patterns.",
+    "type": "react"
+  },
+  {
+    "question": "What is the JSX arrow function and normal function component skeleton?",
+    "answer": "**Arrow Function Component:**\n```javascript\nimport React from 'react'\n\nconst Hero = () => {\n  return (\n    <div>Hero</div>\n  )\n}\n\nexport default Hero\n```\nVS Code shortcut: `rafce` + Tab (React Arrow Function Export Component)\n\n**Normal Function Component:**\n```javascript\nimport React from 'react'\n\nexport default function Hero() {\n  return (\n    <div>Hero</div>\n  )\n}\n```\nVS Code shortcut: `rfc` + Tab (React Function Component)\n\nRecommended extension: **ES7+ React/Redux/React-Native/JS snippets**.",
+    "type": "react"
+  },
+  
+  {
+    "question": "What is 'extend' in Tailwind CSS?",
+    "answer": "The `extend` property in Tailwind CSS allows you to add custom styles without overwriting Tailwind's default settings.\n\nExample:\n```javascript\ntheme: {\n  extend: {\n    fontFamily: {\n      poppins: [\"Poppins\", \"sans-serif\"],\n    },\n  },\n}\n```\nUsage in JSX:\n```jsx\n<h1 className=\"font-poppins\">Hello</h1>\n```\n\nIf you don’t add your own font, you can use Tailwind’s built-in fonts:\n```jsx\n<h1 className=\"font-sans\">Hello</h1>\n<h1 className=\"font-serif\">Hello</h1>\n<h1 className=\"font-mono\">Hello</h1>\n```\nThese are Tailwind’s default options, like built-in crayons.",
+    "type": "tailwind"
+  },
+  {
+    "question": "How do you use Tailwind CSS compared to normal CSS?",
+    "answer": "Tailwind is just CSS, but with a utility-first approach.\n\n**Normal CSS:**\n```css\nh1 {\n  font-size: 3rem;\n  color: red;\n  margin: 20px;\n}\n```\nIn JSX:\n```jsx\n<h1 className=\"my-class\">Hello</h1>\n```\nYou must create a new class for each style.\n\n**Tailwind CSS:**\nTailwind provides ready-to-use utility classes:\n```jsx\n<h1 className=\"text-3xl text-red-500 m-5\">Hello</h1>\n```\n- `text-3xl` → font size\n- `text-red-500` → color\n- `m-5` → margin",
+    "type": "tailwind"
+  },
+  {
+    "question": "How many root elements can a React component return?",
+    "answer": "A React component can only return **one root element**. Returning multiple top-level elements causes an error.\n\n❌ This does NOT work:\n```javascript\nconst App = () => {\n  return (\n    <h1>Hello</h1>\n    <p>Welcome!</p>\n  )\n}\n```\nReact says: “I don’t know which one is the main element!”\n\n**How to fix:**\n1. Wrap elements in a parent container:\n```javascript\nconst App = () => {\n  return (\n    <div>\n      <h1>Hello</h1>\n      <p>Welcome!</p>\n    </div>\n  )\n}\n```\n2. Use a React Fragment (no extra HTML added):\n```javascript\nimport React from 'react'\n\nconst App = () => {\n  return (\n    <>\n      <h1>Hello</h1>\n      <p>Welcome!</p>\n    </>\n  )\n}\n```\n`<> ... </>` acts as a “ghost box”: React sees one root, but no extra `<div>` is added to the HTML. Clean and lightweight.",
+    "type": "react"
+  },
+  {
+    "question": "Why is 'index' used as a key in React?",
+    "answer": "When mapping over an array in React, you need to provide a **key** for each element so React can track changes efficiently.\n\nExample:\n```javascript\nconst names = [\"Brad\", \"Chuks\", \"Iron Nigga\", \"N9ne\", \"wolf\"];\n\nnames.map((name, index) => (\n  <li key={index}>{name}</li>\n))\n```\n\n- `name` → the value in the array\n- `index` → the position of the value\n\nFor `const names = ['Brad', 'Chuks', 'Iron Nigga', 'N9ne']`:\n- Brad → index 0\n- Chuks → index 1\n- Iron Nigga → index 2\n- N9ne → index 3\n\n**Note:** Using `index` as a key is okay for static lists, but if the array can change, a unique ID is preferred.",
+    "type": "react"
+  },
+  {
+    "question": "How can you use multiple returns in React?",
+    "answer": "You can have multiple `return` statements in a component using conditional logic. Only the first `return` that runs will execute.\n\nExample:\n```javascript\nconst loggedIn = true;\n\nif (loggedIn) {\n  return <h1>Hello Member</h1>; // 1st return\n}\n\nreturn (\n  <>\n    <div>\n      {loggedIn ? <h1>Hello Member</h1> : <h1>Hello Guest</h1>}\n    </div>\n  </>\n); // 2nd return\n```\nIf the first `return` runs, the second won't. It's recommended to structure your logic with conditionals to decide which return to execute.",
+    "type": "react"
+  },
+  {
+    "question": "What are some ways to add styles to React components?",
+    "answer": "There are multiple ways to style React components.\n\n**Inline styles:**\n```javascript\nconst App = () => {\n  return (\n    <div\n      style={{\n        color: 'white',\n        backgroundColor: 'teal',\n        fontWeight: 'bold',\n        fontSize: '24px',\n        padding: '20px',\n        margin: '20px',\n        borderRadius: '10px',\n        textAlign: 'center'\n      }}\n    >\n      Hello, this is Sample 1\n    </div>\n  )\n}\n\nexport default App;\n```\n\n**Using a style object:**\n```javascript\nconst styles = {\n  color: 'red',\n  fontSize: '55px'\n};\n\nconst App = () => {\n  return <div style={styles}>Hello</div>;\n}\n```\nBoth approaches are valid; using a style object helps keep code cleaner when many styles are applied.",
+    "type": "react"
+  },
+  {
+    "question": "How do you import and export components in JSX?",
+    "answer": "To use components in React, you need to **export** them from their file and **import** them where you want to use them.\n\n**Steps:**\n1. Create a component in a file inside the `components` folder (e.g., `Navbar.jsx`). You can use the VS Code shortcut `rafce` to generate an arrow function component template.\n```javascript\n// Navbar.jsx\nimport React from 'react';\n\nconst Navbar = () => {\n  return (\n    <nav>\n      <h1>My Navbar</h1>\n    </nav>\n  );\n}\n\nexport default Navbar;\n```\n2. In your main file (e.g., `App.jsx`), import the component:\n```javascript\nimport Navbar from './components/Navbar';\n```\n3. Use the component in JSX:\n```jsx\n<Navbar />\n```\n**Note:** Component names must start with a **capital letter**.",
+    "type": "react"
+  },
+  {
+    "question": "What are props in React?",
+    "answer": "Props (short for \"properties\") are values you pass from a parent component to a child component. They make components dynamic and reusable.\n\n**Example with `<Hero />` component:**\n```javascript\n// Hero.jsx (child component)\nconst Hero = (props) => {\n  return (\n    <div>\n      <h1>{props.title}</h1>\n      <p>{props.subtitle}</p>\n    </div>\n  );\n}\nexport default Hero;\n\n// App.jsx (parent component)\nimport Hero from './components/Hero';\n\nconst App = () => {\n  return (\n    <div>\n      <Hero title=\"Test Title\" subtitle=\"This is a subtitle\" />\n    </div>\n  );\n}\nexport default App;\n```\n- `props.title` → \"Test Title\"\n- `props.subtitle` → \"This is a subtitle\"\n\n**Destructuring props for cleaner code:**\n```javascript\nconst Hero = ({ title, subtitle }) => {\n  return (\n    <div>\n      <h1>{title}</h1>\n      <p>{subtitle}</p>\n    </div>\n  );\n}\n```\n**Destructuring with default values:**\n```javascript\nconst Hero = ({ title = 'This is the default title', subtitle = 'Default subtitle' }) => {\n  return (\n    <div>\n      <h1>{title}</h1>\n      <p>{subtitle}</p>\n    </div>\n  );\n}\n```\n- If the parent passes props, they override defaults.\n- If the parent does not pass props, default values are used.",
+    "type": "react"
+  },
+  {
+    "question": "What is wrapping in React?",
+    "answer": "Wrapping means putting one piece of content inside a component so that the component can automatically add styles, structure, or behavior. The content inside becomes `children` of that component.\n\n**Example:**\n```javascript\n// Card.jsx\nconst Card = ({ children }) => {\n  return (\n    <div className=\"bg-blue-200 p-4 rounded-lg shadow-md\">\n      {children}\n    </div>\n  );\n}\nexport default Card;\n\n// App.jsx\nimport Card from './components/Card';\n\nconst App = () => {\n  return (\n    <div>\n      <Card>\n        <h1>Hello!</h1>\n        <p>This is a wrapped paragraph.</p>\n      </Card>\n\n      <Card>\n        <button>Click Me</button>\n      </Card>\n    </div>\n  );\n}\nexport default App;\n```\n**Result:** The `<h1>` and `<p>` inherit the Card styling; the `<button>` inside the second Card also inherits the same styling. ✅",
+    "type": "react"
+  },
+  {
+    "question": "What is useState in React?",
+    "answer": "Think of `useState` as a special box to store a value in React. You can change the value anytime, and React will automatically update the UI.\n\n**Example: Counter**\n```javascript\nimport { useState } from 'react';\n\nconst Counter = () => {\n  const [count, setCount] = useState(0); // count = current value, setCount = function to update it\n\n  return (\n    <div>\n      <h1>Count: {count}</h1>\n      <button onClick={() => setCount(count + 1)}>Increase</button>\n    </div>\n  );\n};\nexport default Counter;\n```\n- `count` → current value\n- `setCount` → updates the value\n- React automatically re-renders the component when the value changes.",
+    "type": "react"
+  },
+  {
+    "question": "What is the substring() method in JavaScript?",
+    "answer": "`substring()` extracts part of a string based on start and end positions.\n\n**Syntax:**\n```javascript\nstring.substring(startIndex, endIndex);\n```\n- `startIndex` → starting index (inclusive)\n- `endIndex` → ending index (exclusive, optional)\n\n**Examples:**\n```javascript\nconst text = 'Hello World';\nconsole.log(text.substring(0, 5)); // Output: Hello\n\nconst name = 'Evermind';\nconsole.log(name.substring(4)); // Output: mind\n```",
+    "type": "javascript"
+  },
+  {
+    "question": "How to use previous state in React?",
+    "answer": "React allows you to access the previous state value when updating state.\n\n**Example: toggling a switch**\n```javascript\nconst [lightIsOn, setLightIsOn] = useState(false);\n\nsetLightIsOn(prev => !prev);\n```\n- `prev` → previous value\n- `!prev` → flips it\n- Clicking repeatedly toggles the value between `true` and `false`.",
+    "type": "react"
+  },
+  {
+    "question": "How do you use icons in React?",
+    "answer": "You can use icons via the `react-icons` library.\n\n**Install:**\n```\nnpm install react-icons\n```\n**Usage:**\n```javascript\nimport { FaLocationDot } from 'react-icons/fa6';\n```\nThis gives you access to all major icon libraries, including Font Awesome.",
+    "type": "react"
+  },
+  {
+    "question": "What are React Router and how to use it?",
+    "answer": "React Router lets you navigate between different pages in a React app without reloading the whole page (SPA behavior).\n\n**Install:**\n```\nnpm install react-router-dom\n```\n**Setup:**\n```javascript\nimport { BrowserRouter as Router, Routes, Route } from 'react-router-dom';\nimport Home from './Home';\nimport About from './About';\n\nfunction App() {\n  return (\n    <Router>\n      <Routes>\n        <Route path='/' element={<Home />} />\n        <Route path='/about' element={<About />} />\n      </Routes>\n    </Router>\n  );\n}\nexport default App;\n```\n**Navigation links:**\n```javascript\nimport { Link } from 'react-router-dom';\n\nfunction Navbar() {\n  return (\n    <nav>\n      <Link to='/'>Home</Link>\n      <Link to='/about'>About</Link>\n    </nav>\n  );\n}\n```\n- `<Routes>` → container for all routes\n- `<Route path='/xyz' element={<Component />} />` → defines the page for a URL\n- `<Link to='/xyz'>` → navigates without full page reloads",
+    "type": "react"
+  }
+
+
+
+
+
+
+
+
 ]

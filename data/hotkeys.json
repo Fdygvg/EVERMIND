@@ -190,6 +190,13 @@
     "tags": ["vscode", "close-editors", "workspace"],
     "code": "// Editor management shortcuts:\n// Ctrl + K then W - Close all editors\n// Ctrl + W - Close current editor\n// Ctrl + Shift + T - Reopen closed editor\n// Ctrl + Tab - Switch between open editors\n// Ctrl + K then Ctrl + W - Close all editors in group"
   },
+
+  {
+    "question": "What is the shortcut to open vs code, directly from CMD?",
+    "answer": "Use the following command in your terminal or command prompt:\n\n```\ncode .\n```\n- `code` → VS Code command\n- `.` → opens the current directory in VS Code\n\nMake sure you have the 'code' command installed in your PATH (VS Code usually asks to do this during installation).",
+    "type": "vscode"
+  },
+
   {
     "question": "What is the shortcut to view or hide the outline (symbols, functions list) in VS Code?",
     "answer": "**Ctrl + Shift + O**\n\nThis VS Code shortcut opens the Outline view, showing all symbols, functions, classes, and other code structures in the current file for quick navigation.",
