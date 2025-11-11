@@ -1,640 +1,529 @@
-what is react
-react is a library/framework for building user intefaces(UI), it was created by facebook
-------------------------------
-WHAT ARE COMPOnents in react
-reusable piece of code that can be used to builf elements on the page, it allows breaking of complex ui , which makes , theme asier to maintaina and scale 
-components can be classes(old) or functions(modern) , and they can also take in props
---------------------
-what are states in react 
-state represent , the data that a componnet manages internally,it used fo rdata thats expected to chaneg , inoput box , fetch api ...
-------------------------
-what are hooks in java script 
-these allow us to use state and other react features, without writing class
-useSet
-useEffect
-useRef
-useReducer
-------------------
-what goes  jsx stand for
-javascript , SYNTAX EXTENSIOIN
-----------------------
-wHAT Is SPA SSR AND SSG in react
-Single page app load a single html file and js , loads the entire ui including routes
-server side rendered
-static site generation ,genertes ststic html files at build time, these are very fast 
-----------------
-what is vite
-vite is a super fast front enf toolkit , that can be used for all kind of js prohects , including js,
-its built ontop ESBuild , ehich is very fast JS bundler 
-installed with npm create vite@latest folder-name
+add how to use import , the import and how to put in button to the question
+
+import { FaCheck, FaTrash } from "react-icons/fa";
+
+<li>
+  {task.text}
+  <button onClick={() => toggleComplete(task.key)}>
+    <FaCheck />
+  </button>
+  <button onClick={() => deleteTask(task.key)}>
+    <FaTrash />
+  </button>
+</li>
 
-nb: and to install tailwind (V3) its 
-npm install -D tailwindcss@3 postcss autoprefixer
-npx tailwindcss init -p
-
-
------------------------
-
------------------
-what is vite default port and how to change it 
-the default is 5173 
-and to change it you have to add this 
-  plugins: [react()],
-  server: {
-    port: 3000,
-  },
-to the vite.config.js
----------------------
-WHAT IS strict mode in react ,
-<StrictMode> is a React component, not a string.
-
-React StrictMode does something different: it watches your components , and warns you if youre using bad or outdates react patterns 
----------------------
-what is the jsx arrow and normal function skelenton 
-
-
-ARROW FUNCTION
-
-import React from 'react'
-
-const hero = () => {
-  return (
-    <div>hero</div>
-  )
-}
-
-export default hero
-
-vs code shortcut
-rafce  + tab 
-(reachtarror functionexport component )
-
-
-
-
-Normal Function
-
-export default hero
-
-import React from 'react'
-
-export default function hero() {
-  return (
-    <div>hero</div>
-  )
-}
-shortcut on vscode
-rfc + tab
-(react Functions Component)
-
-
-recommended to install , ES7 + React/Redux Extension on vscode 
--------------------
-what is the extends in css 
-a special pocket where you can add your own crayons, without throwing away Tailwind’s crayons.
-theme: {
-  extend: {
-    fontFamily: {
-      poppins: ["Poppins", "sans-serif"],
-    },
-  },
-}
-
-so  you can run , <h1 className="font-poppins">Hello</h1>
-
-but without adding yuor own , yull have to run tailwinf default 
-So if you don’t add your own, you'd write:
-
-<h1 className="font-sans">Hello</h1>
-
-
-or
-
-<h1 className="font-serif">Hello</h1>
-
-
-or
-
-<h1 className="font-mono">Hello</h1>
-
-
-Those are Tailwind’s built-in crayons.
-----------------
-how to change use tail wind css 
-Tailwind is not magic. It’s just CSS, but with a twist:
-
-🔹 Normal CSS
-
-You write rules like this:
-
-h1 {
-  font-size: 3rem;
-  color: red;
-  margin: 20px;
-}
-
-
-Then in React:
-
-<h1 className="my-class">Hello</h1>
-
-
-And you have to write a new class for every style you want.
-
-🔹 Tailwind CSS
-
-Tailwind gives you a big set of ready-to-use classes:
-
-<h1 className="text-3xl text-red-500 m-5">Hello</h1>
-
-
-text-3xl → font size
-
-text-red-500 → color
-
-m-5 → margin
-----------------------
-how many root element can react return 
-React component can only return one “root” element
-Example: this does NOT work:
-
-const App = () => {
-  return (
-    <h1>Hello</h1>
-    <p>Welcome!</p>
-  )
-}
-
-
-❌ React says: “I don’t know which one is the main element!
-
-How To Fix
-Wrap in a parent element (like a <div> or <section>):
-
-const App = () => {
-  return (
-    <div>
-      <h1>Hello</h1>
-      <p>Welcome!</p>
-    </div>
-  )
-}
-
-Use a React Fragment (doesn’t add extra HTML):
-OR 
-import React from 'react'
-
-const App = () => {
-  return (
-    <>
-      <h1>Hello</h1>
-      <p>Welcome!</p>
-    </>
-  )
-}
-
-
-<> ... </> = a “ghost box”
-
-React sees one root, but no extra <div> is added in the HTML
-
-Clean and lightweight
-
-✅ Now React has one box containing everything.
--------------------
-why is index used in  key 
-When you do:
-  const names = ["Brad", "Chuks", "Iron Nigga", "N9ne","wolf"];
-
-
-
-names.map((name, index) => (
-  <li key={index}>{name}</li>
-))
-
-
-map passes two arguments to your callback function:
-
-name → the actual value in the array ('Brad', 'Chuks', etc.)
-
-index → the position of that value in the array
-
-So for:
-
-const names = ['Brad', 'Chuks', 'Iron Nigga', 'N9ne'];
-
-
-Brad → index 0
-
-Chuks → index 1
-
-Iron Nigga → index 2
-
-N9ne → index 3
-------------------
-how can you use two returns in react? 
-
-const loggedIn = true;
- if (loggedIn) {
-  return <h1>hello member</h1> //1st return
- }
-
-return ( //2nd return
-  <>
- <div>
- {loggedin ?  <h1>hello member</h1> :  <h1>hello guest</h1>}
- </div> 
-  </>
-)
-
-if the first return rund then the second wont run, its recommend to have a conditional that will trigger the seconf retunr 
-------------------------
-what are some ways to add styles to react 
-
-const App = () => {
-  return (
-    <div
-      style={{
-        color: 'white',
-        backgroundColor: 'teal',
-        fontWeight: 'bold',
-        fontSize: '24px',
-        padding: '20px',
-        margin: '20px',
-        borderRadius: '10px',
-        textAlign: 'center'
-      }}
-    >
-      Hello, this is Sample 1
-    </div>
-  )
-}
-
-export default App;
-
-
-OR
-
-
-const styles = {
-  color: 'red',
-  fontSize: '55px'
-};
-
-const App = () => {
-  return <div style={styles}>Hello</div>;
-}
---------------------
-
-----------------
-How do you import and export components in jsx 
-
-first copy the code
-thrn in a in jsx. file inside a components follder  , after running rafce  paste the code in the return block 
-
-\\Navbar.jsx
-then in your main file, 
-import Navbar from './components/Navbar'
-
-//inside the code where teh navbar should be  , <Navbar />
-nb: first name must be capital letter
--------------------
-what are props in react 
-What are props?
-
-Props = “properties” you pass into a component from its parent.
-
-They let components be dynamic and reusable.
-
-Props example using your <Hero />
-// Hero.jsx (child component)
-const Hero = (props) => {
-  return (
-    <div>
-      <h1>{props.title}</h1>
-      <p>{props.subtitle}</p>
-    </div>
-  )
-}
-
-export default Hero;
-
-// App.jsx (parent component)
-import Hero from './components/Hero';
-
-const App = () => {
-  return (
-    <div>
-      <Hero title="Test Title" subtitle="This is a subtitle" />
-    </div>
-  )
-}
-
-export default App;
-
-
-✅ What happens:
-
-<Hero title="Test Title" subtitle="This is a subtitle" /> → passes props to Hero
-
-props.title → "Test Title"
-
-props.subtitle → "This is a subtitle"
-
-🔹 Shortcut: destructuring props
-
-You can make it cleaner:
-
-const Hero = ({ title, subtitle }) => {
-  return (
-    <div>
-      <h1>{title}</h1>
-      <p>{subtitle}</p>
-    </div>
-  )
-}
-
-
-Works exactly the same
-
-No need to write props.title or props.subtitle
-
-or
-
-destructured props version with a default value defined inside the component,
-// Hero.jsx
-const Hero = ({ title = 'This is the default title', subtitle = 'Default subtitle' }) => {
-  return (
-    <div>
-      <h1>{title}</h1>
-      <p>{subtitle}</p>
-    </div>
-  )
-}
-
-export default Hero;
-
-
-
-
-
-If the parent does pass a prop, it overrides the default:
-
-<Hero title="Test Title" subtitle="This is a subtitle" />
-
-
-Output:
-
-title → "Test Title" (overrides default)
-
-subtitle → "This is a subtitle" (overrides default)
-
-If the parent doesn’t pass props:
-
-<Hero />
-
-
-Output:
-
-title → "This is the default title"
-
-subtitle → "Default subtitle"
---------------------------------
-what is wrapping in react Wrapping = putting one piece of content inside a component, so the component can add styles, structure, or behavior automatically.
-The content you wrap becomes children of that component.
-
-Example
-// Card.jsx
-const Card = ({ children }) => {
-  return (
-    <div className="bg-blue-200 p-4 rounded-lg shadow-md">
-      {children}
-    </div>
-  )
-}
-
-export default Card;
-
-// App.jsx
-import Card from './components/Card';
-
-const App = () => {
-  return (
-    <div>
-      {/* Wrapping these inside Card */}
-      <Card>
-        <h1>Hello!</h1>
-        <p>This is a wrapped paragraph.</p>
-      </Card>
-
-      <Card>
-        <button>Click Me</button>
-      </Card>
-    </div>
-  )
-}
-
-export default App;
-
-🔹 What happens
-
-The <h1> and <p> go inside the first Card → they get blue background, padding, rounded corners, shadow
-
-The <button> goes inside the second Card → it also gets the same Card styling
-
-✅ This is wrapping — you put content inside a component, and it automatically inherits the component’s styling/structure.
 -------------------------
-what is useState in react
 
+what is a layout in javascript
+A layout is a component that wraps around pages and keeps certain UI elements persistent across navigation.
 
-Think of useState as a special box to store something in React.
+Think of it like this:
 
-It’s like having a labeled jar that can hold a value, and you can change the value anytime, and React will update the screen automatically.
+A layout is the "frame" of your app — things that stay the same no matter what page you're on.
 
-Example: a counter, a username, or whether a button is clicked.
+Example real life analogy:
 
+The navbar, sidebar, footer — they stay the same.
 
+Only the inside content changes when you switch pages.
 
-import { useState } from "react";
+React apps (especially with React Router) use a layout to avoid repeating common elements on every page.
+--------------------------
+what is the outlet component in react
+It’s just a React component that comes from react-router-dom.
 
-const Counter = () => {
-  // Create a "box" called count, starting at 0
-  const [count, setCount] = useState(0);
+import { Outlet } from "react-router-dom";
 
+function Layout() {
   return (
     <div>
-      <h1>Count: {count}</h1> 
-      {/* Show whatever is in the box */}
-
-      <button onClick={() => setCount(count + 1)}>
-        Increase
-      </button>
+      <h1>My App</h1>
+      <Outlet /> {/* Child pages get inserted here */}
     </div>
-  );
-};
-
-export default Counter;
-
-What’s happening
-
-const [count, setCount] = useState(0);
-
-count → the current value in the box.
-
-setCount → a function to change the value.
-
-0 → the starting value of the box.
-
-<h1>Count: {count}</h1>
-
-React shows whatever is inside the box.
-
-onClick={() => setCount(count + 1)}
-
-When the button is clicked, we update the box.
-
-React automatically re-renders the component with the new value.
----------------------
-what is the substring() javascript  string method 
-
-It cuts out part of a string based on the start and end positions you give it.
-
-How it works
-string.substring(startIndex, endIndex)
-
-
-startIndex: where you want to start cutting (inclusive).
-
-endIndex: where you want to stop (exclusive — it does NOT include this index).
-
-If you don’t give an endIndex, it just takes from the start to the end of the string.
-
-✅ Example
-const text = "Hello World";
-
-const result = text.substring(0, 5);
-console.log(result);
-
-
-Output:
-
-Hello
-
-
-Why?
-Because it takes characters from index 0 up to but not including index 5.
-
-✅ Another example (end index optional)
-const name = "Evermind";
-console.log(name.substring(4));
-
-
-Output:
-
-mind
-
-
-Starts at index 4 and goes till the end.
--------------------
-what is to use prev state in react 
-
-React passes the previous value of the state into that parameter.
-
-So:
-
-setShowFullDescription(prev => !prev)
-
-
-Means:
-
-take the previous value → flip it → store it as the new value.
-
-✅ Example without any fancy terms
-
-You have a switch.
-
-const [lightIsOn, setLightIsOn] = useState(false)
-
-
-To flip the switch, you tell React:
-
-setLightIsOn(previous => !previous)
-
-
-React runs it like this internally:
-
-previous = false
-!previous = true
-
-
-Next click:
-
-previous = true
-!previous = false
-
-
-So it keeps toggling.
-----------------------------------
-how do you use icons in react 
-npm install react-icons
-import { FaLocationDot } from "react-icons/fa6";
-npm install react-icons
-→ gives you access to all major icon libraries, including Font Awesome.
-------------------------------
-what are react routers and how to use
-
-imagine your React app is like a house with many rooms:
-
-Each room is a page (Home, About, Jobs, Contact…).
-
-You want to walk to a room without leaving the house.
-
-React Router is like the hallway that lets you go to any room without reloading the whole house. How it works
-Install React Router:
-
-npm install react-router-dom
-
-Wrap your app in a Router:
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import About from "./About";
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />      {/* Home page */}
-        <Route path="/about" element={<About />} /> {/* About page */}
-      </Routes>
-    </Router>
   );
 }
 
-export default App;
+Outlet = a component that acts like a placeholder
 
+🚀 Think of it as:
+"Put the current page here."
+--------------------
+what is the link and NavLink tag in react router
+<Link> is NOT a normal HTML tag.
 
-Add links:
+In React Router, <Link> is a special component that lets you move to another page without refreshing the whole website.
+
+You import it like this:
 
 import { Link } from "react-router-dom";
 
-function Navbar() {
+
+Then you use it like this:
+
+<Link to="/about">Go to About</Link>
+
+<NavLink> is just like <Link> (from react-router-dom) — it lets you move to another page without reloading the whole app.
+
+But there’s a catch:
+
+<NavLink> can know if you’re on that page and let you style it differently.
+
+Example:
+import { NavLink } from "react-router-dom";
+
+<NavLink 
+  to="/about"
+  style={({ isActive }) => ({
+    color: isActive ? "red" : "blue"
+  })}
+>
+  About
+</NavLink>
+
+
+If you’re on /about → text becomes red
+
+If not → text stays blue
+-------------------------
+what path do you use as a caatch all for in reactWhat is a catch-all route?
+It’s a route that matches ANY path that doesn't exist.
+
+Think of it like a big net:
+
+“If the user goes to a page that I don’t have, catch them here.”
+
+
+Example (React Router v6)
+import { createBrowserRouter } from "react-router-dom";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "*",           // <-- catch all route
+    element: <NotFound />, // <-- what will show
+  }
+]);
+------------------
+Why do some JSX tags have slashes in front or at the end, and how do I know which to use?
+
+A:
+
+Slash in front (</Tag>) → closing tag. It ends a tag that has stuff inside.
+
+<p>Hello</p>  // </p> closes the paragraph
+
+
+Slash at the end (<Tag />) → self-closing tag. No kids/text inside, ends itself.
+
+<Outlet />   // Empty slot
+<img src="logo.png" /> // No children
+
+
+How to know which to use:
+
+If the component or element has children or text → use opening + closing tags
+
+If it doesn’t have children/text → use self-closing
+
+React didn’t make this up — it’s just JSX following HTML rules.
+
+
+<p> → “Open the box”
+
+</p> → “Close the box”
+
+
+<br /> → “Just one thing, done, no box needed”
+----------------------------
+how to run custom json  server
+
+npm install json-server
+
+then add to script in packaeg.json 
+"server": "json-server --watch src/jobs.json --port <port-num>"
+
+open path and run ,
+npm run server
+-----------------------------
+what is the ENOENT error
+What the error means
+npm error enoent Could not read package.json
+
+
+ENOENT = “Error NO ENTity” → file not found
+
+npm is looking for package.json in C:\Users\USER\Desktop\TO-DO-LIST REACT but it doesn’t exist.
+
+package.json is mandatory because npm needs it to know your project and its scripts.
+----------------
+npm create vite@latest TO-DO-LIST-REACT
+
+then changed server in vite config 
+merge question 301 and 302
+
+edite that rafce question
+----------------------
+explain what each file does in the src folder after installing vit
+
+app.css
+Think of App.css like the paint and decoration for your main toy block.
+
+
+App.jsx is the main block (your house).
+
+App.css is all the colors, sizes, and styles you put on that block.
+
+It only affects the things inside App.jsx. It doesn’t touch the rest of the page unless you make it global.
+
+Example:
+
+/* App.css */
+h1 {
+  color: darkblue;   /* makes the heading text blue */
+  text-align: center; /* centers the heading */
+}
+
+button {
+  background-color: lightgreen; /* paints buttons green */
+  padding: 10px;                 /* makes buttons bigger */
+  border: none;                  /* removes border */
+  border-radius: 5px;            /* rounded corners */
+}
+
+
+Then in App.jsx, you connect it like this:
+
+import './App.css';
+
+
+✅ Now every style in App.css will magically apply to the elements inside App.jsx.
+
+App.jsx
+
+Think of App.jsx as the main toy block—the house itself.
+
+This is where your actual app lives.
+
+Anything you want to show on the page goes here: headings, buttons, input boxes, todo lists… everything.
+
+It’s written in JSX, which is basically JavaScript + HTML mashed together. React can understand this and turn it into real HTML in the browser.
+
+Example:
+import React from 'react';
+import './App.css'; // this brings in the paint
+
+function App() {
   return (
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
-    </nav>
+    <div>
+      <h1>My Todo List</h1>  {/* heading */}
+      <input placeholder="Type a todo" />  {/* input box */}
+      <button>Add</button>  {/* add button */}
+    </div>
   );
 }
 
-✅ Key points
+export default App; // lets other files (like main.jsx) use this block
 
-<Routes> → container for all your routes.
+index.css
 
-<Route path="/xyz" element={<Component />} /> → define which page shows for which URL.
+Think of index.css like painting the whole land your toys sit on.
 
-<Link to="/xyz"> → navigate without refreshing the page.
+App.css = paint just your house
 
-React Router keeps your app SPA (Single Page App): no full page reloads.
----------------------------
+index.css = paint the entire playground where your house sits
 
+This is called global styles, because it affects everything unless you override it in a component.
+
+Example:
+/* index.css */
+body {
+  background-color: #f0f0f0; /* makes the whole page gray */
+  font-family: Arial, sans-serif; /* changes font for everything */
+  margin: 0; /* removes default page margin */
+}
+
+ul {
+  list-style: none; /* removes bullets from all lists */
+  padding: 0;
+}
+
+main.jsx
+Job: It’s the magic truck that takes your app (App.jsx) and puts it on the page (<div id="root"></div>).
+
+How it works:
+
+document.getElementById('root') → finds the “box” on the page.
+
+ReactDOM.createRoot(...) → tells React: “This box is my playground.”
+
+.render(<App />) → puts your app inside the box and lets React update it automatically when things change.
+
+Important: Without this file, nothing from App.jsx shows up on the page.
+
+Analogy:
+
+root div = empty stage
+
+App.jsx = LEGO house
+
+main.jsx = truck that delivers the house onto the stage and makes it live
+----------------
+How do we store and manage tasks and input in React UsiNG {useState}
+
+Answer:
+In React, we use state to store data that the app needs to remember and update automatically.
+
+todos stores all tasks as an array.
+
+newTodo stores the text currently typed by the user.
+
+We use useState to create these “boxes” that React watches.
+
+Code Example:
+
+import { useState } from 'react';
+
+function App() {
+  // Basket of all tasks
+  const [todos, setTodos] = useState([]);
+
+  // The task currently being typed
+  const [newTodo, setNewTodo] = useState('');
+
+  return (
+    <div>
+      <h1>My Todo List</h1>
+    </div>
+  );
+}
+
+export default App;
+
+
+Explanation:
+
+useState([])
+
+[] = empty basket, because we start with no tasks
+
+todos = basket itself
+
+setTodos = the helper that lets us add or remove tasks from the basket
+
+useState('')
+
+'' = empty hand, because input is empty at first
+
+newTodo = task in hand
+
+setNewTodo = lets us update the input as the user types
+----------------------------
+what is the dependency array in react
+Dependency Array in React (useEffect)
+
+useEffect = “do something when needed”
+
+Dependency array = list of things to watch
+
+How it works:
+
+[] → run once when component appears
+
+No array → run every time component updates
+
+[var1, var2] → run only when var1 or var2 changes
+
+Why it matters:
+
+Avoids doing the same thing too many times
+
+Keeps your app fast and predictable
+
+import { useState, useEffect } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  // 1. Empty array -> run once
+  useEffect(() => {
+    console.log("Runs only once when component mounts");
+  }, []);
+
+  // 2. No array -> run every render
+  useEffect(() => {
+    console.log("Runs on every render");
+  });
+
+  // 3. Array with dependencies -> run only when count changes
+  useEffect(() => {
+    console.log("Count changed:", count);
+  }, [count]);
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+---------------------
+How do we load saved tasks from localStorage into a React state array, and why do we use objects with text, completed, and key instead of just strings?
+
+We use a useEffect hook to load tasks when the component mounts. Each task is stored as an object with three properties:
+
+key → a unique identifier for the task
+
+text → the actual task description retrieved from localStorage
+
+completed → a boolean to track whether the task is done
+
+We don’t just store strings because objects let us store multiple pieces of information for each task. Using text: labels the task description, so we know exactly what it represents, and we can also manage completed status and the key.
+
+
+import { useState, useEffect } from "react";
+
+function TodoApp() {
+  const [savedTodos, setSavedTodos] = useState([]);
+
+  useEffect(() => {
+    const todos = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith("newTask")) {
+        todos.push({
+          key,                     // unique identifier
+          text: localStorage.getItem(key), // task description
+          completed: false,        // task status
+        });
+      }
+    }
+    setSavedTodos(todos);
+-----------------------------
+How do we make a React input field update state with onchange
+
+We make the input controlled by React using the value prop and onChange event. The value shows the current state, and onChange updates the state whenever the user types.
+
+Code Example:
+
+<input 
+  value={newTodo} 
+  onChange={(e) => setNewTodo(e.target.value)} 
+  placeholder="Enter Task" 
+/>
+
+
+Explanation:
+
+value={newTodo} → input shows what React remembers
+
+onChange={(e) => setNewTodo(e.target.value)} → updates React state whenever typing occurs
+
+
+
+
+Typing → triggers onChange → updates newTodo → input updates because value={newTodo}
+-------------------
+How do we add a new task in a React TodoList and save it for later?
+
+Answer:
+We create a function (addTodo) that:
+
+Checks the input is not empty
+
+Creates a task object {key, text, completed}
+
+Adds it to the todos state array
+
+Saves it in localStorage
+
+Clears the input
+
+Code Example:
+
+const addTodo = () => {
+  if (newTodo.trim() === '') return;
+  
+  let i = 0;
+  while (localStorage.getItem(`newTask${i}`) !== null) i++;
+  const key = `newTask${i}`;
+
+  localStorage.setItem(key, newTodo);
+  const newTask = { key, text: newTodo, completed: false };
+  setTodos([...todos, newTask]);
+  setNewTodo('');
+};
+-----------------------
+How do we display tasks stored in React state on the page with buttons for completing and deleting?
+
+Answer:
+We loop through the state array (todos) with map and return JSX for each task. Each task shows:
+
+Text (with style depending on completed)
+
+Check button → flips completed
+
+Delete button → removes task
+
+Code Example:
+
+{todos.map((task) => (
+  <div key={task.key} className="task">
+    <li
+      style={{
+        textDecoration: task.completed ? "line-through" : "none",
+        color: task.completed ? "red" : "black",
+      }}
+    >
+      {task.text}
+    </li>
+    <button onClick={() => toggleComplete(task.key)}>
+      <i className="fa-solid fa-check"></i>
+    </button>
+    <button onClick={() => deleteTask(task.key)}>
+      <i className="fa-solid fa-trash-can"></i>
+    </button>
+  </div>
+))}
+---------------------------------
+How do we mark a task as completed in a React TodoList?
+
+Answer:
+We create a function toggleComplete that:
+
+Loops through the todos array
+
+Finds the task that was clicked
+
+Flips its completed property (false → true, true → false)
+
+Updates React state so the page redraws
+
+Code Example:
+
+const toggleComplete = (key) => {
+  setTodos(
+    todos.map((task) =>
+      task.key === key ? { ...task, completed: !task.completed } : task
+    )
+  );
+};
+---------------------
+How do we delete a task from a React Todo List and localStorage?
+
+Answer:
+We filter the list and remove the matching key, then remove it from storage.
+
+Code:
+
+const deleteTask = (key) => {
+  setTodos(todos.filter((task) => task.key !== key));
+  localStorage.removeItem(key);
+};
+-------------------

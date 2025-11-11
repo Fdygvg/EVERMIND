@@ -1823,13 +1823,13 @@
     "type": "css"
   },
   {
-  "question": "What is a callback in JavaScript, and what is 'callback hell'?",
-  "answer": "**Callback:**\n- A callback is a function passed into another function to be called later—usually after something finishes, like loading data, waiting for a timer, or user input.\n- Callbacks are how you make code run in order, especially with async or event-based operations.\n\n**Example of Callbacks:**\n```javascript\nfunction stepOne(callback) {\n  console.log(\"Step 1: Turn on the computer\");\n  callback();\n}\nfunction stepTwo(callback) {\n  console.log(\"Step 2: Open your code editor\");\n  callback();\n}\nfunction stepThree() {\n  console.log(\"Step 3: Start coding!\");\n}\n// Chained callbacks:\nstepOne(() => {\n  stepTwo(() => {\n    stepThree();\n  });\n});\n``````javascript\nstepOne(function() {\n  stepTwo(function() {\n    stepThree(function() {\n      stepFour(function() {\n        stepFive(function() {\n          console.log(\"All steps done!\");\n        });\n      });\n    });\n  });\n});\n```",
-  "type": "javascript"
-},
+    "question": "What is a callback in JavaScript, and what is 'callback hell'?",
+    "answer": "**Callback:**\n- A callback is a function passed into another function to be called later—usually after something finishes, like loading data, waiting for a timer, or user input.\n- Callbacks are how you make code run in order, especially with async or event-based operations.\n\n**Example of Callbacks:**\n```javascript\nfunction stepOne(callback) {\n  console.log(\"Step 1: Turn on the computer\");\n  callback();\n}\nfunction stepTwo(callback) {\n  console.log(\"Step 2: Open your code editor\");\n  callback();\n}\nfunction stepThree() {\n  console.log(\"Step 3: Start coding!\");\n}\n// Chained callbacks:\nstepOne(() => {\n  stepTwo(() => {\n    stepThree();\n  });\n});\n``````javascript\nstepOne(function() {\n  stepTwo(function() {\n    stepThree(function() {\n      stepFour(function() {\n        stepFive(function() {\n          console.log(\"All steps done!\");\n        });\n      });\n    });\n  });\n});\n```",
+    "type": "javascript"
+  },
   {
     "question": "What is React?",
-    "answer": "React is a JavaScript library/framework for building user interfaces (UI). It was created by Facebook.",
+    "answer": "React is a JavaScript library/framework for building user interfaces (UI). It was created by Facebook, in The Year 2013.",
     "type": "react"
   },
   {
@@ -1837,11 +1837,7 @@
     "answer": "Components are reusable pieces of code that build elements on a page. They allow breaking complex UI into smaller parts, making it easier to maintain and scale.\n\nComponents can be:\n- **Class components** (older style)\n- **Function components** (modern style)\n\nComponents can also accept **props**, which are inputs used to customize them.",
     "type": "react"
   },
-  {
-    "question": "What are states in React?",
-    "answer": "State represents the data a component manages internally. It is used for data that is expected to change, like input fields or fetched API data.",
-    "type": "react"
-  },
+
   {
     "question": "What are hooks in React?",
     "answer": "Hooks allow us to use state and other React features in function components without writing classes.\n\nCommon hooks include:\n- `useState`\n- `useEffect`\n- `useRef`\n- `useReducer`",
@@ -1858,15 +1854,11 @@
     "type": "react"
   },
   {
-    "question": "What is Vite?",
-    "answer": "Vite is a super fast front-end toolkit for building JavaScript projects. It's built on top of ESBuild, a very fast JS bundler.\n\nTo create a new Vite project:\n```\nnpm create vite@latest folder-name\n```\n\nTo install Tailwind CSS v3:\n```\nnpm install -D tailwindcss@3 postcss autoprefixer\nnpx tailwindcss init -p\n```",
+    "question": "What is Vite, and what is its default port and how do you change it?",
+    "answer": "Vite is a super fast front-end toolkit for building JavaScript projects. It's built on top of ESBuild, a very fast JS bundler.\n\n**Creating a new Vite project:**\n```\nnpm create vite@latest folder-name\n```\n\n**Installing Tailwind CSS v3:**\n```\nnpm install -D tailwindcss@3 postcss autoprefixer\nnpx tailwindcss init -p\n```\n\n**Vite's default port:**\nThe default port is **5173**.\n\n**Changing the port:**\nModify `vite.config.js`:\n```javascript\nimport react from '@vitejs/plugin-react'\n\nexport default {\n  plugins: [react()],\n  server: {\n    port: 3000, // change to your desired port\n  },\n}\n```",
     "type": "react"
   },
-  {
-    "question": "What is Vite's default port and how to change it?",
-    "answer": "The default Vite port is **5173**.\n\nTo change it, modify `vite.config.js`:\n```javascript\nimport react from '@vitejs/plugin-react'\n\nexport default {\n  plugins: [react()],\n  server: {\n    port: 3000,\n  },\n}\n```",
-    "type": "react"
-  },
+
   {
     "question": "What is StrictMode in React?",
     "answer": "`<StrictMode>` is a React component (not a string). It watches your components and warns you if you use outdated or unsafe React patterns.",
@@ -1877,17 +1869,7 @@
     "answer": "**Arrow Function Component:**\n```javascript\nimport React from 'react'\n\nconst Hero = () => {\n  return (\n    <div>Hero</div>\n  )\n}\n\nexport default Hero\n```\nVS Code shortcut: `rafce` + Tab (React Arrow Function Export Component)\n\n**Normal Function Component:**\n```javascript\nimport React from 'react'\n\nexport default function Hero() {\n  return (\n    <div>Hero</div>\n  )\n}\n```\nVS Code shortcut: `rfc` + Tab (React Function Component)\n\nRecommended extension: **ES7+ React/Redux/React-Native/JS snippets**.",
     "type": "react"
   },
-  
-  {
-    "question": "What is 'extend' in Tailwind CSS?",
-    "answer": "The `extend` property in Tailwind CSS allows you to add custom styles without overwriting Tailwind's default settings.\n\nExample:\n```javascript\ntheme: {\n  extend: {\n    fontFamily: {\n      poppins: [\"Poppins\", \"sans-serif\"],\n    },\n  },\n}\n```\nUsage in JSX:\n```jsx\n<h1 className=\"font-poppins\">Hello</h1>\n```\n\nIf you don’t add your own font, you can use Tailwind’s built-in fonts:\n```jsx\n<h1 className=\"font-sans\">Hello</h1>\n<h1 className=\"font-serif\">Hello</h1>\n<h1 className=\"font-mono\">Hello</h1>\n```\nThese are Tailwind’s default options, like built-in crayons.",
-    "type": "tailwind"
-  },
-  {
-    "question": "How do you use Tailwind CSS compared to normal CSS?",
-    "answer": "Tailwind is just CSS, but with a utility-first approach.\n\n**Normal CSS:**\n```css\nh1 {\n  font-size: 3rem;\n  color: red;\n  margin: 20px;\n}\n```\nIn JSX:\n```jsx\n<h1 className=\"my-class\">Hello</h1>\n```\nYou must create a new class for each style.\n\n**Tailwind CSS:**\nTailwind provides ready-to-use utility classes:\n```jsx\n<h1 className=\"text-3xl text-red-500 m-5\">Hello</h1>\n```\n- `text-3xl` → font size\n- `text-red-500` → color\n- `m-5` → margin",
-    "type": "tailwind"
-  },
+
   {
     "question": "How many root elements can a React component return?",
     "answer": "A React component can only return **one root element**. Returning multiple top-level elements causes an error.\n\n❌ This does NOT work:\n```javascript\nconst App = () => {\n  return (\n    <h1>Hello</h1>\n    <p>Welcome!</p>\n  )\n}\n```\nReact says: “I don’t know which one is the main element!”\n\n**How to fix:**\n1. Wrap elements in a parent container:\n```javascript\nconst App = () => {\n  return (\n    <div>\n      <h1>Hello</h1>\n      <p>Welcome!</p>\n    </div>\n  )\n}\n```\n2. Use a React Fragment (no extra HTML added):\n```javascript\nimport React from 'react'\n\nconst App = () => {\n  return (\n    <>\n      <h1>Hello</h1>\n      <p>Welcome!</p>\n    </>\n  )\n}\n```\n`<> ... </>` acts as a “ghost box”: React sees one root, but no extra `<div>` is added to the HTML. Clean and lightweight.",
@@ -1940,20 +1922,90 @@
   },
   {
     "question": "How do you use icons in React?",
-    "answer": "You can use icons via the `react-icons` library.\n\n**Install:**\n```\nnpm install react-icons\n```\n**Usage:**\n```javascript\nimport { FaLocationDot } from 'react-icons/fa6';\n```\nThis gives you access to all major icon libraries, including Font Awesome.",
+    "answer": "You can use icons via the `react-icons` library.\n\n**Install:**\n```\nnpm install react-icons\n```\n\n**Basic Usage:**\n```javascript\nimport { FaLocationDot } from 'react-icons/fa6';\n\nfunction App() {\n  return <FaLocationDot />;\n}\n```\nThis gives you access to all major icon libraries, including Font Awesome.\n\n**Example with buttons in a TodoList:**\n```javascript\nimport { FaCheck, FaTrash } from 'react-icons/fa';\n\nfunction TodoItem({ task, toggleComplete, deleteTask }) {\n  return (\n    <div>\n      <span>{task.text}</span>\n      <button onClick={() => toggleComplete(task.key)}>\n        <FaCheck />\n      </button>\n      <button onClick={() => deleteTask(task.key)}>\n        <FaTrash />\n      </button>\n    </div>\n  );\n}\n```\nThis shows how to render icons inside buttons and interact with them in a React component.",
     "type": "react"
   },
   {
-    "question": "What are React Router and how to use it?",
-    "answer": "React Router lets you navigate between different pages in a React app without reloading the whole page (SPA behavior).\n\n**Install:**\n```\nnpm install react-router-dom\n```\n**Setup:**\n```javascript\nimport { BrowserRouter as Router, Routes, Route } from 'react-router-dom';\nimport Home from './Home';\nimport About from './About';\n\nfunction App() {\n  return (\n    <Router>\n      <Routes>\n        <Route path='/' element={<Home />} />\n        <Route path='/about' element={<About />} />\n      </Routes>\n    </Router>\n  );\n}\nexport default App;\n```\n**Navigation links:**\n```javascript\nimport { Link } from 'react-router-dom';\n\nfunction Navbar() {\n  return (\n    <nav>\n      <Link to='/'>Home</Link>\n      <Link to='/about'>About</Link>\n    </nav>\n  );\n}\n```\n- `<Routes>` → container for all routes\n- `<Route path='/xyz' element={<Component />} />` → defines the page for a URL\n- `<Link to='/xyz'>` → navigates without full page reloads",
+    "question": "What is a layout in React?",
+    "answer": "A layout is a component that wraps around pages and keeps certain UI elements persistent across navigation. Think of it as the 'frame' of your app — things that stay the same no matter what page you're on.\n\n**Real-life analogy:**\n- Navbar, sidebar, footer stay the same.\n- Only the main content changes when switching pages.\n\nUsing a layout avoids repeating common elements on every page, especially with React Router.",
+    "type": "react"
+  },
+  {
+    "question": "What is the Outlet component in React Router?",
+    "answer": "The `Outlet` component is a placeholder provided by `react-router-dom` where child pages get rendered.\n\n**Example:**\n```javascript\nimport { Outlet } from 'react-router-dom';\n\nfunction Layout() {\n  return (\n    <div>\n      <h1>My App</h1>\n      <Outlet /> {/* Child pages will be inserted here */}\n    </div>\n  );\n}\n```\nThink of it as: 'Put the current page here.'",
+    "type": "react"
+  },
+  {
+    "question": "What are Link and NavLink in React Router?",
+    "answer": "`<Link>` is a React Router component that navigates without refreshing the whole page.\n\n**Example:**\n```javascript\nimport { Link } from 'react-router-dom';\n\n<Link to='/about'>Go to About</Link>\n```\n\n`<NavLink>` is similar but can detect the active route and style itself differently.\n\n**Example:**\n```javascript\nimport { NavLink } from 'react-router-dom';\n\n<NavLink \n  to='/about'\n  style={({ isActive }) => ({\n    color: isActive ? 'red' : 'blue'\n  })}\n>\n  About\n</NavLink>\n```\n- Active page → red text\n- Other pages → blue text",
+    "type": "react"
+  },
+  {
+    "question": "What path do you use as a catch-all route in React?",
+    "answer": "A catch-all route matches any path that doesn't exist. Think of it as a safety net for unknown URLs.\n\n**Example (React Router v6):**\n```javascript\nimport { createBrowserRouter } from 'react-router-dom';\nimport Home from './pages/Home';\nimport NotFound from './pages/NotFound';\n\nconst router = createBrowserRouter([\n  { path: '/', element: <Home /> },\n  { path: '*', element: <NotFound /> } // Catch-all route\n]);\n```",
+    "type": "react"
+  },
+  {
+    "question": "Why do some JSX tags have slashes and how do you know which to use?",
+    "answer": "In JSX:\n- `</Tag>` → closing tag. Ends a tag that has children/text.\n```jsx\n<p>Hello</p> // </p> closes the paragraph\n```\n- `<Tag />` → self-closing tag. No children.\n```jsx\n<Outlet />\n<img src='logo.png' />\n```\n**Rule:**\n- Has children/text → opening + closing tags\n- No children → self-closing\nReact follows HTML rules.\n\nAnalogy:\n- `<p>` → open the box\n- `</p>` → close the box\n- `<br />` → one thing, done, no box needed",
+    "type": "react"
+  },
+  {
+    "question": "How do you run a custom JSON server?",
+    "answer": "1. Install JSON Server:\n```\nnpm install json-server\n```\n2. Add a script to `package.json`:\n```json\n\"server\": \"json-server --watch src/jobs.json --port <port-num>\"\n```\n3. Run it:\n```\nnpm run server\n```\nThis will start a local server serving your JSON file at the specified port.",
+    "type": "javascript"
+  },
+
+  {
+    "question": "What is the ENOENT error?",
+    "answer": "ENOENT stands for “Error NO ENTity” → it means a file was not found.\n\nExample:\n```\nnpm error enoent Could not read package.json\n```\nThis happens when npm is looking for `package.json` in your project folder (e.g., `C:\\Users\\USER\\Desktop\\TO-DO-LIST REACT`) but it doesn’t exist. \n\n`package.json` is mandatory because npm uses it to know your project details and scripts.",
+    "type": "javascript"
+  },
+  {
+    "question": "Explain what each file does in the src folder after installing Vite",
+    "answer": "**App.css**\n- Think of App.css like the paint and decoration for your main block (App.jsx).\n- It only affects things inside App.jsx unless made global.\n\n```css\n/* App.css */\nh1 {\n  color: darkblue;\n  text-align: center;\n}\n\nbutton {\n  background-color: lightgreen;\n  padding: 10px;\n  border: none;\n  border-radius: 5px;\n}\n```\n```javascript\nimport './App.css';\n```\n\n**App.jsx**\n- Main block—the house of your app.\n- Anything you want displayed goes here: headings, buttons, inputs, etc.\n- Written in JSX (JavaScript + HTML).\n```javascript\nimport React from 'react';\nimport './App.css';\n\nfunction App() {\n  return (\n    <div>\n      <h1>My Todo List</h1>\n      <input placeholder=\"Type a todo\" />\n      <button>Add</button>\n    </div>\n  );\n}\nexport default App;\n```\n\n**index.css**\n- Global styles for the entire page (like painting the playground where your app sits).\n```css\nbody {\n  background-color: #f0f0f0;\n  font-family: Arial, sans-serif;\n  margin: 0;\n}\n\nul {\n  list-style: none;\n  padding: 0;\n}\n```\n\n**main.jsx**\n- Magic truck that takes your App.jsx and mounts it on the page (`<div id=\"root\"></div>`).\n- ReactDOM.createRoot finds the root box and `.render(<App />)` puts the app there and keeps it live.\n```javascript\nimport React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\nimport './index.css';\n\nReactDOM.createRoot(document.getElementById('root')).render(<App />);\n```\nAnalogy:\n- root div = empty stage\n- App.jsx = LEGO house\n- main.jsx = truck that delivers the house onto the stage and makes it live",
+    "type": "react"
+  },
+
+  {
+    "question": "How do we store and manage tasks and input in React using useState?",
+    "answer": "In React, state stores data that the app needs to remember and update automatically.\n\n- `todos` stores all tasks as an array.\n- `newTodo` stores the text currently typed by the user.\n\nWe use `useState` to create these “boxes” that React watches.\n\n**Code Example:**\n```javascript\nimport { useState } from 'react';\n\nfunction App() {\n  // Basket of all tasks\n  const [todos, setTodos] = useState([]);\n\n  // The task currently being typed\n  const [newTodo, setNewTodo] = useState('');\n\n  return (\n    <div>\n      <h1>My Todo List</h1>\n    </div>\n  );\n}\n\nexport default App;\n```\n\n**Explanation:**\n- `useState([])` → empty basket, because we start with no tasks\n  - `todos` = the basket itself\n  - `setTodos` = helper to add/remove tasks\n- `useState('')` → empty hand, because input is empty at first\n  - `newTodo` = task in hand\n  - `setNewTodo` = updates input as the user types",
+    "type": "react"
+  },
+  {
+    "question": "What is the dependency array in React (useEffect)?",
+    "answer": "`useEffect` lets you “do something when needed.”\n\nThe dependency array is a list of things to watch, controlling when the effect runs:\n- `[]` → run once when component mounts\n- No array → run every render\n- `[var1, var2]` → run only when `var1` or `var2` changes\n\n**Why it matters:**\n- Avoids doing the same thing too many times\n- Keeps your app fast and predictable\n\n**Code Example:**\n```javascript\nimport { useState, useEffect } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  // 1. Empty array -> run once\n  useEffect(() => {\n    console.log('Runs only once when component mounts');\n  }, []);\n\n  // 2. No array -> run every render\n  useEffect(() => {\n    console.log('Runs on every render');\n  });\n\n  // 3. Array with dependencies -> run only when count changes\n  useEffect(() => {\n    console.log('Count changed:', count);\n  }, [count]);\n\n  return (\n    <div>\n      <p>{count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n}\n\nexport default Counter;\n```",
+    "type": "react"
+  },
+
+  {
+    "question": "How do we load saved tasks from localStorage into a React state array, and why do we use objects with text, completed, and key instead of just strings?",
+    "answer": "We use a `useEffect` hook to load tasks when the component mounts. Each task is stored as an object with three properties:\n\n- `key` → a unique identifier for the task\n- `text` → the actual task description retrieved from localStorage\n- `completed` → a boolean to track whether the task is done\n\nWe don’t just store strings because objects allow us to store multiple pieces of information for each task, like the description, status, and unique key.\n\n**Code Example:**\n```javascript\nimport { useState, useEffect } from 'react';\n\nfunction TodoApp() {\n  const [savedTodos, setSavedTodos] = useState([]);\n\n  useEffect(() => {\n    const todos = [];\n    for (let i = 0; i < localStorage.length; i++) {\n      const key = localStorage.key(i);\n      if (key.startsWith('newTask')) {\n        todos.push({\n          key,                     // unique identifier\n          text: localStorage.getItem(key), // task description\n          completed: false,        // task status\n        });\n      }\n    }\n    setSavedTodos(todos);\n  }, []);\n}\n```",
+    "type": "react"
+  },
+  {
+    "question": "How do we make a React input field update state with onChange?",
+    "answer": "We make the input controlled by React using the `value` prop and `onChange` event. The `value` shows the current state, and `onChange` updates the state whenever the user types.\n\n**Code Example:**\n```javascript\n<input \n  value={newTodo} \n  onChange={(e) => setNewTodo(e.target.value)} \n  placeholder=\"Enter Task\" \n/>\n```\n\n**Explanation:**\n- `value={newTodo}` → input shows what React remembers\n- `onChange={(e) => setNewTodo(e.target.value)}` → updates React state whenever typing occurs\n\nFlow: Typing → triggers `onChange` → updates `newTodo` → input updates because `value={newTodo}`",
+    "type": "react"
+  },
+  {
+    "question": "How do we add a new task in a React TodoList and save it for later?",
+    "answer": "We create a function (`addTodo`) that:\n1. Checks the input is not empty\n2. Creates a task object `{key, text, completed}`\n3. Adds it to the `todos` state array\n4. Saves it in `localStorage`\n5. Clears the input\n\n**Code Example:**\n```javascript\nconst addTodo = () => {\n  if (newTodo.trim() === '') return;\n\n  let i = 0;\n  while (localStorage.getItem(`newTask${i}`) !== null) i++;\n  const key = `newTask${i}`;\n\n  localStorage.setItem(key, newTodo);\n  const newTask = { key, text: newTodo, completed: false };\n  setTodos([...todos, newTask]);\n  setNewTodo('');\n};\n```",
+    "type": "react"
+  },
+  {
+    "question": "How do we display tasks stored in React state on the page with buttons for completing and deleting?",
+    "answer": "We loop through the state array (`todos`) using `map` and return JSX for each task. Each task shows:\n- Text (with style depending on `completed`)\n- Check button → flips completed status\n- Delete button → removes the task\n\n**Code Example:**\n```javascript\n{todos.map((task) => (\n  <div key={task.key} className=\"task\">\n    <li\n      style={{\n        textDecoration: task.completed ? \"line-through\" : \"none\",\n        color: task.completed ? \"red\" : \"black\",\n      }}\n    >\n      {task.text}\n    </li>\n    <button onClick={() => toggleComplete(task.key)}>\n      <i className=\"fa-solid fa-check\"></i>\n    </button>\n    <button onClick={() => deleteTask(task.key)}>\n      <i className=\"fa-solid fa-trash-can\"></i>\n    </button>\n  </div>\n))}\n```",
+    "type": "react"
+  },
+  {
+    "question": "How do we mark a task as completed in a React TodoList?",
+    "answer": "We create a function `toggleComplete` that:\n1. Loops through the `todos` array\n2. Finds the task that was clicked\n3. Flips its `completed` property (false → true, true → false)\n4. Updates React state so the page redraws\n\n**Code Example:**\n```javascript\nconst toggleComplete = (key) => {\n  setTodos(\n    todos.map((task) =>\n      task.key === key ? { ...task, completed: !task.completed } : task\n    )\n  );\n};\n```",
+    "type": "react"
+  },
+  {
+    "question": "How do we delete a task from a React Todo List and localStorage?",
+    "answer": "We filter the list to remove the task with the matching key, then remove it from `localStorage`.\n\n**Code Example:**\n```javascript\nconst deleteTask = (key) => {\n  setTodos(todos.filter((task) => task.key !== key));\n  localStorage.removeItem(key);\n};\n```",
     "type": "react"
   }
-
-
-
-
-
-
-
-
 ]
