@@ -2071,17 +2071,16 @@
     "question": "What is the .toFixed() method in JavaScript?",
     "answer": ".toFixed() is a Number method that rounds a number to a specified number of decimal places and returns a string.\n\nSyntax:\n```js\nnum.toFixed(n) // n = digits after decimal\n```\nExamples:\n```js\nconst num = 12.3456;\nnum.toFixed(2); // '12.35'\nnum.toFixed(0); // '12'\nnum.toFixed(4); // '12.3456'\n```\nNote: Result is always a string. To convert back to a number:\n```js\nconst rounded = parseFloat(num.toFixed(2)); // 12.35 as number\n```",
     "type": "javascript"
-  }
-
-
-
-
-
-
-
-
-
-
-
+  },
+  {
+  "question": "How do you calculate today's, this month's, and this year's totals from a list of expenses in React?",
+  "answer": "You can loop through all expenses, compare each expense's date to today's date using getFullYear(), getMonth(), and getDate(), then update running totals stored in React state.\n\n**Example:**\n```javascript\nimport React, { useState, useEffect } from 'react';\n\nfunction ExpenseSummary({ expenses }) {\n  const [totals, setTotals] = useState({\n    totalToday: 0,\n    totalThisMonth: 0,\n    totalThisYear: 0,\n  });\n\n  useEffect(() => {\n    const today = new Date();\n    const newTotals = { totalToday: 0, totalThisMonth: 0, totalThisYear: 0 };\n\n    expenses.forEach(({ amount, date }) => {\n      const expenseDate = new Date(date);\n\n      const isSameYear = expenseDate.getFullYear() === today.getFullYear();\n      if (!isSameYear) return;\n\n      newTotals.totalThisYear += amount;\n\n      const isSameMonth = expenseDate.getMonth() === today.getMonth();\n      if (isSameMonth) {\n        newTotals.totalThisMonth += amount;\n\n        const isSameDay = expenseDate.getDate() === today.getDate();\n        if (isSameDay) newTotals.totalToday += amount;\n      }\n    });\n\n    setTotals(newTotals);\n  }, [expenses]);\n\n  return (\n    <section>\n      <h3>Expense Summary</h3>\n      <p>Today: ${totals.totalToday}</p>\n      <p>This Month: ${totals.totalThisMonth}</p>\n      <p>This Year: ${totals.totalThisYear}</p>\n    </section>\n  );\n}\n\nexport default ExpenseSummary;\n```\n\n**Explanation:**\n- **useEffect:** Recalculates totals whenever the expenses array changes.\n- **getFullYear, getMonth, getDate:** Used to compare each expense’s date with today.\n- **isSameYear → isSameMonth → isSameDay:** Nested checks ensure proper totals without unnecessary calculations.\n- **setTotals:** Updates the component’s state, triggering a re-render to show fresh totals.\n\nThis pattern is great for dashboards or expense trackers that need daily, monthly, and yearly summaries automatically recalculated when new data arrives.",
+  "type": "react"
+},
+{
+  "question": "How do you check if a date is in the same year, month, or day as today in JavaScript?",
+  "answer": "You can compare different parts of a Date object using getFullYear(), getMonth(), and getDate(). This helps categorize data by year, month, or day.\n\n**Example:**\n```javascript\nconst isSameYear = expenseDate.getFullYear() === today.getFullYear();\nif (!isSameYear) return;\n\ntotals.totalThisYear += amount;\n\nconst isSameMonth = expenseDate.getMonth() === today.getMonth() && isSameYear;\nif (isSameMonth) {\n  totals.totalThisMonth += amount;\n\n  const isSameDay = expenseDate.getDate() === today.getDate();\n  if (isSameDay) {\n    totals.totalToday += amount;\n  }\n}\n```\n\n**Explanation:**\n- **getFullYear():** Checks if both dates are in the same year.\n- **getMonth():** Checks if they are in the same month (0–11).\n- **getDate():** Checks if they fall on the same day of the month.\n\n**Logic:**\n- If the expense is in the same year → add to yearly total.\n- If it’s also in the same month → add to monthly total.\n- If it’s also the same day → add to today’s total.\n\nThis layered check ensures each level (year → month → day) only runs when the previous one matches, keeping the code efficient and readable.",
+  "type": "javascript"
+}
 
 ]
