@@ -1,469 +1,604 @@
-ok , its an exppense tracker , im still think on how wel go about the components, so i thousgth , AddNewExpense.jsx , ExpenseComponent.jsx, ExpenseDetials.jsk , now in the page theres this add new expnese button at the top , a big button , and clicking on that button a form will appearn in the space of that button, a dropdown catgory with preset , expenses , shoppint, transport, entertainemt... , then below theres name of expense, and amount, then a add, or cancel button, , then after that , below the add button, is a button labaled stats, clcikingon it , will realease a dropdown, again, expenses today, , expenses, this week, ....month,year, then lastly , below it are the difffernet categoriesl , now by default they won show unless a use addd an expense to that category , then react will creact some kind of rectangular card from htat category , e.g , shopping, then when user adds an expens unders hopping, then , shopping will, show , then user can also click on it and ill drop down , and show all expenses ,for thtat category, the title , amount , date, then a date, limited to 5 ,then a showmore button, user click redirected to another page , where hell see all , for that category , a backkbutton at the top left, so he can go back to main page, so yeah thats basicallly it , hope this wasnt tooo much ?
------------------   
-How do you get and store today’s date in React using useState?
+🧩 Date.now()
 
-✅ Answer (short summary):
+Returns the number of milliseconds since January 1, 1970 (UTC).
 
-You can use JavaScript’s Date object with useState to save today’s date in a readable format (YYYY-MM-DD).
+It does not return a readable date — it just gives you a big number.
 
-🧩 Explanation (step-by-step):
-const [date, setDate] = useState(
-  new Date().toISOString().split("T")[0]
-);
+console.log(Date.now()); 
+// Example: 1731474081650  (milliseconds)
 
-🧠 Step 1 — new Date()
 
-Creates a Date object with the current date and time.
+That’s what JavaScript uses internally to keep track of time.
 
-🧠 Step 2 — .toISOString()
+🧩 new Date()
 
-Turns that date into a clean string like:
+If you want a readable date, you have to wrap it like this:
 
-"2025-11-12T14:00:00.000Z"
+console.log(new Date());
+// Example: Thu Nov 13 2025 14:41:21 GMT+0100 (West Africa Standard Time)
 
-🧠 Step 3 — .split("T")[0]
+----------------
+what is the rules of hooks m in react 
 
-Removes the time and keeps just the date part:
 
-"2025-11-12"
+Hooks must run in the same order on every render
 
-🧠 Step 4 — useState(...)
+React doesn’t track hooks by their names — it tracks them by position.
 
-Stores that date in React’s memory as the initial state.
-Now you can use it in your app or update it later with setDate().
------------------------------
-What is the preventDefault() function in JavaScript, and how do you use it?
+It expects something like:
 
-✅ Answer (short summary):
+Hook #1 → useState
+Hook #2 → useEffect
+Hook #3 → useMemo
 
-preventDefault() is a function you call on an event (e) to stop the browser from doing its normal action.
 
-For forms: stops the page from reloading on submit
+If that order changes, React gets confused and your component breaks.
 
-For links: stops navigation to a new page
+2. Never put hooks inside conditions
 
-You can use it anywhere a browser event has a default action you want to prevent
+❌ BAD:
 
-🧩 Explanation with examples
-1️⃣ On a form submit
-const handleSubmit = (e) => {
-  e.preventDefault(); // stop page reload
-  console.log("Form submitted, but page did not reload!");
-};
-
-<form onSubmit={handleSubmit}>
-  <input type="text" placeholder="Type something" />
-  <button type="submit">Submit</button>
-</form>
-
-
-Without preventDefault() → page reloads when you submit
-
-With preventDefault() → you handle submission yourself without reload
-
-2️⃣ On a link
-<a
-  href="https://google.com"
-  onClick={(e) => {
-    e.preventDefault(); // stop navigation
-    alert("Link clicked, but browser did not go to Google");
-  }}
->
-  Click me
-</a>
-
-
-Normally, clicking would go to Google
-
-preventDefault() stops the browser → you can handle the click in React
----------------------------------
-add to datenow that it is also recommens to be used ,
-as is fo robjects for its unquness, or if teh nubers is t0oo long you could use , 
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
-add to number is integer question, add number is nan
-Number.isNaN(value)
-
-Checks if a value is literally NaN.
-
-Number.isNaN(NaN)  // true
-Number.isNaN(5)    // false
-Number.isNaN("foo") // false (important: only true for actual NaN)
-
-
-Number.isFinite(value)
-
-Checks if a value is a finite number (not NaN or Infinity).
-
-Number.isFinite(5)       // true
-Number.isFinite(Infinity) // false
-Number.isFinite(NaN)      // false
-Number.isFinite("5")      // false
-Number.isSafeInteger(value)
-
-Checks if a number is a safe integer within JS number limits (-(2^53 -1) to 2^53 -1).
-
-Number.isSafeInteger(9007199254740991) // true
-Number.isSafeInteger(9007199254740992) // false
-
-
-
-
-isNumber(value) checks if a value is truly a number and not NaN.
-
-Example:
-
-const isNumber = (value) => typeof value === "number" && !Number.isNaN(value);
-
-console.log(isNumber(5));       // true
-console.log(isNumber(NaN));     // false
-console.log(isNumber("hello")); // false
-
-
-
------------------------------
-add select input type to type of inputs question
-
-<select>
-  <option value="shopping">Shopping</option>
-  <option value="food">Food</option>
-  <option value="transport">Transport</option>
-</select>
-The user sees a dropdown and can pick one of the options.
-
-value = what gets sent when the form is submitted
-
-add input type date , to input also  , fo rdate only 
------------------------------
-ADD TO PARSEFLOAT QUESTION
-
-what is the parse float function
-parseFloat()
-
-Takes a string and converts it to a floating-point number (decimal included).
-
-Stops reading when it hits something that isn’t a number.
-
-Examples:
-
-parseFloat("12.442"); // 12.442  → keeps the decimal
-parseFloat("12ddd");  // 12      → stops at "d"
-parseFloat("abc12");  // NaN     → no number at the start
------------------------------
-what are some "on" event ahndlers/eveent props in react
-onClick
-
-Runs when you click a button or element.
-
-Example:
-
-<button onClick={() => console.log("Button clicked!")}>Click me</button>
-
-
-Every time you click → the function runs.
-
-2️⃣ onChange
-
-Runs when the value of an input changes.
-
-Example:
-
-<input type="text" onChange={(e) => console.log(e.target.value)} />
-
-
-Every time you type → the function runs.
-
-3️⃣ onSubmit
-
-Runs when a form is submitted, usually by:
-
-Pressing Enter in an input
-
-Clicking a <button type="submit"> inside the form
-
-Example:
-
-<form onSubmit={handleSubmit}>
-  <input type="text" />
-  <button type="submit">Submit</button>
-</form>
-
-
-When the form is submitted → handleSubmit runs
-
-Without e.preventDefault() → browser reloads the page
-
-With e.preventDefault() → you can handle the data yourself (React-style)
-
-onMouseEnter	Runs when the mouse moves over an element
-onMouseLeave	Runs when the mouse leaves an element
-onKeyDown	Runs when a key is pressed
-onKeyUp	Runs when a key is released
-onFocus	Runs when an input gets focus
-onBlur	Runs when an input loses focus
-onDoubleClick	Runs on double click
-onScroll	Runs when a container is scrolled
-
------------------------------
-why is it better to use  <label> with inputs in React
-1️⃣ Wrapping input inside a label
-<label>
-  Expense Title:
-  <input
-    type="text"
-    placeholder="e.g. Movie ticket"
-    value={title}
-    onChange={(e) => setTitle(e.target.value)}
-  />
-</label>
-
-
-Key points:
-
-The text inside the <label> is automatically linked to the input.
-
-Clicking the label focuses the input.
-
-Improves accessibility for screen readers.
-
-No need for id + htmlFor if the input is inside the label.
----------------------
-what is rendering in react and give examples 
-
-It turns your JavaScript code (JSX) into real HTML elements that the browser can show.
-
-Example 1 – Simple JSX Render
-function App() {
-  return <h1>Hello World!</h1>;
+if (isLoggedIn) {
+  useState(0); // sometimes skipped → order changes → breaks
 }
 
 
-🗣️ Sentence:
+Why is this wrong?
+Because if isLoggedIn is false, React will SKIP the hook → order changes → crash.
 
-React is rendering the <h1> element that says “Hello World!” on the screen.
+3. Never put hooks inside loops or functions
 
-That means it’s turning that line of JSX into something the browser can display — literally <h1>Hello World!</h1>.
+❌ BAD:
 
-🧩 Example 2 – Conditional Rendering
-function Greeting({ isLoggedIn }) {
+for (let i = 0; i < 3; i++) {
+  useEffect(() => {}); // illegal
+}
+
+
+❌ BAD:
+
+function doSomething() {
+  useState(5); // illegal
+}
+
+
+Hooks can only be called in:
+
+React component functions
+
+Custom hooks
+
+4. Hooks MUST always run before any early return
+
+✔ SAFE:
+
+const [a, setA] = useState(0);
+const [b, setB] = useState(1);
+
+if (!ready) return null;
+
+
+Here, React ALWAYS sees the hooks.
+Order never changes.
+
+❌ NOT SAFE:
+
+if (!ready) return null;
+
+useState(0); // sometimes skipped, sometimes not
+
+5. You can write hooks in any order
+
+This is allowed:
+
+useEffect(() => {}, []);
+useState(100);
+useMemo(() => 5, []);
+useCallback(() => {}, []);
+
+
+Order DOESN’T MATTER at writing time.
+It only matters that the order stays the same every time the component renders.
+
+✔ Good Example (Follows All Rules)
+function Profile({ user }) {
+  const [count, setCount] = useState(0);  // hook #1
+  const [theme, setTheme] = useState("light"); // hook #2
+
+  useEffect(() => {
+    console.log("User updated");
+  }, [user]);  // hook #3
+
+  if (!user) return <p>No user found</p>; // early return AFTER hooks
+
   return (
     <div>
-      {isLoggedIn ? <p>Welcome back!</p> : <p>Please log in.</p>}
+      <p>{user.name}</p>
+      <button onClick={() => setCount(count + 1)}>+</button>
     </div>
   );
 }
 
+❌ Bad Example (Breaks Hook Rules)
+function Profile({ user }) {
 
-🗣️ Sentence:
+  if (!user) return null;   // ❌ early return BEFORE hooks
 
-When isLoggedIn is true, React renders “Welcome back!” —
-when it’s false, it renders “Please log in.”
-
-Here, conditional rendering just means React decides what to show based on the data.
-
-🧩 Example 3 – Rendering a Component
-function Dashboard() {
-  return (
-    <div>
-      <UserProfile />
-      <Notifications />
-    </div>
-  );
-}
-
-
-🗣️ Sentence:
-
-React renders both the UserProfile and Notifications components inside the Dashboard.
-Each of those components will render their own JSX too.
-
-So React keeps going deeper — each component can render other components.
-It’s like a tree where each branch “renders” smaller branches.
-
-🧩 Example 4 – Re-rendering (state change)
-function Counter() {
   const [count, setCount] = useState(0);
 
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-    </div>
-  );
+  if (count > 5) {
+    useEffect(() => {}, []);  // ❌ hook in a condition
+  }
+
+  return <div>Hi</div>;
 }
 
 
-🗣️ Sentence:
+This will definitely break React.
 
-Each time you click the button, React re-renders the Counter component with the new count.
+⭐ Final Summary
 
-So “re-render” means React redraws that component because its state changed.
--------------------------
-React prev in state updates
+✔ Hooks must run in SAME ORDER every render
 
+✔ Put hooks at the top
 
-What prev is
+❌ No hooks in:
 
-prev stands for “previous state”.
+if statements
 
-When you use the functional form of setState:
+loops
 
-setState(prev => newState)
+early returns
 
+nested functions
 
-React automatically passes the current/latest state as prev.
-Used in the functional form of setState
-
-setState(prev => newState)
+✔ You CAN reorder hooks however you want, just keep them consistent
+-------------------------------
 
 
-Guarantees you always work with the latest state, even if multiple updates happen quickly.
-
-2️⃣ Example with an expense list
-const [expenses, setExpenses] = useState([]);
-
-const handleAddExpense = (expense) => {
-  setExpenses((prev) => [expense, ...prev]);
-};
 
 
-Explanation:
 
-prev = the old array of expenses
 
-[expense, ...prev] = new array with the new expense added at the front
 
-React replaces old state with this new array
 
-nb: any name can be used , prev doesnt have any significant meaning , 
-Example:
-setExpenses((currentState) => {
-  console.log(currentState); // current/latest state automatically passed in by React
-  return [expense, ...currentState]; // new state returned
+
+
+
+
+what are custom hooks in javascript
+Think of a custom hook as a function that packages logic you want to reuse.
+
+It always starts with use
+
+It can use state, effects, or other hooks
+
+It doesn’t render anything itself
+
+You call it inside a component just like useState or useEffect
+
+It’s basically like a “mini helper” for your component.
+
+import { useState } from "react";
+
+// ✅ Custom hook: just wraps useState
+export function useCounter(initial = 0) {
+  const [count, setCount] = useState(initial);
+  return [count, setCount];
+}
+🔹 Using it in a Component
+jsx
+Copy code
+import React from "react";
+import { useCounter } from "./useCounter";
+
+function Counter() {
+  const [count, setCount] = useCounter(0); // call custom hook
+
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Count: {count}
+    </button>
+  );
+}
+
+export default Counter;
+-------------------
+what does it mean for a component to mount and unmount in react
+
+When React renders your component and actually attaches it to the page, the component is mounted. After that, React may update it many times (that’s updates), and eventually it may remove it (that’s unmount).
+
+Here’s the quick breakdown:
+
+✅ Mount
+
+Happens once, when the component first appears.
+
+React creates the component, renders it, and inserts it into the DOM.
+
+In class components, this is when componentDidMount() runs.
+
+In function components, this is when a useEffect(() => {}, []) runs.
+
+🔄 Update
+
+Happens any time props or state change.
+
+Function components rerun their body and effects (with dependencies).
+
+❌ Unmount
+
+When the component is removed from the DOM.
+
+Cleanup effects run here.
+
+Think of it like this:
+
+Mount: You enter the room.
+
+Update: You change clothes, adjust, move around.
+
+Unmount: You leave the room.
+--------------------------------
+what is lazy initilization in react 
+
+Normal usage
+
+This sets state to a function (yes, the function itself becomes the state):
+
+const [value, setValue] = useState(() => {
+  return 5;
 });
 
 
-currentState could be called anything — React just passes the latest state.
+Here, the state is 5, because the function runs IMMEDIATELY.
 
-The function’s return value is what updates the state.
------------------------------------
-how do you set toggle to a button in react, 
-To toggle it when clicking the button:
+🟢 2. Lazy initialization (the real magic)
 
-<button
-  style={style}
-  onClick={() => setDropdown(true)} // OR toggle: setDropdown(!dropdown)
->
---------------------
-Why doesn’t style[1] work when I define my styles as an object in React, and how can I fix it?
+If you do:
 
-💡 Answer:
-1️⃣ What was wrong
-const style = {
-  color: "red",
-  backgroundColor: "orange",
-  newest: {
-    color: "blue",
-    backgroundColor: "red"
+const [value, setValue] = useState(() => expensiveWork());
+
+
+React does not call that function on every render.
+
+It only calls it once — during the initial render.
+
+This is called lazy initialization.
+
+It’s perfect for:
+
+loading from localStorage
+
+heavy computations
+
+generating IDs
+
+large default arrays
+
+Example:
+
+const [savedValue] = useState(() => {
+  console.log("Runs only once!");
+  return JSON.parse(localStorage.getItem("key")) || [];
+});
+
+
+If you didn’t wrap it in a function, it would run every single render — bad.
+-----------------------
+add to the react root question 
+
+
+(write this part in your notes)
+
+React component = returns ONE root.
+map() callback = returns ONE root.
+
+If you have multiple siblings → wrap in:
+
+a <div>
+
+or a <section>
+
+or <> </>
+
+or <React.Fragment> </React.Fragment>
+
+Otherwise React throws errors.
+
+
+1. Only .map() must return ONE JSX root
+
+React checks .map() because it creates UI.
+
+Wrong:
+
+items.map(item => (
+  <p>{item.name}</p>
+  <span>{item.age}</span>  // ❌ two roots
+));
+
+
+Right:
+
+items.map(item => (
+  <>
+    <p>{item.name}</p>
+    <span>{item.age}</span>
+  </>
+));
+
+✅ 2. .filter() doesn’t return JSX → React doesn’t care
+
+It only returns a new array.
+
+const adults = items.filter(i => i.age >= 18);
+
+
+No JSX = No rules.
+
+✅ 3. .filter() + .map() → Only .map() matters
+items
+  .filter(i => i.age >= 18)
+  .map(i => (
+    <div key={i.id}>{i.name}</div>  // ✔ one parent
+  ));
+
+✅ 4. .reduce() also fine — but JSX must follow 1-root rule
+items.reduce((acc, item) => {
+  acc.push(
+    <div key={item.id}>{item.name}</div>  // ✔ one root
+  );
+  return acc;
+}, []);
+
+✅ 5. .forEach() → React doesn’t check anything
+
+Because it returns nothing.
+
+items.forEach(i => console.log(i));
+
+🧠 THE UNBREAKABLE RULE
+
+Any function that returns JSX must return ONE parent element.
+Only .map() normally returns JSX, so it’s the one that throws errors.
+----------------------
+# JavaScript: Object.entries() + Destructuring Pattern
+
+## Title: Converting Objects to Arrays and Extracting Values
+
+---
+
+## Note: What is Object.entries()?
+`Object.entries()` converts an object into an array of `[key, value]` pairs. This is useful when you need to loop through an object.
+
+## Code Example:
+```javascript
+const myObject = {
+  "Shopping": { items: [1, 2, 3], total: 100 },
+  "Food": { items: [4, 5], total: 50 }
+};
+
+// Object.entries() converts it to:
+[
+  ["Shopping", { items: [1, 2, 3], total: 100 }],
+  ["Food", { items: [4, 5], total: 50 }]
+]
+```
+
+---
+
+## Note: Destructuring Arrays
+When you have an array like `["Shopping", { items: [...], total: 100 }]`, you can extract values using destructuring.
+
+## Code Example:
+```javascript
+const pair = ["Shopping", { items: [1, 2, 3], total: 100 }];
+
+// Destructure the array:
+const [category, data] = pair;
+// category = "Shopping"
+// data = { items: [1, 2, 3], total: 100 }
+```
+
+---
+
+## Note: Destructuring Objects (with Renaming)
+When destructuring an object, you can rename properties using the syntax `oldName: newName`.
+
+## Code Example:
+```javascript
+const data = { expenses: [1, 2, 3], total: 100 };
+
+// Destructure and rename:
+const { expenses: categoryExpenses, total } = data;
+// categoryExpenses = [1, 2, 3]  (renamed from "expenses")
+// total = 100
+```
+
+---
+
+## Note: Combining Everything - The Full Pattern
+This is the pattern used in ExpenseList.jsx line 42. It combines Object.entries(), array destructuring, and object destructuring with renaming.
+
+## Code Example:
+```javascript
+const expensesByCategory = {
+  "Shopping": { expenses: [1, 2, 3], total: 150 },
+  "Food": { expenses: [4, 5], total: 80 }
+};
+
+// Step 1: Convert to array of pairs
+Object.entries(expensesByCategory)
+// Returns: [["Shopping", {...}], ["Food", {...}]]
+
+// Step 2: Map through each pair and destructure
+.map(([category, { expenses: categoryExpenses, total }]) => {
+  // category = "Shopping" (first element of array)
+  // categoryExpenses = [1, 2, 3] (renamed from "expenses")
+  // total = 150
+  
+  console.log(category);           // "Shopping"
+  console.log(categoryExpenses);   // [1, 2, 3]
+  console.log(total);              // 150
+})
+```
+
+---
+
+## Note: Why This Pattern is Useful
+- You can loop through objects (which you can't do directly with `.map()`)
+- You get both the key (category name) and value (the data) at the same time
+- You can rename properties to avoid confusion
+- It's clean and readable
+
+---
+
+## Quick Reference Template:
+```javascript
+Object.entries(yourObject).map(([key, value]) => {
+  // key = the object's key (like "Shopping")
+  // value = the object's value (like { expenses: [...], total: 100 })
+  
+  // If value is an object, you can destructure it further:
+  const { property1: newName1, property2 } = value;
+})
+```
+
+---
+
+## Real-World Example (From ExpenseList.jsx):
+```javascript
+{Object.entries(expensesByCategory).map(([category, { expenses: categoryExpenses, total }]) => {
+  // Now you can use:
+  // - category (the category name string)
+  // - categoryExpenses (the array of expenses, renamed)
+  // - total (the total amount)
+  
+  return <div>{category}: ${total}</div>;
+})}
+```
+
+---------------------------
+how do you add homepage pointing to github url for react projects
+Add homepage in package.json
+
+Open package.json
+
+Add a top-level "homepage" property pointing to your GitHub Pages URL:
+
+"homepage": "https://your-username.github.io/your-repo-name"
+
+
+Make sure it is outside the "scripts" section.
+
+2️⃣ Install gh-pages
+
+This package will handle deploying your build folder to GitHub Pages:
+
+npm install gh-pages --save-dev
+
+3️⃣ Add deploy scripts
+
+In the "scripts" section of package.json, add:
+
+"predeploy": "npm run build",
+"deploy": "gh-pages -d build"
+
+
+predeploy: automatically builds your project before deployment
+
+deploy: pushes the build folder to the gh-pages branch on GitHub
+
+Example "scripts" section:
+
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "lint": "eslint .",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
+}
+
+4️⃣ Deploy your app
+
+Run the deploy command:
+
+npm run deploy
+
+
+Wait a few seconds, then visit:
+
+https://your-username.github.io/your-repo-name/
+
+
+--------------------------------
+what is cascading renders in jsx 
+"Don't call setState (like setData) directly inside a useEffect because it can cause cascading renders."
+What "cascading renders" means
+When you call setData, React re-renders the component. If that happens inside useEffect, and the effect runs again, it can create a loop:
+
+Component renders → useEffect runs → setData() → Component re-renders → useEffect runs again → setData() → ... (infinite loop!) and the cycle ,goen on and on and on
+
+The solution
+Instead of:
+// ❌ Function defined OUTSIDE useEffectconst fetchData = async () => {  setData(json);};useEffect(() => {  fetchData();  // Calling it from useEffect}, []);
+Do this:
+// ✅ Function defined INSIDE useEffectuseEffect(() => {  const fetchData = async () => {    setData(json);  };  fetchData();  // Then call it}, []);
+Why this work
+The function is scoped to the effect, so the linter sees it's only used there.
+The async/await pattern is clear, so the state update happens after async work.
+This satisfies the linter rule.
+----------------------------
+How do you use async await in reac to call api ?
+How to use async/await in React (quick reference)
+
+State setup
+
+const [data, setData] = useState(null);
+const [loading, setLoading] = useState(true);
+
+
+Create async function to fetch data
+
+const fetchData = async () => {
+  try {
+    setLoading(true);
+    const res = await fetch("API_URL");
+    const json = await res.json();
+    setData(json);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
   }
 };
 
 
-style is a plain object, not an array.
+Call it in useEffect to run on mount
 
-It has keys: color, backgroundColor, newest.
-
-There is no numeric index [1] — so style[1] is undefined.
-
-Result: Your button won’t get any styles.
-
-2️⃣ How to fix it (access by key)
-
-If you want to use the newest style:
-
-<button style={style.newest} onClick={() => setDropdown(!dropdown)}>
-  Show Stats
-</button>
+useEffect(() => {
+  fetchData();
+}, []);
 
 
-Access by key name, not index.
+Optional: call it on button click
 
-3️⃣ Alternative: use an array of styles
-const styles = [
-  { color: "red", backgroundColor: "orange" },
-  { color: "blue", backgroundColor: "red" }
-];
-
-<button style={styles[1]} onClick={() => setDropdown(!dropdown)}>
-  Show Stats
-</button>
+<button onClick={fetchData}>Load Data</button>
 
 
-Arrays use numeric indices → now styles[1] exists and works.
-----------------------------
-what is usememo in react js 
-useMemo is a React Hook that memoizes (remembers) the result of a calculation so React can skip redoing the work when the inputs haven’t changed.Think of it as:
+Render state safely
 
-“Hey React, only redo this heavy calculation if its inputs change, otherwise just give me the last result.”
+{loading ? <p>Loading...</p> : <p>{data?.someField}</p>}
 
 
-const memoizedValue = useMemo(() => {
-  // expensive calculation
-  return computeSomething(a, b);
-}, [a, b]); // dependencies
-The first argument: a function that returns a value
+💡 Tips
 
-The second argument: an array of dependencies (a, b)
+Always wrap async calls in try/catch.
 
-React will recompute memoizedValue only if a or b change
+Update loading state to handle spinners/messages.
 
-
-import React, { useState, useMemo } from "react";
-
-function App() {
-  const [count, setCount] = useState(0);
-  const [text, setText] = useState("");
-
-  const expensiveCalculation = useMemo(() => {
-    console.log("Calculating...");
-    return count * 2;
-  }, [count]);
-
-  return (
-    <div>
-      <p>Expensive calculation: {expensiveCalculation}</p>
-      <button onClick={() => setCount(count + 1)}>Increase Count</button>
-      <input value={text} onChange={e => setText(e.target.value)} />
-    </div>
-  );
-}
-
+Use useCallback if you pass the async function to useEffect or buttons repeatedly.
 -----------------------------
-
-what is the .tofixed js method 
- 
- toFixed() is a JavaScript number method
- What it does
-
-.toFixed(n) rounds a number to n decimal places and returns it as a string.
-
-n = number of digits after the decimal point
-
-2️⃣ Examples
-const num = 12.3456;
-
-num.toFixed(2); // "12.35"  → rounded to 2 decimals
-num.toFixed(0); // "12"     → no decimals
-num.toFixed(4); // "12.3456" → 4 decimals
-
-
-Notice: the result is always a string, not a number.
-Converting back to number (optional)
-const rounded = parseFloat(num.toFixed(2)); // 12.35 as a number
------------------------
 

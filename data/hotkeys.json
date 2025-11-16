@@ -13,6 +13,11 @@
     "tags": ["tabs", "navigation", "windows"],
     "code": "// Alternative methods:\n// Ctrl + Shift + Tab - Switch tabs in reverse\n// Ctrl + 1,2,3... - Jump to specific tab number\n// Ctrl + W - Close current tab\n// Ctrl + T - Open new tab"
   },
+    {
+    "question": "What is the shortcut to delete an entire line in VS Code?",
+    "answer": "Windows/Linux: Ctrl + Shift + K.",
+    "type": "vscode"
+  },
   {
     "question": "What is the shortcut to minimize all windows and show desktop?",
     "answer": "**Win + D**\n\nThis shortcut minimizes all open windows and shows the desktop. Press Win + D again to restore all windows.",
