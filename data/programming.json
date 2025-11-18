@@ -2,27 +2,23 @@
   {
     "question": "How do I start a Playwright file in CMD?",
     "answer": "# Install Playwright:\nnpm install playwright\n\n# Run test:\nnpx playwright test filename.spec.js",
-    "type": "javascript",
-    "tags": ["javascript", "playwright"]
+    "type": "javascript"
   },
 
   {
     "question": "What are the names of these symbols: () [] <> {} / \\ |",
     "answer": "() - Parentheses\n[] - Square brackets / Brackets\n<> - Angle brackets\n{} - Curly braces / Braces\n/ - Forward slash\n\\ - Backslash\n| - Pipe / Vertical bar",
-    "type": "html",
-    "tags": ["symbols"]
+    "type": "html"
   },
   {
     "question": "How do I see the commit history?",
     "answer": "git log\n\n# Optional for a one-line view:\ngit log --oneline",
-    "type": "shell",
-    "tags": ["git"]
+    "type": "shell"
   },
   {
     "question": "How do I check the current branch?",
     "answer": "git branch\n\n# Or just the current branch:\ngit branch --show-current",
-    "type": "shell",
-    "tags": ["git"]
+    "type": "shell"
   },
   {
     "question": "How do you open Command Prompt or PowerShell directly from File Explorer in a directory?",

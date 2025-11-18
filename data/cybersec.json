@@ -1,38 +1,273 @@
 [
-
   {
-    "question": "What are different HTTP status codes and their meanings?",
-    "answer": "**HTTP Status Codes – Web Response Codes**\n\n**1xx Informational:**\n- **100** - Continue\n- **101** - Switching Protocols\n\n**2xx Success:**\n- **200** - OK (Request successful)\n- **201** - Created (Resource created)\n- **204** - No Content (Success, no content)\n\n**3xx Redirection:**\n- **301** - Moved Permanently\n- **302** - Found (Temporary redirect)\n- **304** - Not Modified (Cached version)\n\n**4xx Client Error:**\n- **400** - Bad Request (Invalid request)\n- **401** - Unauthorized (Authentication required)\n- **403** - Forbidden (Access denied)\n- **404** - Not Found (Resource not found)\n- **429** - Too Many Requests (Rate limited)\n\n**5xx Server Error:**\n- **500** - Internal Server Error\n- **502** - Bad Gateway\n- **503** - Service Unavailable\n- **504** - Gateway Timeout",
-    "type": "cybersec",
-    "tags": ["http-status", "web-security", "response-codes"],
-    "code": "// Common status codes in security testing:\n// 200 - Successful request\n// 301/302 - Redirects (potential security issues)\n// 401 - Authentication required\n// 403 - Access denied (forbidden)\n// 404 - Not found (information disclosure)\n// 500 - Server error (potential vulnerability)\n\n// Security implications:\n// 401 - Weak authentication\n// 403 - Access control issues\n// 500 - Information disclosure\n// 429 - Rate limiting bypass"
-  },
-  {
-    "question": "What is Burp Suite used for?",
-    "answer": "**Burp Suite:**\n\n**What it is:**\n- Web application security testing platform\n- Comprehensive toolkit for penetration testing\n- Industry standard for web security\n\n**Main Components:**\n- **Proxy** - Intercept and modify traffic\n- **Scanner** - Automated vulnerability scanning\n- **Intruder** - Custom attack automation\n- **Repeater** - Manual request testing\n\n**Features:**\n- **Traffic Interception** - Capture HTTP/HTTPS\n- **Vulnerability Scanning** - Automated testing\n- **Manual Testing** - Custom attacks\n- **Report Generation** - Professional reports\n\n**Common Uses:**\n- Web application testing\n- API security testing\n- Authentication bypass\n- Input validation testing\n\n**Attack Types:**\n- SQL injection\n- Cross-site scripting (XSS)\n- Authentication bypass\n- Business logic flaws\n\n**Legal Use:**\n- Only test authorized systems\n- Get permission before testing\n- Follow responsible disclosure"
-  },
-
-  {
-    "question": "What is the Intercept tool in Burp Suite and how to use it?",
-    "answer": "**Burp Suite Intercept Tool**\n\n**What it is:**\nThe Intercept tool in Burp Suite is used to intercept HTTP/HTTPS requests and responses between your browser and the target server before they reach their destination.\n\n**How to use it:**\n1. **Enable Proxy** - Turn on Burp's proxy (usually 127.0.0.1:8080)\n2. **Configure Browser** - Set browser to use Burp as proxy\n3. **Start Intercepting** - Click 'Intercept is on' button\n4. **Browse Target Site** - Navigate to the application\n5. **Modify Requests** - Edit intercepted requests before forwarding\n6. **Forward/Drop** - Send modified request or drop it\n\n**Common use cases:**\n- Modify parameters in requests\n- Change HTTP methods (GET to POST)\n- Add/remove headers\n- Test for vulnerabilities\n- Bypass client-side validation\n\n**Example workflow:**\n1. Intercept login request\n2. Modify username parameter\n3. Forward modified request\n4. Analyze server response",
-    "type": "cybersec",
-    "tags": ["burp-suite", "intercept", "proxy", "web-testing"],
-    "code": "// Burp Suite Intercept Workflow:\n// 1. Configure proxy: 127.0.0.1:8080\n// 2. Install Burp certificate for HTTPS\n// 3. Enable 'Intercept is on'\n// 4. Browse target application\n// 5. Modify intercepted requests:\n//    - Change parameters\n//    - Add headers\n//    - Modify HTTP method\n// 6. Forward or drop requests\n\n// Common modifications:\n// Original: username=admin&password=123\n// Modified: username=admin' OR '1'='1' --&password=anything\n// Add header: X-Forwarded-For: 127.0.0.1\n// Change method: GET → POST"
-  },
-
-  {
-    "question": "What is the Comparer tool in Burp Suite?",
-    "answer": "**Burp Suite Comparer Tool**\n\n**What it is:**\nThe Comparer tool allows you to compare two pieces of data (requests, responses, or text) to identify differences between them.\n\n**How to use it:**\n1. **Load Data** - Paste or load two pieces of data to compare\n2. **Choose Comparison** - Select 'Words' or 'Bytes' comparison\n3. **Analyze Differences** - View highlighted differences\n4. **Export Results** - Save comparison results\n\n**Common use cases:**\n- Compare responses before/after parameter changes\n- Identify differences in error messages\n- Analyze authentication responses\n- Compare different user roles\n- Detect information leakage\n\n**Comparison types:**\n- **Words**: Compares text content word by word\n- **Bytes**: Compares raw byte-level differences\n\n**Example scenarios:**\n- Compare login success vs failure responses\n- Analyze different user privilege levels\n- Detect hidden parameters in responses\n- Identify timing differences",
-    "type": "cybersec",
-    "tags": ["burp-suite", "comparer", "analysis", "web-testing"],
-    "code": "// Burp Suite Comparer Examples:\n// 1. Load two HTTP responses\n// 2. Select 'Words' comparison\n// 3. Analyze highlighted differences\n\n// Common comparisons:\n// - Valid vs invalid login responses\n// - Admin vs user account responses\n// - Before/after parameter modifications\n// - Different HTTP methods responses\n\n// What to look for:\n// - Different error messages\n// - Hidden parameters\n// - Timing differences\n// - Information leakage\n// - Authentication bypasses"
-  },
-
-  {
-    "question": "How to use Burp Suite Repeater?",
-    "answer": "**Burp Suite Repeater Tool**\n\n**What it is:**\nRepeater allows you to manually modify and re-send individual HTTP requests to analyze how the application responds to different inputs.\n\n**How to use it:**\n1. **Send Request** - Right-click request in Proxy/Scanner → 'Send to Repeater'\n2. **Modify Parameters** - Edit request parameters, headers, or body\n3. **Send Request** - Click 'Send' button to execute\n4. **Analyze Response** - Review server response\n5. **Iterate** - Make changes and send again\n\n**Key features:**\n- **Manual Testing** - Full control over request modification\n- **Iterative Testing** - Send multiple variations\n- **Response Analysis** - Detailed response inspection\n- **Request History** - Track all sent requests\n\n**Common use cases:**\n- Test SQL injection payloads\n- Analyze authentication mechanisms\n- Test for authorization bypasses\n- Parameter fuzzing\n- Session management testing\n\n**Workflow example:**\n1. Capture login request in Proxy\n2. Send to Repeater\n3. Modify username parameter\n4. Send and analyze response\n5. Try different payloads",
-    "type": "cybersec",
-    "tags": ["burp-suite", "repeater", "manual-testing", "web-testing"],
-    "code": "// Burp Suite Repeater Workflow:\n// 1. Right-click request → 'Send to Repeater'\n// 2. Modify request parameters:\n//    - Change parameter values\n//    - Add/remove headers\n//    - Modify request body\n// 3. Click 'Send' to execute\n// 4. Analyze response:\n//    - Status code\n//    - Response headers\n//    - Response body\n// 5. Iterate with different values\n\n// Common modifications:\n// Original: username=admin\n// Modified: username=admin' OR '1'='1' --\n// Add header: X-Forwarded-For: 127.0.0.1\n// Change method: GET → POST"
-  }
+  "question": "What is elicitation and what methods are used?",
+  "answer": "Elicitation = Discovering what stakeholders need\n\nMethods:\n- Workshops\n- Interviews\n- Surveys\n- Document review\n- Observation\n- Market research\n- Use cases\n- Prototyping\n\nMnemonic: WISDOM-CUP",
+  "type": "business-analysis"
+},
+{
+  "question": "What documents and techniques are used in requirements documentation?",
+  "answer": "Documents we create:\n- SRS/PRD (main requirements)\n- Vision & Scope\n- Backlog\n- Use cases\n- Wireframes\n- Data models\n\nHow we write them:\n- Draw diagrams\n- Write user stories\n- Create prototypes\n- Build glossaries\n- Link requirements to tests\n\nMnemonic: MUSTARD-PUG",
+  "type": "business-analysis"
+},
+{
+  "question": "What makes requirements clear and effective?",
+  "answer": "Good requirements are:\n- Atomic (one idea each)\n- Clear (no vague terms)\n- Complete (all details)\n- Consistent (no conflicts)\n- Testable (can be verified)\n- Traceable (linked to source)\n- Feasible (realistic)\n\nTips:\n- Use simple language\n- Define measurements\n- List assumptions\n- Include error handling\n\nMnemonic: ACCURATE-FIN",
+  "type": "business-analysis"
+},
+{
+  "question": "What is Goal-Oriented Requirements Engineering (GORE)?",
+  "answer": "GORE = Start with WHY before WHAT\n\nKey concepts:\n- Goals = What we want to achieve\n- Soft goals = Qualities like speed, security\n- Break big goals into smaller ones\n- Show how goals help/hurt each other\n\nSteps:\n1. Find stakeholder goals\n2. Break them down\n3. Check trade-offs\n4. Turn into requirements\n5. Link to tests\n\nBenefit: Focuses on real needs, not just features",
+  "type": "business-analysis"
+},
+{
+  "question": "What are strategic goals and their characteristics?",
+  "answer": "Strategic goals = Long-term direction for the business\n\nCharacteristics:\n- Long-term focus\n- Aligns with company mission\n- Measurable with KPIs\n\nMnemonic: LAM (Long-term, Aligned, Measurable)",
+  "type": "business-analysis"
+},
+{
+  "question": "What are functional goals and their characteristics?",
+  "answer": "Functional goals = What the system must DO\n\nCharacteristics:\n- Specific and actionable\n- Linked to user needs\n- Can be tested\n- Realistic to achieve\n- Turn into requirements\n\nMnemonic: CLEAR",
+  "type": "business-analysis"
+},
+{
+  "question": "What are the benefits of GORE?",
+  "answer": "Benefits of Goal-Oriented Requirements Engineering:\n- Focus on outcomes, not just features\n- Aligns strategy with details\n- Finds conflicts early\n- Clear tracking from goals to tests\n- Better prioritization\n\nMnemonic: FOCUSED",
+  "type": "business-analysis"
+},
+{
+  "question": "What are the steps in GORE?",
+  "answer": "GORE Steps:\n1. Identify stakeholders and goals\n2. Find conflicts and dependencies\n3. Break goals into smaller goals\n4. Model alternatives\n5. Assign responsibilities\n6. Set measurements\n7. Create requirements\n\nMnemonic: GOAL MAPS",
+  "type": "business-analysis"
+},
+{
+  "question": "What are common modeling techniques?",
+  "answer": "Modeling Techniques:\n- Use case modeling\n- UML diagrams\n- Data flow diagrams\n- Process modeling\n- User story mapping\n- Wireframes\n\nMnemonic: SPREADS",
+  "type": "business-analysis"
+},
+{
+  "question": "What are common modeling languages?",
+  "answer": "Modeling Languages:\n- UML (system diagrams)\n- BPMN (process flows)\n- ER notation (data relationships)\n- Gherkin (behavior specs)\n\nMnemonic: BUS ADS",
+  "type": "business-analysis"
+},
+{
+  "question": "What are challenges with GORE?",
+  "answer": "GORE Challenges:\n- Finding true stakeholder goals\n- Resolving conflicts\n- Measuring soft goals\n- Keeping track as goals change\n- Can become too abstract\n- Learning curve\n\nMnemonic: COMPLEX MAP",
+  "type": "business-analysis"
+},
+{
+  "question": "What is a Use Case and its key elements?",
+  "answer": "Use Case = How user interacts with system to achieve goal\n\nKey elements:\n- Actor (who)\n- Goal (why)\n- Trigger (what starts it)\n- Steps (what happens)\n- Alternatives (what if...)\n- End result\n\nMnemonic: APT MAP-PEP",
+  "type": "business-analysis"
+},
+{
+  "question": "What are the components of a Use Case diagram?",
+  "answer": "Use Case Diagram Components:\n- Actors (stick figures)\n- Use cases (ovals)\n- System boundary (box)\n- Connection lines\n- Include/extend relationships\n\nMnemonic: A-B-O-LIE",
+  "type": "business-analysis"
+},
+{
+  "question": "How do you create a Use Case diagram?",
+  "answer": "Steps to create Use Case diagram:\n1. Identify actors\n2. List their goals\n3. Draw system boundary\n4. Add use cases inside\n5. Connect actors to use cases\n6. Show relationships\n\nMnemonic: ACT-BOX-LINK",
+  "type": "business-analysis"
+},
+{
+  "question": "What is the basic Use Case template?",
+  "answer": "Use Case Template:\n- Title and scope\n- Actor\n- Trigger\n- Preconditions\n- Main steps\n- Alternative flows\n- End result\n- Acceptance criteria\n\nMnemonic: T3P-MAPSE",
+  "type": "business-analysis"
+},
+{
+  "question": "What is an example of a filled use case template?",
+  "answer": "Example: ATM Cash Withdrawal\n\nTitle: Withdraw Cash\nActor: Bank Customer\nTrigger: Insert card\nPreconditions: Valid card, ATM working\n\nMain Steps:\n1. Enter PIN\n2. Select withdrawal\n3. Enter amount\n4. Get cash and receipt\n5. Get card back\n\nMnemonic: BANK CASH-OUT",
+  "type": "business-analysis"
+},
+{
+  "question": "What are scenario-based requirements?",
+  "answer": "Scenario-based = Requirements as real-world stories\n\nExample: Mobile checkout with poor connection\n- User in area with bad network\n- Cart saves offline\n- Payment retries when connection returns\n\nMnemonic: SHOP",
+  "type": "business-analysis"
+},
+{
+  "question": "What are key components of scenario-based requirements?",
+  "answer": "Scenario Components:\n- Actors and roles\n- Context and environment\n- Triggers and goals\n- Main flow steps\n- Error cases\n- Success measures\n\nMnemonic: ACTORS MAP",
+  "type": "business-analysis"
+},
+{
+  "question": "What are benefits of scenario-based requirements?",
+  "answer": "Benefits:\n- Less ambiguity with real stories\n- Finds edge cases early\n- Aligns team expectations\n- Creates clear test cases\n- Shows user experience needs\n\nMnemonic: REAL USER",
+  "type": "business-analysis"
+},
+{
+  "question": "What are steps for scenario-based requirements gathering?",
+  "answer": "Steps:\n1. Identify users and goals\n2. Map current workflows\n3. Create scenarios (happy/error paths)\n4. Refine with user feedback\n5. Create prototypes\n6. Write acceptance tests\n\nMnemonic: STORIES",
+  "type": "business-analysis"
+},
+{
+  "question": "What techniques gather scenarios?",
+  "answer": "Gathering Techniques:\n- Workshops with role-playing\n- User observation\n- Journey mapping\n- Prototype testing\n- User interviews\n- Paper prototyping\n\nMnemonic: WORKSHOP",
+  "type": "business-analysis"
+},
+{
+  "question": "What is Requirements Engineering?",
+  "answer": "Requirements Engineering = Systematic process for finding, analyzing, specifying, and managing system needs throughout development.\n\nMnemonic: DASVM",
+  "type": "business-analysis"
+},
+{
+  "question": "What are the 5 Requirements Engineering phases?",
+  "answer": "5 Phases:\n1. Planning - scope and stakeholders\n2. Elicitation - gather needs\n3. Analysis - clarify and prioritize\n4. Specification - document requirements\n5. Validation - review and test\n\nMnemonic: PEARL",
+  "type": "business-analysis"
+},
+{
+  "question": "What are types of Requirements Engineering approaches?",
+  "answer": "Approaches:\n- Viewpoint-based (multiple perspectives)\n- Agile (just-in-time)\n- Goal-oriented (value-focused)\n- Scenario-based (story-driven)\n- Formal (mathematical)\n\nMnemonic: VAGUE",
+  "type": "business-analysis"
+},
+{
+  "question": "What does SDLC stand for and mean?",
+  "answer": "SDLC = Software Development Life Cycle\n\nMeaning: Structured process for planning, building, and maintaining software with quality.\n\nMnemonic: PLAN-BUILD-RUN",
+  "type": "software-engineering"
+},
+{
+  "question": "What are software requirements and why are they important?",
+  "answer": "Software Requirements = Clear statements of what software must do and its limits\n\nImportance:\n- Defines scope\n- Guides development\n- Basis for testing\n- Prevents misunderstandings\n- Ensures quality\n\nMnemonic: TRACE / SAVES",
+  "type": "software-engineering"
+},
+{
+  "question": "What are the types of software requirements?",
+  "answer": "Types:\n- Functional (what it does)\n- Interface (how it connects)\n- Performance (speed/capacity)\n- Security (protection)\n- Data (information handled)\n- Compliance (rules to follow)\n\nMnemonic: FIND PICS",
+  "type": "software-engineering"
+},
+{
+  "question": "What are software requirements gathering methods?",
+  "answer": "Methods:\n- Workshops\n- User interviews\n- Observation\n- Document review\n- Surveys\n- Prototyping\n- Modeling (diagrams)\n- User stories\n\nMnemonic: WOODSPRUCE",
+  "type": "software-engineering"
+},
+{
+  "question": "What are examples of software requirements tools?",
+  "answer": "Requirements Tools:\n- IBM DOORS\n- Jama Connect\n- Jira + Confluence\n- Azure DevOps\n- Enterprise Architect\n- Miro for diagrams\n\nMnemonic: DOORJAMS",
+  "type": "software-engineering"
+},
+{
+  "question": "How do you classify software engineering techniques?",
+  "answer": "Software Engineering Areas:\n- Requirements gathering\n- Architecture design\n- Coding and development\n- Testing and validation\n- Process management\n- Project planning\n- Quality assurance\n- Documentation\n\nMnemonic: CRAWLPAD",
+  "type": "software-engineering"
+},
+{
+  "question": "What is software requirements validation?",
+  "answer": "Validation = Ensuring we're building the RIGHT product that meets user needs\n\nMnemonic: RIGHT",
+  "type": "software-engineering"
+},
+{
+  "question": "What is validation?",
+  "answer": "Validation = Confirming the product actually solves user problems in real-world use\n\nMnemonic: VALUE",
+  "type": "software-engineering"
+},
+{
+  "question": "What is verification?",
+  "answer": "Verification = Checking if we built the product RIGHT according to specifications\n\nMnemonic: SPEC",
+  "type": "software-engineering"
+},
+{
+  "question": "What are the differences between validation and verification?",
+  "answer": "Validation vs Verification:\n- RIGHT product vs RIGHT building\n- User needs vs Technical specs\n- End-to-end testing vs Component testing\n- With stakeholders vs With engineers\n\nMnemonic: FOCUS",
+  "type": "software-engineering"
+},
+{
+  "question": "What are techniques for requirements validation?",
+  "answer": "Validation Techniques:\n- Prototyping\n- User reviews\n- Formal inspections\n- Modeling and simulations\n- User acceptance testing\n\nMnemonic: PRIME",
+  "type": "software-engineering"
+},
+{
+  "question": "What are common requirements errors?",
+  "answer": "Common Errors:\n- Vague terms (like 'fast')\n- Unclear meanings\n- Missing details\n- Untestable statements\n- Solution bias\n\nMnemonic: VAGUE",
+  "type": "software-engineering"
+},
+{
+  "question": "What is acceptance criteria?",
+  "answer": "Acceptance Criteria = Clear, testable conditions that define when a requirement is 'done'\n\nMnemonic: CLEAR",
+  "type": "software-engineering"
+},
+{
+  "question": "What is the purpose of acceptance criteria?",
+  "answer": "Purpose:\n- Sets clear expectations\n- Enables testing\n- Defines scope boundaries\n- Clarifies what 'done' means\n\nMnemonic: BOND",
+  "type": "software-engineering"
+},
+{
+  "question": "What are validation merits and examples?",
+  "answer": "Validation Merits = Benefits of early validation\n\nExamples:\n- Prevents costly rework\n- Gets team alignment faster\n- Improves usability\n- Reduces defects\n\nMnemonic: GAIN",
+  "type": "software-engineering"
+},
+{
+  "question": "What is the purpose of validation merits?",
+  "answer": "Purpose = To show the value of early validation and justify investing time in it\n\nMnemonic: PROVE",
+  "type": "software-engineering"
+},
+{
+  "question": "Why is requirements documentation essential?",
+  "answer": "Why Documentation Matters:\n- Single source of truth\n- Guides design and development\n- Supports change management\n- Improves team communication\n\nMnemonic: TRUTH",
+  "type": "software-engineering"
+},
+{
+  "question": "What helps provide consistency and quality in requirements documentation?",
+  "answer": "Standards and templates ensure consistent, high-quality documentation.\n\nMnemonic: STANDARDS",
+  "type": "software-engineering"
+},
+{
+  "question": "What do IEEE, ISO, 29148, 830, and IEC stand for?",
+  "answer": "IEEE - Electrical and Electronics Engineers\nISO - International Organization for Standardization\n29148 - Requirements Engineering standard\n830 - Old SRS guidance standard\nIEC - International Electrotechnical Commission\n\nMnemonic: NAMES & NUMBERS",
+  "type": "software-engineering"
+},
+{
+  "question": "What is IEEE 830 about?",
+  "answer": "IEEE 830 = Guidance for writing Software Requirements Specifications (now replaced by 29148)\n\nMnemonic: SRS-GUIDE",
+  "type": "software-engineering"
+},
+{
+  "question": "What is traceability in software engineering?",
+  "answer": "Traceability = Following requirements from source to design to code to tests and back\n\nMnemonic: LINK",
+  "type": "software-engineering"
+},
+{
+  "question": "What are three types of traceability?",
+  "answer": "Traceability Types:\n- Bidirectional (forward and backward)\n- Vertical (goals to requirements to tests)\n- Forward-only (requirements to design)\n\nMnemonic: BVD",
+  "type": "software-engineering"
+},
+{
+  "question": "Why is traceability important in documentation?",
+  "answer": "Traceability Benefits:\n- Proves requirements coverage\n- Controls changes safely\n- Speeds up audits\n- Helps maintenance\n\nMnemonic: PACE",
+  "type": "software-engineering"
+},
+{
+  "question": "How do you achieve consistency, completeness and modifiability in requirements?",
+  "answer": "Best Practices:\n- Use standards and templates\n- Write clear, single-idea requirements\n- Conduct reviews\n- Maintain version control\n- Use diagrams to find gaps\n\nMnemonic: RULES",
+  "type": "software-engineering"
+},
+{
+  "question": "What is a usability requirement?",
+  "answer": "Usability Requirement = Measurable statement about how easy and efficient a system is to use\n\nIncludes:\n- Learning time\n- Task efficiency\n- Error rates\n- User satisfaction\n- Accessibility\n\nMnemonic: MEETS",
+  "type": "ui-design"
+},
+{
+  "question": "What are three widely used UI design techniques?",
+  "answer": "UI Design Techniques:\n- Prototyping (paper to interactive)\n- Personas and user journeys\n- Design systems and patterns\n\nMnemonic: PPP",
+  "type": "ui-design"
+},
+{
+  "question": "What are key UI design principles?",
+  "answer": "UI Design Principles:\n- Consistency\n- Clear feedback\n- Error prevention\n- Minimal cognitive load\n- Accessibility\n- Visual hierarchy\n- User control\n- Real-world match\n\nMnemonic: CRASH FIT",
+  "type": "ui-design"
+},
+{
+  "question": "What are six human-computer interaction basics?",
+  "answer": "HCI Basics:\n- Mental models\n- Clear feedback\n- Easy discovery\n- Error handling\n- Reduced cognitive load\n- Physical ergonomics\n\nMnemonic: MODELS",
+  "type": "ui-design"
+},
+{
+  "question": "What is software design?",
+  "answer": "Software Design = Translating requirements into architecture and components that guide implementation\n\nMnemonic: MAP",
+  "type": "software-engineering"
+},
+{
+  "question": "What are six fundamental design concepts?",
+  "answer": "Design Concepts:\n- Separation of concerns\n- Modularity\n- Abstraction\n- Design patterns\n- Encapsulation\n- Top-down design\n\nMnemonic: STAMPD",
+  "type": "software-engineering"
+}
 ]
+ 
