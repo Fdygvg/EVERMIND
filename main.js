@@ -1097,7 +1097,7 @@ function loadTheme() {
 // Old showSwipeFeedback removed - using advanced implementation below
 // Archive Configuration
 const sectionConfig = {
-    active: ['programming', 'cybersec', 'hotkeys', 'country_flags'],
+    active: ['programming', 'programming-mastered', 'cybersec', 'hotkeys', 'country_flags'],
     archived: ['bible', 'chess', 'psychology', 'new_words', 'facts', 
                'history', 'science', 'youtube_knowledge', 'anatomy', 
                'binance_futures', 'memes_brainrot', 'languages', 'igbo']
@@ -1106,6 +1106,7 @@ const sectionConfig = {
 const sections = [
     { id: 'languages', name: 'Languages', icon: '🌍', status: 'archived' },
     { id: 'programming', name: 'Programming', icon: '💻', status: 'active' },
+    { id: 'programming-mastered', name: 'Programming Mastered', icon: '⭐', status: 'active' },
     { id: 'bible', name: 'Bible', icon: '📖', status: 'archived' },
     { id: 'science', name: 'Science', icon: '🔬', status: 'archived' },
     { id: 'history', name: 'History', icon: '🏛️', status: 'archived' },

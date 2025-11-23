@@ -36,7 +36,7 @@ const questionSchema = new mongoose.Schema({
   section: {
     type: String,
     required: true,
-    enum: ['programming', 'bible', 'country_flags', 'science', 'facts', 'history', 'languages', 'memes_brainrot', 'youtube_knowledge', 'new_words'],
+    enum: ['programming', 'programming-mastered', 'bible', 'country_flags', 'science', 'facts', 'history', 'languages', 'memes_brainrot', 'youtube_knowledge', 'new_words'],
     trim: true
   },
   difficulty: {

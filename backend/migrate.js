@@ -153,7 +153,7 @@ const inferType = (questionData, section) => {
   const answer = (questionData.answer || '').toLowerCase();
   
   // Programming types
-  if (section === 'programming') {
+  if (section === 'programming' || section === 'programming-mastered') {
     if (question.includes('javascript') || question.includes('js')) return 'javascript';
     if (question.includes('python')) return 'python';
     if (question.includes('html')) return 'html';

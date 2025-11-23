@@ -13,7 +13,7 @@
     "tags": ["tabs", "navigation", "windows"],
     "code": "// Alternative methods:\n// Ctrl + Shift + Tab - Switch tabs in reverse\n// Ctrl + 1,2,3... - Jump to specific tab number\n// Ctrl + W - Close current tab\n// Ctrl + T - Open new tab"
   },
-    {
+  {
     "question": "What is the shortcut to delete an entire line in VS Code?",
     "answer": "Windows/Linux: Ctrl + Shift + K.",
     "type": "vscode"
@@ -377,5 +377,10 @@
     "type": "hotkeys",
     "tags": ["vscode", "multi-cursor", "selection"],
     "code": "// Multi-select flow:\n// Ctrl + D - Add next occurrence\n// Ctrl + U - Undo last cursor\n// Ctrl + Shift + L - Select all occurrences"
+  },
+  {
+    "question": "What is the shortcut to toggle word wrap in VS Code?",
+    "answer": "alt + z",
+    "type": "hotkeys"
   }
 ]
