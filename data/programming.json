@@ -11,19 +11,10 @@
   },
   {
     "question": "How does classList.toggle() work and when should you use it?",
-    "answer": "**classList.toggle() - Smart Class Switching**\n\n**🎯 What is classList.toggle()?**\nThe `classList.toggle()` method is a convenient way to add or remove a CSS class from an element. It automatically checks if the class exists and toggles it on/off.\n\n**🔄 Basic Syntax:**\n```javascript\nelement.classList.toggle('className');\n```\n\n**📖 How It Works:**\n```javascript\nconst button = document.querySelector('.my-button');\n\n// Toggle the 'active' class\nbutton.classList.toggle('active');\n\n// First click: adds 'active' class\n// <button class=\"my-button active\">Click me</button>\n\n// Second click: removes 'active' class  \n// <button class=\"my-button\">Click me</button>\n\n// Third click: adds 'active' class again\n// And so on...\n```\n\n**🎨 Practical Examples:**\n\n**Toggle Menu Visibility:**\n```html\n<button class=\"menu-toggle\" onclick=\"toggleMenu()\">☰ Menu</button>\n<nav class=\"main-nav\" id=\"mainNav\">\n  <a href=\"#home\">Home</a>\n  <a href=\"#about\">About</a>\n  <a href=\"#contact\">Contact</a>\n</nav>\n\n<script>\nfunction toggleMenu() {\n  const nav = document.getElementById('mainNav');\n  nav.classList.toggle('nav-open');\n}\n</script>\n\n<style>\n.main-nav {\n  display: none;\n}\n\n.main-nav.nav-open {\n  display: block;\n}\n</style>\n```\n\n**Dark/Light Mode Toggle:**\n```javascript\nfunction toggleDarkMode() {\n  document.body.classList.toggle('dark-mode');\n  \n  // Update button text\n  const button = document.querySelector('.theme-toggle');\n  if (document.body.classList.contains('dark-mode')) {\n    button.textContent = '☀️ Light Mode';\n  } else {\n    button.textContent = '🌙 Dark Mode';\n  }\n}\n```\n\n**Accordion/Collapsible Sections:**\n```html\n<div class=\"accordion\">\n  <button class=\"accordion-header\" onclick=\"toggleSection(this)\">\n    Section 1\n    <span class=\"arrow\">▼</span>\n  </button>\n  <div class=\"accordion-content\">\n    <p>This content can be shown/hidden.</p>\n  </div>\n</div>\n\n<script>\nfunction toggleSection(header) {\n  const content = header.nextElementSibling;\n  content.classList.toggle('active');\n  header.classList.toggle('active');\n}\n</script>\n\n<style>\n.accordion-content {\n  display: none;\n}\n\n.accordion-content.active {\n  display: block;\n}\n\n.accordion-header.active .arrow {\n  transform: rotate(180deg);\n}\n</style>\n```\n\n**🛠️ Advanced Toggle Features:**\n\n**Force State (Add/Remove):**\n```javascript\nconst element = document.querySelector('.my-element');\n\n// Force add (like add() but returns true)\nelement.classList.toggle('active', true);  // Always adds\n\n// Force remove (like remove() but returns false)  \nelement.classList.toggle('active', false); // Always removes\n\n// Normal toggle (automatic)\nelement.classList.toggle('active');        // Toggles based on current state\n```\n\n**Check Current State:**\n```javascript\nfunction isElementActive(element) {\n  return element.classList.contains('active');\n}\n\n// Toggle with condition\nif (isElementActive(myButton)) {\n  console.log('Button is currently active');\n}\n```\n\n**Multiple Classes:**\n```javascript\n// Toggle multiple classes at once\nfunction toggleMultipleClasses(element, ...classNames) {\n  classNames.forEach(className => {\n    element.classList.toggle(className);\n  });\n}\n\n// Usage\ntoggleMultipleClasses(menu, 'open', 'animated', 'visible');\n```\n\n**🎯 Real-World Use Cases:**\n\n**Favorite/Bookmark Toggle:**\n```javascript\nfunction toggleFavorite(bookId) {\n  const heartIcon = document.querySelector(`[data-book=\"${bookId}\"]`);\n  heartIcon.classList.toggle('favorited');\n  \n  // Update icon\n  if (heartIcon.classList.contains('favorited')) {\n    heartIcon.textContent = '❤️';\n  } else {\n    heartIcon.textContent = '🤍';\n  }\n}\n```\n\n**Form Validation States:**\n```javascript\nfunction validateEmail(input) {\n  const isValid = input.value.includes('@');\n  input.classList.toggle('valid', isValid);\n  input.classList.toggle('invalid', !isValid);\n}\n```\n\n**Tab System:**\n```javascript\nfunction switchTab(tabId) {\n  // Remove active from all tabs\n  document.querySelectorAll('.tab').forEach(tab => {\n    tab.classList.remove('active');\n  });\n  \n  // Add active to clicked tab\n  document.getElementById(tabId).classList.add('active');\n}\n\n// Using toggle for simpler implementation\nfunction toggleTab(tabId) {\n  const tab = document.getElementById(tabId);\n  tab.classList.toggle('active');\n}\n```\n\n**📊 Toggle vs Add/Remove:**\n\n```javascript\n// Traditional approach\nif (element.classList.contains('active')) {\n  element.classList.remove('active');\n} else {\n  element.classList.add('active');\n}\n\n// Modern approach (same result)\nelement.classList.toggle('active');\n```\n\n**💡 Best Practices:**\n1. **Use descriptive class names** like `is-open`, `is-active`, `is-visible`\n2. **Combine with CSS transitions** for smooth animations\n3. **Consider accessibility** - update ARIA attributes when toggling\n4. **Use data attributes** to store state if needed\n5. **Test both states** - make sure both on/off states work properly\n\n**🔧 CSS Transition Example:**\n```css\n.menu {\n  transform: translateX(-100%);\n  transition: transform 0.3s ease;\n}\n\n.menu.is-open {\n  transform: translateX(0);\n}\n\n.button {\n  background: blue;\n  transition: background 0.2s;\n}\n\n.button.is-active {\n  background: green;\n}\n```\n\n**Summary:** `classList.toggle()` is perfect for any feature that switches between two states - it's cleaner, more readable, and less error-prone than manually checking and adding/removing classes.",
-    "type": "javascript",
-    "tags": [
-      "javascript",
-      "dom",
-      "classlist",
-      "toggle",
-      "ui",
-      "interaction",
-      "css",
-      "animations"
-    ]
+    "answer": "**classList.toggle()** = Adds/removes a CSS class automatically\n\n**Basic usage:**\n```js\nbutton.classList.toggle('active')\n// First click: adds 'active'\n// Second click: removes 'active'\n```\n\n**Force state:**\n```js\nelement.classList.toggle('active', true)   // Always add\nelement.classList.toggle('active', false)  // Always remove\n```\n\n**Common use cases:**\n- Toggle menus: `menu.classList.toggle('open')`\n- Dark mode: `body.classList.toggle('dark-mode')`\n- Accordions: `content.classList.toggle('active')`\n- Favorite buttons: `heart.classList.toggle('favorited')`\n\n**Better than manual:**\n```js\n// Instead of:\nif (element.classList.contains('active')) {\n  element.classList.remove('active')\n} else {\n  element.classList.add('active')\n}\n\n// Use:\nelement.classList.toggle('active')\n```\n\n**Perfect for:** Any feature that switches between two states",
+    "type": "javascript"
   },
+
   {
     "question": "How do you generate random numbers and array elements in JavaScript?",
     "answer": "**JavaScript Random Numbers - Complete Guide**\n\n**🎲 Basic Random Generation:**\n\n**Random Decimal (0 to 1):**\n```javascript\nMath.random()  // Returns: 0.0 to 0.9999... (1 is exclusive)\n// Examples: 0.123, 0.789, 0.456\n```\n\n**Random Whole Number (0 to max-1):**\n```javascript\n// Random from 0 to 9\nMath.floor(Math.random() * 10)\n\n// Random from 0 to 99  \nMath.floor(Math.random() * 100)\n```\n\n**🔢 Random Number in Range (min to max):**\n\n**Inclusive Range Function:**\n```javascript\nfunction getRandomInRange(min, max) {\n  return Math.floor(Math.random() * (max - min + 1)) + min;\n}\n\n// Examples:\ngetRandomInRange(1, 10);   // 1, 2, 3, ..., 10\ngetRandomInRange(5, 15);   // 5, 6, 7, ..., 15\ngetRandomInRange(-5, 5);   // -5, -4, ..., 4, 5\n```\n\n**Formula Breakdown:**\n```javascript\n// Step-by-step for range 5-15:\nMath.random()                     // 0.0 to 0.999...\n* (15 - 5 + 1)                    // * 11 → 0.0 to 10.999...\nMath.floor(...)                   // 0 to 10 (integer)\n+ 5                               // 5 to 15 ✓\n```\n\n**🚫 Excluding Zero (Never Generate 0):**\n```javascript\n// Random from 1 to max (never 0)\nfunction getRandomNonZero(max) {\n  return Math.floor(Math.random() * max) + 1;\n}\n\ngetRandomNonZero(10);  // 1, 2, 3, ..., 10 (never 0)\ngetRandomNonZero(6);   // 1, 2, 3, 4, 5, 6 (dice roll)\n```\n\n**📊 Random Array Elements:**\n\n**Random Element from Array:**\n```javascript\nconst fruits = ['🍎', '🍌', '🍒', '🍊', '🍇'];\n\n// Get random fruit\nconst randomFruit = fruits[Math.floor(Math.random() * fruits.length)];\nconsole.log(randomFruit); // 🍌 (random each time)\n```\n\n**Multiple Random Elements:**\n```javascript\nfunction getRandomElements(array, count) {\n  const shuffled = [...array].sort(() => 0.5 - Math.random());\n  return shuffled.slice(0, count);\n}\n\nconst colors = ['red', 'blue', 'green', 'yellow', 'purple'];\ngetRandomElements(colors, 3); // ['blue', 'red', 'yellow'] (random)\n```\n\n**🎯 Practical Examples:**\n\n**Dice Roll Simulator:**\n```javascript\nfunction rollDice() {\n  return Math.floor(Math.random() * 6) + 1;  // 1-6\n}\n\nconsole.log(`You rolled: ${rollDice()}`); // \"You rolled: 4\"\n```\n\n**Random Color Generator:**\n```javascript\nfunction getRandomColor() {\n  const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];\n  return colors[Math.floor(Math.random() * colors.length)];\n}\n\ndocument.body.style.backgroundColor = getRandomColor();\n```\n\n**Random Password Character:**\n```javascript\nfunction getRandomChar() {\n  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';\n  return chars[Math.floor(Math.random() * chars.length)];\n}\n\nconsole.log(getRandomChar()); // \"k\" (random character)\n```\n\n**Lottery Number Generator:**\n```javascript\nfunction generateLotteryNumbers(max, count) {\n  const numbers = [];\n  while (numbers.length < count) {\n    const num = Math.floor(Math.random() * max) + 1;\n    if (!numbers.includes(num)) {\n      numbers.push(num);\n    }\n  }\n  return numbers.sort((a, b) => a - b);\n}\n\ngenerateLotteryNumbers(49, 6); // [5, 12, 23, 34, 41, 49] (random)\n```\n\n**🔄 Alternative Methods:**\n\n**Using Crypto (More Secure Random):**\n```javascript\n// For cryptographic purposes\nfunction getSecureRandom(max) {\n  const randomBuffer = new Uint32Array(1);\n  window.crypto.getRandomValues(randomBuffer);\n  return randomBuffer[0] % max;\n}\n```\n\n**Random Boolean:**\n```javascript\nconst randomBool = Math.random() >= 0.5;  // true or false\n```\n\n**Random with Decimals:**\n```javascript\nfunction getRandomFloat(min, max) {\n  return Math.random() * (max - min) + min;\n}\n\ngetRandomFloat(1.5, 5.5); // 3.214 (random decimal)\n```\n\n**📝 Common Patterns Reference:**\n\n```javascript\n// 0 to N-1\nMath.floor(Math.random() * N)\n\n// 1 to N (no zero)\nMath.floor(Math.random() * N) + 1\n\n// Min to Max (inclusive)\nMath.floor(Math.random() * (Max - Min + 1)) + Min\n\n// Random array element\narray[Math.floor(Math.random() * array.length)]\n\n// Random true/false\nMath.random() >= 0.5\n```\n\n**⚠️ Important Notes:**\n- `Math.random()` is **pseudo-random** - not suitable for cryptography\n- The range is **inclusive of min, exclusive of max** in floating point\n- Use `Math.floor()` for integers, not `Math.round()` (biased distribution)\n- For games/casino apps, consider more secure random number generators\n\n**Performance Tip:** If you need many random numbers, generate them in batches rather than one at a time.",
@@ -705,22 +696,150 @@
     "answer": "**You MUST use `app.use(express.json())` middleware when destructuring `req.body`.**\n\n**Why This Middleware is Essential:**\n\n**Express does NOT parse JSON by default**\n\nWhen you send a POST request with a JSON body:\n```json\n{\n  \"author\": \"James Carter\"\n}\n```\n\nExpress does not automatically convert that JSON into `req.body`.\n\nWithout the JSON parser, Express literally receives the raw bytes:\n```\n7B 20 22 61 75 74 68 6F 72 22 ...\n```\nWorthless to your controller.\n\n**❌ Without express.json():**\n```javascript\ncreateBook = (req, res) => {\n  console.log(req.body); // undefined\n  \n  // Your destructuring will break:\n  const { author } = req.body;\n  // TypeError: Cannot read properties of undefined\n};\n```\n\n**✅ With express.json():**\n```javascript\napp.use(express.json());\n```\n\nNow Express converts incoming JSON into a proper JavaScript object:\n```javascript\nreq.body = {\n  author: \"James Carter\"\n}\n```\n\nYour controller now works:\n```javascript\nconst { author } = req.body; // \"James Carter\"\n```\n\n**🧠 Where to Place express.json():**\n\n`server.js` (or `app.js`) is where you configure your Express app before any routes run. Middlewares must be set up first, otherwise your controllers will receive unparsed requests.\n\n**Flow is:**\n```\nMiddleware (parsers, loggers, CORS)\n↓\nRoutes\n↓\nControllers\n```\n\n**Correct Setup:**\n```javascript\n// server.js\nimport express from 'express';\n\nconst app = express();\n\n// ✅ MIDDLEWARE FIRST\napp.use(express.json());\napp.use(express.urlencoded({ extended: true }));\n\n// ✅ THEN ROUTES\napp.use('/api/books', bookRoutes);\napp.use('/api/users', userRoutes);\n\n// If you put app.use(express.json()) after your routes, \n// it's useless — the controllers won't get parsed bodies.\n```\n\n**Key Idea:** Always set up `express.json()` middleware BEFORE your routes to properly parse JSON request bodies and enable destructuring of `req.body`.",
     "type": "nodejs"
   },
+
+  {
+    "question": "What is MongoDB and Mongoose?",
+    "answer": "**MongoDB** = Database (like raw SQL but for documents)\n- `db.students.find()`\n- `db.students.insertOne()`\n\n**Mongoose** = ODM (Object Document Mapper) framework on top of MongoDB\n- Schemas & Models\n- Validation\n- Middlewares & Hooks\n- Virtual fields\n\n**Example:**\n```js\nconst Student = mongoose.model('Student', {\n  name: String,\n  age: Number,\n  gpa: Number\n});\n\nStudent.find();\n```",
+    "type": "mongodb"
+  },
+  {
+    "question": "What is a document, collection, and database in MongoDB?",
+    "answer": "**Document** = Group of related information (like a row)\n```js\n{\n  name: \"Mary Jane\",\n  age: 20,\n  country: \"France\"\n}\n```\n\n**Collection** = Group of one or more documents (like a table)\n\n**Database** = Group of one or more collections",
+    "type": "mongodb"
+  },
+  {
+    "question": "What is the MongoDB GUI?",
+    "answer": "**GUI** = Software interface with buttons, menus, windows (instead of typing commands)\n\n**MongoDB Compass** = The GUI for MongoDB\n- View, edit, query data visually\n- Connect to local or cloud databases\n- No command line needed\n\n**Key idea:**\n- Compass = Visual tool to work with data\n- MongoDB Server = Actual database engine",
+    "type": "mongodb"
+  },
+
+  {
+    "question": "How do you establish a connection with MongoDB?",
+    "answer": "**Terminal:** `mongosh`\n**Exit:** `exit`\n**Clear screen:** `cls`",
+    "type": "mongodb"
+  },
+  {
+    "question": "How can you view, create and delete databases in MongoDB?",
+    "answer": "**View all databases:** `show dbs`\n**Use/create database:** `use dbname` (creates when you add data)\n**Delete database:** `db.dropDatabase()`\n\n**Example:**\n```js\nschool> db.students.insertOne({name: \"Spongebob\", age: 20})\n// Now 'school' database exists\n```",
+    "type": "mongodb"
+  },
+  {
+    "question": "How can you sort and limit objects in MongoDB?",
+    "answer": "**Sort alphabetically:** `db.students.find().sort({name: 1})`\n**Sort reverse:** `db.students.find().sort({name: -1})`\n**Sort numbers:** `db.students.find().sort({gpa: 1})` (small to big)\n**Limit results:** `db.students.find().limit(1)`\n\n**Combined:**\n```js\ndb.students.find().sort({gpa: -1}).limit(1)\n// Returns highest GPA\n```",
+    "type": "mongodb"
+  },
+  {
+    "question": "How can you add multiple values to a database at once?",
+    "answer": "**Use `insertMany()`:**\n```js\ndb.students.insertMany([\n  {name: \"Patrick\", age: 21},\n  {name: \"Sandy\", age: 22}\n])\n```\nReturns inserted IDs for all documents.",
+    "type": "mongodb"
+  },
+  {
+    "question": "What are the different data types in MongoDB?",
+    "answer": "**Common types:**\n- String: `\"text in quotes\"`\n- Boolean: `true` / `false`\n- Number: `20` or `3.5`\n- Date: `new Date()`\n- Array: `[\"Biology\", \"Agric\"]`\n- Object: `{street: \"123 Fake St\"}`\n- Null: `null`",
+    "type": "mongodb"
+  },
+  {
+    "question": "What is the find method and projection parameter in MongoDB?",
+    "answer": "**Find specific:** `db.students.find({name: \"Spongebob\"})`\n**Multiple conditions:** `db.students.find({admission: true, gpa: 4.0})`\n\n**Projection (select fields):**\n```js\ndb.students.find({}, {name: true, _id: false})\n// Returns only names, no IDs\n```",
+    "type": "mongodb"
+  },
+
+  {
+    "question": "How do you update a document in MongoDB?",
+    "answer": "**Update one document:**\n```js\ndb.students.updateOne({name: \"Spongebob\"}, {$set: {fullTime: true}})\n```\n**Better to use ID (unique):**\n```js\ndb.students.updateOne(\n  {_id: ObjectId(\"692433d74e7bb12ffbb5f8a1\")}, \n  {$set: {fullTime: false}}\n)\n```\n**Remove a field:** `{$unset: {fullTime: \"\"}}`\n**Update multiple:** `db.students.updateMany({}, {$set: {employed: true}})`",
+    "type": "mongodb"
+  },
+  {
+    "question": "How do you delete documents in MongoDB shell?",
+    "answer": "**Delete one:** `db.students.deleteOne({name: \"Larry\"})`\n**Delete many:** `db.students.deleteMany({employed: false})`\nReturns count of deleted documents.",
+    "type": "mongodb"
+  },
+  {
+    "question": "What are comparison query operators in MongoDB?",
+    "answer": "**Not equal:** `db.students.find({name: {$ne: \"Spongebob\"}})`\n**Less than:** `db.students.find({age: {$lt: 25}})`\n**Less than/equal:** `db.students.find({age: {$lte: 25}})`\n**Greater than:** `db.students.find({age: {$gt: 25}})`\n**Range:** `db.students.find({gpa: {$gte: 3, $lte: 4}})`",
+    "type": "mongodb"
+  },
+  {
+    "question": "What is the $in and $nin MongoDB query operator?",
+    "answer": "**$in = \"in this list\"**\n```js\ndb.students.find({name: {$in: [\"Spongebob\", \"Patrick\", \"Sandy\"]}})\n// Returns documents with these names\n```\n**$nin = \"not in this list\"**\n```js\ndb.students.find({name: {$nin: [\"Spongebob\", \"Patrick\"]}})\n// Returns documents without these names\n```",
+    "type": "mongodb"
+  },
+  {
+    "question": "What are MongoDB logical query operators?",
+    "answer": "**$and:** Both conditions true\n```js\ndb.students.find({$and: [{employed: false}, {age: {$gte: 30}}]})\n```\n**$or:** At least one condition true\n```js\ndb.students.find({$or: [{employed: false}, {age: {$gte: 30}}]})\n```\n**$not:** Reverse the condition\n```js\ndb.students.find({age: {$not: {$gte: 30}}})\n```\n**$nor:** Both conditions false",
+    "type": "mongodb"
+  },
+
+  {
+    "question": "What are indexes in MongoDB?",
+    "answer": "**Indexes** = Like book indexes - help find data fast\n\n**Create index:**\n```js\ndb.students.createIndex({gpa: 1})  // ascending\ndb.students.createIndex({gpa: -1}) // descending\n```\n**View indexes:** `db.students.getIndexes()`\n**Drop index:** `db.students.dropIndex(\"_id_\")`\n\n1 = ascending (small → large)\n-1 = descending (large → small)",
+    "type": "mongodb"
+  },
+  {
+    "question": "How can you see how queries run in MongoDB?",
+    "answer": "**Use `.explain()`:**\n```js\ndb.students.find({gpa: {$gte: 3}}).explain(\"executionStats\")\n```\nShows detailed performance info about the query execution.",
+    "type": "mongodb"
+  },
+  {
+    "question": "How do you view, create and delete collections in MongoDB?",
+    "answer": "**View collections:** `show collections`\n**Create collection:**\n```js\ndb.createCollection(\"teachers\", {\n  capped: true,\n  size: 10000000,  // 10MB\n  max: 100         // max documents\n})\n```\n**Delete collection:** `db.teachers.drop()`",
+    "type": "mongodb"
+  },
+  {
+    "question": "What is the replace method in MongoDB?",
+    "answer": "**Replace entire document:**\n```js\ndb.students.replaceOne(\n  {name: \"Patrick\"},                    // filter\n  {name: \"Patrick\", age: 25, employed: true}  // new document\n)\n```\nFinds matching document and replaces it completely. Missing fields get deleted.",
+    "type": "mongodb"
+  },
+  {
+    "question": "How do you create a Mongoose document in Node.js?",
+    "answer": "**Method 1:**\n```js\nconst user = new User({name: \"Kyle\", age: 26})\nawait user.save()\n```\n**Method 2:**\n```js\nconst user = await User.create({name: \"Mary\", age: 30})\n```\n**Edit & save:**\n```js\nuser.name = \"Sally\"\nawait user.save()\n```",
+    "type": "mongoose"
+  },
+  {
+    "question": "What is a userSchema in Mongoose?",
+    "answer": "**Schema** = Blueprint for documents\n```js\nconst userSchema = new mongoose.Schema({\n  name: String,\n  age: Number,\n  email: String,\n  createdAt: Date,\n  hobbies: [String],           // array\n  address: {                   // nested object\n    street: String,\n    city: String\n  }\n})\n```",
+    "type": "mongoose"
+  },
+  {
+    "question": "What are some advanced schema validation techniques?",
+    "answer": "**Advanced validation:**\n```js\nage: {\n  type: Number,\n  min: 1,\n  max: 100,\n  validate: {\n    validator: v => v % 2 === 0,\n    message: props => `${props.value} is not even`\n  }\n},\nemail: {\n  type: String,\n  required: true,\n  lowercase: true,\n  minLength: 10\n},\ncreatedAt: {\n  type: Date,\n  default: new Date(),\n  immutable: true\n}\n```",
+    "type": "mongoose"
+  },
+
+  {
+    "question": "Explain the mongoose references (ObjectId + ref)",
+    "answer": "**References** = Link documents together\n\n```js\nbestFriend: {\n  type: mongoose.SchemaTypes.ObjectId,  // Stores another document's _id\n  ref: 'User'                           // Which collection to look in\n}\n```\n**Usage:**\n```js\nconst spongebob = await User.create({name: \"Spongebob\", bestFriend: patrick._id})\nconst result = await User.findById(spongebob._id).populate(\"bestFriend\")\n// result.bestFriend = Patrick's full document\n```\n**Analogy:**\n- ObjectId = Library card number\n- ref = Which library to check\n- populate() = Go get the full book",
+    "type": "mongoose"
+  },
+  {
+    "question": "What is the .where query method in Mongoose?",
+    "answer": "**`.where()`** = Query builder method for chaining conditions\n\n**Example:**\n```js\nUser.where('age').gte(18).lte(30).exec()\n// Same as: User.find({age: {$gte: 18, $lte: 30}})\n```\n**Chaining:**\n```js\nUser.where('age').gte(18).where('name').equals('Spongebob').exec()\n```\n**Useful for:** Dynamic queries where conditions change at runtime",
+    "type": "mongoose"
+  },
+  {
+    "question": "What are the Mongoose schema methods?",
+    "answer": "**Instance methods** (work on documents):\n```js\nuserSchema.methods.sayHi = function() {\n  return `Hi, my name is ${this.name}!`\n}\n// Usage: user.sayHi()\n```\n**Static methods** (work on model):\n```js\nuserSchema.statics.findByName = function(name) {\n  return this.where({name: new RegExp(name, 'i')})\n}\n// Usage: User.findByName(\"spongebob\")\n```",
+    "type": "mongoose"
+  },
+  {
+    "question": "What are Mongoose virtuals?",
+    "answer": "**Virtuals** = Fake fields that don't store in database\n\n**Define virtual:**\n```js\nuserSchema.virtual(\"fullName\").get(function() {\n  return `${this.firstName} ${this.lastName}`\n})\n```\n**Usage:**\n```js\nuser.fullName  // \"Sponge Bob\" (computed on the fly)\n```\n**Perfect for:** Computed values, formatted strings, derived properties",
+    "type": "mongoose"
+  },
+  {
+    "question": "Explain how the Mongoose middleware works",
+    "answer": "**Middleware** = Functions that run before/after operations\n\n**Pre-middleware** (before):\n```js\nuserSchema.pre(\"save\", function(next) {\n  console.log(\"Before saving...\")\n  next() // Must call next()\n})\n```\n**Post-middleware** (after):\n```js\nuserSchema.post(\"save\", function(doc) {\n  console.log(\"User saved:\", doc)\n})\n```\n**Use cases:** Password hashing, validation, logging, email triggers\n**Events:** save, validate, remove, find, updateOne, etc.",
+    "type": "mongoose"
+  },
+
   {
     "question": "How do you hash passwords with bcrypt?",
-    "answer": "**Why Hash Passwords?**\n- **Security**: Never store plain text passwords\n- **Irreversible**: Can't get original password from hash\n- **Different hashes**: Same password → different hash every time\n\n**Installation:**\n```bash\nnpm install bcryptjs\n```\n\n**Basic Usage:**\n\n**1. Hashing Passwords (Registration):**\n```javascript\nimport bcrypt from 'bcryptjs';\n\n// Hash a password\nconst plainPassword = \"user123\";\nconst hashedPassword = bcrypt.hashSync(plainPassword, 10);\n// Result: \"$2a$10$N9qo8uLOickgx2ZMRZoMye...\"\n\n// Store hashedPassword in database instead of plain text\n```\n\n**2. Verifying Passwords (Login):**\n```javascript\n// When user tries to login\nconst isPasswordValid = bcrypt.compareSync(\"user123\", hashedPassword);\n// Returns: true (if correct) or false (if wrong)\n```\n\n**In UserService Class:**\n```javascript\nclass UserService {\n  constructor() {\n    this.users = [];\n  }\n  \n  registerUser(userData) {\n    const { email, password } = userData;\n    \n    // Hash before storing\n    const hashedPassword = bcrypt.hashSync(password, 10);\n    \n    const user = {\n      id: this.users.length + 1,\n      email: email,\n      password: hashedPassword, // Store the hash!\n      createdAt: new Date()\n    };\n    \n    this.users.push(user);\n    return user;\n  }\n\n  loginUser(email, password) {\n    const user = this.users.find(u => u.email === email);\n    if (!user) {\n      throw new Error(\"User not found\");\n    }\n    \n    // Verify password\n    const isValid = bcrypt.compareSync(password, user.password);\n    if (!isValid) {\n      throw new Error(\"Invalid password\");\n    }\n    \n    return user; // Login successful\n  }\n  \n  findUserByEmail(email) {\n    return this.users.find(u => u.email === email);\n  }\n}\n```\n\n**Async/Await Version (Recommended):**\n```javascript\nclass UserService {\n  async registerUser(userData) {\n    const { email, password } = userData;\n    \n    // Hash with async/await\n    const hashedPassword = await bcrypt.hash(password, 10);\n    \n    const user = {\n      email: email,\n      password: hashedPassword,\n    };\n    \n    return user;\n  }\n\n  async loginUser(email, password) {\n    const user = this.findUserByEmail(email);\n    if (!user) {\n      throw new Error(\"User not found\");\n    }\n    \n    // Verify with async/await\n    const isValid = await bcrypt.compare(password, user.password);\n    if (!isValid) {\n      throw new Error(\"Invalid password\");\n    }\n    \n    return user;\n  }\n}\n```\n\n**Key Points:**\n- **Salt Rounds (10)**: Higher = more secure but slower (10-12 is recommended)\n- **compareSync()**: Checks if password matches hash\n- **Never store plain passwords** in database\n- **Never return passwords** in API responses\n- Use **async methods** (`bcrypt.hash()` and `bcrypt.compare()`) in production for better performance\n\n**Security Benefits:**\n- ✅ Same password → different hashes (due to unique salt)\n- ✅ Slow hashing prevents brute force attacks\n- ✅ Can't reverse engineer passwords from hashes\n- ✅ Protects users even if database is compromised\n\n**Use this for ALL user authentication! 🛡️**",
+    "answer": "**Installation:** `npm install bcryptjs`\n\n**Hash password (registration):**\n```js\nconst hashedPassword = bcrypt.hashSync(\"user123\", 10)\n// Store hashedPassword in database\n```\n\n**Verify password (login):**\n```js\nconst isValid = bcrypt.compareSync(\"user123\", hashedPassword)\n// Returns true/false\n```\n\n**Async version (recommended):**\n```js\nconst hashed = await bcrypt.hash(password, 10)\nconst isValid = await bcrypt.compare(password, hashedPassword)\n```\n\n**Key points:**\n- Salt rounds: 10-12 (higher = more secure but slower)\n- Never store plain passwords\n- Same password → different hashes\n- Protects against database breaches",
     "type": "nodejs"
   },
   {
     "question": "What is Markdown syntax and how do you use it?",
-    "answer": "# Markdown Syntax - Complete Guide\n\n## 📝 Basic Text Formatting\n\n**Headings:**\n```markdown\n# Heading 1\n## Heading 2\n### Heading 3\n#### Heading 4\n##### Heading 5\n###### Heading 6\n```\n\n**Text Styles:**\n```markdown\n_Italic Text_ or *Italic Text*\n**Bold Text** or __Bold Text__\n~~Strikethrough Text~~\n```\n\n## 🎯 Advanced Formatting\n\n**Horizontal Rule:**\n```markdown\n---\n***\n___\n```\n\n**Blockquote:**\n```markdown\n> This is a blockquote\n> It can span multiple lines\n```\n\n**Links:**\n```markdown\n[Display Text](https://example.com)\n[Google](https://www.google.com \"Google Homepage\")\n```\n\n## 📋 Lists\n\n**Unordered Lists:**\n```markdown\n- Item 1\n- Item 2\n  - Nested Item 1\n  - Nested Item 2\n- Item 3\n```\n\n**Ordered Lists:**\n```markdown\n1. First item\n2. Second item\n3. Third item\n```\n\n## 💻 Code & Technical\n\n**Inline Code:**\n```markdown\nUse `console.log()` for debugging.\n```\n\n**Code Blocks:**\n````markdown\n```javascript\nfunction add(a, b) {\n  return a + b;\n}\n```\n\n```bash\nnpm install\nnpm start\n```\n\n```python\ndef add(a, b):\n    return a + b\n```\n````\n\n## 🖼️ Media & Tables\n\n**Images:**\n```markdown\n![Alt Text](https://example.com/image.jpg)\n![Markdown Logo](https://markdown-here.com/img/icon256.png)\n```\n\n**Tables:**\n```markdown\n| Name      | Email          | Age |\n|-----------|----------------|-----|\n| John Doe  | john@email.com | 25  |\n| Jane Smith| jane@email.com | 30  |\n```\n\n## ✅ GitHub Extras\n\n**Task Lists:**\n```markdown\n- [x] Completed task\n- [ ] Incomplete task\n- [x] Another completed task\n```\n\n**Escaping Characters:**\n```markdown\n\\*This shows asterisks\\*\n\\# This shows a hash\n```\n\n## 🚀 Pro Tips\n- Use **consistent heading hierarchy**\n- **Tables** work best with clear column alignment\n- **Code blocks** with language specification get syntax highlighting\n- **Task lists** are great for README progress tracking\n- **Relative links** work for repository navigation\n\nMarkdown is perfect for documentation, README files, and note-taking!",
-    "type": "markdown",
-    "tags": [
-      "markdown",
-      "documentation",
-      "github",
-      "readme",
-      "formatting",
-      "syntax"
-    ]
+    "answer": "**Headings:** `# H1` `## H2` `### H3`\n**Text:** `*italic*` `**bold**` `~~strikethrough~~`\n**Blockquote:** `> Quote text`\n**Horizontal rule:** `---` or `***`\n**Lists:**\n```markdown\n- Item 1\n- Item 2\n1. First\n2. Second\n```\n**Code:** `inline code` \n```js\n// code block\nfunction() {}\n```\n**Links:** `[Text](https://url.com)`\n**Images:** `![Alt](image.jpg)`\n**Tables:**\n```markdown\n| Header | Header |\n|--------|--------|\n| Cell   | Cell   |\n```\n**Task lists:** `- [x] Done` `- [ ] Todo`",
+    "type": "markdown"
   }
 ]
