@@ -1,4 +1,4 @@
-[
+[[
       {
     "question": "How do I start a Playwright file in CMD?",
     "answer": "# Install Playwright:\nnpm install playwright\n\n# Run test:\nnpx playwright test filename.spec.js",
@@ -1753,7 +1753,7 @@
     "answer": "**Callback:**\n- A callback is a function passed into another function to be called later—usually after something finishes, like loading data, waiting for a timer, or user input.\n- Callbacks are how you make code run in order, especially with async or event-based operations.\n\n**Example of Callbacks:**\n```javascript\nfunction stepOne(callback) {\n  console.log(\"Step 1: Turn on the computer\");\n  callback();\n}\nfunction stepTwo(callback) {\n  console.log(\"Step 2: Open your code editor\");\n  callback();\n}\nfunction stepThree() {\n  console.log(\"Step 3: Start coding!\");\n}\n// Chained callbacks:\nstepOne(() => {\n  stepTwo(() => {\n    stepThree();\n  });\n});\n``````javascript\nstepOne(function() {\n  stepTwo(function() {\n    stepThree(function() {\n      stepFour(function() {\n        stepFive(function() {\n          console.log(\"All steps done!\");\n        });\n      });\n    });\n  });\n});\n```",
     "type": "javascript"
   }
-]
+],
 
 [
   {
@@ -2619,4 +2619,4 @@
     "answer": "**Middleware** = Functions that run before/after operations\n\n**Pre-middleware** (before):\n```js\nuserSchema.pre(\"save\", function(next) {\n  console.log(\"Before saving...\")\n  next() // Must call next()\n})\n```\n**Post-middleware** (after):\n```js\nuserSchema.post(\"save\", function(doc) {\n  console.log(\"User saved:\", doc)\n})\n```\n**Use cases:** Password hashing, validation, logging, email triggers\n**Events:** save, validate, remove, find, updateOne, etc.",
     "type": "mongoose"
   }
-]
+]]

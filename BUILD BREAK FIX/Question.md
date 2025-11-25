@@ -1,607 +1,660 @@
 add to the stand for question
-sql, no sql
+sql, no sql, xml
 ,
+"dev": "node --watch --env-file=.env script"
+
+match match: [/.+@.+\..+/, "Please enter a valid email"],
+validate: {
+validator: function (value) {
+return /^(?=._[A-Za-z])(?=._\d)[A-Za-z\d]/.test(value);
+},
+message: "Password must contain at least one letter and one number",
+},,
+required: [true, "Name is required"],
 
 ---
+
+npm install mongoose bcryptjs jsonwebtoken
+
 # Question:
-what is mongodb and mongoose
+
+How do you write rest files
+
+## Answer:.
+
+you create a folder , foldernam.rest
+
+```js
+GET http://localhost:9000/api/todo
+PUT
+DELETE
+POST
+```
+
+## usually http and not https , because
+
+# Question:
+
+how do you create get post, put and delete to mongooses db
 
 ## Answer:
-db.students.find()
-db.students.insertOne()
 
-
-Think of it like raw SQL but for documents.
-
-✅ Mongoose = a framework (ODM) on top of MongoDB
-
-ODM = Object Document Mapper
-Mongoose gives you:
-
-Schemas
-
-Models
-
-Validation
-
-Middlewares
-
-Virtual fields
-
-Hooks (pre-save, post-save)
-
-Example with Mongoose:
 ```js
-const Student = mongoose.model("Student", {
-  name: String,
-  age: Number,
-  gpa: Number
+class todoRoutesClass {
+  constructor() {
+    this.router = express.Router();
+    this.initializeRoutes();
+  }
+  initializeRoutes() {
+    this.router.get("/", todocontroller.viewAllTodo);
+    this.router.post("/new", todocontroller.createTodo);
+    this.router.delete("/delete/:id", todocontroller.deleteTodo);
+    this.router.put("/update/:id", todocontroller.updateTodo);
+  }
+  getRouter() {
+    return this.router;
+  }
+}
+const todoRoutes = new todoRoutesClass();
+export default todoRoutes;
+
+//Delete
+const { id } = req.params;
+
+const deletedTodo = await todo.findByIdAndDelete(id);
+
+// Create -post
+const { title, desc, completed } = req.body;
+const newtodo = await todo.create({
+  title,
+  desc,
+  completed,
 });
 
-Student.find();
-
-```
----
-
-# Question:
-
-What is a document,collection and database in mongo db
-
-## Answer:
-
-A document is group of related information
-
-```javascript
-{
-    name: "Mary Jane",
-    age: 20,
-    conutry: "France"
-}
-```
-
-a collection si a group of one or more documents
-
-## a database si a group of one or more collection
-
-# Question:
-
-What is the mongodb gui
-
-## Answer:
-
-A GUI is a software interface that lets you interact with a system visually using buttons, menus, windows, and icons—instead of typing commands.
-It makes complex tools easier to use because everything is laid out visually.
-
-In MongoDB:
-
-MongoDB Compass is the GUI.
-
-It lets you view, edit, query, and manage your MongoDB data using a visual interface.
-
-You don’t need the command line to browse collections or update documents.
-
-It connects to both local databases and Atlas cloud databases using a connection string.
-
-Key idea:
-
-Compass = the visual tool to work with your MongoDB data.
-MongoDB Server = the actual database engine that stores the data.
-
----
-
-# Question:
-
-How do you extablish a conection with mongo bn
-
-## Answer:
-
-mongosh , and to exit , typr exit
-
-```markdown
-exit
-```
-
-and to clear screen type cls
-
----
-
-# Question:
-
-how can you view , create and delete all db in mongo db
-
-## Answer:
-
-in the terminal type
-
-```
- show dbs
- test> show dbs
-admin   40.00 KiB
-config  96.00 KiB
-local   40.00 KiB
-```
-
-the to open a specific db , type
-
-use -dbname-
-if you enter a name that doesnt exist then a new db will be created not not saved yet until you add some data to it
-example ,
-school> db.createCollection("students")
-{ ok: 1 }
-school> show dbs
-admin 40.00 KiB
-config 96.00 KiB
-local 40.00 KiB
-school 8.00 KiB
-now school is a db , because data was added
-OR
-School> db.students.insertOne({name: "Spongebob", age:20, gpa:3.5})  
-{
-acknowledged: true,
-insertedId: ObjectId('692433d74e7bb12ffbb5f8a1')
-}
-
-And to delete a db
-
-school> db.dropDatabase()
-{ ok: 1, dropped: 'school' }
-
-## nb: this can alsp be done in mogodb compass
-
-# Question:
-
-How can you sort and limit objects in mongo db
-
-## Answer:
-
-    To list all objects ---
-
-School> db.students.find()
-[
-{
-_id: ObjectId('692433d74e7bb12ffbb5f8a1'),
-name: 'Spongebob',
-age: 20,
-gpa: 3.5
-}
-]
-To sort Text Alphabeticallly
-db.students.find().sort({name: 1})
-and to sort rever alphabetical
-db.students.find().sort({name: -1})
-now all names will list in reverse alphabeticall order
-and for digits
-db.students.find().sort({gpa: 1})
-itll sort from smallets to biggest
-db.students.find().sort({gpa: -1})
-and reverse is biggest to smallest
-
-to limit objects
-db.students.find().limit(1)
-and this will return onlt one ..
-
-to combuine and use both
-db.students.find().sort({gpa:-1}).limit(1)
-this will retuen the highest gpa
-db.students.find().sort({gpa:1}).limit(1)
-this will return the lowest gpa
-
-nb: nb this can also be done in mongo db compass, click the option menu
-
----
-
-# Question:
-
-how can you add more than one value to a db at a time
-
-## Answer:
-
-db.students.insertMany([{ name: "Patrick", age: 21, gpa: 3.2 },{ name: "Sandy", age: 22, gpa: 3.8 },{ name: "Squidward", age: 23, gpa: 2.9 },{ name: "Mr. Krabs", age: 45, gpa: 3.0 }])
-and you lll get a reply llike
-{
-acknowledged: true,
-insertedIds: {
-'0': ObjectId('692435654e7bb12ffbb5f8a2'),
-'1': ObjectId('692435654e7bb12ffbb5f8a3'),
-'2': ObjectId('692435654e7bb12ffbb5f8a4'),
-'3': ObjectId('692435654e7bb12ffbb5f8a5')
-}
-}
-nb: can also be done with mongo compass
-
----
-
-# Question:
-
-what are the different data types in mongo db
-
-## Answer:
-
-Asting is a series of tesxt in quotes, double or single quotes
-boolean
-School> db.students.insertOne({name: "Larry Loser", age: 32, double:2.8, boolean: false, date: new Date(), null: null, courses: ["Biology", "Agric"], object: {street:"123 Fake Street", city: "Bikini Bottom"},)
-
----
-
-# Question:
-
-what is the find method and the projection parameter in mongo db
-
-## Answer:
-
-you can use it to find specific thing in you db, if tehy exist youll get the full object
-db.students.find({name: "Spongebob"})
-
-[
-{
-_id: ObjectId('692433d74e7bb12ffbb5f8a1'),
-name: 'Spongebob',
-age: 20,
-gpa: 3.5
-}
-]
-and if they dont you get no reply
-School> db.students.find({name: "Larry"})
-
-to find boolean
-
-```javascript
-db.students.find({ admission: true });
-```
-
-and to use more than one you can do it by using commas
-
-```javascript
-db.students.find({ admission: true, gpa: 4.0 });
-```
-
-the projection parameter ,
-
-```javascript
-School >
-  db.students.find({}, { name: true })[
-    ({ _id: ObjectId("692433d74e7bb12ffbb5f8a1"), name: "Spongebob" },
-    { _id: ObjectId("692435654e7bb12ffbb5f8a2"), name: "Patrick" },
-    { _id: ObjectId("692435654e7bb12ffbb5f8a3"), name: "Sandy" },
-    { _id: ObjectId("692435654e7bb12ffbb5f8a4"), name: "Squidward" },
-    { _id: ObjectId("692435654e7bb12ffbb5f8a5"), name: "Mr. Krabs" },
-    { _id: ObjectId("692436528d2c7b97aff756db"), name: "SpongeBob" })
-  ];
-```
-
-mongo db will put in the id by default so to avoid that , just set id as false
-School> db.students.find({}, {\_id:false, name:true})
-[
-{ name: 'Spongebob' },
-{ name: 'Patrick' },
-{ name: 'Sandy' },
-{ name: 'Squidward' },
-{ name: 'Mr. Krabs' },
-{ name: 'SpongdeBob' }
-]
-nb:this c an also be done in compass, click on the optopns butoon
-
----
-
-# Question:
-
-How do you update a domunet in mongo db
-
-## Answer:
-
-School> db.students.updateOne({name: "Spongebob"}, {$set:{fullTime:true}})
-{
-acknowledged: true,
-insertedId: null,
-matchedCount: 1,
-modifiedCount: 1,
-upsertedCount: 0
-}
-School> db.students.find({name: "Spongebob"})
-[
-{
-_id: ObjectId('692433d74e7bb12ffbb5f8a1'),
-name: 'Spongebob',
-age: 20,
-gpa: 3.5,
-fullTime: true
-}
-]
-School>
-
-it is recommetb to update by unique id incase of duplicate names
-
-```js
-db.students.updateOne(
-  { _id: objectId("'692433d74e7bb12ffbb5f8a1") },
-  { $set: { fullTime: false } }
+//get
+const todos = await todo.find();
+res.status(200).json(todos);
+
+//Update - put
+const { id } = req.params; // The :id from the URL
+const { title, desc, completed } = req.body; // Fields to update
+
+// Find the todo by id and update with new data
+const updatedTodo = await todo.findByIdAndUpdate(
+  id,
+  { title, desc, completed },
+  { new: true, runValidators: true } // Return the updated doc + validate fields
 );
 ```
 
-and to remove a field use the $unset value 
-School> db.students.updateOne({_id: ObjectId("692433d74e7bb12ffbb5f8a1")}, {$unset:{fullTime:""}})
-{
-acknowledged: true,
-insertedId: null,
-matchedCount: 1,
-modifiedCount: 1,
-upsertedCount: 0
+---
+
+# Question:
+
+what are end points
+
+## Answer:
+
+ChatGPT said:
+
+In programming and web development, endpoints are basically the points of interaction between a client (like a web browser or mobile app) and a server. They are specific URLs (or URIs) where your application can send requests and get responses. Think of them as “doors” into your application where you can ask it to do something or get some data.
+
+Here’s a breakdown:
+
+Web APIs (REST/HTTP context):
+
+Each endpoint corresponds to a URL and usually a request method (GET, POST, PUT, DELETE).
+
+Example:
+
+GET /users → Fetches all users
+
+POST /users → Creates a new user
+
+GET /users/123 → Fetches the user with ID 123
+
+Function:
+
+Endpoints define the operations your application exposes to the outside world.
+
+They handle incoming requests, process data, and return a response (JSON, HTML, files, etc.).
+
+In real life analogy:
+
+Imagine a restaurant: the endpoint is the counter where you place your order. You give instructions (request), and the kitchen responds with food (response).
+
+Key Points:
+
+Not all URLs are endpoints; only those meant for programmatic interaction.
+
+They are the backbone of APIs, microservices, and server-client communication
+
+```js
+
+```
+
+---
+
+# Question:
+
+How do you connect node/expresss app to mongodb server
+
+## Answer:
+
+```js
+import express from "express";
+import mongoose from "mongoose";
+
+const mongouri = process.env.MONGOURI;
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(mongodbport);
+    console.log("'✅ MongoDB Connected'");
+  } catch (error) {
+    console.error("❌ Database connection failed:", error);
+    process.exit(1);
+  }
+};
+export default connectDB;
+```
+
+---
+
+# Question:
+
+what is the skelenton for route module for an Express app
+
+## Answer:
+
+```js
+import express from "express";
+import usercontroller from "../controller/userController.js";
+
+class UserRouteClass {
+  constructor() {
+    this.router = express.Router();
+    this.initializeRoutes();
+  }
+  initializeRoutes() {
+    this.router.post("/register", usercontroller.registeracct);
+  }
+  getRouter() {
+    return this.router;
+  }
 }
-School> db.students.find({name: "Spongebob"})
-[
-{
-_id: ObjectId('692433d74e7bb12ffbb5f8a1'),
-name: 'Spongebob',
-age: 20,
-gpa: 3.5
+
+const userRoutes = new UserRouteClass();
+export default userRoutes;
+```
+
+anf this is teh controler , import express from "express";
+import mongoose from "mongoose";
+
+class userControllerClass {
+constructor() {
+
 }
-]
-and to update multipl fields , use the updateMany
+registeracct = async () => {
+try {
+} catch (error) {}
+};
+}
 
-db.students.updateMany({}, {$set:{employed:true}})
-
-you can also use update many method to check if a field exists to make a change
-
-db.students.updatemany({employed:{$exists:true}}, {$set: {employed:false}})
-nb: this can also be done in mongo db compass
-
----
-
-# Question:
-
-how do you delete documents in mongo db shell
-
-## Answer:
-
-To delete a singular doc
-db.students.deleteOne({name: "Larry"})
-
-and to delete many
-School> db.students.deleteMany({employed:false})
-{ acknowledged: true, deletedCount: 3 }
+const usercontroller = new userControllerClass()
+export default usercontroller
+and use like th8s in the script /server
+app.use("/api/", userRoutes.getRouter());
 
 ---
 
 # Question:
+what is the regex lookahead and greddy reference 
 
-what are comparison Query operators
 
 ## Answer:
 
-normally they retirn data based on valur comparisons
-example :
-db.students.find({name: {$ne:"Spongebob"}})
-this will return everyname that is not sponge bob
+```js
+Regex Lookahead Reference
 
-db.students.find({age: {$lt:25}})
-this will return all studnent less than 25
-db.students.find({age: {$lte:25}})
-this will return all studnent less than or equal to 25
+Lookaheads allow you to assert that something follows (or doesn’t) without consuming characters.
 
-db.students.find({age: {$gt:25}})
-this will return all studnent greater than 25
-db.students.find({age: {$gte:25}})
-this will return all studnent greater than or erual to
-25
+1. Positive Lookahead (?=...)
 
-you can combi ne two ,
-db.students.find({gpa:{$gte:3, $lte:4}})
-this will give you all stupdent with gpa withing that range
+Asserts that a pattern must exist ahead.
+
+Pattern	Meaning	Example
+(?=\d)	Next character is a digit	"a1" → matches "a" if 1 is next
+(?=[A-Za-z])	Next character is a letter	"1a" → matches "1" if a follows
+(?=\W)	Next character is a symbol/punctuation	"a!" → matches "a" if ! follows
+(?=\s)	Next character is whitespace	"a " → matches "a" if space follows
+(?=.*\d)	Somewhere ahead there is a digit	"abc1" → true because digit exists
+
+Example – password rule:
+
+^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).+$
+
+
+Must contain uppercase, lowercase, number, and symbol.
+
+2. Negative Lookahead (?!...)
+
+Asserts that a pattern must NOT exist ahead.
+
+Pattern	Meaning	Example
+(?!\d)	Next character is NOT a digit	"a1" → "a" does NOT match if 1 follows
+(?![A-Z])	Next character is NOT uppercase	"aB" → "a" does not match if B follows
+(?!\W)	Next character is NOT a symbol	"a!" → "a" does not match if ! follows
+(?!\s)	Next character is NOT whitespace	"a " → "a" does not match if space follows
+3. Notes on Combining Lookaheads
+
+Lookaheads can be chained to enforce multiple conditions.
+
+They don’t consume characters—so the main match still happens after checking conditions.
+
+Can be used for letters, numbers, symbols, whitespace, or any character set.
+
+Example – letters and numbers only, no symbols:
+
+^(?=.*[A-Za-z])(?=.*\d)(?!.*\W).+$
+
+
+Must contain letters and numbers
+
+Must not contain symbols
+```
+GREDDDY 
+Greedy Regex
+
+Definition:
+A greedy regex tries to match as much of the input as possible while still satisfying the overall pattern.
+
+Key Points:
+
+Greedy quantifiers include:
+
+* → 0 or more
+
++ → 1 or more
+
+? → 0 or 1
+
+{n, m} → n to m times
+
+Behavior:
+
+The regex engine expands the match as far as it can.
+
+If needed, it will backtrack to make the full pattern match.
+
+Example:
+
+Input: "I love cats and dogs"
+Regex: a.*s
+
+
+.* is greedy → matches everything from the first a to the last s
+
+Match: "ats and s"
+
+Lazy Version (Non-Greedy)
+
+Add ? after quantifier: *?, +?, {n,m}?
+
+Tries to match as little as possible while still satisfying the pattern
+
+Regex: a.*?s
+Match: "ats"   // stops at the first s
+
+
+Summary:
+
+Greedy = take as much as possible
+
+Lazy = take as little as possible
+
+Greedy is the default in regex.
+ nb: there is also what we call a quarifier , {8,}
+
+This is called a quantifier.
+
+{8,} means: “match at least 8 characters”.
+
+No maximum is set, so it can be 8, 9, 10… as long as it’s letters/numbers.
 
 ---
 
 # Question:
-what is the in and nin mongo db query operator
+what is destructing with renaming 
 
 ## Answer:
-$in is a MongoDB query operator that matches documents where a field’s value is in the specified array.
+const { hashedPassword: pw, ...userData } = user._doc;
+This is destructuring with renaming.
 
-$in is a MongoDB query operator that matches documents where a field’s value is in the specified array.
+It does TWO things at once:
 
-Think of $in like asking:
+1. Removes hashedPassword from userData
+So the password will NOT be included in what you send back.
 
-“Give me all the students whose name is in this list.”
+2. Renames it to pw
+We rename the field before discarding it.
 
-The list can be any set of values you want. MongoDB checks each document and returns it if the field matches any value in the list.
-Example
+Why rename it?
+Because if you simply wrote:
+
+js
+Copy code
+const { hashedPassword, ...userData } = user._doc;
+You would create a variable named hashedPassword in your function scope.
+
+You don’t need it.
+You don’t want to expose it.
+You don’t want naming conflicts.
+
+So instead, devs rename it to something throwaway:
+
+js
+Copy code
+hashedPassword: pw
+…and then simply never use pw.
+you can also extend it , Just extend the destructuring:
+
+const { hashedPassword: pw, createdAt: ca, ...userData } = user._doc;
+
+
+pw and ca are both ignored.
+
+Now the response will NOT include:
+
+hashedPassword
+
+createdAt
+or for multiple fields, you can also do , const { hashedPassword, createdAt, ...userData } = user._doc;
+
+
 ```js
-Suppose your students collection has these documents:
-
-{ name: "Spongebob", age: 20 }
-{ name: "Patrick", age: 21 }
-{ name: "Sandy", age: 22 }
-{ name: "Squidward", age: 23 }
-
-
-Query:
-
-db.students.find({ name: { $in: ["Spongebob", "Patrick", "Sandy"] } })
-
-
-MongoDB checks each document:
-
-"Spongebob" → in the list ✅ → returned
-
-"Patrick" → in the list ✅ → returned
-
-"Sandy" → in the list ✅ → returned
-
-"Squidward" → not in the list ❌ → skipped
-
-Result:
-
-{ name: "Spongebob", age: 20 }
-{ name: "Patrick", age: 21 }
-{ name: "Sandy", age: 22 }
-
-while `$nin` does the opposite
-db.students.find({name:{$nin:["Spongebob", "Patrick", "Sandy" ]}})
-```
-nb: can also be done on mongo db , compass
----
-# Question:
-what are mongo db , logical query operators
-
-
-## Answer:
-logical operators return data based on expressins that evaluate to true or false 
-```js
-`$and` Both are true
-db.students.find({$and: [{employed:false}, {age:{$gte:30}}]})
-`$not` 
-db.students.find({age:{$not :{$gte:30}}})
-can be used when finding objects with null fields
-`$nor` Both need to be false 
-
-db.students.find({$nor: [{employed:true}, {age:{$gte:10}}]})
-`$or` one is true the either id falst , or both an be true, bu both can nevwr be false
-db.students.find({$or: [{employed:false}, {age:{$gte:30}}]})
 
 ```
 
 ---
 # Question:
-What are indexes in mongo db
-## Answer:
-An index in MongoDB is like the index in a book: it helps the database find data fast without scanning every single document.
+how does the _doc mongoose internal document work
 
-```js
-Manual indexes: Create on fields you query or sort frequently:
-
-db.students.createIndex({ gpa: 1 })  // ascending
-db.students.createIndex({ gpa: -1 }) // descending
-
-
-1 vs -1:
-
-1 → ascending order (small → large)
-
--1 → descending order (large → small)
-
-Usage: Indexes help with find() and sort() queries.
-
-One-time setup: Create an index once per field or combination; MongoDB uses it automatically for matching queries.
-```
-you can view all index in a collection
-```js
-School> db.students.getIndexes()
-[
-  { v: 2, key: { _id: 1 }, name: '_id_' }
-]
-// id is there by default 
-```
-and you can also drop indexes by 
-```js
-db.students.dropIndex("_id_")
-```
-nb: can also be done in mongo db, compass, go to the index tab and create a new index
----
-# Question:
-how can you see how quieries run in mongo db 
 
 ## Answer:
+
 ```js
-Use .explain() with your query:
 
-db.students.find({ gpa: { $gte: 3 } }).explain("executionStats")
-
-
-"executionStats" is the mode that gives detailed performance info.
 ```
 
 ---
 # Question:
-how do you view creacte and delete collections in mongo db
+explain how the mongoose _doc internal document and mongoose user decument work
 
 ## Answer:
 
-```js
-`show colections`
-to view all collections 
-db.createCollection("teachers", {capped: true, size:10000000, max:100, })
+```scss
+user  ──> Mongoose Document instance
+ │
+ ├─ Methods (from Mongoose prototype)
+ │    ├─ save()
+ │    ├─ validate()
+ │    ├─ populate()
+ │    └─ toObject(), toJSON(), etc.
+ │
+ └─ _doc (internal plain object)
+      ├─ _id: ObjectId("...")
+      ├─ name: "Xander"
+      ├─ email: "xander@gmail.com"
+      ├─ hashedPassword: "$2b$10$abc123..."
+      └─ createdAt: 2025-11-25T00:00:00.000Z
 
-"capped" means putting limits 
-when capped is selected you need to put your limits 
-"size:"10000000 is 10 mb 
-"max": this is the max amount amount of documents in that collection
-`autoIndexId` - this is either true or false 
-That option is basically an old setting that told MongoDB not to automatically create the _id index when making a collection.
 
-and to drop a collection 
 ```
+How it works
 
-```js
-db.teachers.drop()
-```
+The “outer layer” (user)
+
+This is the Mongoose Document instance.
+
+It has methods like .save(), .populate(), .validate() — things you call to manipulate or validate the document.
+
+The inner layer (_doc)
+
+Stores the actual data you defined in your schema.
+
+Only plain JavaScript objects. No methods.
+
+When you destructure it or send JSON responses, this is what you’re accessing.
+
+What happens when you update
+
+user.name = "New Xander";
 
 
----
-# Question:
-What is the replace method in mongodb
+Mongoose updates _doc.name internally.
 
-## Answer:
-MongoDB gives you only one replace method:
-```js
-db.students.replaceOne(
-  { name: "Patrick" },       // filter
-  { name: "Patrick", age: 25, employed: true }   // new document
-)
-What it does:
+When you call user.save(), Mongoose reads _doc to build the database update.
 
-Finds one document matching the filter
+toObject() / toJSON()
 
-Replaces the entire document
+These methods give you a copy of _doc.
 
-Anything not in the replacement is deleted
-```
-
----
-# Question:
-
-## Answer:
-```js
-```
-
----
-# Question:
-
-## Answer:
-```js
-```
-
+Useful if you want to remove sensitive info (like password) or manipulate the object without touching the document itself.
 ---
 # Question:
 
 ## Answer:
+
 ```js
-```
 
----
-# Question:
-
-## Answer:
-```js
-```
-
----
-# Question:
-
-## Answer:
-```js
-```
-
----
-# Question:
-
-## Answer:
-```js
 ```
 
 ---
 # Question:
 
 ## Answer:
+
 ```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
+```
+
+---
+# Question:
+
+## Answer:
+
+```js
+
 ```
 
 ---
