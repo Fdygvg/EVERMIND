@@ -16,466 +16,230 @@ required: [true, "Name is required"],
 
 npm install mongoose bcryptjs jsonwebtoken
 
-# Question:
 
-How do you write rest files
 
-## Answer:.
-
-you create a folder , foldernam.rest
-
-```js
-GET http://localhost:9000/api/todo
-PUT
-DELETE
-POST
-```
-
-## usually http and not https , because
-
-# Question:
-
-how do you create get post, put and delete to mongooses db
-
-## Answer:
-
-```js
-class todoRoutesClass {
-  constructor() {
-    this.router = express.Router();
-    this.initializeRoutes();
-  }
-  initializeRoutes() {
-    this.router.get("/", todocontroller.viewAllTodo);
-    this.router.post("/new", todocontroller.createTodo);
-    this.router.delete("/delete/:id", todocontroller.deleteTodo);
-    this.router.put("/update/:id", todocontroller.updateTodo);
-  }
-  getRouter() {
-    return this.router;
-  }
-}
-const todoRoutes = new todoRoutesClass();
-export default todoRoutes;
-
-//Delete
-const { id } = req.params;
-
-const deletedTodo = await todo.findByIdAndDelete(id);
-
-// Create -post
-const { title, desc, completed } = req.body;
-const newtodo = await todo.create({
-  title,
-  desc,
-  completed,
-});
-
-//get
-const todos = await todo.find();
-res.status(200).json(todos);
-
-//Update - put
-const { id } = req.params; // The :id from the URL
-const { title, desc, completed } = req.body; // Fields to update
-
-// Find the todo by id and update with new data
-const updatedTodo = await todo.findByIdAndUpdate(
-  id,
-  { title, desc, completed },
-  { new: true, runValidators: true } // Return the updated doc + validate fields
-);
-```
 
 ---
-
-# Question:
-
-what are end points
-
+# Question
+Why Are Auth Tokens Are Dangerous If Leaked?
 ## Answer:
+An auth token is basically a temporary master key to your account.
+If someone steals it, they can act as you until that token expires.
+No password, no OTP, nothing — the token is your identity for that session.
 
-ChatGPT said:
+What a stolen token can allow:
 
-In programming and web development, endpoints are basically the points of interaction between a client (like a web browser or mobile app) and a server. They are specific URLs (or URIs) where your application can send requests and get responses. Think of them as “doors” into your application where you can ask it to do something or get some data.
+Full access to your account
 
-Here’s a breakdown:
+API calls under your name
 
-Web APIs (REST/HTTP context):
+Viewing or modifying data
 
-Each endpoint corresponds to a URL and usually a request method (GET, POST, PUT, DELETE).
+Staying logged in until the token dies
 
-Example:
+Why this happens:
 
-GET /users → Fetches all users
+Auth tokens are designed to skip constant re-authentication.
+The downside?
+Anyone holding the token is trusted by the server.
 
-POST /users → Creates a new user
+Different tokens = different danger levels
 
-GET /users/123 → Fetches the user with ID 123
+Access tokens (short-lived): Dangerous but expire quickly
 
-Function:
+Refresh tokens (long-lived): Super dangerous — can generate new tokens
 
-Endpoints define the operations your application exposes to the outside world.
+Scoped tokens: May limit what someone can do
 
-They handle incoming requests, process data, and return a response (JSON, HTML, files, etc.).
+Device-bound tokens: Harder to steal and reuse
 
-In real life analogy:
+Common ways tokens get exposed
 
-Imagine a restaurant: the endpoint is the counter where you place your order. You give instructions (request), and the kitchen responds with food (response).
+Putting them in browser localStorage
 
-Key Points:
+Accidentally logging them in console/server logs
 
-Not all URLs are endpoints; only those meant for programmatic interaction.
+Sharing screenshots of dev tools
 
-They are the backbone of APIs, microservices, and server-client communication
+Committing them to GitHub (the classic disaster)
 
+Using HTTP instead of HTTPS
+
+Extensions spying on browser storage
+
+How to protect yourself
+
+Never store tokens in localStorage if you can avoid it
+
+Prefer HTTP-only secure cookies
+
+Rotate or revoke tokens regularly
+
+Avoid logging tokens
+
+Keep expiration short
+
+Don’t paste tokens anywhere public or semi-public
+
+Bottom line
+
+If someone gets your token, they can walk into your account like they own it.
+Protect your tokens like you’d protect your password — actually, protect them more.
 ```js
 
 ```
 
 ---
-
 # Question:
-
-How do you connect node/expresss app to mongodb server
-
+Write a sample AUTH check middleware for login and logout 
 ## Answer:
 
 ```js
-import express from "express";
-import mongoose from "mongoose";
+// middleware/auth.js
+import jwt from "jsonwebtoken";
 
-const mongouri = process.env.MONGOURI;
+export const tokenBlacklist = new Set();
+export const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-const connectDB = async () => {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ msg: "No token provided" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  if (tokenBlacklist.has(token)) {
+    return res.status(401).json({ msg: "Token revoked - please login again" });
+  }
+
   try {
-    await mongoose.connect(mongodbport);
-    console.log("'✅ MongoDB Connected'");
-  } catch (error) {
-    console.error("❌ Database connection failed:", error);
-    process.exit(1);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = decoded.userId; // attach userId to request
+    next();
+  } catch (err) {
+    return res.status(401).json({ msg: "Invalid token" });
   }
 };
-export default connectDB;
+
+
 ```
 
 ---
-
 # Question:
-
-what is the skelenton for route module for an Express app
-
+What are protected routes
 ## Answer:
+What Are Protected Routes?
 
+A protected route is any API route that only logged-in users are allowed to access.
+
+That’s it. Nothing fancy.
+
+If the user has a valid token, they’re allowed in.
+If not → blocked.
+
+⭐ Example (unprotected vs protected)
+Unprotected routes
+
+Anyone can access these. No login required.
+
+POST /register
+
+POST /login
+
+GET /public-posts
+
+GET /landing-page
+
+These routes shouldn't require a token.
+
+Protected routes
+
+Only users with a valid JWT token can access these.
+
+GET /profile
+
+PUT /edit-account
+
+POST /create-post
+
+DELETE /delete-account
+
+GET /dashboard
+
+These routes must include your middleware:
+
+router.get("/profile", verifyToken, controller.viewAcct);
+
+⭐ Why do we protect routes?
+
+Because:
+
+You don’t want strangers viewing everyone's profiles
+
+You don’t want someone editing your account without being logged in
+
+You don’t want anonymous users creating or deleting things
+
+Any action that belongs to a logged-in user should be protected
+
+Think of it like:
+
+🔒 Stuff behind the locked door is protected
+🔓 Stuff outside is public
+
+Your token is the key to the locked door.
 ```js
-import express from "express";
-import usercontroller from "../controller/userController.js";
 
-class UserRouteClass {
-  constructor() {
-    this.router = express.Router();
-    this.initializeRoutes();
-  }
-  initializeRoutes() {
-    this.router.post("/register", usercontroller.registeracct);
-  }
-  getRouter() {
-    return this.router;
-  }
-}
-
-const userRoutes = new UserRouteClass();
-export default userRoutes;
 ```
-
-anf this is teh controler , import express from "express";
-import mongoose from "mongoose";
-
-class userControllerClass {
-constructor() {
-
-}
-registeracct = async () => {
-try {
-} catch (error) {}
-};
-}
-
-const usercontroller = new userControllerClass()
-export default usercontroller
-and use like th8s in the script /server
-app.use("/api/", userRoutes.getRouter());
 
 ---
-
 # Question:
-what is the regex lookahead and greddy reference 
-
-
+what is the `Set` js object?
 ## Answer:
+new Set()
+
+Set is a built-in JavaScript object that lets you store unique values of any type—strings, numbers, objects, etc.
+
+Unlike arrays, a Set cannot have duplicates. If you try to add the same value twice, it will only appear once.
 
 ```js
-Regex Lookahead Reference
-
-Lookaheads allow you to assert that something follows (or doesn’t) without consuming characters.
-
-1. Positive Lookahead (?=...)
-
-Asserts that a pattern must exist ahead.
-
-Pattern	Meaning	Example
-(?=\d)	Next character is a digit	"a1" → matches "a" if 1 is next
-(?=[A-Za-z])	Next character is a letter	"1a" → matches "1" if a follows
-(?=\W)	Next character is a symbol/punctuation	"a!" → matches "a" if ! follows
-(?=\s)	Next character is whitespace	"a " → matches "a" if space follows
-(?=.*\d)	Somewhere ahead there is a digit	"abc1" → true because digit exists
-
-Example – password rule:
-
-^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).+$
-
-
-Must contain uppercase, lowercase, number, and symbol.
-
-2. Negative Lookahead (?!...)
-
-Asserts that a pattern must NOT exist ahead.
-
-Pattern	Meaning	Example
-(?!\d)	Next character is NOT a digit	"a1" → "a" does NOT match if 1 follows
-(?![A-Z])	Next character is NOT uppercase	"aB" → "a" does not match if B follows
-(?!\W)	Next character is NOT a symbol	"a!" → "a" does not match if ! follows
-(?!\s)	Next character is NOT whitespace	"a " → "a" does not match if space follows
-3. Notes on Combining Lookaheads
-
-Lookaheads can be chained to enforce multiple conditions.
-
-They don’t consume characters—so the main match still happens after checking conditions.
-
-Can be used for letters, numbers, symbols, whitespace, or any character set.
-
-Example – letters and numbers only, no symbols:
-
-^(?=.*[A-Za-z])(?=.*\d)(?!.*\W).+$
-
-
-Must contain letters and numbers
-
-Must not contain symbols
-```
-GREDDDY 
-Greedy Regex
-
-Definition:
-A greedy regex tries to match as much of the input as possible while still satisfying the overall pattern.
-
-Key Points:
-
-Greedy quantifiers include:
-
-* → 0 or more
-
-+ → 1 or more
-
-? → 0 or 1
-
-{n, m} → n to m times
-
-Behavior:
-
-The regex engine expands the match as far as it can.
-
-If needed, it will backtrack to make the full pattern match.
-
 Example:
 
-Input: "I love cats and dogs"
-Regex: a.*s
-
-
-.* is greedy → matches everything from the first a to the last s
-
-Match: "ats and s"
-
-Lazy Version (Non-Greedy)
-
-Add ? after quantifier: *?, +?, {n,m}?
-
-Tries to match as little as possible while still satisfying the pattern
-
-Regex: a.*?s
-Match: "ats"   // stops at the first s
-
-
-Summary:
-
-Greedy = take as much as possible
-
-Lazy = take as little as possible
-
-Greedy is the default in regex.
- nb: there is also what we call a quarifier , {8,}
-
-This is called a quantifier.
-
-{8,} means: “match at least 8 characters”.
-
-No maximum is set, so it can be 8, 9, 10… as long as it’s letters/numbers.
-
----
-
-# Question:
-what is destructing with renaming 
-
-## Answer:
-const { hashedPassword: pw, ...userData } = user._doc;
-This is destructuring with renaming.
-
-It does TWO things at once:
-
-1. Removes hashedPassword from userData
-So the password will NOT be included in what you send back.
-
-2. Renames it to pw
-We rename the field before discarding it.
-
-Why rename it?
-Because if you simply wrote:
-
-js
-Copy code
-const { hashedPassword, ...userData } = user._doc;
-You would create a variable named hashedPassword in your function scope.
-
-You don’t need it.
-You don’t want to expose it.
-You don’t want naming conflicts.
-
-So instead, devs rename it to something throwaway:
-
-js
-Copy code
-hashedPassword: pw
-…and then simply never use pw.
-you can also extend it , Just extend the destructuring:
-
-const { hashedPassword: pw, createdAt: ca, ...userData } = user._doc;
-
-
-pw and ca are both ignored.
-
-Now the response will NOT include:
-
-hashedPassword
-
-createdAt
-or for multiple fields, you can also do , const { hashedPassword, createdAt, ...userData } = user._doc;
-
-
-```js
+const numbers = new Set();
+numbers.add(1);
+numbers.add(2);
+numbers.add(1); // ignored, already exists
+console.log(numbers); // Set { 1, 2 }
 
 ```
+Use case for tokenBlackList
 
----
-# Question:
-how does the _doc mongoose internal document work
+Judging by the name, it’s probably meant to keep track of invalid or revoked tokens (like JWTs) in a system.
 
+When a token is “blacklisted,” you can add it to the set:
 
-## Answer:
-
-```js
-
-```
-
----
-# Question:
-explain how the mongoose _doc internal document and mongoose user decument work
-
-## Answer:
-
-```scss
-user  ──> Mongoose Document instance
- │
- ├─ Methods (from Mongoose prototype)
- │    ├─ save()
- │    ├─ validate()
- │    ├─ populate()
- │    └─ toObject(), toJSON(), etc.
- │
- └─ _doc (internal plain object)
-      ├─ _id: ObjectId("...")
-      ├─ name: "Xander"
-      ├─ email: "xander@gmail.com"
-      ├─ hashedPassword: "$2b$10$abc123..."
-      └─ createdAt: 2025-11-25T00:00:00.000Z
+tokenBlackList.add("some-invalid-token");
 
 
-```
-How it works
+Then, when a request comes in, you can check if the token is blacklisted:
 
-The “outer layer” (user)
-
-This is the Mongoose Document instance.
-
-It has methods like .save(), .populate(), .validate() — things you call to manipulate or validate the document.
-
-The inner layer (_doc)
-
-Stores the actual data you defined in your schema.
-
-Only plain JavaScript objects. No methods.
-
-When you destructure it or send JSON responses, this is what you’re accessing.
-
-What happens when you update
-
-user.name = "New Xander";
+if (tokenBlackList.has("some-token")) {
+    console.log("Token is invalid!");
+}
 
 
-Mongoose updates _doc.name internally.
+In short: this line creates a globally accessible, dynamically modifiable collection of unique tokens to quickly check if a token is blacklisted.
 
-When you call user.save(), Mongoose reads _doc to build the database update.
+If you want, I can also show why Set is faster than arrays for blacklist
 
-toObject() / toJSON()
+it has 4 main methods , 
+.add(value) → Adds a value to the set. If it’s already there, it does nothing.
 
-These methods give you a copy of _doc.
+.has(value) → Checks if a value exists in the set. Returns true or false.
 
-Useful if you want to remove sensitive info (like password) or manipulate the object without touching the document itself.
----
-# Question:
+.delete(value) → Removes a value from the set. Returns true if it existed and was removed, otherwise false.
 
-## Answer:
-
-```js
-
-```
-
----
-# Question:
-
-## Answer:
-
-```js
-
-```
-
----
-# Question:
-
-## Answer:
-
-```js
-
-```
-
----
-# Question:
-
-## Answer:
-
-```js
-
-```
+.clear() → Removes all values from the set.
 
 ---
 # Question:

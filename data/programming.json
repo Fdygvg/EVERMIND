@@ -1,4 +1,579 @@
 [
+  {
+    "question": "What is React?",
+    "answer": "React is a JavaScript library/framework for building user interfaces (UI). It was created by Facebook, in The Year 2013.",
+    "type": "react"
+  },
+  {
+    "question": "What are components in React?",
+    "answer": "Components are reusable pieces of code that build elements on a page. They allow breaking complex UI into smaller parts, making it easier to maintain and scale.\n\nComponents can be:\n- **Class components** (older style)\n- **Function components** (modern style)\n\nComponents can also accept **props**, which are inputs used to customize them.",
+    "type": "react"
+  },
+  {
+    "question": "How does classList.toggle() work and when should you use it?",
+    "answer": "**classList.toggle()** = Adds/removes a CSS class automatically\n\n**Basic usage:**\n```js\nbutton.classList.toggle('active')\n// First click: adds 'active'\n// Second click: removes 'active'\n```\n\n**Force state:**\n```js\nelement.classList.toggle('active', true)   // Always add\nelement.classList.toggle('active', false)  // Always remove\n```\n\n**Common use cases:**\n- Toggle menus: `menu.classList.toggle('open')`\n- Dark mode: `body.classList.toggle('dark-mode')`\n- Accordions: `content.classList.toggle('active')`\n- Favorite buttons: `heart.classList.toggle('favorited')`\n\n**Better than manual:**\n```js\n// Instead of:\nif (element.classList.contains('active')) {\n  element.classList.remove('active')\n} else {\n  element.classList.add('active')\n}\n\n// Use:\nelement.classList.toggle('active')\n```\n\n**Perfect for:** Any feature that switches between two states",
+    "type": "javascript"
+  },
+  {
+    "question": "What are hooks in React?",
+    "answer": "**React Hooks** = Use state & React features in function components\n\n**Common Hooks:**\n- `useState` → Manage component state\n- `useEffect` → Handle side effects/lifecycle\n- `useRef` → Direct DOM access/persistent values\n- `useReducer` → Complex state management\n\n**Key point:** No classes needed - hooks work in function components only",
+    "type": "react"
+  },
+  {
+    "question": "What are SPA, SSR, and SSG in React?",
+    "answer": "**Rendering Patterns in React:**\n\n**SPA (Single Page App)**\n- Single HTML + JS bundle\n- UI/routes handled in browser\n- Client-side rendering\n\n**SSR (Server-Side Rendering)**\n- Server generates HTML per request\n- Better SEO, slower initial load\n\n**SSG (Static Site Generation)**\n- Pre-built HTML at build time\n- Fastest loading, great for content sites",
+    "type": "react"
+  },
+  {
+    "question": "What is Vite, and what is its default port and how do you change it?",
+    "answer": "**Vite** = Fast front-end build tool (uses ESBuild)\n\n**Create project:**\n```bash\nnpm create vite@latest folder-name\n```\n\n**Default port:** `5173`\n\n**Change port in `vite.config.js`:**\n```js\nexport default {\n  server: { port: 3000 }\n}\n```",
+    "type": "react"
+  },
+  {
+    "question": "What is StrictMode in React?",
+    "answer": "**StrictMode** = React development helper\n\n**Purpose:**\n- Watches components for outdated patterns\n- Warns about unsafe practices\n- Helps identify potential issues\n\n**Usage:**\n```jsx\n<StrictMode>\n  <App />\n</StrictMode>\n```\n\n**Note:** Development-only, doesn't affect production",
+    "type": "react"
+  },
+  {
+    "question": "What is the JSX arrow function and normal function component skeleton?",
+    "answer": "**React Component Templates:**\n\n**Arrow Function:**\n```jsx\nconst Hero = () => {\n  return <div>Hero</div>\n}\nexport default Hero\n```\nVS Code: `rafce` + Tab\n\n**Normal Function:**\n```jsx\nexport default function Hero() {\n  return <div>Hero</div>\n}\n```\nVS Code: `rfc` + Tab\n\n**Extension:** ES7+ React/Redux/React-Native snippets",
+    "type": "react"
+  },
+  {
+    "question": "How many root elements can a React component return?",
+    "answer": "**React Root Elements:** Only **one** root element allowed\n\n**❌ Invalid:**\n```jsx\nreturn (\n  <h1>Hello</h1>\n  <p>Welcome!</p>\n)\n```\n\n**✅ Solutions:**\n\n**1. Parent container:**\n```jsx\nreturn (\n  <div>\n    <h1>Hello</h1>\n    <p>Welcome!</p>\n  </div>\n)\n```\n\n**2. React Fragment (no extra HTML):**\n```jsx\nreturn (\n  <>\n    <h1>Hello</h1>\n    <p>Welcome!</p>\n  </>\n)\n```\n\n**Fragment = \"Ghost box\"** - React sees one root, browser sees siblings",
+    "type": "react"
+  },
+  {
+    "question": "Why is 'index' used as a key in React?",
+    "answer": "**React Keys** = Track elements in arrays for efficient updates\n\n**Using index as key:**\n```jsx\nconst names = [\"Brad\", \"Chuks\", \"Iron Nigga\"]\n\nnames.map((name, index) => (\n  <li key={index}>{name}</li>\n))\n```\n\n**How it works:**\n- Brad → index 0\n- Chuks → index 1  \n- Iron Nigga → index 2\n\n**When to use index:**\n- ✅ Static lists (no reordering)\n- ❌ Dynamic lists (items can be added/removed/reordered)\n\n**Better alternative:** Use unique IDs when available",
+    "type": "react"
+  },
+  {
+    "question": "How can you use multiple returns in React?",
+    "answer": "**Multiple returns** = Conditional rendering with early returns\n\n**Example:**\n```jsx\nif (loggedIn) {\n  return <h1>Hello Member</h1>; // This runs first\n}\n\nreturn <h1>Hello Guest</h1>; // This runs if loggedIn is false\n```\n\n**Key point:** Only the **first return** that executes will render - later returns are ignored\n**Use case:** Show different UI based on conditions (auth state, loading, errors)",
+    "type": "react"
+  },
+  {
+    "question": "What are some ways to add styles to React components?",
+    "answer": "**React Styling Methods:**\n\n**1. Inline styles:**\n```jsx\n<div style={{ \n  color: 'white', \n  backgroundColor: 'teal',\n  padding: '20px' \n}}>\n  Hello\n</div>\n```\n\n**2. Style object (cleaner):**\n```jsx\nconst styles = {\n  color: 'red',\n  fontSize: '55px'\n};\n\n<div style={styles}>Hello</div>\n```\n\n**Key point:** Use style objects for multiple styles to keep JSX clean",
+    "type": "react"
+  },
+  {
+    "question": "How do you import and export components in JSX?",
+    "answer": "**Component Import/Export Flow:**\n\n**1. Export component:**\n```jsx\n// Navbar.jsx\nconst Navbar = () => {\n  return <nav><h1>My Navbar</h1></nav>;\n}\n\nexport default Navbar; // ← Export\n```\n\n**2. Import & use:**\n```jsx\n// App.jsx\nimport Navbar from './components/Navbar'; // ← Import\n\nfunction App() {\n  return (\n    <div>\n      <Navbar /> {/* ← Use */}\n    </div>\n  );\n}\n```\n\n**Rules:**\n- Component names must start with **capital letter**\n- Use `export default` for single component files\n- Import path matches file location",
+    "type": "react"
+  },
+  {
+    "question": "What are props in React?",
+    "answer": "**Props** = Data passed from parent → child components\n\n**Basic usage:**\n```jsx\n// Child component\nconst Hero = ({ title, subtitle }) => {\n  return (\n    <div>\n      <h1>{title}</h1>\n      <p>{subtitle}</p>\n    </div>\n  );\n}\n\n// Parent usage\n<Hero title=\"Test Title\" subtitle=\"This is a subtitle\" />\n```\n\n**With defaults:**\n```jsx\nconst Hero = ({ title = 'Default', subtitle = 'Default' }) => {\n  // Uses defaults if props not provided\n}\n```",
+    "type": "react"
+  },
+  {
+    "question": "What is wrapping in React?",
+    "answer": "**Wrapping** = Putting content inside a component → becomes `children`\n\n**Pattern:**\n```jsx\n// Wrapper component\nconst Card = ({ children }) => {\n  return (\n    <div className=\"card-styles\">\n      {children}  {/* Content goes here */}\n    </div>\n  );\n}\n\n// Usage\n<Card>\n  <h1>Hello!</h1>\n  <p>This gets the card styling</p>\n</Card>\n```\n\n**Use case:** Reusable layout/styling containers",
+    "type": "react"
+  },
+  {
+    "question": "What is useState in React?",
+    "answer": "**useState** = Box to store values that trigger re-renders when changed\n\n**Pattern:**\n```jsx\nconst [value, setValue] = useState(initialValue);\n```\n\n**Counter example:**\n```jsx\nconst [count, setCount] = useState(0);\n\n<button onClick={() => setCount(count + 1)}>\n  Count: {count}\n</button>\n```\n\n**Flow:** Change value → React updates UI automatically",
+    "type": "react"
+  },
+
+  {
+    "question": "How to use previous state in React?",
+    "answer": "**Previous State Pattern:** Access previous value when updating state\n\n**Toggle example:**\n```jsx\nconst [lightIsOn, setLightIsOn] = useState(false)\n\n// Use function form to access previous state\nsetLightIsOn(prev => !prev)\n```\n\n**How it works:**\n- `prev` = previous state value\n- Returns new state based on previous\n- Essential for toggles, counters, dependent updates",
+    "type": "react"
+  },
+  {
+    "question": "How do you use icons in React?",
+    "answer": "**React Icons Library:** `react-icons`\n\n**Install:**\n```bash\nnpm install react-icons\n```\n\n**Usage:**\n```jsx\nimport { FaCheck, FaTrash } from 'react-icons/fa'\n\n// Basic icon\n<FaLocationDot />\n\n// In buttons\n<button><FaCheck /> Complete</button>\n<button><FaTrash /> Delete</button>\n```\n\n**Includes:** Font Awesome, Material, Feather icons + more",
+    "type": "react"
+  },
+  {
+    "question": "What is a layout in React?",
+    "answer": "**Layout Component** = Persistent UI \"frame\" around pages\n\n**Purpose:**\n- Navbar, sidebar, footer stay fixed\n- Only main content changes between pages\n- Avoid repeating common elements\n\n**Analogy:** Picture frame - frame stays, picture changes\n\n**Common use:** Wraps routes in React Router",
+    "type": "react"
+  },
+  {
+    "question": "What are Link and NavLink in React Router?",
+    "answer": "**React Router Navigation:**\n\n**Link** = Basic navigation (no page refresh)\n```jsx\n<Link to='/about'>About</Link>\n```\n\n**NavLink** = Link with active state detection\n```jsx\n<NavLink \n  to='/about'\n  style={({ isActive }) => ({\n    color: isActive ? 'red' : 'blue'\n  })}\n>\n  About\n</NavLink>\n```\n\n**Active states:** Perfect for navigation menus, tabs",
+    "type": "react"
+  },
+  {
+    "question": "What path do you use as a catch-all route in React?",
+    "answer": "**Catch-all Route** = 404/safety net for unknown URLs\n\n**Path:** `'*'`\n\n**React Router v6:**\n```jsx\nconst router = createBrowserRouter([\n  { path: '/', element: <Home /> },\n  { path: '*', element: <NotFound /> } // Catch-all\n])\n```\n\n**Behavior:** Matches any unmatched route\n**Use case:** Custom 404 pages, redirects",
+    "type": "react"
+  },
+  {
+    "question": "Why do some JSX tags have slashes and how do you know which to use?",
+    "answer": "**JSX Tag Rules:**\n\n**Closing tag `</Tag>`** = Has children/content\n```jsx\n<p>Hello</p>\n<div>Content</div>\n```\n\n**Self-closing `<Tag />`** = No children\n```jsx\n<Outlet />\n<img src='logo.png' />\n<br />\n```\n\n**Simple rule:** \n- Has stuff inside → closing tag  \n- No stuff inside → self-closing\n\n**Follows HTML conventions**",
+    "type": "react"
+  },
+  {
+    "question": "How do you run a custom JSON server?",
+    "answer": "**JSON Server Setup:**\n\n1. Install:\n```bash\nnpm install json-server\n```\n\n2. Add script to `package.json`:\n```json\n\"server\": \"json-server --watch src/jobs.json --port 3001\"\n```\n\n3. Run:\n```bash\nnpm run server\n```\n\n**Result:** Serves your JSON file as REST API at specified port",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the ENOENT error?",
+    "answer": "**ENOENT** = \"Error NO ENTity\" → File not found\n\n**Example:**\n```\nnpm error enoent Could not read package.json\n```\n\n**Cause:** npm can't find `package.json` in current directory\n**Fix:** Run command in correct project folder with package.json",
+    "type": "javascript"
+  },
+  {
+    "question": "Explain what each file does in the src folder after installing Vite",
+    "answer": "**Vite src/ Structure:**\n\n- **App.jsx** = Main component (your app's content)\n- **App.css** = Styles for App.jsx only\n- **index.css** = Global styles for entire page\n- **main.jsx** = Renders App into HTML, makes it live\n\n**Analogy:**\n- `index.html` = Empty stage\n- `App.jsx` = LEGO house  \n- `main.jsx` = Truck that delivers house to stage\n- `*.css` = Paint and decorations",
+    "type": "react"
+  },
+  {
+    "question": "How do we store and manage tasks and input in React using useState?",
+    "answer": "**Todo State Management:**\n\n```jsx\nimport { useState } from 'react';\n\nfunction App() {\n  const [todos, setTodos] = useState([]);     // All tasks\n  const [newTodo, setNewTodo] = useState(''); // Current input\n\n  return (\n    <div>\n      <input \n        value={newTodo} \n        onChange={(e) => setNewTodo(e.target.value)} \n      />\n      {/* Todo list displays here */}\n    </div>\n  );\n}\n```\n\n**State roles:**\n- `todos` = Basket of all tasks (array)\n- `newTodo` = Task currently being typed (string)",
+    "type": "react"
+  },
+  {
+    "question": "What is the dependency array in React (useEffect)?",
+    "answer": "**useEffect Dependency Array** = Controls when effect runs\n\n```jsx\n// Run once on mount\nuseEffect(() => {}, []);\n\n// Run every render  \nuseEffect(() => {});\n\n// Run when count changes\nuseEffect(() => {}, [count]);\n```\n\n**Why it matters:** Prevents unnecessary re-runs, keeps app fast\n**Pattern:** List only variables that should trigger re-execution",
+    "type": "react"
+  },
+  {
+    "question": "How do we load saved tasks from localStorage into a React state array, and why do we use objects with text, completed, and key instead of just strings?",
+    "answer": "**Loading from localStorage:**\n```jsx\nuseEffect(() => {\n  const todos = [];\n  for (let i = 0; i < localStorage.length; i++) {\n    const key = localStorage.key(i);\n    if (key.startsWith('newTask')) {\n      todos.push({\n        key,                    // Unique ID\n        text: localStorage.getItem(key),  // Task text\n        completed: false        // Status tracking\n      });\n    }\n  }\n  setSavedTodos(todos);\n}, []);\n```\n\n**Why objects instead of strings?**\n- Track completion status\n- Unique keys for identification\n- Store multiple properties per task",
+    "type": "react"
+  },
+  {
+    "question": "How do we make a React input field update state with onChange?",
+    "answer": "**Controlled input pattern:**\n```jsx\n<input \n  value={newTodo} \n  onChange={(e) => setNewTodo(e.target.value)} \n  placeholder=\"Enter Task\" \n/>\n```\n\n**Flow:** Type → `onChange` → update state → re-render with new value",
+    "type": "react"
+  },
+  {
+    "question": "How do we add a new task in a React TodoList and save it for later?",
+    "answer": "**Add + save task:**\n```jsx\nconst addTodo = () => {\n  if (newTodo.trim() === '') return;\n  \n  // Generate unique key\n  let i = 0;\n  while (localStorage.getItem(`newTask${i}`) !== null) i++;\n  const key = `newTask${i}`;\n  \n  localStorage.setItem(key, newTodo);\n  setTodos([...todos, { key, text: newTodo, completed: false }]);\n  setNewTodo('');\n};\n```",
+    "type": "react"
+  },
+  {
+    "question": "How do we display tasks stored in React state on the page with buttons for completing and deleting?",
+    "answer": "**Render tasks with actions:**\n```jsx\n{todos.map((task) => (\n  <div key={task.key} className=\"task\">\n    <li style={{\n      textDecoration: task.completed ? \"line-through\" : \"none\",\n      color: task.completed ? \"red\" : \"black\"\n    }}>\n      {task.text}\n    </li>\n    <button onClick={() => toggleComplete(task.key)}>✓</button>\n    <button onClick={() => deleteTask(task.key)}>🗑️</button>\n  </div>\n))}\n```",
+    "type": "react"
+  },
+  {
+    "question": "How do we mark a task as completed in a React TodoList?",
+    "answer": "**Toggle completion:**\n```jsx\nconst toggleComplete = (key) => {\n  setTodos(\n    todos.map((task) =>\n      task.key === key ? { ...task, completed: !task.completed } : task\n    )\n  );\n};\n```\n\n**What it does:** Flips `completed` boolean for the matching task",
+    "type": "react"
+  },
+  {
+    "question": "How do we delete a task from a React Todo List and localStorage?",
+    "answer": "**Delete from both state and storage:**\n```jsx\nconst deleteTask = (key) => {\n  setTodos(todos.filter((task) => task.key !== key));  // Remove from state\n  localStorage.removeItem(key);                        // Remove from storage\n};\n```",
+    "type": "react"
+  },
+  {
+    "question": "How do you use React Router in React?",
+    "answer": "**1. Setup router:**\n```jsx\n// main.jsx\n<BrowserRouter>\n  <App />\n</BrowserRouter>\n```\n\n**2. Define routes:**\n```jsx\n// App.jsx\n<Routes>\n  <Route path='/' element={<HomePage />} />\n  <Route path='/category/:categoryId' element={<CategoryDetailsPage />} />\n</Routes>\n```\n\n**3. Navigation:**\n```jsx\n<Link to={`/category/${categoryName}`}>Show More</Link>\n\n// Get URL params\nconst { categoryId } = useParams();\n```",
+    "type": "react"
+  },
+  {
+    "question": "How can you toggle the visibility of a form in React using useState and pass a function to close it from a child component?",
+    "answer": "**Parent component:**\n```jsx\nconst [showAddForm, setShowAddForm] = useState(false);\n\n{showAddForm && <AddNewExpense closeForm={() => setShowAddForm(false)} />}\n```\n\n**Child component:**\n```jsx\nconst AddNewExpense = ({ closeForm }) => {\n  return <button onClick={closeForm}>Cancel</button>;\n};\n```",
+    "type": "react"
+  },
+  {
+    "question": "How does the && (AND) operator work in vanilla JavaScript vs React JSX for conditional rendering?",
+    "answer": "**JavaScript:**\n```js\ntrue && 'Hello'   // 'Hello'\nfalse && 'Hello'  // false\n```\n\n**React JSX:**\n```jsx\n{showMessage && <p>Hello!</p>}  // Renders <p> if true, nothing if false\n```\n\n**Both:** Left side truthy → return right side, Left side falsy → return left side",
+    "type": "react"
+  },
+  {
+    "question": "How do you get and store today's date in React using useState?",
+    "answer": "**Store today's date:**\n```jsx\nconst [date, setDate] = useState(\n  new Date().toISOString().split('T')[0]  // \"2025-11-12\"\n);\n```\n\n**Breakdown:**\n- `new Date()` → current date\n- `.toISOString()` → \"2025-11-12T14:00:00.000Z\"  \n- `.split('T')[0]` → keep only date part",
+    "type": "react"
+  },
+  {
+    "question": "What is the preventDefault() function in JavaScript, and how do you use it?",
+    "answer": "**preventDefault()** = Stop browser's default behavior\n\n**Stop form reload:**\n```jsx\nconst handleSubmit = (e) => {\n  e.preventDefault();  // No page reload\n  // Handle form data\n};\n```\n\n**Stop link navigation:**\n```jsx\n<a href=\"https://google.com\" onClick={(e) => e.preventDefault()}>\n  Click me (won't navigate)\n</a>\n```\n\n**Use case:** Handle events in React instead of browser defaults",
+    "type": "javascript"
+  },
+  {
+    "question": "What are some common 'on' event handlers / event props in React?",
+    "answer": "**React Event Handlers** = Props starting with 'on' for user interactions\n\n**Most Common:**\n```jsx\n<button onClick={() => console.log('clicked')}>Click</button>\n<input onChange={(e) => console.log(e.target.value)} />\n<form onSubmit={handleSubmit}>...</form>\n```\n\n**Others:**\n- `onMouseEnter` / `onMouseLeave` - hover effects\n- `onFocus` / `onBlur` - input focus\n- `onKeyDown` / `onKeyUp` - keyboard events\n- `onDoubleClick` - double clicks\n\n**Key point:** Pass functions to handle events",
+    "type": "react"
+  },
+  {
+    "question": "Why is it better to use <label> with inputs in React?",
+    "answer": "**<label> Benefits** = Better accessibility + UX\n\n**Usage:**\n```jsx\n<label>\n  Expense Title:\n  <input value={title} onChange={(e) => setTitle(e.target.value)} />\n</label>\n```\n\n**Why better:**\n- Clicking label text focuses input\n- Screen readers understand relationship\n- No need for `id` + `htmlFor` when nested\n- Improforms form usability",
+    "type": "react"
+  },
+  {
+    "question": "What is rendering in React, and can you give examples?",
+    "answer": "**Rendering** = Converting JSX → HTML that browser displays\n\n**Examples:**\n```jsx\n// Simple render\nfunction App() { return <h1>Hello!</h1>; }\n\n// Conditional render\n{isLoggedIn ? <p>Welcome</p> : <p>Login</p>}\n\n// State-triggered re-render\nconst [count, setCount] = useState(0);\n<button onClick={() => setCount(count + 1)}>Click {count}</button>\n```\n\n**Key point:** React updates DOM when state/props change",
+    "type": "react"
+  },
+  {
+    "question": "What does 'prev' mean in React state updates?",
+    "answer": "**prev** = Previous state value in functional updates\n\n**Usage:**\n```jsx\nsetExpenses((prev) => [newExpense, ...prev]);\n```\n\n**Why use it:**\n- Guarantees latest state (even with rapid updates)\n- React passes current state automatically\n- Can rename: `prev` → `currentState` → `oldArray`\n\n**Alternative:** Direct update (risky if state might be stale)",
+    "type": "react"
+  },
+  {
+    "question": "How do you toggle a value with a button in React?",
+    "answer": "**Toggle** = Flip boolean state on click\n\n**Example:**\n```jsx\nconst [dropdown, setDropdown] = useState(false);\n\n<button onClick={() => setDropdown(!dropdown)}>\n  {dropdown ? 'Hide' : 'Show'} Dropdown\n</button>\n```\n\n**How it works:**\n- `!dropdown` flips true/false\n- State update triggers re-render\n- Button text updates automatically",
+    "type": "react"
+  },
+  {
+    "question": "Why doesn't style[1] work when styles are defined as an object in React, and how can you fix it?",
+    "answer": "**Problem:** Objects don't have numeric indices\n\n**❌ Wrong:**\n```jsx\nconst style = { color: 'red', bg: 'orange' };\nstyle[1] // undefined\n```\n\n**✅ Solutions:**\n```jsx\n// Access by key\nconst style = { normal: { color: 'red' }, active: { color: 'blue' } };\n<button style={style.active}>Click</button>\n\n// Or use array\nconst styles = [{ color: 'red' }, { color: 'blue' }];\n<button style={styles[1]}>Click</button>\n```\n\n**Key point:** Objects use keys, arrays use indices",
+    "type": "react"
+  },
+  {
+    "question": "What is useMemo in React and how do you use it?",
+    "answer": "**useMemo** = Memoizes expensive calculations\n\n**Usage:**\n```jsx\nconst expensiveValue = useMemo(() => {\n  return count * 2; // Heavy calculation\n}, [count]); // Only recompute when count changes\n```\n\n**Why use it:**\n- Skips recalculation if dependencies unchanged\n- Performance optimization\n- First arg: calculation function\n- Second arg: dependency array\n\n**Use case:** Expensive computations, complex transformations",
+    "type": "react"
+  },
+  {
+    "question": "What is the .toFixed() method in JavaScript?",
+    "answer": "**.toFixed()** = Number method that rounds to decimal places → returns string\n\n```js\nnum.toFixed(2) // '12.35' (string)\nnum.toFixed(0) // '12' (string)\n```\n\n**Convert back to number:**\n```js\nparseFloat(num.toFixed(2)) // 12.35 (number)\n```\n\n**Note:** Returns string, not number",
+    "type": "javascript"
+  },
+  {
+    "question": "How do you calculate today's, this month's, and this year's totals from a list of expenses in React?",
+    "answer": "**Expense Date Filtering** = Compare dates using getFullYear/getMonth/getDate\n\n**React Pattern:**\n```js\nuseEffect(() => {\n  const today = new Date();\n  const totals = { today: 0, month: 0, year: 0 };\n\n  expenses.forEach(({ amount, date }) => {\n    const expDate = new Date(date);\n    \n    // Year → Month → Day nested checks\n    if (expDate.getFullYear() === today.getFullYear()) {\n      totals.year += amount;\n      \n      if (expDate.getMonth() === today.getMonth()) {\n        totals.month += amount;\n        \n        if (expDate.getDate() === today.getDate()) {\n          totals.today += amount;\n        }\n      }\n    }\n  });\n  \n  setTotals(totals);\n}, [expenses]);\n```\n\n**Logic flow:** Year check → Month check → Day check (efficient nesting)",
+    "type": "react"
+  },
+  {
+    "question": "How do you check if a date is in the same year, month, or day as today in JavaScript?",
+    "answer": "**Date Comparison** = Use Date methods for year/month/day checks\n\n```js\nconst today = new Date();\nconst otherDate = new Date(someDate);\n\nconst sameYear = otherDate.getFullYear() === today.getFullYear();\nconst sameMonth = otherDate.getMonth() === today.getMonth();\nconst sameDay = otherDate.getDate() === today.getDate();\n```\n\n**Efficient nested checking:**\n```js\nif (sameYear) {\n  // Year logic\n  if (sameMonth) {\n    // Month logic  \n    if (sameDay) {\n      // Day logic\n    }\n  }\n}\n```\n\n**Methods:** getFullYear(), getMonth() (0-11), getDate() (1-31)",
+    "type": "javascript"
+  },
+  {
+    "question": "What are the Rules of Hooks in React?",
+    "answer": "**Hooks Rules** = Consistent order, no conditions/loops\n\n**✅ DO:**\n- Call hooks at top level of components\n- Same order every render\n- Only in React functions/custom hooks\n\n**❌ DON'T:**\n```js\nif (condition) useState()    // ❌ No conditions\nfor () useEffect()          // ❌ No loops\nfunction nested() { useX() } // ❌ No nested functions\nreturn null; useState()     // ❌ No after early returns\n```\n\n**Why:** React tracks hooks by call order, not name\n\n**Safe pattern:**\n```js\nfunction Component() {\n  const [a] = useState();     // Hook #1\n  const [b] = useState();     // Hook #2  \n  useEffect(() => {});        // Hook #3\n  // ... then logic/returns\n}\n```",
+    "type": "react"
+  },
+  {
+    "question": "What are custom hooks in React?",
+    "answer": "**Custom Hooks** = Reusable functions that contain React hook logic\n\n**Rules:**\n- Name starts with `use` (useCounter, useFetch)\n- Can use any built-in hooks\n- Returns data/functions, NOT JSX\n\n**Example:**\n```jsx\n// Custom hook\nfunction useCounter(initial = 0) {\n  const [count, setCount] = useState(initial)\n  return [count, setCount]\n}\n\n// Usage in component\nconst [count, setCount] = useCounter(0)\n```\n\n**Benefits:** Logic reuse, cleaner components, extract complex effects",
+    "type": "react"
+  },
+  {
+    "question": "What does it mean for a React component to mount and unmount?",
+    "answer": "**React Component Lifecycle:**\n\n**Mount** = Component appears on screen (first render)\n- Runs `useEffect(() => {}, [])`\n- Component enters the \"room\"\n\n**Update** = State/props change\n- Component stays, content changes\n\n**Unmount** = Component removed from DOM\n- Cleanup functions run\n- Component leaves the \"room\"\n\n**Analogy:** Enter room → Change clothes → Leave room",
+    "type": "react"
+  },
+  {
+    "question": "What is lazy initialization in React's useState?",
+    "answer": "**Lazy Initialization** = Expensive calculation runs only once\n\n**Syntax:**\n```jsx\nconst [value] = useState(() => expensiveWork())\n```\n\n**Without lazy init (runs every render):**\n```jsx\nconst [value] = useState(expensiveWork()) // ❌ Wasteful\n```\n\n**Use cases:**\n- Heavy calculations\n- Loading from localStorage\n- Large default data\n\n**Performance:** Function runs only during initial mount",
+    "type": "react"
+  },
+  {
+    "question": "Why must a React component return exactly one root element, and how does this rule apply when using array methods like map()?",
+    "answer": "**React JSX Rule:** One root element per JSX return\n\n**Applies to:** Any function returning JSX (.map(), components)\n\n**❌ Invalid:**\n```jsx\nitems.map(i => (\n  <p>{i.name}</p>\n  <span>{i.age}</span>\n))\n```\n\n**✅ Solutions:**\n```jsx\n// Fragment\nitems.map(i => (\n  <>\n    <p>{i.name}</p>\n    <span>{i.age}</span>\n  </>\n))\n\n// Or wrapper div\nitems.map(i => (\n  <div>\n    <p>{i.name}</p>\n    <span>{i.age}</span>\n  </div>\n))\n```\n\n**Other methods:** .filter(), .forEach() don't return JSX → no rules",
+    "type": "react"
+  },
+  {
+    "question": "What does Object.entries() do in JavaScript, and how does it work with destructuring?",
+    "answer": "**Object.entries()** = Convert object to [key, value] pairs\n\n**Basic usage:**\n```js\nObject.entries({ a: 1, b: 2 })\n// → [['a', 1], ['b', 2]]\n```\n\n**With destructuring:**\n```js\nObject.entries(obj).map(([key, value]) => {\n  // key = 'a', value = 1\n})\n```\n\n**Nested destructuring:**\n```js\nObject.entries(obj).map(([category, { expenses, total }]) => {\n  // category = key\n  // expenses, total = nested properties\n})\n```\n\n**Use case:** Loop through objects in React rendering",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the full pattern of using Object.entries() with nested destructuring in React?",
+    "answer": "**Object.entries() + Advanced Destructuring Pattern:**\n\n**Full syntax:**\n```jsx\nObject.entries(expensesByCategory).map(\n  ([category, { expenses: categoryExpenses, total }]) => (\n    <div>{category}: ${total}</div>\n  )\n)\n```\n\n**What you get:**\n- `category` → object key\n- `categoryExpenses` → renamed from expenses  \n- `total` → nested property\n\n**Perfect for:** Category-based UI, data visualization, nested object rendering",
+    "type": "javascript"
+  },
+  {
+    "question": "What are cascading renders in React, and why do they happen?",
+    "answer": "**Cascading Renders** = Infinite re-render loop\n\n**Cause:**\n```\nrender → useEffect → setState → render → useEffect → ...\n```\n\n**❌ Problem pattern:**\n```jsx\nuseEffect(() => {\n  setState(data) // Triggers re-render\n}, [state]) // state in dependencies\n```\n\n**✅ Solution:** Define async functions inside useEffect\n```jsx\nuseEffect(() => {\n  const fetchData = async () => {\n    const res = await fetch(url)\n    setData(await res.json())\n  }\n  fetchData()\n}, []) // Empty dependencies\n```\n\n**Fix:** Avoid state setters in dependency arrays",
+    "type": "react"
+  },
+  {
+    "question": "How do you use async/await in React to fetch data safely?",
+    "answer": "**Safe Data Fetching Pattern:**\n\n**1. State setup:**\n```jsx\nconst [data, setData] = useState(null)\nconst [loading, setLoading] = useState(true)\n```\n\n**2. Async function:**\n```jsx\nconst fetchData = async () => {\n  try {\n    setLoading(true)\n    const res = await fetch('API_URL')\n    setData(await res.json())\n  } catch (err) {\n    console.error(err)\n  } finally {\n    setLoading(false)\n  }\n}\n```\n\n**3. Call in useEffect:**\n```jsx\nuseEffect(() => { fetchData() }, [])\n```\n\n**4. Render:**\n```jsx\n{loading ? <p>Loading...</p> : <p>{data?.name}</p>}\n```\n\n**Best practices:** try/catch, finally, optional chaining",
+    "type": "react"
+  },
+  {
+    "question": "How do you work with dates in JavaScript using new Date() and Date.now()?",
+    "answer": "**JavaScript Dates:**\n\n**new Date()** - Creates readable date object:\n```js\nconst now = new Date();                    // Current date/time\nconst birthday = new Date('2025-11-03');  // Specific date\n\n// Extract parts:\nconst month = now.getMonth() + 1; // 0-indexed\nconst day = now.getDate();\nconst year = now.getFullYear();\n```\n\n**Date.now()** - Milliseconds since 1970 (Unix epoch):\n```js\nconst timestamp = Date.now(); // 1731474081650\n\n// Measure time:\nconst start = Date.now();\n// ... do work\nconst elapsed = Date.now() - start;\n```\n\n**Summary:**\n- `new Date()` → Human-readable dates\n- `Date.now()` → Fast timestamps for calculations",
+    "type": "javascript"
+  },
+
+  {
+    "question": "What is a JavaScript runtime?",
+    "answer": "**JavaScript Runtime** = Environment where JS code executes\n\n**Two main types:**\n- **Browser Runtime**: DOM, events, fetch API (web pages)\n- **Node.js Runtime**: Files, servers, databases (server-side)\n\n**Simple analogy:** Runtime gives JS the tools/power to actually do things",
+    "type": "javascript"
+  },
+  {
+    "question": "What are event propagation and event delegation in JavaScript DOM?",
+    "answer": "**Event Propagation** = How events travel through DOM\n\n**Three phases:**\n1. **Capturing**: Window → target (trickle down)\n2. **Target**: Reaches clicked element  \n3. **Bubbling**: Target → window (bubble up) ← **default**\n\n**Event Delegation** = Efficient event handling using bubbling\n\n**Inefficient:**\n```js\n// ❌ Multiple listeners\ndoc.querySelector('.item1').addEventListener('click', handleClick);\ndoc.querySelector('.item2').addEventListener('click', handleClick);\n```\n\n**Efficient delegation:**\n```js\n// ✅ Single parent listener\ndoc.querySelector('.list').addEventListener('click', (e) => {\n  if (e.target.classList.contains('item')) {\n    console.log(`Clicked: ${e.target.textContent}`);\n  }\n});\n```\n\n**Benefits:**\n- Works with dynamic elements\n- Better performance\n- Less memory usage",
+    "type": "javascript",
+    "tags": [
+      "javascript",
+      "dom",
+      "events",
+      "propagation",
+      "delegation",
+      "bubbling",
+      "performance"
+    ]
+  },
+
+  {
+    "question": "What is the window object in JavaScript and what can you do with it?",
+    "answer": "**Window Object** = Global browser environment\n\n**Key Properties & Methods:**\n\n**Browser Info:**\n```js\nwindow.innerWidth        // Viewport width\nwindow.innerHeight       // Viewport height\nwindow.navigator.userAgent // Browser details\nwindow.location.href     // Current URL\n```\n\n**Navigation:**\n```js\nwindow.location.href = 'https://google.com' // Navigate\nwindow.history.back()    // Go back\nwindow.open()           // New window\nwindow.close()          // Close window\n```\n\n**Timers:**\n```js\nsetTimeout(() => {}, 1000)   // Run once after delay\nsetInterval(() => {}, 1000)  // Run repeatedly\n```\n\n**Storage:**\n```js\nlocalStorage.setItem('key', 'value')  // Persistent storage\nsessionStorage.setItem('key', 'value') // Tab-specific storage\n```\n\n**Dialogs:**\n```js\nalert('Message')        // Simple alert\nconfirm('Sure?')        // OK/Cancel dialog\nprompt('Enter name')    // Input dialog\n```\n\n**Global Scope:**\n```js\nvar globalVar = 'hello'\nconsole.log(window.globalVar) // 'hello' (var becomes window property)\n\nlet localVar = 'hi' \nconsole.log(window.localVar)  // undefined (let/const don't)\n```\n\n**Note:** Only available in browsers, not Node.js",
+    "type": "javascript",
+    "tags": ["javascript", "browser", "window-object", "global-object"]
+  },
+  {
+    "question": "What Is the Event Loop in Node.js?",
+    "answer": "**Event Loop** = Manages tasks without blocking\n\n**How it works:**\n- Handles slow tasks (files, network) in background\n- Checks when tasks complete\n- Runs results when ready\n- Processes one task at a time\n\n**Key point:** Keeps Node.js responsive by managing async operations",
+    "type": "nodejs"
+  },
+  {
+    "question": "What Is a REPL?",
+    "answer": "**REPL** = Read-Eval-Print-Loop tool\n\n**What it does:**\n- **Reads** your code\n- **Evaluates** it\n- **Prints** result\n- **Loops** for next command\n\n**Usage:**\n```bash\nnode  # Then type JavaScript directly\n```\n\n**Use case:** Quick code testing without files",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you create a new folder from cmd?",
+    "answer": "**Create + enter folder:**\n```bash\nmkdir folderName\ncd folderName\n```",
+    "type": "command-line"
+  },
+  {
+    "question": "How do you setup a new Node.js project?",
+    "answer": "**Initialize project:**\n```bash\nnpm init        # With questions\nnpm init -y     # Skip questions (defaults)\n```\n\n**What it creates:** `package.json` with:\n- name, version, description\n- entry point, scripts\n- author, license\n\n**Next step:** `npm install <package>` to add dependencies",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you store and retrieve data from localStorage?",
+    "answer": "**localStorage** = Browser persistent storage\n\n**Basic operations:**\n```js\n// Store\nlocalStorage.setItem('key', 'value');\n\n// Retrieve\nconst value = localStorage.getItem('key');\n\n// Remove\nlocalStorage.removeItem('key');\n\n// Clear all\nlocalStorage.clear();\n```\n\n**Objects/Arrays:**\n```js\n// Store object\nlocalStorage.setItem('user', JSON.stringify(user));\n\n// Retrieve object\nconst user = JSON.parse(localStorage.getItem('user'));\n```\n\n**Key points:**\n- Persists after browser restart\n- ~5MB limit per domain\n- Stores only strings\n- Use JSON for complex data\n- Avoid sensitive info (passwords, tokens)",
+    "type": "javascript",
+    "tags": ["javascript", "localstorage", "web-storage", "browser-api"]
+  },
+  {
+    "question": "What are Object.values(), Object.keys(), and Object.entries() methods?",
+    "answer": "**Object Iteration Methods** = Convert object data to arrays\n\n```js\nconst user = { name: \"Chuks\", age: 21, country: \"Nigeria\" };\n\nObject.keys(user)    // [\"name\", \"age\", \"country\"] - property names\nObject.values(user)  // [\"Chuks\", 21, \"Nigeria\"] - property values  \nObject.entries(user) // [[\"name\", \"Chuks\"], [\"age\", 21], ...] - key-value pairs\n```\n\n**Common Patterns:**\n```js\n// Loop through object\nObject.entries(user).forEach(([key, value]) => {\n  console.log(`${key}: ${value}`);\n});\n\n// Convert back to object\nconst updated = Object.fromEntries(Object.entries(user));\n\n// Filter object properties\nconst stringsOnly = Object.fromEntries(\n  Object.entries(user).filter(([k, v]) => typeof v === 'string')\n);\n```\n\n**Use cases:**\n- **keys()** - get property names\n- **values()** - work with values only  \n- **entries()** - need both key + value",
+    "type": "javascript",
+    "tags": [
+      "javascript",
+      "objects",
+      "object-methods",
+      "iteration",
+      "object-keys",
+      "object-values",
+      "object-entries",
+      "data-transformation"
+    ]
+  },
+  {
+    "question": "What is encodeURIComponent and when should you use it?",
+    "answer": "**encodeURIComponent()** = Encodes text for URL safety\n\n**Converts:** `space & ?` → `%20%20%26%20%3F`\n\n**When to use:** URL parameters, query strings, form data\n\n```js\n// Safe URL construction\nconst query = \"coffee & tea\";\nconst url = `https://api.com/search?q=${encodeURIComponent(query)}`;\n// → \"https://api.com/search?q=coffee%20%26%20tea\"\n\n// Without encoding - URL breaks!\nconst badUrl = `https://api.com/search?q=${query}`;\n// → \"https://api.com/search?q=coffee & tea\" (invalid)\n```\n\n**encodeURIComponent vs encodeURI:**\n- **encodeURIComponent** - encodes most chars (/, ?, =, &) - use for URL parts\n- **encodeURI** - preserves URL structure - use for full URLs\n\n**Modern alternative:**\n```js\nconst params = new URLSearchParams({ query: \"coffee & tea\" });\nconst url = `https://api.com/search?${params}`; // auto-encodes\n```\n\n**Always encode** user input before putting in URLs!",
+    "type": "javascript",
+    "tags": [
+      "javascript",
+      "url",
+      "encoding",
+      "encodeuricomponent",
+      "api",
+      "web-development",
+      "security"
+    ]
+  },
+  {
+    "question": "How do you export in CommonJS and ES Modules?",
+    "answer": "**Module Export Patterns:**\n\n**CommonJS (Node.js default):**\n```js\n// Export\nmodule.exports = functionName\nmodule.exports = { func1, func2 }\n\n// Import\nconst func = require('./file')\nconst { func1 } = require('./file')\n```\n\n**ES Modules:**\n```json\n// package.json\n{ \"type\": \"module\" }\n```\n\n```js\n// Export\nexport const func = () => {}\nexport default func\n\n// Import\nimport func from './file.js'\nimport { func1 } from './file.js'\n```\n\n**Key difference:** CommonJS uses `module.exports/require`, ES uses `export/import`",
+    "type": "nodejs"
+  },
+  {
+    "question": "How to create a server in Node.js?",
+    "answer": "**Basic Node.js HTTP Server:**\n\n```js\nimport http from 'http'\n\nconst server = http.createServer((req, res) => {\n  res.end('Hello World')\n})\n\nserver.listen(9000, () => {\n  console.log('Server running on port 9000')\n})\n```\n\n**Enhanced responses:**\n```js\n// Set status + headers\nres.writeHead(200, { \n  'Content-Type': 'text/html' \n})\nres.end('<h1>Hello World</h1>')\n\n// Or separately\nres.statusCode = 404\nres.setHeader('Content-Type', 'text/plain')\n```\n\n**Components:** http module, createServer, request/response, listen",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you set a shortcut to run JS files on Node.js?",
+    "answer": "**Package.json Scripts Shortcuts:**\n\n**Setup in package.json:**\n```json\n{\n  \"scripts\": {\n    \"start\": \"node server.js\",\n    \"dev\": \"node server.js\"\n  }\n}\n```\n\n**Run commands:**\n```bash\nnpm start          # No 'run' needed for 'start'\nnpm run dev        # 'run' required for other names\n```\n\n**Pattern:** Add frequently used commands as scripts for quick execution",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you install nodemon so you don't always have to restart your server when you make changes?",
+    "answer": "**Auto-restart Development Tools:**\n\n**Option 1: Nodemon (all Node versions)**\n```bash\nnpm i -D nodemon\n```\n\n```json\n// package.json\n{\n  \"scripts\": {\n    \"dev\": \"nodemon server.js\"\n  }\n}\n```\n\n**Option 2: Node.js built-in --watch (Node 18.11.0+)**\n```json\n{\n  \"scripts\": {\n    \"dev\": \"node --watch server.js\"\n  }\n}\n```\n\n**Usage:** `npm run dev` - automatically restarts on file changes\n**Works with:** Express, HTTP servers, any Node.js application",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you prevent files from being pushed to GitHub?",
+    "answer": "**.gitignore File** = Block files from Git tracking\n\n**Create .gitignore:**\n```\n# Dependencies\nnode_modules/\n\n# Environment variables\n.env\n.env.local\n\n# OS files\n.DS_Store\nThumbs.db\n\n# Logs\n*.log\nnpm-debug.log*\n```\n\n**Purpose:** Keep secrets safe, avoid pushing large/unnecessary files\n**Rule:** Add before first commit for maximum effectiveness",
+    "type": "git"
+  },
+  {
+    "question": "What are env files and how to use them?",
+    "answer": "**.env Files** = Environment variables for configuration\n\n**Sample .env:**\n```env\nAPI_KEY=91301394134\nPORT=3432\nDATABASE_URL=mongodb://localhost:27017/mydb\n```\n\n**Usage:**\n```json\n// package.json\n{\n  \"scripts\": {\n    \"dev\": \"nodemon --env-file=.env server.js\"\n  }\n}\n```\n\n```js\n// server.js\nconst PORT = process.env.PORT\nconst API_KEY = process.env.API_KEY\n```\n\n**Alternative with dotenv package:**\n```js\nimport 'dotenv/config'\n// Now process.env has your variables\n```\n\n**Security:** Always add .env to .gitignore",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you test API with Postman?",
+    "answer": "**Postman API Testing:**\n\n**Basic workflow:**\n1. Enter URL: `http://localhost:8000`\n2. Select method: GET, POST, PUT, DELETE\n3. Click \"Send\"\n\n**Advanced features:**\n- Headers (Content-Type, Authorization)\n- Request body (JSON, form data)\n- Save requests to collections\n- Test multiple endpoints\n\n**Common test URLs:**\n- `http://localhost:8000/api/users`\n- `http://localhost:8000/api/products`\n- `http://localhost:8000/about`\n\n**Use case:** Manual API testing during development",
+    "type": "tools"
+  },
+  {
+    "question": "How to get current file path in Node.js?",
+    "answer": "**Node.js File Paths:**\n\n**CommonJS (default):**\n```js\nconsole.log(__filename); // Full file path\nconsole.log(__dirname);  // Directory path\n```\n\n**ES Modules:**\n```js\nimport { fileURLToPath } from 'url';\nimport { dirname } from 'path';\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = dirname(__filename);\n```\n\n**Usage:**\n```js\nconst filePath = path.join(__dirname, 'public', 'index.html');\n```",
+    "type": "nodejs"
+  },
+  {
+    "question": "How does a Node.js server that serves HTML files work?",
+    "answer": "**Basic Node.js HTML Server:**\n\n```js\nimport http from \"http\";\nimport fs from \"fs/promises\";\n\nconst server = http.createServer(async (req, res) => {\n  if (req.method === \"GET\") {\n    let filePath;\n    \n    if (req.url === \"/\") filePath = \"index.html\";\n    else if (req.url === \"/about\") filePath = \"about.html\";\n    else throw new Error(\"Not Found\");\n\n    const data = await fs.readFile(filePath);\n    res.setHeader(\"Content-Type\", \"text/html\");\n    res.write(data);\n    res.end();\n  }\n});\n```\n\n**Flow:** URL → file path → read file → send HTML response",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is regex in Node.js?",
+    "answer": "**Regex** = Pattern matching for strings\n\n**Basic patterns:**\n```js\n[0-9]     // Single digit\n[0-9]+    // 1+ digits\n^hello$   // Exact match \"hello\"\n```\n\n**Route example:**\n```js\n/^\\/api\\/users\\/([0-9]+)$/\n// Matches: /api/users/123\n// Captures: 123\n```\n\n**Usage:**\n```js\nif (req.url.match(/^\\/api\\/users\\/([0-9]+)$/)) {\n  const userId = req.url.match(/^\\/api\\/users\\/([0-9]+)$/)[1];\n}\n```",
+    "type": "nodejs"
+  },
+
+  {
+    "question": "How to write a basic HTTP route handler in Node.js?",
+    "answer": "**Basic Route Handler:**\n\n```js\n// GET /api/users/123\nif (req.url.match(/^\\/api\\/users\\/([0-9]+)$/) && req.method === \"GET\") {\n  const id = req.url.split(\"/\")[3]; // Extract ID\n  const user = users.find(u => u.id === id);\n\n  if (user) {\n    res.setHeader(\"Content-Type\", \"application/json\");\n    res.write(JSON.stringify(user));\n  } else {\n    res.statusCode = 404;\n    res.write(JSON.stringify({ message: \"User Not Found\" }));\n  }\n  res.end();\n  return;\n}\n```\n\n**Flow:** Check URL/method → extract ID → find user → JSON response",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is middleware in Node.js?",
+    "answer": "**Middleware** = Functions that run BEFORE your route handlers\n\n**Basic pattern:**\n```js\n(req, res, next) => {\n  // Do something with request\n  next(); // Continue to next middleware/route\n}\n```\n\n**Examples:**\n```js\n// Logger middleware\nconst logger = (req, res, next) => {\n  console.log(`${req.method} ${req.url}`);\n  next();\n};\n\n// JSON response middleware\nconst jsonMiddleware = (req, res, next) => {\n  res.setHeader(\"Content-Type\", \"application/json\");\n  next();\n};\n```\n\n**Flow:** Request → Middleware runs → Route handler\n**Critical:** Always call `next()` or request freezes",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you add data to an API using POST in Node.js?",
+    "answer": "**POST Route Structure:**\n```js\nif (req.url === \"/api/users\" && req.method === \"POST\") {\n  let body = \"\";\n  \n  // Collect request body chunks\n  req.on(\"data\", (chunk) => {\n    body += chunk.toString();\n  });\n  \n  // Process when complete\n  req.on(\"end\", () => {\n    const newUser = JSON.parse(body);\n    users.push(newUser);\n    \n    res.statusCode = 201; // Created status\n    res.setHeader(\"Content-Type\", \"application/json\");\n    res.write(JSON.stringify(newUser));\n    res.end();\n  });\n}\n```\n\n**Key steps:**\n1. Check URL + method\n2. Collect body data in chunks\n3. Parse JSON when complete\n4. Save data + send 201 response",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is the Node.js path module?",
+    "answer": "**Path module** = Tool for working with file/folder locations\n\n**Breaking down paths:**\n```js\nconst filePath = \"./dir1/dir2/text.txt\";\n\npath.basename(filePath) // \"text.txt\"\npath.dirname(filePath)  // \"./dir1/dir2\"  \npath.extname(filePath)  // \".txt\"\n```\n\n**Building paths:**\n```js\n// Get current file location\nconst __filename = url.fileURLToPath(import.meta.url);\nconst __dirname = path.dirname(__filename);\n\n// Join paths safely\npath.join(__dirname, \"dir1\", \"text.txt\")\n```\n\n**Use case:** Cross-platform file path handling",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is the Node.js OS module?",
+    "answer": "**OS module** = Get computer system information\n\n**System info:**\n```js\nos.userInfo()      // Current user details\nos.totalmem()      // Total RAM (bytes)\nos.freemem()       // Available RAM (bytes)\nos.cpus()          // Processor info + core count\nos.platform()      // Operating system\nos.uptime()        // System uptime (seconds)\n```\n\n**Convert bytes to GB:**\n```js\nos.totalmem() / 1024 / 1024 / 1024 // GB\n```\n\n**Use case:** Check system resources and info",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is the Node.js URL module?",
+    "answer": "**URL module** = Work with web addresses and file URLs\n\n**Parse URLs:**\n```js\nconst urlObj = new URL(\"https://google.com/search?q=hello\");\n\nurlObj.protocol // \"https:\"\nurlObj.hostname // \"google.com\"\nurlObj.pathname // \"/search\"\nurlObj.search   // \"?q=hello\"\n```\n\n**File URLs:**\n```js\n// Convert file URL to path\nurl.fileURLToPath(import.meta.url)\n```\n\n**Search parameters:**\n```js\nconst params = new URLSearchParams(urlObj.search);\nparams.get(\"q\")        // \"hello\"\nparams.append(\"limit\", \"5\") // Add parameter\n```\n\n**Use case:** Parse and manipulate URLs",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is the Node.js Crypto module?",
+    "answer": "**Crypto module** = Security tools for encryption/hashing\n\n**Hashing (one-way):**\n```js\nconst hash = crypto.createHash(\"sha256\");\nhash.update(\"password123\");\nconst hashed = hash.digest(\"hex\");\n// Creates irreversible fingerprint\n```\n\n**Random data:**\n```js\ncrypto.randomBytes(16) // Generate secure random bytes\n```\n\n**Encryption (two-way):**\n```js\n// Setup\nconst key = crypto.randomBytes(32);\nconst iv = crypto.randomBytes(16);\n\n// Encrypt\nconst cipher = crypto.createCipheriv(\"aes-256-cbc\", key, iv);\nlet encrypted = cipher.update(\"hello\", \"utf8\", \"hex\");\n\n// Decrypt  \nconst decipher = crypto.createDecipheriv(\"aes-256-cbc\", key, iv);\nlet decrypted = decipher.update(encrypted, \"hex\", \"utf8\");\n```\n\n**Key difference:**\n- **Hash** = One-way (passwords)\n- **Encrypt** = Two-way (secret messages)",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is the Node.js Process Module?",
+    "answer": "**Process Module** = Info/control about running Node program\n\n**Key Features:**\n```js\n// Command line args\nprocess.argv[2] // First argument\n\n// Environment\nprocess.env.NODE_ENV // dev/prod\nprocess.env.USERNAME // current user\n\n// Program info\nprocess.cwd()     // current directory\nprocess.pid       // process ID\nprocess.version   // Node version\n\n// Memory/performance\nprocess.memoryUsage()\nprocess.uptime()\n\n// Lifecycle control\nprocess.exit(0)   // stop program\nprocess.on('exit', cleanup) // run on exit\n```\n\n**Use case:** Access system info, handle program lifecycle",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is Node.js EventEmitter?",
+    "answer": "**EventEmitter** = Messaging system for code communication\n\n**Basic usage:**\n```js\nimport { EventEmitter } from \"events\";\nconst emitter = new EventEmitter();\n\n// Listen for events\nemitter.on(\"greet\", (name) => {\n  console.log(\"Hello \" + name);\n});\n\n// Trigger events\nemitter.emit(\"greet\", \"Mary\"); // \"Hello Mary\"\n\n// Listen once\nemitter.once(\"welcome\", () => {\n  console.log(\"Welcome! (runs once)\");\n});\n```\n\n**Key methods:**\n- `on(event, handler)` - listen\n- `emit(event, data)` - trigger\n- `once(event, handler)` - listen once\n- `off(event, handler)` - remove listener\n\n**Use case:** Custom events, pub/sub patterns, decoupled code",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is React Router Outlet?",
+    "answer": "**Outlet** = Placeholder for nested route content\n\n**Usage:**\n```jsx\n// Layout component\nfunction Layout() {\n  return (\n    <div>\n      <header>My Site</header>\n      <Outlet />  {/* Child routes appear here */}\n      <footer>Footer</footer>\n    </div>\n  );\n}\n\n// Router setup\n<Routes>\n  <Route path=\"/\" element={<Layout />}>\n    <Route index element={<Home />} />\n    <Route path=\"about\" element={<About />} />\n    <Route path=\"contact\" element={<Contact />} />\n  </Route>\n</Routes>\n```\n\n**What happens:**\n- `/` → Home appears in Outlet\n- `/about` → About appears in Outlet\n- Layout stays same, content changes\n\n**Use case:** Shared layouts with changing main content",
+    "type": "react"
+  },
+  {
+    "question": "What is Express.js?",
+    "answer": "**Express.js** = Web framework for Node.js\n\n**Basic server:**\n```js\nconst express = require('express');\nconst app = express();\n\napp.get('/', (req, res) => {\n  res.send('Home Page');\n});\n\napp.listen(3000);\n```\n\n**What it does:**\n- Handles HTTP requests/responses\n- Creates routes (GET, POST, etc.)\n- Adds middleware functionality\n- Serves HTML, JSON, files\n\n**Install:** `npm i express`\n\n**Use case:** Build web servers, APIs, backends quickly",
+    "type": "nodejs"
+  },
+  {
+    "question": "What are Opinionated vs. Unopinionated Frameworks?",
+    "answer": "**Opinionated** = Has strong rules/conventions\n- **Examples:** Next.js, Ruby on Rails, Angular\n- **Like:** IKEA furniture - follow instructions\n\n**Unopinionated** = Provides tools, you decide usage\n- **Examples:** Express.js, Vanilla JS, Vue.js\n- **Like:** Wood & tools - build anything any way\n\n**Key difference:**\n- Opinionated = Structure + conventions\n- Unopinionated = Freedom + flexibility",
+    "type": "programming"
+  },
+  {
+    "question": "How do you load files with Node.js and Express.js (normal and static)?",
+    "answer": "**File Serving in Express** = Manual vs Static\n\n**Manual (per route):**\n```js\napp.get(\"/\", (req, res) => {\n  res.sendFile(path.join(__dirname, 'public', 'index.html'));\n});\n```\n\n**Static (automatic):**\n```js\napp.use(express.static(path.join(__dirname, \"public\")));\n// Serves ALL files in 'public' folder automatically\n// / → index.html, /css/style.css → css/style.css, etc.\n```\n\n**Use static** for CSS, JS, images, multiple HTML files",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you create Dynamic Routes in Express.js?",
+    "answer": "**Dynamic Routes** = URLs with changing parts\n\n```js\napp.get(\"/posts/:id\", (req, res) => {\n  const postId = parseInt(req.params.id);  // Get from URL\n  const post = posts.find(p => p.id === postId);\n  \n  if (post) return res.json(post);\n  res.status(404).json({ error: \"Post not found\" });\n});\n```\n\n**URLs:** `/posts/1`, `/posts/2`, `/posts/3`\n\n**Multiple params:**\n```js\napp.get(\"/users/:userId/posts/:postId\", (req, res) => {\n  const { userId, postId } = req.params;\n});\n```\n\n**Key:** Use `:paramName` and access via `req.params`",
+    "type": "nodejs"
+  },
+  {
+    "question": "Why should you use return after sending a response in Express?",
+    "answer": "**Return after response** = Prevent multiple responses\n\n**❌ Problem:**\n```js\nif (post) res.json(post);\nres.status(404).json({ error: \"Not found\" }); // Both may run!\n```\n\n**✅ Solutions:**\n```js\n// Option 1: Return\nif (post) return res.json(post);\nres.status(404).json({ error: \"Not found\" });\n\n// Option 2: Else\nif (post) {\n  res.json(post);\n} else {\n  res.status(404).json({ error: \"Not found\" });\n}\n```\n\n**Why:** Express throws error if you send multiple responses",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you split Express routes into separate files?",
+    "answer": "**Route Splitting** = Organize routes into modules\n\n**server.js:**\n```js\nconst postsRouter = require(\"./routes/posts\");\napp.use('/api/posts', postsRouter); // Base path\n```\n\n**routes/posts.js:**\n```js\nconst router = express.Router();\n\nrouter.get(\"/\", (req, res) => {\n  // Handles GET /api/posts\n  res.json(posts);\n});\n\nrouter.get(\"/:id\", (req, res) => {\n  // Handles GET /api/posts/5\n  const post = posts.find(p => p.id === parseInt(req.params.id));\n  res.json(post);\n});\n\nmodule.exports = router;\n```\n\n**Key:** Router uses relative paths, main file sets base path",
+    "type": "nodejs"
+  },
+  {
+    "question": "How does the filter() method work for deleting items?",
+    "answer": "**filter() for deletion** = Keep items that DON'T match\n\n**Logic:** `filter(item => item.id !== idToDelete)`\n\n```js\nconst posts = [\n  { id: 1, title: \"First\" },\n  { id: 2, title: \"Second\" },\n  { id: 3, title: \"Third\" }\n];\n\n// Delete post with id 2\nconst updatedPosts = posts.filter(post => post.id !== 2);\n// Result: [{id: 1}, {id: 3}]\n```\n\n**Key comparison:**\n- `===` → keeps the match (wrong for deletion)\n- `!==` → removes the match (correct for deletion)\n\n**Remember:** filter returns new array, doesn't modify original",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the white-space: pre-line CSS property?",
+    "answer": "**white-space: pre-line** = Preserve line breaks, collapse spaces\n\n**Problem:** HTML ignores line breaks\n```html\n<div>Hello\nWorld</div>\n<!-- Displays as: \"Hello World\" -->\n```\n\n**Solution:**\n```css\ndiv { white-space: pre-line; }\n/* Now displays as:\nHello\nWorld\n*/\n```\n\n**Other values:**\n- `normal` = Collapse all (default)\n- `nowrap` = No line breaks\n- `pre` = Preserve all whitespace\n- `pre-wrap` = Preserve spaces + line breaks\n\n**Use case:** Display text with intentional line breaks",
+    "type": "css"
+  },
+
+  {
+    "question": "What are some Express.js request properties and methods?",
+    "answer": "**Express Request (req) Object:**\n\n**Properties (data):**\n```js\nreq.method      // \"GET\", \"POST\"\nreq.params      // URL parameters { id: \"5\" }\nreq.query       // Query string ?limit=10\nreq.body        // Request body data\nreq.headers     // All headers\nreq.path        // URL path \"/api/posts\"\n```\n\n**Methods (functions):**\n```js\nreq.get('Content-Type')    // Get header value\nreq.is('application/json') // Check content type\nreq.accepts('json')        // Check accepted formats\n```\n\n**Middleware example:**\n```js\nconst logger = (req, res, next) => {\n  console.log(`${req.method} ${req.path}`)\n  next()\n}\n```\n\n**Key:** Properties = data, Methods = functions to call",
+    "type": "nodejs"
+  },
+  {
+    "question": "What are some HTTP status codes and response formats?",
+    "answer": "**HTTP Status Codes:**\n\n**Success (200s):**\n- `200 OK` - GET success\n- `201 Created` - POST success\n- `204 No Content` - DELETE success\n\n**Client Errors (400s):**\n- `400 Bad Request` - Invalid data\n- `401 Unauthorized` - Not logged in\n- `403 Forbidden` - No permission\n- `404 Not Found` - Resource missing\n\n**Server Errors (500s):**\n- `500 Internal Error` - Server issues\n\n**Express Examples:**\n```js\n// 200 - Success\nres.status(200).json(posts)\n\n// 201 - Created\nres.status(201).json(newPost)\n\n// 204 - Deleted\nres.status(204).send()\n\n// 400 - Validation\nres.status(400).json({error: \"Invalid data\"})\n\n// 404 - Not found\nres.status(404).json({error: \"User not found\"})\n```\n\n**Pattern:** Use appropriate codes to communicate request outcomes",
+    "type": "nodejs"
+  },
+  {
+    "question": "How to get current file path in Node.js?",
+    "answer": "**Node.js File Paths:**\n\n**CommonJS:**\n```js\n__filename  // Full file path\n__dirname   // Directory path\n```\n\n**ES Modules:**\n```js\nimport { fileURLToPath } from 'url';\nimport { dirname } from 'path';\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = dirname(__filename);\n```\n\n**Usage:** `path.join(__dirname, 'public', 'index.html')`",
+    "type": "nodejs"
+  },
+  {
+    "question": "How does a Node.js server that serves HTML files work?",
+    "answer": "**Basic HTML Server:**\n\n```js\nimport http from \"http\";\nimport fs from \"fs/promises\";\n\nconst server = http.createServer(async (req, res) => {\n  if (req.method === \"GET\") {\n    let filePath = path.join(__dirname, \"public\", \n      req.url === \"/\" ? \"index.html\" : \"about.html\"\n    );\n    \n    const data = await fs.readFile(filePath);\n    res.setHeader(\"Content-Type\", \"text/html\");\n    res.write(data);\n    res.end();\n  }\n});\n```\n\n**Flow:** URL → file path → read file → send HTML",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is regex in Node.js?",
+    "answer": "**Regex** = Pattern matching for strings\n\n**Basic patterns:**\n```js\n[0-9]    // Single digit\n[0-9]+   // 1+ digits\n^...$    // Exact match\n```\n\n**Route example:**\n```js\n/^\\/api\\/users\\/([0-9]+)$/\n// Matches: /api/users/123\n// Captures ID: 123\n```\n\n**Usage:** `req.url.match(/^\\/api\\/users\\/([0-9]+)$/)`",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is the .find method in JavaScript?",
+    "answer": "**.find()** = Returns first array element matching condition\n\n**Syntax:** `array.find(item => condition)`\n\n**Examples:**\n```js\n[10, 20, 30, 40].find(n => n > 25); // 30\n\nusers.find(u => u.id === 2); // {id: 2, name: \"Ben\"}\n```\n\n**Returns:** First match or `undefined`",
+    "type": "javascript"
+  },
+  {
+    "question": "How to write a basic HTTP route handler in Node.js?",
+    "answer": "**Basic Route Handler:**\n\n```js\n// GET /api/users/123\nif (req.url.match(/^\\/api\\/users\\/([0-9]+)$/) && req.method === \"GET\") {\n  const id = req.url.split(\"/\")[3];\n  const user = users.find(u => u.id === id);\n\n  if (user) {\n    res.setHeader(\"Content-Type\", \"application/json\");\n    res.write(JSON.stringify(user));\n  } else {\n    res.statusCode = 404;\n    res.write(JSON.stringify({ message: \"User Not Found\" }));\n  }\n  res.end();\n}\n```\n\n**Flow:** Check URL/method → extract ID → find user → JSON response",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is the white-space: pre-line CSS property?",
+    "answer": "**white-space: pre-line** = Preserves line breaks but collapses spaces\n\n**Normal HTML behavior:**\n```html\n<div>Hello\nWorld</div>\n```\nDisplays as: `Hello World` (line break ignored)\n\n**With pre-line:**\n```css\ndiv { white-space: pre-line; }\n```\nDisplays as:\n```\nHello\nWorld\n```\n\n**Other values:**\n- `normal`: Collapse all whitespace (default)\n- `pre`: Preserve all whitespace + line breaks\n- `pre-wrap`: Preserve both spaces + line breaks\n- `nowrap`: No line breaks, collapse spaces",
+    "type": "css"
+  },
+  {
+    "question": "What is the .replace() method in JavaScript?",
+    "answer": "**.replace()** = Replace part of a string\n\n**Syntax:**\n```js\nstring.replace(searchValue, newValue)\n```\n\n**Examples:**\n```js\n// Replace all 'dog' with 'cat'\n'I have a dog'.replace(/dog/g, 'cat') // 'I have a cat'\n\n// Replace line breaks with <br>\n'Hello\\nWorld'.replace(/\\n/g, '<br>') // 'Hello<br>World'\n\n// Numbers must be strings first\n12345.toString().replace('2', '9') // '19345'\n```\n\n**Key points:**\n- Works only on strings\n- Use regex `/g` for global replacement\n- Returns new string (original unchanged)",
+    "type": "javascript"
+  },
+  {
+    "question": "What are some Express.js request properties and methods?",
+    "answer": "**Express Request (req) properties/methods:**\n\n**Properties (data):**\n```js\nreq.method       // 'GET', 'POST'\nreq.params       // URL params { id: '5' }\nreq.query        // Query string ?limit=10\nreq.body         // Parsed request body\nreq.headers      // Request headers\nreq.protocol     // 'http' or 'https'\nreq.ip           // Client IP address\n```\n\n**Methods (functions):**\n```js\nreq.get('Content-Type')  // Get header value\nreq.is('application/json') // Check content type\nreq.accepts('json')      // Check accepted formats\n```\n\n**Logger example:**\n```js\nconst logger = (req, res, next) => {\n  console.log(`${req.method} ${req.originalUrl}`);\n  next();\n};\n```\n\n**Key difference:**\n- **Properties** = Direct data access\n- **Methods** = Functions to call",
+    "type": "nodejs"
+  },
+  {
+    "question": "How do you create a simple REST API to make POST and GET requests?",
+    "answer": "**REST API Structure** = Express server with routes/controllers\n\n**Server Setup:**\n```js\nimport express from 'express';\nconst app = express();\napp.use(express.json()); // JSON parsing\n\n// Routes\napp.get('/api/books', getAllBooks);\napp.post('/api/books', createBook);\napp.get('/api/books/:id', getBookById);\n\napp.listen(9000);\n```\n\n**Controller (Business Logic):**\n```js\nlet books = [];\n\n// GET all books\nconst getAllBooks = (req, res) => {\n  res.json({ success: true, data: books });\n};\n\n// POST new book\nconst createBook = (req, res) => {\n  const { title, author } = req.body;\n  \n  if (!title || !author) {\n    return res.status(400).json({ error: \"Title and author required\" });\n  }\n\n  const newBook = { \n    id: books.length + 1, \n    title, \n    author \n  };\n  \n  books.push(newBook);\n  res.status(201).json({ success: true, data: newBook });\n};\n```\n\n**Project Structure:**\n```\nproject/\n├── server.js\n├── controllers/\n│   └── bookController.js\n└── routes/\n    └── bookRoutes.js\n```\n\n**Key points:** Separate routes from logic, use express.json(), return proper status codes",
+    "type": "nodejs"
+  },
+  {
+    "question": "What middleware function must you use when destructuring req.body?",
+    "answer": "**Required Middleware:** `app.use(express.json())`\n\n**Why needed:**\n- Express doesn't parse JSON by default\n- Without it: `req.body` = `undefined`\n\n**❌ Without middleware:**\n```js\nconst { author } = req.body; // TypeError!\n// Cannot destructure property 'author' of undefined\n```\n\n**✅ With middleware:**\n```js\napp.use(express.json()); // Add this FIRST\n\n// Now works:\nconst { author } = req.body; // \"James Carter\"\n```\n\n**Placement:** Must come BEFORE routes\n```js\nconst app = express();\n\n// ✅ Middleware first\napp.use(express.json());\n\n// ✅ Routes after\napp.post('/api/books', createBook);\n```\n\n**Key point:** Always setup `express.json()` before routes to parse JSON bodies",
+    "type": "nodejs"
+  },
 
   {
     "question": "What is MongoDB and Mongoose?",
@@ -105,7 +680,7 @@
   },
   {
     "question": "What are some advanced schema validation techniques?",
-    "answer": "**Advanced validation:**\n```js\nage: {\n  type: Number,\n  min: 1,\n  max: 100,\n  validate: {\n    validator: v => v % 2 === 0,\n    message: props => `${props.value} is not even`\n  }\n},\nemail: {\n  type: String,\n  required: true,\n  lowercase: true,\n  minLength: 10\n},\ncreatedAt: {\n  type: Date,\n  default: new Date(),\n  immutable: true\n}\n```",
+    "answer": "**Advanced Mongoose validation:**\n\n**Email validation:**\n```js\nemail: {\n  type: String,\n  match: [/.+@.+\\..+/, 'Please enter a valid email'],\n  required: [true, 'Email is required']\n}\n```\n\n**Custom password validation:**\n```js\npassword: {\n  type: String,\n  validate: {\n    validator: function(value) {\n      return /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]/.test(value)\n    },\n    message: 'Password must contain at least one letter and one number'\n  }\n}\n```\n\n**Required field with message:**\n```js\nname: {\n  type: String,\n  required: [true, 'Name is required']\n}\n```\n\n**Number validation:**\n```js\nage: {\n  type: Number,\n  min: [1, 'Age must be positive'],\n  max: [100, 'Age cannot exceed 100'],\n  validate: {\n    validator: v => v % 2 === 0,\n    message: props => `${props.value} is not even`\n  }\n}\n```\n\n**Date validation:**\n```js\ncreatedAt: {\n  type: Date,\n  default: new Date(),\n  immutable: true\n}\n```\n\n**Key validation types:**\n- `match` - Regex pattern matching\n- `validate` - Custom validation functions\n- `required` - Required fields with custom messages\n- `min/max` - Number/string length limits\n- `immutable` - Prevents modification after creation",
     "type": "mongoose"
   },
 
@@ -231,5 +806,36 @@
     "question": "How does Mongoose _doc work?",
     "answer": "**Mongoose Document Structure:**\n\n```js\nuser  → Mongoose Document instance\n  ├─ Methods: save(), validate(), populate()\n  └─ _doc → Internal plain data object\n       ├─ _id: ObjectId(\"...\")\n       ├─ name: \"Xander\"\n       ├─ email: \"xander@gmail.com\"\n       └─ hashedPassword: \"$2b$10$abc123...\"\n```\n\n**Key points:**\n- **user** = Document instance with methods\n- **_doc** = Internal plain object with actual data\n- **Methods** live on document, **data** lives in _doc\n- **Updates**: `user.name = \"new\"` updates `_doc.name` internally\n- **toObject()/toJSON()** return copies of _doc for safe manipulation\n\n**Use _doc for:** Destructuring, JSON responses, data access\n**Use user for:** Database operations, validation, methods",
     "type": "nodejs"
+  },
+  {
+    "question": "How to generate random numbers and array elements?",
+    "answer": "**Random Numbers:**\n\n**Basic random (0-1):**\n```js\nMath.random() // 0.0 to 0.999...\n```\n\n**Random integer (0 to max-1):**\n```js\nMath.floor(Math.random() * max)\n```\n\n**Range (min to max inclusive):**\n```js\nfunction randomRange(min, max) {\n  return Math.floor(Math.random() * (max - min + 1)) + min\n}\nrandomRange(1, 10) // 1-10\n```\n\n**Random array element:**\n```js\nconst randomItem = array[Math.floor(Math.random() * array.length)]\n```\n\n**Common patterns:**\n- `Math.floor(Math.random() * N)` = 0 to N-1\n- `+ 1` = Never get 0\n- Use for: games, random picks, shuffling",
+    "type": "javascript"
+  },
+  {
+    "question": "What is Font Awesome and how do you use icons in projects?",
+    "answer": "**Font Awesome** = Popular icon library with vector icons\n\n**Setup:**\n```html\n<link rel=\"stylesheet\" href=\"font-awesome-cdn\">\n```\n\n**Basic Usage:**\n```html\n<i class=\"fas fa-home\"></i>           <!-- Solid icon -->\n<i class=\"far fa-star\"></i>           <!-- Regular/outline -->\n<i class=\"fab fa-twitter\"></i>         <!-- Brand icon -->\n```\n\n**Common Patterns:**\n```html\n<!-- Button with icon -->\n<button><i class=\"fas fa-plus\"></i> Add Item</button>\n\n<!-- Navigation -->\n<a href=\"#\"><i class=\"fas fa-home\"></i> Home</a>\n\n<!-- Social links -->\n<a href=\"#\"><i class=\"fab fa-github\"></i></a>\n```\n\n**Key Styles:**\n- `fas` = Solid (filled)\n- `far` = Regular (outline) \n- `fab` = Brands\n- `fa-xs` to `fa-10x` = Sizes\n\n**Common Issues:**\n- ❌ Missing CDN = icons won't show\n- ❌ Wrong prefix (`fa` vs `fas`)\n- ❌ Unclosed `<i>` tags break layout",
+    "type": "html"
+  },
+
+  {
+    "question": "Why are auth tokens dangerous if leaked?",
+    "answer": "**Auth tokens** = Temporary master keys to accounts\n\n**If stolen, attackers can:**\n- Access your account fully\n- Make API calls as you\n- View/modify your data\n- Stay logged in until token expires\n\n**Why dangerous:**\n- No password/OTP needed\n- Server trusts anyone with valid token\n- Refresh tokens = super dangerous (generate new tokens)\n\n**Common leaks:**\n- localStorage in browsers\n- Console/server logs\n- GitHub commits\n- HTTP instead of HTTPS\n\n**Protection:**\n- Use HTTP-only cookies\n- Short expiration times\n- Never log tokens\n- Rotate tokens regularly",
+    "type": "security"
+  },
+  {
+    "question": "How to write auth middleware for login/logout?",
+    "answer": "**Auth middleware with token blacklist:**\n\n```js\nexport const tokenBlacklist = new Set()\n\nexport const verifyToken = (req, res, next) => {\n  const token = req.headers.authorization?.split(' ')[1]\n  \n  if (!token) {\n    return res.status(401).json({ msg: 'No token provided' })\n  }\n  \n  if (tokenBlacklist.has(token)) {\n    return res.status(401).json({ msg: 'Token revoked' })\n  }\n  \n  try {\n    const decoded = jwt.verify(token, process.env.JWT_SECRET)\n    req.userId = decoded.userId\n    next()\n  } catch (err) {\n    res.status(401).json({ msg: 'Invalid token' })\n  }\n}\n```\n\n**Logout (blacklist token):**\n```js\napp.post('/logout', (req, res) => {\n  const token = req.headers.authorization?.split(' ')[1]\n  tokenBlacklist.add(token)\n  res.json({ msg: 'Logged out successfully' })\n})\n```",
+    "type": "nodejs"
+  },
+  {
+    "question": "What are protected routes?",
+    "answer": "**Protected routes** = API routes requiring login\n\n**Unprotected (public):**\n```js\nPOST /register\nPOST /login\nGET /public-data\n```\n\n**Protected (need auth):**\n```js\nGET /profile        // User data\nPUT /account        // Edit account\nPOST /posts         // Create content\nDELETE /posts/:id   // Delete content\n```\n\n**Usage with middleware:**\n```js\nrouter.get('/profile', verifyToken, getProfile)\nrouter.put('/account', verifyToken, updateAccount)\n```\n\n**Why protect:**\n- Prevent unauthorized access\n- Secure user-specific actions\n- Control data modification\n\n**Analogy:** Token = key to locked door 🔑",
+    "type": "nodejs"
+  },
+  {
+    "question": "What is the JavaScript Set object?",
+    "answer": "**Set** = Collection of unique values\n\n**Basic usage:**\n```js\nconst uniqueNumbers = new Set()\nuniqueNumbers.add(1)\nuniqueNumbers.add(2)\nuniqueNumbers.add(1) // Ignored - already exists\n// Set { 1, 2 }\n```\n\n**Main methods:**\n```js\nset.add(value)     // Add value\nset.has(value)     // Check if exists → true/false\nset.delete(value)  // Remove value\nset.clear()        // Remove all values\n```\n\n**Perfect for:**\n- Token blacklists\n- Unique item collections\n- Fast existence checks\n\n**Why faster than arrays:**\n- O(1) lookup vs O(n) for arrays\n- Automatic duplicate prevention",
+    "type": "javascript"
   }
 ]

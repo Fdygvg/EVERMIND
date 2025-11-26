@@ -1003,7 +1003,7 @@
     "type": "css"
   },
   {
-    "question": "What do DOM, CSS, HTML, LLM, JSON, JSX, and API stand for?",
+    "question": "What do DOM, CSS, HTML, LLM, JSON, JSX, XML, SQL/NOSQL and API stand for?",
     "answer": "DOM: Document Object Model — the browser's tree-like representation of HTML that JavaScript can manipulate.\nCSS: Cascading Style Sheets — used to style web pages (colors, layout, fonts, etc.).\nHTML: HyperText Markup Language — provides the structure and content of web pages.\nLLM: Large Language Model — AI models like ChatGPT that understand and generate human-like text.\nJSON: JavaScript Object Notation — a lightweight data format for exchanging information between servers and web apps.\nJSX: JavaScript XML — a syntax used in React to write HTML-like code inside JavaScript.\nAPI: Application Programming Interface — a set of rules that allows one software application to communicate with another, like fetching data from a server.",
     "type": "web"
   },
@@ -1529,10 +1529,37 @@
     "answer": "body {\n  background: linear-gradient(120deg, #1e1e1e, #3b82f6, #9333ea);\n  background-size: 300% 300%;\n  animation: moveBg 12s ease infinite;\n  height: 100vh;\n}\n\n@keyframes moveBg {\n  0% { background-position: 0% 50%; }\n  50% { background-position: 100% 50%; }\n  100% { background-position: 0% 50%; }\n}\n\nThis creates a moving, colorful gradient background well-suited for movie apps or stylish web pages. The gradient animates smoothly between colors, making the background dynamic.",
     "type": "css"
   },
+    {
+    "question": "What is the substring() method in JavaScript?",
+    "answer": "**substring()** = Extract part of a string\n\n**Syntax:**\n```js\nstring.substring(startIndex, endIndex)\n// endIndex is optional\n```\n\n**Examples:**\n```js\n'Hello World'.substring(0, 5)  // 'Hello'\n'Evermind'.substring(4)       // 'mind'\n```\n\n**Note:** `endIndex` is exclusive (not included in result)",
+    "type": "javascript"
+  },
+    {
+    "question": "What is the .find method in JavaScript?",
+    "answer": "**.find()** = Returns first array element matching condition\n\n**Syntax:**\n```js\narray.find(item => condition)\n```\n\n**Examples:**\n```js\nconst nums = [10, 20, 30, 40];\nnums.find(n => n > 25); // 30\n\nconst users = [{id: 1, name: \"Anna\"}, {id: 2, name: \"Ben\"}];\nusers.find(u => u.id === 2); // {id: 2, name: \"Ben\"}\n```\n\n**Returns:** First match or `undefined` if none found",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the .replace() method in JavaScript?",
+    "answer": "**.replace()** = String method to find/replace text\n\n**Syntax:**\n```js\nstring.replace(search, replacement)\n```\n\n**Examples:**\n```js\n// Basic replacement\n'Hello World'.replace('World', 'Universe')\n// → \"Hello Universe\"\n\n// Global regex replacement\n'I have a dog'.replace(/dog/g, 'cat')\n// → \"I have a cat\"\n\n// Line breaks to HTML\n'Hello\\nWorld'.replace(/\\n/g, '<br>')\n// → \"Hello<br>World\"\n```\n\n**Important:**\n- Works on strings only (convert numbers with .toString())\n- Returns new string (original unchanged)\n- Use regex with `g` flag for global replacement",
+    "type": "javascript"
+  },
   {
     "question": "What is the startsWith string method?",
     "answer": "startsWith() checks if a string begins with a specific sequence of characters.\n\nExample:\nlet key = \"newTask3\";\nconsole.log(key.startsWith\"newTask\")); // true\nconsole.log(key.startsWith\"oldTask\")); // false\n\nUseful for filtering, searching, and validation scenarios in JavaScript.",
     "type": "javascript"
+  },
+    {
+    "question": "What are the different ways to add event listeners in JavaScript?",
+    "answer": "**3 Ways to Add Event Listeners:**\n\n**1. Inline HTML (Avoid):**\n```html\n<button onclick=\"handleClick()\">Click</button>\n```\n- ❌ Mixes HTML/JS, hard to maintain\n\n**2. DOM Property (Simple):**\n```js\nbutton.onclick = function() { \n  console.log('Clicked'); \n};\n```\n- ✅ Clean separation\n- ❌ Only one handler per event\n\n**3. addEventListener() (Recommended):**\n```js\nbutton.addEventListener('click', handleClick);\nbutton.addEventListener('click', secondHandler); // Multiple handlers!\n```\n\n**Advanced options:**\n```js\n// Run once then auto-remove\nbutton.addEventListener('click', handleClick, { once: true });\n\n// Better scrolling performance\nbutton.addEventListener('touchstart', handleTouch, { passive: true });\n\n// Remove listener later\nbutton.removeEventListener('click', handleClick);\n```\n\n**🚨 Critical:** Don't call the function!\n```js\n// ❌ WRONG - executes immediately\nbutton.addEventListener('click', handleClick());\n\n// ✅ CORRECT - passes function reference\nbutton.addEventListener('click', handleClick);\n```",
+    "type": "javascript",
+    "tags": ["javascript", "events", "event-listeners", "addeventlistener"]
+  },
+    {
+    "question": "How do you assign IDs and classes to HTML elements and style them in CSS?",
+    "answer": "**IDs vs Classes:**\n\n**IDs** - Unique identifiers:\n```html\n<p id=\"main-title\">Title</p>\n```\n```css\n#main-title { color: blue; } /* # for IDs */\n```\n\n**Classes** - Reusable styles:\n```html\n<p class=\"highlight box\">Text</p>\n<div class=\"box\">Content</div>\n```\n```css\n.highlight { background: yellow; } /* . for classes */\n.box { border: 2px solid black; }\n```\n\n**Rules:**\n- **IDs**: Unique per page, use for single elements\n- **Classes**: Multiple elements, reusable styles\n- Elements can have multiple classes (space-separated)",
+    "type": "css",
+    "tags": ["css", "id", "class", "selectors", "styling"]
   },
   {
     "question": "What is dataset/data-key in JavaScript and how is it used?",
