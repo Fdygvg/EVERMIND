@@ -837,5 +837,36 @@
     "question": "What is the JavaScript Set object?",
     "answer": "**Set** = Collection of unique values\n\n**Basic usage:**\n```js\nconst uniqueNumbers = new Set()\nuniqueNumbers.add(1)\nuniqueNumbers.add(2)\nuniqueNumbers.add(1) // Ignored - already exists\n// Set { 1, 2 }\n```\n\n**Main methods:**\n```js\nset.add(value)     // Add value\nset.has(value)     // Check if exists → true/false\nset.delete(value)  // Remove value\nset.clear()        // Remove all values\n```\n\n**Perfect for:**\n- Token blacklists\n- Unique item collections\n- Fast existence checks\n\n**Why faster than arrays:**\n- O(1) lookup vs O(n) for arrays\n- Automatic duplicate prevention",
     "type": "javascript"
+  },
+
+  {
+    "question": "What are the two JavaScript module systems?",
+    "answer": "**CommonJS (CJS)** - Node.js traditional\n```js\n// Export\nmodule.exports = { add }\n// Import\nconst { add } = require('./math')\n```\n\n**ES Modules (ESM)** - Modern standard\n```js\n// Export\nexport function add(a, b) { ... }\n// Import\nimport { add } from './math.js'\n```\n\n**Key differences:**\n- **CJS**: Synchronous, Node.js only\n- **ESM**: Asynchronous, browsers + Node.js\n- **ESM** supports tree-shaking and static analysis",
+    "type": "javascript"
+  },
+  {
+    "question": "Why can't you use both async and next in Mongoose middleware?",
+    "answer": "**Mongoose middleware rule:**\n\n**Async middleware:**\n```js\n// ✅ Correct - no next()\nUserSchema.pre('save', async function() {\n  await someAsyncOperation()\n})\n```\n\n**Callback middleware:**\n```js\n// ✅ Correct - uses next()\nUserSchema.pre('save', function(next) {\n  someSyncOperation()\n  next()\n})\n```\n\n**❌ Wrong - mixing both:**\n```js\nUserSchema.pre('save', async function(next) {\n  next() // ❌ TypeError: next is not a function\n})\n```\n\n**Why:** Mongoose handles async flow internally - no `next` provided to avoid double calls and race conditions",
+    "type": "mongoose"
+  },
+  {
+    "question": "What is the $regex operator in MongoDB?",
+    "answer": "**$regex** = MongoDB's regex search operator\n\n**Basic usage:**\n```js\n// Find names starting with 'A' (case-insensitive)\ndb.users.find({ \n  name: { \n    $regex: '^A', \n    $options: 'i' \n  } \n})\n```\n\n**Common patterns:**\n```js\n{ name: { $regex: 'cat', $options: 'i' } }  // Contains 'cat'\n{ email: { $regex: '@gmail\\.com$' } }       // Ends with @gmail.com\n{ title: { $regex: '^The' } }               // Starts with 'The'\n```\n\n**$options:**\n- `'i'` = case-insensitive\n- `'m'` = multiline\n- `'x'` = verbose\n\n**Use for:** Pattern matching, search functionality, data filtering",
+    "type": "mongodb"
+  },
+  {
+    "question": "What is a debug log?",
+    "answer": "**Debug log** = Program execution trail for bug fixing\n\n**Simple console logging:**\n```js\nconsole.log('[DEBUG] Function called with:', { a, b })\nconsole.log('[DEBUG] Result:', result)\n```\n\n**Professional debug library:**\n```js\nimport debug from 'debug'\nconst log = debug('app:module')\nlog('Operation completed:', data)\n```\n\n**File logging:**\n```js\nfs.appendFileSync('debug.log', `[${timestamp}] ${message}\\n`)\n```\n\n**Key features:**\n- Timestamps for tracking\n- Context (variables, function names)\n- Log levels (DEBUG, INFO, WARN, ERROR)\n- Enable/disable via environment variables\n\n**Use for:** Troubleshooting, monitoring, understanding code flow",
+    "type": "development"
+  },
+  {
+    "question": "What is aggregation in MongoDB?",
+    "answer": "**Aggregation** = Data processing pipeline for analysis\n\n**Pipeline concept:**\n```js\ndata → $match → $group → $sort → result\n```\n\n**Basic example:**\n```js\ndb.users.aggregate([\n  { $match: { status: 'active' } },     // Filter\n  { $group: { \n      _id: '$category', \n      total: { $sum: 1 } \n  }},                                    // Group & count\n  { $sort: { total: -1 } }              // Sort\n])\n```\n\n**Common stages:**\n- `$match` - Filter documents (like WHERE)\n- `$group` - Group & compute (sum, avg, count)\n- `$sort` - Sort results\n- `$project` - Reshape fields\n- `$lookup` - Join collections\n- `$unwind` - Flatten arrays\n\n**Use for:** Analytics, reports, data summaries, complex queries",
+    "type": "mongodb"
+  },
+  {
+    "question": "What does timestamps option do in Mongoose?",
+    "answer": "**timestamps: true** = Auto-adds createdAt & updatedAt\n\n**Schema setup:**\n```js\nconst userSchema = new mongoose.Schema({\n  name: String,\n  email: String\n}, { timestamps: true }) // ← Adds auto-timestamps\n```\n\n**Result in database:**\n```js\n{\n  _id: '123abc',\n  name: 'Chuks',\n  email: 'chuks@example.com',\n  createdAt: '2025-11-27T18:24:19.187Z',  // Auto-added\n  updatedAt: '2025-11-27T18:24:19.221Z'   // Auto-updated\n}\n```\n\n**Behavior:**\n- `createdAt` - Set once on creation\n- `updatedAt` - Updates on every save\n- Both managed automatically by Mongoose\n\n**Use for:** Tracking creation dates, monitoring updates, audit trails",
+    "type": "mongoose"
   }
 ]
