@@ -869,7 +869,7 @@
     "answer": "**timestamps: true** = Auto-adds createdAt & updatedAt\n\n**Schema setup:**\n```js\nconst userSchema = new mongoose.Schema({\n  name: String,\n  email: String\n}, { timestamps: true }) // ← Adds auto-timestamps\n```\n\n**Result in database:**\n```js\n{\n  _id: '123abc',\n  name: 'Chuks',\n  email: 'chuks@example.com',\n  createdAt: '2025-11-27T18:24:19.187Z',  // Auto-added\n  updatedAt: '2025-11-27T18:24:19.221Z'   // Auto-updated\n}\n```\n\n**Behavior:**\n- `createdAt` - Set once on creation\n- `updatedAt` - Updates on every save\n- Both managed automatically by Mongoose\n\n**Use for:** Tracking creation dates, monitoring updates, audit trails",
     "type": "mongoose"
   },
-  
+
   {
     "question": "What is the shortcut to duplicate a page in Chrome?",
     "answer": "**Duplicate page shortcut:**\n\n**Windows:** `Ctrl + L` → `Alt + Enter`\n**Mac:** `Cmd + L` → `Cmd + Enter`\n\n**Steps:**\n1. `Ctrl/Cmd + L` - Focus address bar\n2. `Alt/Cmd + Enter` - Open same URL in new tab\n\n**Alternative:** `Ctrl/Cmd + Click` on refresh button\n\n**Use for:** Quick tab duplication, testing same page in multiple tabs",
@@ -884,7 +884,62 @@
     "question": "How does React Context work?",
     "answer": "**React Context** = State sharing across components\n\n**1. Create context:**\n```js\nconst AuthContext = createContext()\n```\n\n**2. Provider (share data):**\n```js\nfunction AuthProvider({ children }) {\n  const [user, setUser] = useState(null)\n  return (\n    <AuthContext.Provider value={{ user, setUser }}>\n      {children}\n    </AuthContext.Provider>\n  )\n}\n```\n\n**3. Consume context:**\n```js\nfunction UserProfile() {\n  const { user, setUser } = useContext(AuthContext)\n  return user ? `Hello ${user.name}` : 'Not logged in'\n}\n```\n\n**Key concepts:**\n- **Provider** = Wrapper that shares data\n- **useContext** = Hook to access shared data\n- **Avoids prop drilling** - No passing through intermediate components\n\n**Use for:** Global state, theme, user auth, app settings",
     "type": "react"
+  },
+
+  {
+    "question": "What is a Blob in JavaScript?",
+    "answer": "**Blob** = Binary Large Object container\n\n**Create blob:**\n```js\nconst blob = new Blob(['Hello world!'], { \n  type: 'text/plain' \n})\n```\n\n**Download as file:**\n```js\nfunction downloadBlob(blob, filename) {\n  const url = URL.createObjectURL(blob)\n  const link = document.createElement('a')\n  link.href = url\n  link.download = filename\n  link.click()\n  URL.revokeObjectURL(url) // Clean up\n}\n```\n\n**Use for:** File generation, downloads, binary data handling\n**Types:** text, images, JSON, videos, any binary data",
+    "type": "javascript"
+  },
+  {
+    "question": "What is Math.abs() in JavaScript?",
+    "answer": "**Math.abs()** = Returns absolute value (positive number)\n\n**Syntax:**\n```js\nMath.abs(number)\n```\n\n**Examples:**\n```js\nMath.abs(5)     // 5\nMath.abs(-5)    // 5\nMath.abs(-3.7)  // 3.7\nMath.abs(0)     // 0\n```\n\n**Absolute value** = Number without sign (always ≥ 0)\n\n**Use for:** Distance calculations, removing negative signs, comparisons",
+    "type": "javascript"
+  },
+  {
+    "question": "How to use environment variables in Vite?",
+    "answer": "**Vite env variables:**\n\n**1. .env file:**\n```env\nVITE_API_URL=http://localhost:5000\nVITE_OTHER_KEY=12345\n```\n\n**2. Prefix requirement:**\n- Only `VITE_` variables exposed to frontend\n- Non-prefixed vars stay server-side\n\n**3. Access in code:**\n```js\nconsole.log(import.meta.env.VITE_API_URL)\n\nconst API = axios.create({\n  baseURL: import.meta.env.VITE_API_URL + '/api'\n})\n```\n\n**Works in:** Development and production builds",
+    "type": "react"
+  },
+  {
+    "question": "What does IDE stand for?",
+    "answer": "**IDE** = Integrated Development Environment\n\n**Key features:**\n- Code editor\n- Debugger\n- Compiler/Interpreter\n- Build automation\n- Version control integration\n\n**Examples:**\n- VS Code\n- IntelliJ IDEA\n- Eclipse\n- PyCharm\n- WebStorm\n\n**Purpose:** All-in-one tool for software development",
+    "type": "tools"
+  },
+  {
+    "question": "How to compile and run a C file?",
+    "answer": "**C compilation steps:**\n\n**1. Compile:**\n```bash\ngcc filename.c -o program.exe\n```\n\n**2. Run:**\n```bash\n./program.exe    # Unix/Linux\nprogram.exe      # Windows\n```\n\n**Requirements:**\n- GCC compiler installed\n- Command line/terminal access\n\n**One-liner:**\n```bash\ngcc file.c -o out && ./out\n```",
+    "type": "c"
+  },
+  {
+    "question": "Why is stdio.h important in C?",
+    "answer": "**stdio.h** = Standard Input/Output header\n\n**Provides:**\n- `printf()` - Print to screen\n- `scanf()` - Read user input\n- File operations\n- I/O functions\n\n**Without stdio.h:**\n- Can't print/output anything\n- Can't read user input\n- No file access\n- Mute/blind program\n\n**Analogy:** C's mouth, ears, and hands for I/O\n\n**Always include:**\n```c\n#include <stdio.h>\n```",
+    "type": "c"
+  },
+
+  {
+    "question": "How do you print text in C?",
+    "answer": "**Printing in C:**\n\n```c\n#include <stdio.h>\n\nint main() {\n    printf(\"Hello World!\\n\");\n    printf(\"Multiple lines\\n\");\n    printf(\"End of program\\n\");\n    return 0;\n}\n```\n\n**Key points:**\n- `#include <stdio.h>` required\n- `printf()` function for output\n- `\\n` for new lines\n- `return 0;` indicates successful execution",
+    "type": "c"
+  },
+  {
+    "question": "How do you write comments in C?",
+    "answer": "**C comments:**\n\n**Single-line:**\n```c\n// This is a single-line comment\nint x = 5; // Comment after code\n```\n\n**Multi-line:**\n```c\n/* This is a\n   multi-line comment\n   spanning multiple lines */\n```\n\n**Documentation:**\n```c\n/**\n * Function: calculate_sum\n * Description: Adds two numbers\n * Parameters: a, b\n * Returns: Sum of a and b\n */\n```\n\n**Use for:** Code explanation, documentation, debugging",
+    "type": "c"
+  },
+  {
+    "question": "What are some escape sequences in C?",
+    "answer": "**C escape sequences:**\n\n**Common sequences:**\n- `\\n` - New line\n- `\\t` - Horizontal tab\n- `\\\\` - Backslash\n- `\\\"` - Double quote\n- `\\'` - Single quote\n- `\\0` - Null terminator\n- `\\b` - Backspace\n- `\\r` - Carriage return\n\n**Examples:**\n```c\nprintf(\"Line 1\\nLine 2\\n\")  // Two lines\nprintf(\"Tab\\tColumn\\n\")     // Tab spacing\nprintf(\"Path: C:\\\\Users\\n\") // Backslashes\nprintf(\"Say \\\"Hello\\\"\\n\")   // Quotes in string\n```",
+    "type": "c"
+  },
+  {
+    "question": "How to declare and initialize variables in C?",
+    "answer": "**Variable declaration:**\n\n**Declaration only:**\n```c\nint age;          // Declare\nage = 20;         // Assign later\n```\n\n**Declaration + initialization:**\n```c\nint age = 20;      // Most common\nfloat price = 19.99;\nchar letter = 'A';\n```\n\n**Multiple variables:**\n```c\nint x = 1, y = 2, z = 3;\n```\n\n**Key points:**\n- Must specify type (int, float, char, etc.)\n- Use `=` for assignment\n- Can declare without initial value",
+    "type": "c"
+  },
+  {
+    "question": "What are the different variable types in C?",
+    "answer": "**C data types:**\n\n**Integers (whole numbers):**\n```c\nint count = 10;\nshort small;          // Smaller int\nlong big;             // Larger int\nunsigned positive;    // Only positive\n```\n\n**Floating-point (decimals):**\n```c\nfloat price = 19.99;    // 6-7 digit precision\ndouble pi = 3.14159265; // 15+ digit precision\n```\n\n**Characters:**\n```c\nchar letter = 'A';     // Single character\nchar name[] = \"John\"; // String (char array)\n```\n\n**Boolean:**\n```c\n#include <stdbool.h>\nbool isReady = true;\n```\n\n**Enum (named constants):**\n```c\nenum Day { MON, TUE, WED };\nenum Color { RED = 1, GREEN = 2 };\n```",
+    "type": "c"
   }
-
-
 ]
