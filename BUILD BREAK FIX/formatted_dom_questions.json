@@ -1,117 +1,152 @@
 [
   {
-    "question": "In JavaScript DOM selection, what's the key difference between getElementById() and querySelector() when targeting an element by its ID?",
-    "answer": "**Answer:** `getElementById()` directly matches an element's ID without requiring a `#` symbol, while `querySelector()` uses CSS selector syntax and requires the `#` prefix. For example:\n\n```js\n// getElementById - no # symbol needed\ndocument.getElementById(\"header\");\n\n// querySelector - requires # symbol\ndocument.querySelector(\"#header\");\n```",
-    "type": "javascript"
+    "question": "How to open a New instance of vscode",
+    "answer":
+      "**Keyboard shortcut:**\n```js\nctrl + shift + N\n```\nOpens new VS Code window",
+    "type": "tools"
   },
   {
-    "question": "What do getElementsByClassName() and querySelectorAll() return, and how do you access individual elements from each?",
-    "answer": "**Answer:** Both return array-like structures that you access using square brackets `[]` with an index. `getElementsByClassName()` returns an HTMLCollection, while `querySelectorAll()` returns a NodeList. Examples:\n\n```js\n// getElementsByClassName returns HTMLCollection\nconst items = document.getElementsByClassName(\"menu-item\");\nitems[0].style.color = \"blue\";\n\n// querySelectorAll returns NodeList\nconst list = document.querySelectorAll(\"li\");\nlist[2].style.fontWeight = \"bold\";\n```",
-    "type": "javascript"
+    "question":
+      "How do you print numbers and strings & char, float, double, booleans in C",
+    "answer":
+      "**Basic printf formats:**\n```c\nint age = 18;\nchar name[] = \"UserN9ne\";\nchar grade = 'A';\nfloat gpa = 4.99;\ndouble pi = 3.14159;\nbool flag = true;\n\nprintf(\"Age: %d\\n\", age);          // int\nprintf(\"Name: %s\\n\", name);       // string\nprintf(\"Grade: %c\\n\", grade);     // char\nprintf(\"GPA: %f\\n\", gpa);        // float\nprintf(\"Pi: %lf\\n\", pi);         // double\nprintf(\"Flag: %d\\n\", flag);      // bool (0/1)\n\n// Multiple variables\nprintf(\"%s is %d years old\\n\", name, age);\n```\n\n**String storage:**\n```c\nchar name[10] = \"UserN9ne\";  // Array\nchar name[] = \"UserN9ne\";     // Auto-sized\n\n// Assign later\nchar name[10];\nstrcpy(name, \"UserN9ne\");     // Need string.h\n```\n\n**Key points:** Use correct format specifiers, strings need char arrays",
+    "type": "c"
   },
   {
-    "question": "Why does including a return statement inside a for loop cause the loop to stop after the first iteration?",
-    "answer": "**Answer:** The `return` statement exits the entire function immediately when executed, which stops the loop after just one iteration. To apply changes to all items in a loop, use only statements without `return`:\n\n```js\n// Wrong - stops after first iteration\nfor (let i = 0; i < choice.length; i++) {\n  return (choice[i].style.color = \"red\");\n}\n\n// Correct - processes all items\nfor (let i = 0; i < choice.length; i++) {\n  choice[i].style.color = \"red\";\n}\n```",
-    "type": "javascript"
+    "question": "What is the difference between chars and unsigned chars",
+    "answer":
+      "**char vs unsigned char:**\n\n**Signed char:**\n- Range: -128 to 127\n- Can be negative\n- Default for `char` (compiler-dependent)\n\n**Unsigned char:**\n- Range: 0 to 255\n- Always non-negative\n\n**Key differences:**\n```c\nchar c = 'A';           // ASCII 65\nprintf(\"%c\", c);       // Prints: A\nprintf(\"%d\", c);       // Prints: 65\n\nunsigned char uc = 200; // Safe\nchar c = 200;           // Might wrap to -56\n```\n\n**Use cases:**\n- `char` = text, characters\n- `unsigned char` = raw bytes, binary data, images\n\n**Format specifiers:**\n- `%c` = print as character\n- `%d` = print as number",
+    "type": "c"
   },
   {
-    "question": "What are the three main ways to read and display text content from a DOM element in JavaScript (innerText, innerHTML, textContent), and when should you use each?",
-    "answer": "**Answer:**\n\n- `innerText` - Returns visible text as shown to the user, formatted as it appears on screen\n- `innerHTML` - Returns the HTML code inside the element, including tags. **Security risk:** Using `innerHTML` with unsanitized user input can introduce script injection (XSS attacks)\n- `textContent` - Returns all text content including hidden elements\n\nUse `innerText` or `textContent` for plain text; use `innerHTML` only when intentionally injecting HTML and never with unsanitized user input.",
-    "type": "javascript"
+    "question":
+      "What is the difference between short int & unsigned short int in C?",
+    "answer":
+      "**short int vs unsigned short int:**\n\n**short int (signed):**\n- 2 bytes typically\n- Range: -32,768 to 32,767\n- Can be negative\n\n**unsigned short int:**\n- 2 bytes typically\n- Range: 0 to 65,535\n- Only non-negative\n- Double the positive range\n\n**Example:**\n```c\nshort int a = 40000;         // Wraps (outside range)\nunsigned short b = 40000;    // Correct\n\nprintf(\"%d\", a);            // Negative value\nprintf(\"%u\", b);            // 40000\n```\n\n**Use cases:**\n- `short int` = small signed numbers\n- `unsigned short` = counts, sizes, indexes (non-negative)\n\n**Format specifiers:**\n- `%d` = signed short\n- `%u` = unsigned short",
+    "type": "c"
+  },
+
+  {
+    "question": "Why use char over int in C?",
+    "answer":
+      "**Primary Reason: Memory Efficiency**\n- `char` = **1 byte**\n- `int` = **4 bytes** (usually)\n\n**Example Impact:**\n```c\nunsigned char pixels[1000000]; // 1 MB\nint pixels[1000000];            // 4 MB (4x larger!)\n```\n\n**Best uses for `char`:**\n- Text (ASCII/UTF-8 characters)\n- Raw bytes (file data, network packets)\n- Image pixel values (0-255)\n- Anywhere negative values don't make sense (use `unsigned char`)\n\n**When to use `int`:**\n- General-purpose math\n- Numbers outside 0-255 range\n- Loop counters, calculations\n\n**Short Alternative:**\n```c\nshort smallNumber; // 2 bytes, between `char` and `int`\n```",
+    "type": "c"
   },
   {
-    "question": "How do you manipulate element attributes and IDs in JavaScript using DOM methods?",
-    "answer": "**Answer:**\n\n```js\n// Reading an attribute\nconst title = document.querySelector(\"#mainHeading\");\nconsole.log(title.getAttribute(\"id\"));\n\n// Setting/modifying an attribute\nelement.setAttribute(\"type\", \"button\");\n\n// Removing an attribute\nelement.removeAttribute(\"type\");\n\n// Setting ID directly\nelement.id = \"myButton\";\nconsole.log(element.id);\n\n// Setting ID with setAttribute\nelement.setAttribute(\"id\", \"myButton\");\n```",
-    "type": "javascript"
+    "question": "What is integer promotion in C?",
+    "answer":
+      "**Integer Promotion** = Automatic conversion of small types (`char`, `short`) to `int`/`unsigned int` during operations.\n\n**Why it happens:** Prevents overflow and standardizes calculations.\n\n**Example:**\n```c\nchar a = 100;\nchar b = 30;\n// a and b are PROMOTED to int before addition\nint result = a + b; // 130\n```\n\n**Rules:**\n1. If type smaller than `int` → promoted to `int`\n2. If `int` can't hold all values → promoted to `unsigned int`\n\n**Key Insight:** This happens silently in comparisons and arithmetic to keep operations safe and predictable.",
+    "type": "c"
   },
   {
-    "question": "How do you manage CSS classes on an element in JavaScript DOM?",
-    "answer": "**Answer:** Use the `classList` property which provides methods to control CSS classes:\n\n```js\nconst newDiv = document.createElement(\"div\");\n\n// Add a class\nnewDiv.classList.add(\"choice\");\n\n// Remove a class\nnewDiv.classList.remove(\"choice\");\n\n// Check if a class exists (returns true or false)\nconsole.log(newDiv.classList.contains(\"choice\"));\n```",
-    "type": "javascript"
+    "question": "What happens in signed vs unsigned comparison?",
+    "answer":
+      "**Mixed Comparison Rule:** Signed value gets converted to **unsigned**, which can flip results!\n\n**Safe Case (small types):**\n```c\nsigned char a = -5;\nunsigned char b = 250;\n// Both promoted to int → comparison works\nif (a < b) { } // TRUE (-5 < 250)\n```\n\n**Danger Case (int/long):**\n```c\nint a = -1;          // Signed\nunsigned int b = 1;  // Unsigned\n// a converted to unsigned → becomes HUGE number\nif (a < b) { } // FALSE! (Unexpected)\n```\n\n**Why:** Negative signed values wrap to large unsigned numbers (e.g., `-1` → `4,294,967,295`).\n\n**Golden Rule:** Avoid directly comparing signed and unsigned integers.",
+    "type": "c"
   },
   {
-    "question": "How do you remove an element from the DOM in JavaScript?",
-    "answer": "**Answer:** Call the `.remove()` method on the element:\n\n```js\nnewDiv.remove();\n```",
-    "type": "javascript"
+    "question":
+      "How does overflow work internally when a value exceeds the limit in C?",
+    "answer":
+      "**Integer Overflow** = Wrap-around when exceeding bit limits\n\n**8-bit signed char (-128 to 127):**\n```c\n// Overflow above max (127)\n120 + 10 = 130 → wraps to -126\n\n// Underflow below min (-128)\n-120 + -10 = -130 → wraps to 126\n```\n\n**8-bit unsigned char (0 to 255):**\n```c\n// Overflow above max (255)\n250 + 10 = 260 → wraps to 4\n\n// Underflow below min (0)\n5 - 10 = -5 → wraps to 251\n```\n\n**Key idea:** Numbers wrap cyclically within type's range",
+    "type": "c"
   },
   {
-    "question": "What is parent node traversal in JavaScript DOM, and what's the difference between parentNode and parentElement?",
-    "answer": "**Answer:** Parent node traversal allows you to navigate up the DOM tree from a child element to its ancestors. Both `parentNode` and `parentElement` move up one level in the hierarchy, and you can chain them to go multiple levels up:\n```js\nlet div = document.querySelector('.choice');\n\n// Both navigate up 4 levels to ancestor elements\nconsole.log(div.parentNode.parentNode.parentNode.parentNode);\nconsole.log(div.parentElement.parentElement.parentElement.parentElement);\n```\n\nIn most cases, `parentNode` and `parentElement` work the same way for HTML elements.",
-    "type": "javascript"
+    "question": "Explain the concept of modulo wrapping",
+    "answer":
+      "**Modulo Wrapping** = Keep remainder after dividing by max+1\n\n**For unsigned 8-bit (0-255):**\n- Max+1 = 256 possible values\n- Wrap formula: `result % 256`\n\n**Examples:**\n```c\n// Adding past max\n260 % 256 = 4\n\n// Subtracting below min\n-5 % 256 = 251  (computer uses 2's complement)\n```\n\n**Visual:** Clock with 256 hours\n- After hour 255 comes hour 0\n- Before hour 0 comes hour 255\n\n**Key idea:** `% (max+1)` determines wrapped value",
+    "type": "c"
   },
   {
-    "question": "What is child node traversal in JavaScript DOM, and what properties can you use to access child elements?",
-    "answer": "**Answer:** Child node traversal allows you to navigate down the DOM tree to access an element's children. You can use these properties:\n\n```js\nlet div = document.querySelector(\".choices\");\n\nconsole.log(div.childNodes); // All nodes including text/comments\nconsole.log(div.firstChild); // First node (any type)\nconsole.log(div.lastChild); // Last node (any type)\nconsole.log(div.firstElementChild); // First element node only\nconsole.log(div.lastElementChild); // Last element node only\n\n// Access by index\ndiv.childNodes[1].style.backgroundColor = \"blue\";\n```",
-    "type": "javascript"
+    "question": "How do you do addition and subtraction in binary?",
+    "answer":
+      "**Binary Addition:**\n```\n0 + 0 = 0 carry 0\n0 + 1 = 1 carry 0\n1 + 0 = 1 carry 0\n1 + 1 = 0 carry 1\n```\n\n**Binary Subtraction:**\n```\n0 - 0 = 0 borrow 0\n1 - 0 = 1 borrow 0\n1 - 1 = 0 borrow 0\n0 - 1 = 1 borrow 1  (needs borrowing)\n```\n\n**Borrowing:** If bit needs to borrow from left:\n- Left bit becomes 0\n- Current bit becomes 10 (binary 2)\n- Subtract 1 from 10 = 1\n\n**Example:** 1101 - 1011 = 0010\n\n**Key idea:** Similar to decimal math but with base 2",
+    "type": "c"
+  },
+
+  {
+    "question": "What are format specifiers in C?",
+    "answer":
+      "**Format specifiers** = Tell `printf`/`scanf` the data type\n\n**Common specifiers:**\n```c\n%d  // Integer: printf(\"%d\", 42)\n%f  // Float: printf(\"%f\", 3.14)\n%c  // Character: printf(\"%c\", 'A')\n%s  // String: printf(\"%s\", \"hello\")\n%u  // Unsigned integer\n```\n\n**Precision & width:**\n```c\nprintf(\"%.2f\", pi);    // 3.14 (2 decimals)\nprintf(\"%5d\", x);      // \"   42\" (width 5)\nprintf(\"%-5d!\", x);    // \"42   !\" (left-aligned)\n```\n\n**Combined example:**\n```c\nprintf(\"%10.2f\", pi);  // \"      3.14\" (width 10, 2 decimals)\n```",
+    "type": "c"
   },
   {
-    "question": "Why does using childNodes sometimes cause a \"Cannot set properties of undefined\" error when trying to style elements, and what's the solution?",
-    "answer": "**Answer:** `childNodes` returns a NodeList that includes all types of nodes: element nodes, text nodes (spaces, newlines), and comment nodes. If you try to access `.style` on a text node, you get an error because text nodes don't have a `.style` property.\n\n**Solution:** Use `.children` instead of `.childNodes` because `.children` only returns element nodes that have a `.style` property:\n\n```js\n// Wrong - might access a text node\ndiv.childNodes[2].style.backgroundColor = \"blue\"; // Error!\n\n// Correct - only element nodes\nconsole.log(div.children);\ndiv.children[1].style.backgroundColor = \"blue\";\n```",
-    "type": "javascript"
+    "question": "What does it mean for something to be truncated?",
+    "answer":
+      "**Truncated** = Cut off without rounding\n\n**Number truncation:**\n```c\nfloat pi = 3.14159;\nprintf(\"%.2f\", pi); // 3.14 (cuts off .00159)\n```\n\n**Integer truncation:**\n```c\nint x = 300;\nchar c = x; // char max 127 → truncates to 44\n```\n\n**String truncation:**\n```c\nchar str[5];\nstrcpy(str, \"HelloWorld\"); // Stores only \"Hell\"\n```\n\n**Key point:** Truncation discards extra data to fit limits (precision, memory, range)",
+    "type": "c"
   },
   {
-    "question": "What is a Node and a NodeList in JavaScript DOM?",
-    "answer": "**Answer:**\n\n- **Node:** A single piece of your webpage's structure. Nodes can be:\n\n  - Element nodes: HTML tags like `<div>`, `<p>`, `<span>`\n  - Text nodes: Actual text content like \"Hello World!\"\n  - Comment nodes: HTML comments like `<!-- comment -->`\n\n- **NodeList:** A collection (list) of nodes returned by DOM methods like `querySelectorAll()`:\n\n```js\nconst divs = document.querySelectorAll(\"div\"); // Returns a NodeList\n```\n\nThink of nodes as building blocks and a NodeList as a box holding multiple building blocks. You can access items by index, but remember not everything in a NodeList is an HTML element.",
-    "type": "javascript"
+    "question": "What are arithmetic operators in C?",
+    "answer":
+      "**Basic operators:**\n```c\n+  // Addition\n-  // Subtraction\n*  // Multiplication\n/  // Division\n%  // Modulus (remainder)\n```\n\n**Increment/decrement:**\n```c\na++  // Post-increment (use then add 1)\n++a  // Pre-increment (add 1 then use)\na--  // Post-decrement\n--a  // Pre-decrement\n```\n\n**Key notes:**\n- `7 / 2 = 3` (integer division truncates)\n- Cast to float for decimals: `(float)7 / 2 = 3.5`\n- `%` works only with integers\n- Use parentheses to control order",
+    "type": "c"
   },
   {
-    "question": "What is sibling node traversal in JavaScript DOM, and how do you navigate between sibling elements?",
-    "answer": "**Answer:** Sibling node traversal lets you move horizontally between elements at the same level in the DOM tree. You can use these properties:\n\n```js\nlet div = document.querySelector(\".choi\");\nlet divs = document.querySelector(\".choices\");\n\nconsole.log(divs.childNodes); // All child nodes\nconsole.log(div.previousElementSibling); // Previous element only\nconsole.log(div.nextElementSibling); // Next element only\nconsole.log(div.previousSibling); // Previous node (any type)\nconsole.log(div.nextSibling); // Next node (any type)\n```\n\nUse `previousElementSibling` and `nextElementSibling` to avoid text nodes; use `previousSibling` and `nextSibling` for all node types.",
-    "type": "javascript"
+    "question": "What are augmented assignment operators?",
+    "answer":
+      "**Augmented assignment** = Arithmetic + assignment shortcut\n\n**Shorthand operators:**\n```c\nx += 5   // x = x + 5\nx -= 3   // x = x - 3\nx *= 2   // x = x * 2\nx /= 4   // x = x / 4\nx %= 3   // x = x % 3\n```\n\n**Example:**\n```c\nint a = 10;\na += 5;  // a = 15\na *= 2;  // a = 30\na %= 4;  // a = 2\n```\n\n**Benefits:** Cleaner code, prevents mistakes, works with all arithmetic operators",
+    "type": "c"
   },
   {
-    "question": "How do you apply event listeners directly in HTML using inline JavaScript?",
-    "answer": "**Answer:** Add the `onclick` attribute directly to an HTML element with JavaScript code:\n\n```html\n<button onclick=\"alert('BRUHHHHHH')\">Enter</button>\n```\n\nThis method is simple but not recommended for larger applications because it mixes HTML and JavaScript.",
-    "type": "javascript"
+    "question": "What is a buffer overflow in C?",
+    "answer":
+      "**Buffer Overflow** = Writing more data than buffer can hold\n\n**Example:**\n```c\nchar name[5];          // Buffer size 5\nstrcpy(name, \"HelloWorld\"); // 10 chars → OVERFLOW\n```\n\n**What happens:**\n- Extra data overwrites adjacent memory\n- Causes crashes, bugs, or security vulnerabilities\n\n**Common causes:**\n- Not checking input size\n- Using `strcpy()`, `gets()` (no length checks)\n- Ignoring array bounds\n\n**Fix:** Use `strncpy()`, check sizes, validate input",
+    "type": "c"
   },
   {
-    "question": "How do you apply event listeners in JavaScript using the addEventListener() method with functions?",
-    "answer": "**Answer:** Select the element, define a function, and attach it using `addEventListener()`:\n\n```js\nconst btn2 = document.querySelector(\".btn2\");\n\nfunction alertbtn() {\n  alert(\"BRUDAHHH\");\n}\n\n// Note: Pass function name without () - don't call it immediately\nbtn2.addEventListener(\"click\", alertbtn);\n```\n\n**Important:** Pass the function name without parentheses (`alertbtn`, not `alertbtn()`) so it executes when clicked, not immediately when the code runs.",
-    "type": "javascript"
+    "question": "How do you collect user input in C?",
+    "answer":
+      "**C User Input Methods:**\n\n**1. Basic scanf:**\n```c\nchar name[20];\nscanf(\"%s\", name);  // No spaces allowed\n```\n\n**2. With spaces (fgets):**\n```c\nfgets(name, 20, stdin);  // Reads spaces\n// Remove newline:\nname[strcspn(name, \"\\\\n\")] = '\\\\0';\n```\n\n**3. Multiple inputs:**\n```c\nint age;\nscanf(\"%s %d\", name, &age);  // & for non-arrays\n```\n\n**Key:** Always check buffer sizes to prevent overflow",
+    "type": "c"
   },
   {
-    "question": "What are the most common event types in JavaScript DOM, and when do they occur?",
-    "answer": "**Answer:** Here are the main event categories:\n\n**Mouse Events:**\n- `click` - User clicks an element\n- `dblclick` - Double-click\n- `mouseover` - Mouse pointer enters an element (hover)\n- `mouseout` - Pointer leaves an element\n- `mouseenter` - Enters element, doesn't bubble\n- `mouseleave` - Leaves element, doesn't bubble\n- `mousedown` - Mouse button pressed down\n- `mouseup` - Mouse button released\n- `mousemove` - Mouse moves over an element\n\n**Keyboard Events:**\n- `keydown` - Key is pressed\n- `keyup` - Key is released\n- `keypress` - Key is pressed (deprecated, less common)\n\n**Form Events:**\n- `submit` - Form is submitted\n- `focus` - Element gets focus\n- `blur` - Element loses focus\n- `change` - Input value changes\n- `input` - User types (captures every character)\n\n**Other Events:**\n- `load` - Page/element finishes loading\n- `resize` - Window size changes\n- `scroll` - User scrolls page/element",
-    "type": "javascript"
+    "question": "What are some math functions in C?",
+    "answer":
+      "**C Math Functions (include <math.h>):**\n\n**Basic operations:**\n```c\nsqrt(16)    // 4 → square root\npow(2, 3)   // 8 → power\nfabs(-3.14) // 3.14 → absolute value\nabs(-5)     // 5 → integer absolute value\n```\n\n**Rounding:**\n```c\nceil(4.2)   // 5 → round up\nfloor(4.8)  // 4 → round down\nround(4.5)  // 5 → nearest integer\n```\n\n**Trigonometry (radians):**\n```c\nsin(angle)  // sine\ncos(angle)  // cosine\ntan(angle)  // tangent\n```",
+    "type": "c"
   },
   {
-    "question": "What's the simplest way to revert a background color using event listeners in JavaScript?",
-    "answer": "**Answer:** Set the `backgroundColor` property to an empty string, which removes the inline style:\n```js\nbtn2.style.backgroundColor = '';  // Removes inline style\n```",
-    "type": "javascript"
+    "question": "What is the command to kill active programs?",
+    "answer":
+      "**Windows:**\n```cmd\ntaskkill /IM programname.exe /F  # Force kill\n```\n\n**Linux/Mac:**\n```bash\nkill <PID>            # Graceful stop\nkill -9 <PID>         # Force kill\npkill programname     # Kill by name\n```\n\n**Find PID:**\n```bash\ntasklist              # Windows (find .exe)\nps aux | grep name    # Linux/Mac\n```",
+    "type": "system"
   },
   {
-    "question": "How do you create a button that toggles the visibility of hidden content using event listeners and CSS classes?",
-    "answer": "**Answer:** Use `classList.toggle()` or check if a class exists, then add/remove it:\n```js\nconst revealBtn = document.querySelector(\".reveal-center\");\nconst hiddenContent = document.querySelector(\".hidden-content\");\n\nfunction revealBot() {\n  if (hiddenContent.classList.contains(\"revealBtn\")) {\n    hiddenContent.classList.remove(\"revealBtn\");\n  } else {\n    hiddenContent.classList.add(\"revealBtn\");\n  }\n}\n\nrevealBtn.addEventListener(\"click\", revealBot);\n```\n\n**CSS:**\n```css\n.hidden-content {\n  display: none; /* Hidden by default */\n}\n.hidden-content.revealBtn {\n  display: block; /* Visible when class added */\n}\n```",
-    "type": "javascript"
+    "question": "How to use if and switch statements in C?",
+    "answer":
+      "**if statement:**\n```c\nif (score >= 90) {\n    printf(\"A\");\n} else if (score >= 75) {\n    printf(\"B\");\n} else {\n    printf(\"Fail\");\n}\n```\n\n**switch statement:**\n```c\nswitch(grade) {\n    case 'A':\n        printf(\"Excellent\");\n        break;          // ← Exit switch\n    case 'B':\n        printf(\"Good\");\n        break;\n    default:            // ← No match\n        printf(\"Other\");\n}\n```\n\n**Key difference:**\n- `if` → Any condition\n- `switch` → Equality checks only (int/char)",
+    "type": "c"
   },
   {
-    "question": "What is event propagation in JavaScript DOM, and what are its three phases?",
-    "answer": "**Answer:** Event propagation is the process of how events travel through elements in the DOM. It has three phases:\n\n1. **Event Capturing** - The event travels from the outermost parent down to the target element\n2. **Target** - The exact element that was clicked or triggered\n3. **Event Bubbling** - After hitting the target, the event travels back up from the target to the outermost parent\n\n**Summary:** Capturing goes inward → Target is the clicked item → Bubbling goes outward",
-    "type": "javascript"
+    "question":
+      "What is the function to convert lowercase to uppercase and vice versa in C",
+    "answer":
+      "**Case conversion functions:**\n```c\n#include <ctype.h>\n\nchar ch = 'a';\n\n// Convert to uppercase\ntoupper(ch);  // 'a' → 'A'\n\n// Convert to lowercase\ntolower('B'); // 'B' → 'b'\n```\n\n**Convert entire string:**\n```c\nchar str[] = \"hello\";\nfor (int i = 0; str[i] != '\\0'; i++) {\n    str[i] = toupper(str[i]);  // \"HELLO\"\n}\n```\n\n**Key points:**\n- From `<ctype.h>` library\n- Returns unchanged if not a letter\n- Works with characters only",
+    "type": "c"
   },
   {
-    "question": "What is the window object in JavaScript?",
-    "answer": "**Answer:** `window` is the global browser object that represents the entire browser window or tab. It's the top-level object in the browser's JavaScript environment.",
-    "type": "javascript"
+    "question": "What are logical operators in C",
+    "answer":
+      "**Logical operators:**\n```c\nint a = 5, b = 8;\n\n// AND (both must be true)\na > 0 && b > 0  // true\n\n// OR (at least one true)\na < 0 || b > 0  // true\n\n// NOT (inverts condition)\n!(a < 0)       // true\n```\n\n**Key points:**\n- `&&` = AND\n- `||` = OR  \n- `!` = NOT\n- Return 1 (true) or 0 (false)\n- Short-circuit evaluation: stops early when possible",
+    "type": "c"
   },
   {
-    "question": "What is event delegation in JavaScript DOM, and why is it useful?",
-    "answer": "**Answer:** Event delegation means putting a single event listener on a parent element to handle events for many child elements—even children added later—by checking what was actually clicked using event bubbling.\n\n**Example without delegation:**\n```js\ndocument.querySelector('.btn-1').addEventListener(\"click\", function(e) {\n  console.log('One is clicked');\n  const target = e.target;\n  \n  if (target.matches('button')) {\n    target.style.color = 'red';\n  }\n});\n```\n\n**Example with delegation:**\n```js\ndocument.querySelector('.items').addEventListener('click', function(e) {\n  console.log(e.target.getAttribute('class') + ' is clicked');\n});\n```\n\n**Why it's useful:** One parent, one listener handles all children. Perfect for lists, tables, and menus with similar elements!\n\n**Note:** `e` contains details about the click, and `e.target` is the element that was clicked.",
-    "type": "javascript"
+    "question": "What are the different types of functions in C",
+    "answer":
+      "**Two main function types:**\n\n**1. Void functions (no return):**\n```c\nvoid printInfo(char name[], int age) {\n    printf(\"Name: %s, Age: %d\\\\n\", name, age);\n}\n// Call: printInfo(\"Chuks\", 20);\n```\n\n**2. Value-returning functions:**\n```c\nint add(int a, int b) {\n    return a + b;\n}\n// Call: int sum = add(5, 3);\n\n// Other return types:\ndouble calculateGPA() { ... }\nchar getGrade() { ... }\nfloat getAverage() { ... }\n```\n\n**Key points:**\n- `void` = no return value\n- Specify return type before function name\n- Use `return` to send value back",
+    "type": "c"
   },
   {
-    "question": "What does the .matches() method do in JavaScript DOM?",
-    "answer": "**Answer:** `.matches(selector)` checks if an element fits a given CSS selector (tag, class, or id). It returns `true` or `false`:\n```js\ndocument.querySelector('.items').addEventListener('click', function(e) {\n  if (e.target.matches('button')) {\n    // Only true if clicked thing is a <button>\n    e.target.style.backgroundColor = 'blue';\n  }\n  if (e.target.matches('#btn1')) {\n    // Only true if it's the button with id=\"btn1\"\n    alert('Button 1 clicked!');\n  }\n  if (e.target.matches('.special')) {\n    // Only true if clicked thing has class=\"special\"\n    e.target.style.fontWeight = 'bold';\n  }\n});\n```\n**Summary:** `.matches()` asks \"does this thing fit the criteria?\"",
-    "type": "javascript"
+    "question": "What are function prototypes",
+    "answer":
+      "**Function prototype** = Declaration before definition\n\n**Why needed:** Compiler reads top-down; must know function exists\n\n**Example:**\n```c\n#include <stdio.h>\n\n// Prototype (declaration)\nint add(int a, int b);\n\nint main() {\n    int sum = add(5, 3);  // Works - compiler knows add()\n    printf(\"%d\\\\n\", sum);\n    return 0;\n}\n\n// Full definition\nint add(int a, int b) {\n    return a + b;\n}\n```\n\n**Key points:**\n- Tells compiler: return type, name, parameter types\n- Ends with semicolon\n- Optional if function defined before use\n- Useful for organization and multi-file programs",
+    "type": "c"
   },
   {
-    "question": "What is e.target in JavaScript DOM events?",
-    "answer": "**Answer:** `e.target` tells you what element was clicked (or what triggered the event):\n```html\n<ul class=\"items\">\n  <li><button id=\"btn1\">Button 1</button></li>\n  <li><button id=\"btn2\">Button 2</button></li>\n</ul>\n```\n```js\ndocument.querySelector('.items').addEventListener('click', function(e) {\n  console.log(e.target.tagName); // \"BUTTON\" if you click a button\n});\n```\nIf you click Button 1, `e.target` is `<button id=\"btn1\">` and `e.target.tagName` is \"BUTTON\".\n\n**Summary:** `.target` is \"who did the action\"",
-    "type": "javascript"
+    "question": "What are some string functions",
+    "answer":
+      "**Common string functions (from string.h):**\n```c\n#include <string.h>\n\nchar str1[20] = \"Hello\";\nchar str2[20] = \"World\";\n\n// Length\nstrlen(str1);          // 5\n\n// Concatenate\nstrcat(str1, str2);    // \"HelloWorld\"\n\n// Copy\nstrcpy(str1, str2);    // str1 = \"World\"\n\n// Compare\nstrcmp(\"Cat\", \"Dog\"); // Negative (Cat < Dog)\nstrcmp(\"Dog\", \"Dog\"); // 0 (equal)\nstrcmp(\"Dog\", \"Cat\"); // Positive (Dog > Cat)\n\n// Case-insensitive compare\nstrcmpi(\"DOG\", \"dog\"); // 0 (equal ignoring case)\n```\n\n**Other useful functions:**\n- `strrev(str)` - reverse string\n- `strupr(str)` - to uppercase\n- `strlwr(str)` - to lowercase\n- `strncpy()` - copy n characters\n- `strncat()` - concatenate n characters\n\n**Important:** Ensure destination has enough space!",
+    "type": "c"
   }
 ]
-
-
-
-
-
