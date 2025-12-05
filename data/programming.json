@@ -1091,5 +1091,86 @@
     "answer":
       "**Common string functions (from string.h):**\n```c\n#include <string.h>\n\nchar str1[20] = \"Hello\";\nchar str2[20] = \"World\";\n\n// Length\nstrlen(str1);          // 5\n\n// Concatenate\nstrcat(str1, str2);    // \"HelloWorld\"\n\n// Copy\nstrcpy(str1, str2);    // str1 = \"World\"\n\n// Compare\nstrcmp(\"Cat\", \"Dog\"); // Negative (Cat < Dog)\nstrcmp(\"Dog\", \"Dog\"); // 0 (equal)\nstrcmp(\"Dog\", \"Cat\"); // Positive (Dog > Cat)\n\n// Case-insensitive compare\nstrcmpi(\"DOG\", \"dog\"); // 0 (equal ignoring case)\n```\n\n**Other useful functions:**\n- `strrev(str)` - reverse string\n- `strupr(str)` - to uppercase\n- `strlwr(str)` - to lowercase\n- `strncpy()` - copy n characters\n- `strncat()` - concatenate n characters\n\n**Important:** Ensure destination has enough space!",
     "type": "c"
+  },
+   {
+    "question": "How do loops work in C (for, while, do-while, nested)?",
+    "answer": "**C Loop Types - Complete Guide**\n\n**1. For Loop (Counter-based):**\n```c\nfor (int i = 0; i < 5; i++) {\n    printf(\"i = %d\\n\", i);\n}\n// Output: i = 0, i = 1, i = 2, i = 3, i = 4\n```\n**Structure:** `for (initialization; condition; increment)`\n\n**2. While Loop (Condition-based):**\n```c\nint count = 0;\nwhile (count < 5) {\n    printf(\"Count: %d\\n\", count);\n    count++;\n}\n// Runs 0-4, checks condition BEFORE each iteration\n```\n\n**3. Do-While Loop (Guaranteed execution):**\n```c\nint count = 0;\ndo {\n    printf(\"Count: %d\\n\", count);\n    count++;\n} while (count < 5);\n// Runs at least once, checks condition AFTER\n```\n\n**🔑 Key Difference:**\n- **While:** Check → Execute (may not run)\n- **Do-While:** Execute → Check (always runs at least once)\n\n**4. Nested Loops (Loop inside loop):**\n```c\nfor (int i = 1; i <= 3; i++) {         // Outer loop (rows)\n    for (int j = 1; j <= 3; j++) {     // Inner loop (columns)\n        printf(\"(%d,%d) \", i, j);\n    }\n    printf(\"\\n\");                     // New line after each row\n}\n/* Output:\n(1,1) (1,2) (1,3) \n(2,1) (2,2) (2,3) \n(3,1) (3,2) (3,3) */\n```\n\n**Practical Example - Pattern Generator:**\n```c\n#include <stdio.h>\n\nint main() {\n    int rows, columns;\n    char symbol;\n    \n    printf(\"Enter rows: \");\n    scanf(\"%d\", &rows);\n    printf(\"Enter columns: \");\n    scanf(\"%d\", &columns);\n    printf(\"Enter symbol: \");\n    scanf(\" %c\", &symbol);  // Space before %c to consume newline\n    \n    for (int i = 1; i <= rows; i++) {\n        for (int j = 1; j <= columns; j++) {\n            printf(\"%c\", symbol);\n        }\n        printf(\"\\n\");  // New line after each row\n    }\n    return 0;\n}\n/* Example input: rows=3, columns=5, symbol=*\n   Output:\n   *****\n   *****\n   ***** */\n```\n\n**Loop Control Statements:**\n```c\nbreak;       // Exit loop immediately\ncontinue;    // Skip rest of iteration, go to next\n```\n\n**Common Patterns:**\n- **For loops:** Counting, arrays, known iterations\n- **While loops:** Unknown iterations, event waiting\n- **Do-while:** Menu systems, input validation\n- **Nested loops:** Grids, matrices, patterns\n\n**Performance Tip:** Keep loop conditions simple and avoid heavy operations in condition checks.",
+    "type": "c"
+  },
+  {
+    "question": "What is the input buffer leftover problem?",
+    "answer": "**Buffer Leftover Issue:**\n\nWhen `scanf()` reads numbers:\n```c\nscanf(\"%d\", &num);  // Reads number, leaves '\\n' in buffer\n```\n\nLater character input reads leftover newline:\n```c\nscanf(\"%c\", &ch);  // Reads '\\n' instead of waiting\n```\n\n**Fix:** Add space before `%c`:\n```c\nscanf(\" %c\", &ch);  // Space skips whitespace first\n```\n\n**Alternative:** Use `getchar()` to consume leftover `\\n`",
+    "type": "c"
+  },
+  {
+    "question": "What is the difference between break and continue?",
+    "answer": "**break** = Exit loop immediately\n```c\nfor(i=1; i<=10; i++) {\n    if(i == 5) break;  // Stops loop at i=5\n}\n// Output: 1 2 3 4\n```\n\n**continue** = Skip current iteration, continue loop\n```c\nfor(i=1; i<=5; i++) {\n    if(i == 3) continue;  // Skips i=3\n    printf(\"%d \", i);\n}\n// Output: 1 2 4 5\n```\n\n**Analogy:**\n- `break` = \"Stop eating entirely!\"\n- `continue` = \"Skip this cookie, try next\"",
+    "type": "c"
+  },
+  {
+    "question": "Explain how arrays work in C",
+    "answer": "**C Arrays:**\n\n**Declaration:**\n```c\nint scores[5];  // 5 integers\n```\n\n**Initialization methods:**\n```c\n// 1. Declare then assign\nint arr[3]; arr[0]=1; arr[1]=2;\n\n// 2. Declare & initialize\nint arr[] = {1, 2, 3, 4, 5};\n\n// 3. Partial (rest = 0)\nint arr[5] = {1, 2};  // [1,2,0,0,0]\n\n// 4. All zeros\nint arr[10] = {0};\n```\n\n**Loop through:**\n```c\nfor(int i=0; i<sizeof(arr)/sizeof(arr[0]); i++) {\n    printf(\"%d \", arr[i]);\n}\n```",
+    "type": "c"
+  },
+  {
+    "question": "What is the size of operator?",
+    "answer": "**sizeof operator** = Returns bytes size\n\n**Usage:**\n```c\nsizeof(int)      // 4 (usually)\nsizeof(char)     // 1\nsizeof(variable) // Size of variable\n```\n\n**Common use:** Loop through array\n```c\nint arr[] = {1, 2, 3, 4, 5};\nint length = sizeof(arr) / sizeof(arr[0]);\n// length = 5 (total bytes ÷ bytes per element)\n```",
+    "type": "c"
+  },
+  {
+    "question": "What are 2D arrays?",
+    "answer": "**2D Arrays** = Array of arrays (grid/table)\n\n**Declaration:**\n```c\nint matrix[3][4];  // 3 rows, 4 columns\n```\n\n**Initialization:**\n```c\n// Method 1: Direct\nint grid[2][3] = {{1,2,3}, {4,5,6}};\n\n// Method 2: Strings array\nchar cars[][10] = {\"Mustang\", \"Corvette\"};\n```\n\n**Access:** `matrix[1][2]` = row 1, column 2\n**Memory:** Stored row-major (all row 0, then row 1, etc.)",
+    "type": "c"
+  },
+  {
+    "question": "How do you swap the values of two variables in C",
+    "answer": "**Swap using temporary variable:**\n```c\n// For integers\nint a = 5, b = 10, temp;\ntemp = a;\na = b;\nb = temp;\n```\n\n**For characters:**\n```c\nchar x = 'X', y = 'Y', temp;\ntemp = x;\nx = y;\ny = temp;\n```\n\n**For strings:**\n```c\nchar x[10] = \"water\";\nchar y[10] = \"juice\";\nchar temp[10];\n\nstrcpy(temp, x);\nstrcpy(x, y);\nstrcpy(y, temp);\n```\n\n**Key points:** Need temp variable, use `strcpy()` for strings",
+    "type": "c"
+  },
+  {
+    "question": "How do you perform a bubble sort?",
+    "answer": "**Bubble sort algorithm:**\n```c\nint arr[] = {5, 2, 8, 1, 9};\nint n = sizeof(arr)/sizeof(arr[0]);\n\n// Outer loop: n-1 passes\nfor(int i = 0; i < n-1; i++) {\n    // Inner loop: compare adjacent elements\n    for(int j = 0; j < n-i-1; j++) {\n        if(arr[j] > arr[j+1]) {\n            // Swap\n            int temp = arr[j];\n            arr[j] = arr[j+1];\n            arr[j+1] = temp;\n        }\n    }\n}\n```\n\n**Also works for chars:**\n```c\nchar arr[] = {'A', 'G', 'B', 'K'};\nif(arr[j] > arr[j+1]) { /* swap */ }\n```\n\n**Key points:**\n- Outer loop: `n-1` passes\n- Inner loop: `n-i-1` comparisons (shrinks each pass)\n- Compare adjacent, swap if wrong order\n- Largest element \"bubbles\" to end each pass",
+    "type": "c"
+  },
+  {
+    "question": "what are structs in C",
+    "answer": "**Structs** = Custom data types grouping related variables\n\n**Definition:**\n```c\nstruct Player {\n    char name[15];\n    int score;\n};\n```\n\n**Usage:**\n```c\nstruct Player player1;\nstrcpy(player1.name, \"Jack\");\nplayer1.score = 4;\n\nprintf(\"%s: %d\\n\", player1.name, player1.score);\n```\n\n**Initialize at once:**\n```c\nstruct Player player2 = {\"Alice\", 30};\n```\n\n**Array of structs:**\n```c\nstruct Student students[] = {student1, student2, student3};\n```\n\n**Key points:**\n- Group different data types together\n- Similar to classes but no methods\n- Uninitialized members: numbers=0, chars='\\0'",
+    "type": "c"
+  },
+  {
+    "question": "what is the typedef keyword in C",
+    "answer": "**typedef** = Create alias/alternative name for type\n\n**Basic syntax:**\n```c\ntypedef existing_type new_name;\n```\n\n**Examples:**\n```c\n// Simple alias\ntypedef unsigned int uint;\nuint a = 10;  // same as unsigned int\n\n// Struct alias\ntypedef struct {\n    char name[25];\n    char password[12];\n    int id;\n} User;\n\n// Usage\nUser user1 = {\"Bro\", \"password123\", 12345};\nUser user2 = {\"Alice\", \"pass456\", 67890};\n```\n\n**Without typedef:**\n```c\nstruct User user1;  // Need 'struct' keyword\n```\n\n**With typedef:**\n```c\nUser user1;  // Cleaner, no 'struct' needed\n```\n\n**Key points:** Creates shorter/clearer type names, especially for structs",
+    "type": "c"
+  },
+
+  {
+    "question": "What are enums in C?",
+    "answer": "**Enums** = Named integer constants for readability\n\n**Syntax:**\n```c\nenum Day { SUN = 1, MON = 2, TUE };\n// SUN=1, MON=2, TUE=3 (auto-increments)\n```\n\n**Usage:**\n```c\nenum Day today = SUN;\nprintf(\"%d\", today); // 1\n\nif (today == SUN) {\n    printf(\"It's party time!\");\n}\n```\n\n**Default values:**\n- First constant = 0 (unless specified)\n- Each following = previous + 1\n\n**Benefits:** Better than magic numbers, makes code self-documenting",
+    "type": "c"
+  },
+  {
+    "question": "How to generate pseudo-random numbers in C?",
+    "answer": "**Random number generation:**\n\n**Setup:**\n```c\n#include <stdlib.h>\n#include <time.h>\n\nsrand(time(0)); // Seed with current time\n```\n\n**Basic random:**\n```c\nint num = rand(); // 0 to RAND_MAX (~32767)\n```\n\n**Within range:**\n```c\n// Range 0-5\nint num = rand() % 6;\n\n// Range 3-8\nint num = (rand() % 6) + 3;\n\n// Custom range MIN-MAX\nint num = (rand() % (MAX - MIN + 1)) + MIN;\n```\n\n**Key points:**\n- `srand(time(0))` ensures different sequence each run\n- `rand() % N` gives 0 to N-1\n- Add offset to shift range\n- Without seeding, same sequence every time",
+    "type": "c"
+  },
+  {
+    "question": "What are bitwise operators in C?",
+    "answer": "**Bitwise operators** = Manipulate individual bits\n\n**Basic operators:**\n```c\n&   // AND: 1 if both bits are 1\n|   // OR: 1 if at least one bit is 1\n^   // XOR: 1 if bits are different\n~   // NOT: Flip all bits (0→1, 1→0)\n<<  // Left shift: Multiply by 2^n\n>>  // Right shift: Divide by 2^n\n```\n\n**Examples:**\n```c\nint a = 5;  // 0101\nint b = 3;  // 0011\n\na & b;  // 0001 (1)\na | b;  // 0111 (7)\na ^ b;  // 0110 (6)\n~a;     // 1010 (-6 in two's complement)\na << 1; // 1010 (10) multiply by 2\na >> 1; // 0010 (2) divide by 2\n```\n\n**Use for:** Flags, masks, embedded systems, cryptography, performance-critical code",
+    "type": "c"
+  },
+  {
+    "question": "What are memory addresses and pointers in C?",
+    "answer": "**Memory Address** = Location in RAM where variable is stored\n```c\nint x = 10;\nprintf(\"%p\", &x);  // Prints address like 0x7ffeefbff47c\n```\n\n**Pointer** = Variable that stores memory address\n```c\nint x = 44;\nint *p = &x;  // p stores address of x\n\nprintf(\"%d\", *p);  // 44 (dereferencing)\n*p = 99;            // x is now 99\n```\n\n**Key Rules:**\n- Pointer type must match variable type (`int*` for `int`)\n- `NULL` = Pointer pointing nowhere (`int *p = NULL;`)\n- Arrays decay to pointers: `array` = `&array[0]`\n- Pointer arithmetic moves by `sizeof(type)` bytes",
+    "type": "c"
+  },
+  {
+    "question": "How do you write and delete files in C?",
+    "answer": "**File Operations:**\n\n**Write/Overwrite:**\n```c\nFILE *f = fopen(\"test.txt\", \"w\");\nfprintf(f, \"Hello World\");\nfclose(f);\n```\n\n**Append:**\n```c\nFILE *f = fopen(\"test.txt\", \"a\");  // 'a' = append\nfprintf(f, \"\\nMore text\");\nfclose(f);\n```\n\n**Delete:**\n```c\nif (remove(\"test.txt\") == 0) {\n    printf(\"Deleted\");\n} else {\n    printf(\"Failed\");\n}\n```\n\n**Windows paths:** Use double backslashes: `C:\\\\Users\\\\file.txt`",
+    "type": "c"
+  },
+  {
+    "question": "How to read the contents of a file with C",
+    "answer": "**Read File Line by Line:**\n```c\nFILE *f = fopen(\"file.txt\", \"r\");  // 'r' = read\nchar buffer[255];\n\nif (f == NULL) {\n    printf(\"Can't open file\");\n} else {\n    while (fgets(buffer, 255, f) != NULL) {\n        printf(\"%s\", buffer);  // Print each line\n    }\n    fclose(f);\n}\n```\n\n**How it works:**\n- `fgets()` reads up to 254 chars or until newline\n- Returns `NULL` at end of file\n- Buffer stores each line\n\n**Always check:** `f == NULL` before reading",
+    "type": "c"
   }
 ]
