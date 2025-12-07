@@ -1172,5 +1172,51 @@
     "question": "How to read the contents of a file with C",
     "answer": "**Read File Line by Line:**\n```c\nFILE *f = fopen(\"file.txt\", \"r\");  // 'r' = read\nchar buffer[255];\n\nif (f == NULL) {\n    printf(\"Can't open file\");\n} else {\n    while (fgets(buffer, 255, f) != NULL) {\n        printf(\"%s\", buffer);  // Print each line\n    }\n    fclose(f);\n}\n```\n\n**How it works:**\n- `fgets()` reads up to 254 chars or until newline\n- Returns `NULL` at end of file\n- Buffer stores each line\n\n**Always check:** `f == NULL` before reading",
     "type": "c"
-  }
+  },
+    {
+    "question": "What is the ESLint no-unused-vars pattern mismatch?",
+    "answer": "**Problem:** ESLint flags imports as unused when libraries use them in ways ESLint doesn't recognize.\n\n**Common cases:**\n```js\n// Framer Motion\nimport { motion } from 'framer-motion'; // ESLint: \"unused\"\n<motion.div>...</motion.div>           // Actually used!\n\n// Styled Components\nimport styled from 'styled-components'; // ESLint: \"unused\"\nconst Button = styled.button`...`;      // Used as function!\n```\n\n**Solutions:**\n1. **Rename to uppercase:**\n```js\nimport { motion as Motion } from 'framer-motion';\n```\n2. **Update ESLint config:**\n```js\n'no-unused-vars': ['error', {\n  varsIgnorePattern: '^[A-Z_]|^(motion|styled)$'\n}]\n```\n3. **Disable for specific files**\n\n**Why:** ESLint doesn't recognize factory patterns, namespace usage, or framework-specific patterns",
+    "type": "javascript"
+  },
+  {
+    "question": "What is the Windows command for generating a folder tree diagram?",
+    "answer": "**Tree command:**\n\n**Basic tree:**\n```cmd\ntree /F /A\n```\n- `/F` - Include files\n- `/A` - Use ASCII characters (better compatibility)\n\n**Filter output:**\n```cmd\ntree /F /A | findstr /V \"node_modules\"\n```\n- Removes lines containing \"node_modules\"\n\n**Save to file:**\n```cmd\ntree /F /A > structure.txt\n```\n\n**PowerShell alternative:**\n```powershell\ntree /F /A | Select-String -NotMatch \"node_modules\"\n```\n\n**Use for:** Project documentation, structure visualization",
+    "type": "tools"
+  },
+  {
+    "question": "What is the React cascading render problem?",
+    "answer": "**Cascading renders** = Infinite/unnecessary render loops in useEffect\n\n**❌ Bug pattern:**\n```js\nconst [data, setData] = useState(null)\n\nuseEffect(() => {\n  fetchData().then(result => setData(result))\n}, [data]) // ❌ Watching the data we're changing!\n```\n\n**Why it cascades:**\n1. useEffect runs → sets data\n2. Component re-renders (data changed)\n3. useEffect runs AGAIN (dependency changed)\n4. Infinite loop\n\n**✅ Solutions:**\n```js\n// Empty array - run once\nuseEffect(() => {\n  fetchData().then(setData)\n}, [])\n\n// Separate concerns - watch for saving, not loading\nuseEffect(() => {\n  localStorage.setItem('data', data)\n}, [data])\n```\n\n**Golden rule:** Never put state you're setting inside useEffect's dependency array",
+    "type": "react"
+  },
+  {
+    "question": "What is the ESLint no-case-declarations rule?",
+    "answer": "**Rule:** Can't declare variables directly in switch case blocks\n\n**❌ Wrong (causes error):**\n```js\nswitch (action) {\n  case 'login':\n    const token = getToken()  // ❌ ESLint error!\n    authenticate(token)\n    break\n}\n```\n\n**✅ Right (use block scope):**\n```js\nswitch (action) {\n  case 'login': {  // ← Opening brace\n    const token = getToken()  // ✅ Now scoped to block\n    authenticate(token)\n    break\n  }  // ← Closing brace\n}\n```\n\n**Why:** JavaScript switch cases share same scope - variables declared in one case are accessible in others (bug risk!)",
+    "type": "javascript"
+  },
+  {
+    "question": "How to call two functions in onClick?",
+    "answer": "**Multiple functions in onClick:**\n\n**❌ Wrong (syntax error):**\n```js\nonClick={() => onAction(\"kinda\"); \n          playSound(\"ding\");\n        }\n```\n\n**✅ Right (use curly braces):**\n```js\nonClick={() => {\n  onAction(\"kinda\")\n  playSound(\"ding\")\n}}\n```\n\n**Arrow function rules:**\n- Single expression → no braces needed: `() => expression`\n- Multiple statements → must use braces: `() => { statement1; statement2; }`\n\n**Alternative pattern:**\n```js\nconst handleClick = () => {\n  onAction(\"kinda\")\n  playSound(\"ding\")\n}\n// Then:\nonClick={handleClick}\n```",
+    "type": "react"
+  },
+  {
+    "question": "What are tools, metadata, and exports in a component system?",
+    "answer": "**Component System Pattern:**\n\n**Tools** = Reusable functionality components (Timer, Shuffle, etc.)\n\n**Metadata** = Info about tools for UI display:\n```js\n{\n  id: 'timer',\n  name: 'Timer', \n  icon: '⏱',\n  description: 'Countdown',\n  component: TimerTool  // Actual component\n}\n```\n\n**Export Strategies:**\n1. **Named exports** - Import single tool\n2. **Metadata array** (`allTools`) - UI menus, dynamic lists\n3. **Default export** (`tools`) - Dynamic runtime access\n\n**Key:** Metadata = UI info, Components = logic/rendering",
+    "type": "react"
+  },
+  {
+    "question": "How do you use useRef for counting and previous values?",
+    "answer": "**useRef Patterns:**\n\n**1. Counting Renders:**\n```jsx\nconst renderCount = useRef(0);\n\nconsole.log(`Render #${renderCount.current + 1}`);\nrenderCount.current += 1; // No rerender!\n```\n\n**2. Tracking Previous Values:**\n```jsx\nconst prevValue = useRef(currentValue);\n\nuseEffect(() => {\n  if (prevValue.current !== currentValue) {\n    console.log(`Changed from ${prevValue.current} to ${currentValue}`);\n    prevValue.current = currentValue; // Update for next time\n  }\n}, [currentValue]);\n```\n\n**Key Points:**\n- `useRef` values persist between renders\n- Updating `.current` doesn't trigger rerenders\n- Perfect for counters, previous values, timeout IDs",
+    "type": "react"
+  },
+  
+{
+  "question": "Why Does Prefixing with _ Fix ESLint's 'no-unused-vars' Error?",
+  "answer": "**Why _ works:** ESLint allows unused variables starting with uppercase letters OR underscores\n\n**Examples:**\n```js\nconst [isLoading, _setIsLoading] = useState(false);\n// _setIsLoading allowed (starts with _)\n// setIsLoading would error (lowercase 's')\n\n// Other uses:\narray.map((item, _index) => { /* don't need index */ })\narray.forEach((_item) => { /* don't need item */ })\n\nconst { data, _unusedProp } = someObject;\n```\n\n**Key points:**\n- ESLint rule: `^[A-Z_]` allows unused variables\n- Underscore convention = \"I know it's unused\"\n- Safe naming pattern for intentional unused variables",
+  "type": "react"
+},
+{
+  "question": "How do you solve the React ESLint react-hooks/exhaustive-deps",
+  "answer": "**Rule:** List EVERY variable used inside useEffect/useMemo/useCallback\n\n**✅ Correct:**\n```js\nuseEffect(() => {\n  console.log(count * multiplier);\n}, [count, multiplier]); // All dependencies listed\n```\n\n**❌ Wrong:**\n```js\nuseEffect(() => {\n  console.log(count * multiplier);\n}, [count]); // Missing multiplier!\n```\n\n**Empty array** = runs once on mount (only if truly no dependencies)\n\n**When to disable:**\n```js\nuseEffect(() => {\n  // Initialize once\n  setInitialValue(Math.random());\n  // eslint-disable-next-line react-hooks/exhaustive-deps\n}, []); // Comment required\n```\n\n**Avoid infinite loops:**\n```js\n// ❌ INFINITE LOOP\nuseEffect(() => {\n  setCount(count + 1);\n}, [count]);\n\n// ✅ Add condition\nuseEffect(() => {\n  if (count < 10) setCount(count + 1);\n}, [count]);\n```\n\n**Common fixes:**\n- Compute values in render instead of useEffect\n- Use `useRef` for values that shouldn't trigger re-renders\n- Use `useMemo` for expensive computations\n- Use `useCallback` for stable functions",
+  "type": "react"
+}
 ]
