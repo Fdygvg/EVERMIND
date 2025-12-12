@@ -111,8 +111,7 @@
     "question": "How do you merge git branches?",
     "answer": "**To merge your branch into main:**\n\n```bash\n# Switch to main branch\ngit checkout main\n\n# Merge your branch\ngit merge new-branch-name\n\n# Push the changes\ngit push origin main\n```\n\n**Alternative (if using git switch):**\n```bash\ngit switch main\ngit merge feature-branch\ngit push origin main\n```",
     "type": "git",
-    "tags": ["git", "merge"],
-    "code": "# Switch to main branch\ngit checkout main\n\n# Merge your branch\ngit merge feature-login\n\n# Push the changes\ngit push origin main\n\n# Alternative using git switch\ngit switch main\ngit merge feature-login\ngit push origin main\n\n# Check merge status\ngit status"
+    "tags": ["git", "merge"]
   },
   {
     "question": "How do you make text big or small in HTML?",
@@ -1671,5 +1670,286 @@
     "question": "What is a callback in JavaScript, and what is 'callback hell'?",
     "answer": "**Callback:**\n- A callback is a function passed into another function to be called later—usually after something finishes, like loading data, waiting for a timer, or user input.\n- Callbacks are how you make code run in order, especially with async or event-based operations.\n\n**Example of Callbacks:**\n```javascript\nfunction stepOne(callback) {\n  console.log(\"Step 1: Turn on the computer\");\n  callback();\n}\nfunction stepTwo(callback) {\n  console.log(\"Step 2: Open your code editor\");\n  callback();\n}\nfunction stepThree() {\n  console.log(\"Step 3: Start coding!\");\n}\n// Chained callbacks:\nstepOne(() => {\n  stepTwo(() => {\n    stepThree();\n  });\n});\n``````javascript\nstepOne(function() {\n  stepTwo(function() {\n    stepThree(function() {\n      stepFour(function() {\n        stepFive(function() {\n          console.log(\"All steps done!\");\n        });\n      });\n    });\n  });\n});\n```",
     "type": "javascript"
-  }
+  },
+   {
+    "question": "what are dunder methods in python",
+    "answer": "**Dunder methods** = Special methods with `__` (double underscore)\n\n**Common examples:**\n```python\n__init__(self, ...)  # Constructor\n__str__(self)        # Print representation\n__repr__(self)       # Developer representation\n__len__(self)        # Works with len()\n__add__(self, other) # Supports + operator\n__getitem__(self, key) # Supports obj[key]\n```\n\n**Vector class example:**\n```python\nclass Vector:\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n    \n    def __add__(self, other):\n        return Vector(self.x + other.x, self.y + other.y)\n    \n    def __repr__(self):\n        return f\"Vector({self.x}, {self.y})\"\n\n# Now works like built-in:\nv1 = Vector(2, 3)\nv2 = Vector(4, 5)\nprint(v1 + v2)  # Vector(6, 8)\n```",
+    "type": "python"
+  },
+  {
+    "question": "What are classes in python",
+    "answer": "**Classes** = Blueprints for creating objects\n\n**Basic class:**\n```python\nclass Dog:\n    species = \"Canine\"  # Class attribute (shared)\n    \n    def __init__(self, name, age):\n        self.name = name  # Instance attribute\n        self.age = age    # Instance attribute\n    \n    def bark(self):\n        print(f\"{self.name} says Woof!\")\n```\n\n**Create instances:**\n```python\ndog1 = Dog(\"Buddy\", 3)\ndog2 = Dog(\"Lucy\", 5)\n\nprint(dog1.name)   # Buddy\nprint(dog2.age)    # 5\ndog1.bark()        # Buddy says Woof!\n```",
+    "type": "python"
+  },
+  {
+    "question": "Explain how inheritance works in python classes",
+    "answer": "**Inheritance** = Child class gets parent's attributes/methods\n\n**Example:**\n```python\n# Parent class\nclass Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        print(f\"{self.name} makes a sound\")\n\n# Child class inherits from Animal\nclass Dog(Animal):\n    def speak(self):  # Override parent method\n        print(f\"{self.name} says Woof!\")\n\n# Usage\ndog = Dog(\"Buddy\")\ndog.speak()  # Buddy says Woof!\n```",
+    "type": "python"
+  },
+  {
+    "question": "what are modules in python",
+    "answer": "**Modules** = Python files you can import/reuse\n\n**Import built-in:**\n```python\nimport math\nprint(math.sqrt(16))  # 4.0\n```\n\n**Create your own:**\n```python\n# mytools.py\ndef greet(name):\n    return f\"Hello, {name}!\"\n\n# main.py\nimport mytools\nprint(mytools.greet(\"Alice\"))\n```\n\n**Import from folders:**\n```python\n# Add __init__.py to folder\nfrom folder.module import function\n```\n\n**Common modules:**\n- `math`, `random`, `datetime`\n- `os`, `sys`, `json`, `csv`\n- `collections`, `itertools`",
+    "type": "python"
+  },
+  {
+    "question": "what is the super key word in python classes",
+    "answer": "**super()** = Call parent class methods\n\n**Basic usage:**\n```python\nclass Parent:\n    def __init__(self, name):\n        self.name = name\n\nclass Child(Parent):\n    def __init__(self, name, age):\n        super().__init__(name)  # Call Parent.__init__\n        self.age = age\n```\n\n**Also works for other methods:**\n```python\nclass Child(Parent):\n    def greet(self):\n        super().greet()  # Call Parent.greet()\n        print(f\"I am {self.age} years old.\")\n```\n\n**Why use super():**\n- Dynamic parent reference\n- Essential for multiple inheritance\n- Avoids hardcoding parent class name",
+    "type": "python"
+  },
+  {
+    "question": "How does file input and output work in python",
+    "answer": "**File I/O = open → read/write → close**\n\n**Open file:**\n```python\nfile = open(\"example.txt\", \"r\")  # Read mode\n```\n\n**Common modes:**\n- `'r'` = Read (default)\n- `'w'` = Write (overwrites)\n- `'a'` = Append (add to end)\n- `'r+'` = Read & write\n\n**Best practice (auto-closes):**\n```python\nwith open(\"example.txt\", \"r\") as f:\n    content = f.read()  # Read whole file\n\nwith open(\"example.txt\", \"r\") as f:\n    for line in f:      # Read line by line\n        print(line.strip())\n```\n\n**Write to file:**\n```python\nwith open(\"example.txt\", \"w\") as f:\n    f.write(\"Hello, world!\\n\")  # Overwrite\n\nwith open(\"example.txt\", \"a\") as f:\n    f.write(\"Append line\")      # Add to end\n```",
+    "type": "python"
+  },
+  {
+    "question": "What are command line arguments?",
+    "answer": "**Command-line args** = Values passed when running script\n\n**Methods:**\n\n1. **sys.argv** (basic):\n```python\nimport sys\nname = sys.argv[1]  # Index 0 = script name\nprint(f\"Hello {name}\")\n```\nRun: `python script.py Alice`\n\n2. **argparse** (recommended):\n```python\nimport argparse\nparser = argparse.ArgumentParser()\nparser.add_argument(\"name\", help=\"Person's name\")\nparser.add_argument(\"--age\", type=int)\nargs = parser.parse_args()\nprint(f\"Hello {args.name}\")\n```\nRun: `python script.py Alice --age 25`\n\n**Benefits:** User-friendly, auto-help, type handling",
+    "type": "python"
+  },
+  {
+    "question": "What are lambda functions in Python?",
+    "answer": "**Lambda** = Anonymous one-line function\n\n**Syntax:** `lambda args: expression`\n\n**Examples:**\n```python\nadd = lambda x, y: x + y          # add(3,5) → 8\nsquare = lambda x: x**2          # square(4) → 16\nis_even = lambda x: x % 2 == 0   # is_even(7) → False\n```\n\n**Key:**\n- No `def` keyword or function name\n- Single expression automatically returned\n- Often used with `map()`, `filter()`, `sort()`",
+    "type": "python"
+  },
+  {
+    "question": "How do you use map, filter and reduce functions with lambda?",
+    "answer": "**Functional Programming:**\n\n**map()** → Apply function to all elements:\n```python\nnums = [1,2,3,4]\nsquared = list(map(lambda x: x**2, nums))  # [1,4,9,16]\n```\n\n**filter()** → Keep elements meeting condition:\n```python\nevens = list(filter(lambda x: x%2==0, nums))  # [2,4]\n```\n\n**reduce()** → Combine elements to single value:\n```python\nfrom functools import reduce\nproduct = reduce(lambda x,y: x*y, nums)  # 24\n```\n\n**Pattern:** `lambda` + `iterable` → new result",
+    "type": "python"
+  },
+  {
+    "question": "What is recursion in Python?",
+    "answer": "**Recursion** = Function calling itself\n\n**Key Parts:**\n1. **Base case** → Stopping condition\n2. **Recursive case** → Call with smaller problem\n\n**Example - Factorial:**\n```python\ndef factorial(n):\n    if n == 0:           # Base case\n        return 1\n    else:                # Recursive case\n        return n * factorial(n-1)\n\nfactorial(5)  # 120\n```\n\n**Important:**\n- Without base case → `RecursionError`\n- Each call stored on call stack\n- Useful for tree traversal, divide-and-conquer",
+    "type": "python"
+  },
+  {
+    "question": "what is a decorator in python",
+    "answer": "**Decorator** = Function that modifies another function's behavior\n\n**Basic syntax:**\n```py\ndef decorator(func):\n    def wrapper():\n        print(\"Before function\")\n        func()  # Call original\n        print(\"After function\")\n    return wrapper\n\n# Usage\n@decorator\ndef say_hello():\n    print(\"Hello!\")\n\nsay_hello()\n# Output:\n# Before function\n# Hello!\n# After function\n```\n\n**Key points:**\n- Wraps function without modifying original code\n- Uses `@decorator` syntax\n- Common for logging, timing, authentication",
+    "type": "python"
+  },
+  {
+    "question": "What are docstrings in python",
+    "answer": "**Docstrings** = Documentation strings for functions/classes/modules\n\n**Usage:**\n```py\ndef add(a, b):\n    \"\"\"Add two numbers and return the result.\"\"\"\n    return a + b\n```\n\n**Access docstrings:**\n```py\nprint(add.__doc__)  # \"Add two numbers...\"\nhelp(add)           # Shows documentation\n```\n\n**Key points:**\n- Triple quotes `\"\"\"` under definition\n- Used by `help()` function\n- Good practice for documentation",
+    "type": "python"
+  },
+  {
+    "question": "what are exceptions in python",
+    "answer": "**Exceptions** = Errors during program execution\n\n**Common exceptions:**\n- `ZeroDivisionError` - divide by zero\n- `ValueError` - wrong value type\n- `TypeError` - wrong type operation\n- `FileNotFoundError` - file doesn't exist\n- `IndexError` - list index out of range\n\n**Handle with try-except:**\n```py\ntry:\n    x = int(input(\"Enter number: \"))\n    y = 10 / x\nexcept ValueError:\n    print(\"Not a valid number!\")\nexcept ZeroDivisionError:\n    print(\"Can't divide by zero!\")\nelse:\n    print(f\"Result: {y}\")\nfinally:\n    print(\"Cleanup\")\n```\n\n**Raise exceptions:**\n```py\nif age < 0:\n    raise ValueError(\"Age cannot be negative\")\n```",
+    "type": "python"
+  },
+  {
+    "question": "what happens when you put pass in a class",
+    "answer": "**pass** = Empty placeholder\n\n**Usage:**\n```py\nclass MyEmptyClass:\n    pass\n\n# Create object\nobj = MyEmptyClass()  # Works, empty object\n```\n\n**Key points:**\n- Prevents syntax error for empty classes/functions\n- Class exists but has no attributes/methods\n- Useful for temporary placeholders\n- Can add functionality later",
+    "type": "python"
+  },
+  {
+    "question": "what is the with statement in python",
+    "answer": "**with statement** = Automatic resource management\n\n**Example (file handling):**\n```py\n# Without with (manual cleanup)\nfile = open(\"example.txt\", \"r\")\ndata = file.read()\nfile.close()  # Must remember!\n\n# With with (automatic cleanup)\nwith open(\"example.txt\", \"r\") as file:\n    data = file.read()\n# File automatically closed here\n```\n\n**Key points:**\n- Ensures cleanup even if errors occur\n- Common for files, network connections, locks\n- Uses context managers (`__enter__`/`__exit__`)",
+    "type": "python"
+  },
+  {
+    "question": "what is pip in python",
+    "answer": "**pip** = Python Package Installer\n\n**Common commands:**\n```bash\n# Install package\npip install requests\n\n# Upgrade package\npip install --upgrade package_name\n\n# Uninstall\npip uninstall package_name\n\n# List installed\npip list\n\n# Show package info\npip show package_name\n```\n\n**Key points:**\n- Default package manager for Python\n- Installs from PyPI (Python Package Index)\n- Manage dependencies for projects\n- Use `requirements.txt` for project dependencies",
+    "type": "python"
+  },
+  {
+    "question": "What is list comprehension in Python?",
+    "answer": "**List Comprehension** = One-line list transformation\n\n**Basic syntax:**\n```python\n[n * 2 for n in numbers]  # Double each number\n```\n\n**With filter:**\n```python\n[n for n in numbers if n % 2 == 0]  # Only even numbers\n```\n\n**Structure:** `[new_item for item in old_list if condition]`\n\n**Example:**\n```python\nnumbers = [1, 2, 3, 4, 5]\ndoubled = [n * 2 for n in numbers]  # [2, 4, 6, 8, 10]\nevens = [n for n in numbers if n % 2 == 0]  # [2, 4]\n```",
+    "type": "python"
+  },
+  {
+    "question": "What is polymorphism in Python?",
+    "answer": "**Polymorphism** = Same interface, different behavior\n\n**1. Function polymorphism:**\n```python\ndef add(a, b):\n    return a + b  # Works with ints, strings, lists\n\nadd(5, 10)          # 15\nadd(\"Hello \", \"World\")  # \"Hello World\"\nadd([1,2], [3,4])   # [1,2,3,4]\n```\n\n**2. Class method polymorphism:**\n```python\nclass Dog:\n    def speak(self): return \"Woof!\"\n\nclass Cat:\n    def speak(self): return \"Meow!\"\n\ndef animal_sound(animal):\n    print(animal.speak())  # Same method, different results\n```",
+    "type": "python"
+  },
+  {
+    "question": "What is operator overloading in Python?",
+    "answer": "**Operator Overloading** = Custom operator behavior for classes\n\n**Use special methods (__xxx__):**\n```python\nclass Vector:\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n    \n    def __add__(self, other):  # Overload +\n        return Vector(self.x + other.x, self.y + other.y)\n    \n    def __str__(self):  # Overload print()\n        return f\"Vector({self.x}, {self.y})\"\n\nv1, v2 = Vector(2,3), Vector(5,7)\nv3 = v1 + v2  # Vector(7, 10) - uses __add__\n```\n\n**Common operators:**\n- `+` → `__add__`\n- `==` → `__eq__`\n- `<` → `__lt__`\n- `len()` → `__len__`",
+    "type": "python"
+  },
+  {
+    "question": "What is the difference between polymorphism and inheritance?",
+    "answer": "**Inheritance** = Code reuse (\"is-a\" relationship)\n```python\nclass Animal:\n    def eat(self): print(\"Eating...\")\n\nclass Cat(Animal):  # Inherits from Animal\n    def speak(self): print(\"Meow\")\n\nc = Cat()\nc.eat()    # Inherited method\nc.speak()  # Own method\n```\n\n**Polymorphism** = Same method, different behavior\n```python\nclass Dog(Animal):\n    def speak(self): print(\"Bark\")\n\nclass Cat(Animal):\n    def speak(self): print(\"Meow\")\n\nanimals = [Dog(), Cat()]\nfor a in animals:\n    a.speak()  # Same method name, different output\n```\n\n**Inheritance** = Getting methods from parent\n**Polymorphism** = Using same interface differently",
+    "type": "python"
+  },
+    {
+  "question": "what is type safety in typescript",
+  "answer": "**Type safety** = Prevent type-related errors before runtime\n\n**Variable safety:**\n```typescript\nlet age: number = 25;\nage = \"25\"; // ❌ Error: string → number\n```\n\n**Function safety:**\n```typescript\nfunction add(a: number, b: number): number {\n    return a + b;\n}\nadd(5, \"10\"); // ❌ Error: string argument\n```\n\n**Object safety:**\n```typescript\ninterface User {\n    name: string;\n    age: number;\n}\nconst user: User = { name: \"Chuks\", age: 20 };\nuser.age = \"twenty\"; // ❌ Error\n```\n\n**Key idea:** TypeScript catches type mismatches during development, not runtime",
+  "type": "typescript"
+},
+{
+  "question": "what is static checking",
+  "answer": "**Static checking** = Analyze code BEFORE it runs (compile-time)\n\n**Example:**\n```typescript\nlet age: number = 25;\nage = \"twenty-five\"; // ❌ Error caught during compilation\n```\n\n**Key points:**\n- Catches errors during development\n- TypeScript uses static type checking\n- No need to run code to find type mismatches\n- Contrast with **dynamic checking** (errors at runtime)\n\n**Static vs Dynamic:**\n- **Static**: Type errors found by compiler\n- **Dynamic**: Type errors found when code executes",
+  "type": "typescript"
+},
+{
+  "question": "How do you setup and run TypeScript files?",
+  "answer": "**Clean TypeScript Setup - Step by Step**\n\n**STEP 1: Fresh Start**\n```powershell\n# Clean folder\nmkdir C:\\typescript-learning\ncd C:\\typescript-learning\n```\n\n**STEP 2: Install**\n```powershell\nnpm init -y\nnpm install typescript --save-dev\nnpm install ts-node --save-dev  # Run TS directly\n```\n\n**STEP 3: Config (tsconfig.json)**\n```json\n{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"module\": \"CommonJS\",\n    \"strict\": true,\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true,\n    \"forceConsistentCasingInFileNames\": true\n  }\n}\n```\n\n**STEP 4: Test File (test.ts)**\n```typescript\nlet message: string = \"Hello TypeScript!\";\nconsole.log(message);\n```\n\n**STEP 5: Run**\n```powershell\n# Direct execution\nnpx ts-node test.ts\n\n# Or compile then run\nnpx tsc test.ts\nnode test.js\n```\n\n**Summary:** Clean folder → Install TS + ts-node → Minimal config → Create file → Run",
+  "type": "typescript",
+  "tags": [
+    "typescript",
+    "setup",
+    "beginners",
+    "development"
+  ]
+},
+{
+  "question": "what is the split string method in python",
+  "answer": "**String splitting methods:**\n\n**`.split()`** - Split by whitespace (default) or specific separator:\n```py\ntext = \"hello world python\"\nwords = text.split()      # ['hello', 'world', 'python']\n\ncsv = \"a,b,c,d\"\nitems = csv.split(',')   # ['a', 'b', 'c', 'd']\n```\n\n**`.splitlines()`** - Split by line breaks:\n```py\nlines = \"hello world\\npython code\\nnext line\"\nresult = lines.splitlines()  # ['hello world', 'python code', 'next line']\n```\n\n**Parameters:**\n- `sep` = separator (default: whitespace)\n- `maxsplit` = maximum splits to make\n\n**Key points:**\n- `.split()` returns list of strings\n- `.splitlines()` preserves line content\n- Use for parsing text, CSV, logs, etc.",
+  "type": "python"
+},
+{
+  "question": "How do you fetch a webpage/call an API in Python",
+  "answer": "**Fetch webpage/API using requests library:**\n\n**Install:**\n```bash\npip install requests\n```\n\n**Fetch webpage (HTML):**\n```py\nimport requests\n\nresponse = requests.get(\"https://example.com\")\nprint(response.status_code)  # 200, 404, etc.\nhtml_content = response.text  # Get HTML\n```\n\n**Call API (JSON):**\n```py\nimport requests\n\nresponse = requests.get(\"https://api.example.com/data\")\ndata = response.json()  # Parse JSON response\nprint(data)\n```\n\n**Safe function with error handling:**\n```py\ndef fetch_page(url):\n    try:\n        response = requests.get(url, timeout=10)\n        response.raise_for_status()  # Check for errors\n        return response.text  # HTML content\n    except requests.RequestException as e:\n        print(f\"Error fetching {url}: {e}\")\n        return None\n```\n\n**Key differences:**\n- **Webpage** → `response.text` (HTML, needs parsing)\n- **API** → `response.json()` (structured data, ready to use)\n- **Always** check `status_code` and handle errors",
+  "type": "python"
+},
+{
+  "question": "How do you delete a file from cmd",
+  "answer": "**Delete file:**\n```ps\ndel filename.txt\n```\n\n**Delete folder (force):**\n```ps\nrmdir /s /q folderName\n```\n\n**Key commands:**\n- `del` = delete files\n- `rmdir` = remove directory\n- `/s` = remove all subdirectories\n- `/q` = quiet mode (no confirmation)",
+  "type": "command-line"
+},
+{
+  "question": "what is the syntax for typescript",
+  "answer": "**TypeScript syntax:**\n```ts\nlet variableName: type = value;\n```\n\n**Examples:**\n```ts\nlet age: number = 20;\nlet name: string = \"Chuks\";\nlet isStudent: boolean = true;\nlet scores: number[] = [95, 87, 92];\n```\n\n**Key point:** Add type annotations after variable name",
+  "type": "typescript"
+},
+{
+  "question": "what is type inference",
+  "answer": "**Type inference** = TypeScript guesses types automatically\n\n**Examples:**\n```ts\nlet age = 20;           // inferred: number\nlet name = \"Chuks\";     // inferred: string\nlet scores = [95, 87];  // inferred: number[]\n\nfunction add(a: number, b: number) {\n  return a + b;         // inferred return: number\n}\n```\n\n**Key points:**\n- TS determines type from initial value\n- Saves typing, maintains safety\n- Variables without initial value get `any` type\n- Use explicit types when inference isn't clear",
+  "type": "typescript"
+},
+{
+  "question": "why shouldn't you use the any type in typescript",
+  "answer": "**Avoid `any` type** = Turns off TypeScript's benefits\n\n**Problems with `any`:**\n1. **No type safety** - Compiler won't catch errors\n2. **Bad refactoring** - Can't find broken code when changing types\n3. **Spreads like disease** - Functions using `any` infect calling code\n4. **Loses editor help** - No IntelliSense, suggestions, or warnings\n\n**Example:**\n```ts\nlet data: any = \"hello\";\ndata = 42;           // No error (dangerous)\ndata.toUpperCase();  // Runtime error! (42.toUpperCase)\n```\n\n**Key point:** `any` defeats the purpose of TypeScript - use specific types",
+  "type": "typescript"
+},
+{
+  "question": "how do you write functions in Typescript",
+  "answer": "**TypeScript functions:**\n\n**Named function:**\n```ts\nfunction add(a: number, b: number): number {\n  return a + b;\n}\n```\n\n**Arrow function:**\n```ts\nconst multiply = (x: number, y: number): number => x * y;\n```\n\n**Optional/default parameters:**\n```ts\nfunction greet(name: string, greeting: string = \"Hello\"): void {\n  console.log(`${greeting}, ${name}!`);\n}\n```\n\n**Key syntax:**\n- `(param: type)` = parameter type\n- `: returnType` = return type\n- `void` = no return value\n- `?` = optional parameter",
+  "type": "typescript"
+},
+{
+  "question": "What are union types in typescript",
+  "answer": "**Union types** = Variable can be one of several types\n\n**Syntax:**\n```ts\nlet value: string | number;\n\nvalue = \"hello\";   // ✅ string\nvalue = 42;        // ✅ number\nvalue = true;      // ❌ boolean not allowed\n```\n\n**Common uses:**\n```ts\nlet id: string | number;\nlet status: \"active\" | \"inactive\" | \"pending\";\nlet maybe: string | null | undefined;\n\n// Function return\ngetValue(): string | number { ... }\n```\n\n**Key points:**\n- Use `|` to separate types\n- Restricts to specified types\n- Good for flexible but controlled values",
+  "type": "typescript"
+},
+  {
+  "question": "What is the return type annotation in ts",
+  "answer": "**Return type annotation** = Specifies what a function returns\n\n**Syntax:**\n```ts\nfunction getNumber(): number {\n  return 42;\n}\n\nfunction createObject(): {} {\n  return {}; // Returns empty object\n}\n\nfunction noReturn(): void {\n  console.log(\"No return value\");\n}\n```\n\n**Key points:**\n- `: type` after parameters\n- Helps TS check return values\n- `void` = no return value",
+  "type": "typescript"
+},
+{
+  "question": "What are type aliases in js ts",
+  "answer": "**Type aliases** = Nicknames for types\n\n**Syntax:**\n```ts\ntype User = {\n  name: string;\n  age: number;\n};\n\n// Usage\nfunction greet(person: User) {\n  return person; // Returns {name: string, age: number}\n}\n\n// Union type alias\ntype ID = string | number;\n```\n\n**Key points:**\n- `type` keyword\n- Reuse complex types\n- Can alias objects, unions, functions, etc.\n- Makes code cleaner and reusable",
+  "type": "typescript"
+},
+{
+  "question": "How do you make properties read only in ts",
+  "answer": "**Readonly properties** = Cannot be modified after creation\n\n**Syntax:**\n```ts\ntype User = {\n  readonly id: string;\n  name: string;\n};\n\nconst user: User = { id: \"123\", name: \"Chuks\" };\nuser.name = \"Alice\"; // ✅ Can change\nuser.id = \"456\";    // ❌ Error: Cannot assign to 'id'\n```\n\n**Key points:**\n- `readonly` keyword before property\n- Prevents reassignment\n- Only at compile time (not runtime)",
+  "type": "typescript"
+},
+{
+  "question": "What are optional properties in ts",
+  "answer": "**Optional properties** = May or may not exist\n\n**Syntax:**\n```ts\ntype User = {\n  name: string;\n  email?: string; // Optional\n  isActive: boolean;\n};\n\n// Both valid:\nconst user1: User = { name: \"Chuks\", isActive: true };\nconst user2: User = { name: \"Alice\", email: \"a@test.com\", isActive: false };\n```\n\n**Also for function parameters:**\n```ts\nfunction greet(name?: string) {\n  console.log(`Hello ${name || \"guest\"}`);\n}\n```\n\n**Key points:**\n- `?` after property name\n- Can be omitted\n- Type is `type | undefined`",
+  "type": "typescript"
+},
+{
+  "question": "What is the typescript intersection type",
+  "answer": "**Intersection types** = Combine multiple types\n\n**Syntax:**\n```ts\ntype Person = { name: string };\ntype Employee = { employeeId: number };\n\n// Must have BOTH\ntype Staff = Person & Employee;\n\nconst staff: Staff = {\n  name: \"Chuks\",      // From Person\n  employeeId: 101      // From Employee\n};\n```\n\n**Multiple intersections:**\n```ts\ntype Staff = Person & Employee & { department?: string };\n```\n\n**Key points:**\n- `&` operator\n- Must satisfy ALL types\n- Creates new type with combined properties",
+  "type": "typescript"
+},
+{
+  "question": "how does an array work in typescript",
+  "answer": "**Typed arrays:**\n\n**Syntax options:**\n```ts\n// Type[] syntax\nlet numbers: number[] = [1, 2, 3];\nlet names: string[] = [\"Chuks\", \"Alice\"];\n\n// Array<Type> syntax\nlet ids: Array<number> = [101, 102, 103];\n\n// Mixed types\nlet mixed: (number | string)[] = [1, \"two\", 3];\n\n// Readonly\nlet readonly: readonly number[] = [1, 2, 3];\n// readonly.push(4) ❌ Error\n```\n\n**Key points:**\n- Specify element type\n- Type-safe methods (`map`, `filter`, etc.)\n- `readonly` prevents modification\n- Union arrays allow multiple types",
+  "type": "typescript"
+},
+{
+  "question": "what are literal types in typescript",
+  "answer": "**Literal types** = Exact value as type\n\n**Examples:**\n```ts\n// String literal\nlet direction: \"up\" | \"down\" | \"left\" | \"right\";\ndirection = \"up\";    // ✅\ndirection = \"north\"; // ❌\n\n// Number literal\nlet pi: 3.14;\npi = 3.14;    // ✅\npi = 3.14159; // ❌\n\n// Boolean literal\nlet alwaysTrue: true;\nalwaysTrue = true;  // ✅\nalwaysTrue = false; // ❌\n\n// Function return\nfunction rollDie(): 1 | 2 | 3 | 4 | 5 | 6 {\n  return 4; // Must be 1-6\n}\n```\n\n**Key points:**\n- Restrict to specific values\n- Often used with union types\n- Enumerations/constants\n- Type-level validation",
+  "type": "typescript"
+},
+{
+  "question": "What are tuples in typescript",
+  "answer": "**Tuples** = Fixed-length arrays with specific types per position\n\n**Basic tuple:**\n```typescript\nlet user: [string, number, boolean];\nuser = [\"Chuks\", 25, true]; // ✅\nuser = [25, \"Chuks\", true]; // ❌ Wrong order\n```\n\n**Access elements:**\n```typescript\nconsole.log(user[0].toUpperCase()); // ✅ string method\nconsole.log(user[1].toUpperCase()); // ❌ number can't\n```\n\n**Optional elements:**\n```typescript\nlet user: [string, number?];\nuser = [\"Chuks\"];       // ✅\nuser = [\"Chuks\", 25];   // ✅\n```",
+  "type": "typescript"
+},
+{
+  "question": "what are rest elements in typescript",
+  "answer": "**Rest elements** = Variable number of elements at the end of tuple\n\n**Tuple with rest:**\n```typescript\nlet numbers: [number, number, ...number[]];\nnumbers = [1, 2, 3, 4];   // ✅\nnumbers = [1];            // ❌ Need at least 2\nnumbers = [1, 2, \"3\"];   // ❌ Must be numbers\n```\n\n**Function rest parameters:**\n```typescript\nfunction addNumbers(...nums: number[]) {\n  return nums.reduce((sum, n) => sum + n, 0);\n}\naddNumbers(1, 2, 3); // 6\naddNumbers();        // 0 (empty)\n```\n\n**Key idea:** Rest elements allow flexible length while keeping type safety",
+  "type": "typescript"
+},
+{
+  "question": "what are enums in typescript",
+  "answer": "**Enums** = Named constants for better readability\n\n**Numeric enum (auto-numbered):**\n```typescript\nenum Direction {\n    Up,    // 0\n    Down,  // 1\n    Left,  // 2\n    Right  // 3\n}\nlet move: Direction = Direction.Up; // 0\n```\n\n**String enum:**\n```typescript\nenum Direction {\n    Up = \"UP\",\n    Down = \"DOWN\",\n    Left = \"LEFT\",\n    Right = \"RIGHT\"\n}\nlet move: Direction = Direction.Left; // \"LEFT\"\n```\n\n**Why use enums:**\n- More readable than 0/1/2\n- Type safety prevents invalid values\n- Centralized constants in one place",
+  "type": "typescript"
+},
+{
+  "question": "what are interfaces in typescript",
+  "answer": "**Interfaces** = Blueprints for object shapes\n\n**Basic interface:**\n```typescript\ninterface User {\n  name: string;\n  email: string;\n  age: number;\n}\n\nconst user: User = {\n  name: \"Chuks\",\n  email: \"chuks@gmail.com\",\n  age: 25\n};\n```\n\n**With methods:**\n```typescript\ninterface User {\n  name: string;\n  getCoupon(couponname: string): number;\n  startTrail?(): string; // Optional method\n}\n```\n\n**Why use interfaces:**\n- Type safety for objects\n- Clear contracts for what properties/methods are required\n- Optional properties with `?`\n- Can be extended/implemented by classes",
+  "type": "typescript"
+},
+{
+  "question": "What is the difference between interface and types in TypeScript?",
+  "answer": "**Interface vs Type Aliases**\n\n**Interface:**\n- For object/class shapes\n- Can be extended/reopened (declaration merging)\n```ts\ninterface User { name: string }\ninterface User { email: string } // ✅ Merges\n```\n\n**Type:**\n- More flexible (unions, primitives, etc.)\n- Cannot be reopened\n```ts\ntype ID = number | string  // ✅ Union type\ntype User = { name: string }\ntype User = { email: string } // ❌ Error\n```\n\n**Both can extend each other:**\n```ts\ninterface extends type: interface User extends PersonType\nType extends interface: type User = PersonInterface & {email}\n```\n\n**Use interface** for OOP/classes, **type** for unions/complex types",
+  "type": "typescript"
+},
+{
+  "question": "What is the implements keyword in TypeScript?",
+  "answer": "**implements** = Class promises to follow interface rules\n\n**Interface (rulebook):**\n```ts\ninterface RobotRules {\n  walk(): void;\n  talk(): void;\n}\n```\n\n**Class (robot following rules):**\n```ts\nclass MyRobot implements RobotRules {\n  walk() { console.log(\"walking\"); }\n  talk() { console.log(\"talking\"); } // Must have both!\n}\n```\n\n**TypeScript checks:** If class forgets any method → ❌ Error\n```ts\nclass MyRobot implements RobotRules {\n  walk() {} // ❌ Missing talk()!\n}\n```\n\n**implements** = Contract that class must fulfill interface requirements",
+  "type": "typescript"
+},
+{
+  "question": "What is the dev lite server and how to use it?",
+  "answer": "**lite-server** = Simple dev server with auto-reload\n\n**Install & use:**\n```bash\nnpm i lite-server --save-dev\n```\n\n**package.json:**\n```json\n{\n  \"scripts\": {\n    \"start\": \"lite-server\"\n  }\n}\n```\n\n**Run:**\n```bash\nnpm start\n# Serves index.html at http://localhost:3000\n# Auto-reloads when files change\n```",
+  "type": "javascript"
+},
+{
+  "question": "What is private and public in TypeScript?",
+  "answer": "**Access Modifiers** = Control property/method visibility\n\n**public (default):** Anyone can access\n```ts\nclass User {\n  public name: string;  // ✅ Can read/write anywhere\n}\nconst u = new User(\"Chuks\");\nu.name = \"Alex\"; // ✅ Allowed\n```\n\n**private:** Only class can access\n```ts\nclass User {\n  private password: string;\n  \n  showPassword() {\n    return this.password; // ✅ Inside class - OK\n  }\n}\n\nconst u = new User(\"12345\");\nu.password; // ❌ Outside class - Error\n```\n\n**Default:** Everything is public unless marked private",
+  "type": "typescript"
+},
+{
+  "question": "How do getters and setters work in TypeScript?",
+  "answer": "**Getters/setters** = Control property access\n\n**Example:**\n```typescript\nclass Treasure {\n  private _gold: number = 0;\n\n  get gold() {           // Getter\n    return this._gold;\n  }\n\n  set gold(amount: number) {  // Setter\n    if (amount >= 0) this._gold = amount;\n    else console.log(\"No negative gold!\");\n  }\n}\n\nconst chest = new Treasure();\nconsole.log(chest.gold);  // 0 (getter)\nchest.gold = 100;         // setter\nchest.gold = -50;         // \"No negative gold!\"\n```\n\n**Key:** Control read/write with validation logic",
+  "type": "typescript"
+},
+{
+  "question": "What are abstract classes in TypeScript?",
+  "answer": "**Abstract Classes** = Blueprints that can't be instantiated\n\n**Features:**\n- Cannot create directly: `new Animal()` ❌\n- Can have abstract methods (must implement)\n- Can have regular methods/properties\n\n**Example:**\n```typescript\nabstract class Animal {\n  abstract makeSound(): void;  // Must implement\n  \n  move() {                     // Inherited as-is\n    console.log(\"Moving...\");\n  }\n}\n\nclass Dog extends Animal {\n  makeSound() {               // Required\n    console.log(\"Woof!\");\n  }\n}\n```",
+  "type": "typescript"
+},
+{
+  "question": "What are generics in TypeScript?",
+  "answer": "**Generics** = Type-safe reusable code with placeholders\n\n**Syntax:** `<T>` where T = type placeholder\n\n**Examples:**\n```typescript\n// Generic function\nfunction echo<T>(value: T): T {\n  return value;\n}\necho(\"hello\"); // string\necho(42);      // number\n\n// Generic array function\nfunction first<T>(arr: T[]): T {\n  return arr[0];\n}\n\n// Generic class\nclass Box<T> {\n  contents: T;\n  constructor(value: T) {\n    this.contents = value;\n  }\n}\n```\n**React:** Use `<T,>` to avoid JSX confusion",
+  "type": "typescript"
+},
+{
+  "question": "How do you use generics with constraints?",
+  "answer": "**Generic Constraints** = Limit types with `extends`\n\n**Example:**\n```typescript\ninterface Database {\n  connection: string;\n  username: string;\n  password: string;\n}\n\nfunction connect<T, U extends Database>(id: T, db: U) {\n  // U must have Database properties\n  console.log(db.connection); // Allowed\n  return { id, db };\n}\n\nconnect(123, {  // ✅ Valid\n  connection: \"localhost\",\n  username: \"admin\",\n  password: \"secret\"\n});\n```\n\n**Key:** `U extends Database` = \"U must follow Database interface\"",
+  "type": "typescript"
+},
+{
+  "question": "What is type narrowing in TypeScript?",
+  "answer": "**Type Narrowing** = TypeScript figures out exact type through checks\n\n**Example:**\n```ts\nfunction doSomething(value: string | number) {\n  if (typeof value === \"string\") {\n    console.log(value.toUpperCase()); // ✅ value = string\n  } else {\n    console.log(value.toFixed(2)); // ✅ value = number\n  }\n}\n```\n\n**TypeScript starts broad → checks narrow it down**\n\n**Ways to narrow:** `typeof`, `instanceof`, `in` operator, equality checks",
+  "type": "typescript"
+},
+{
+  "question": "What is the 'in' operator in type narrowing?",
+  "answer": "**'in' operator** = Checks if object has property → narrows type\n\n**Example:**\n```ts\ntype Cat = { meow: () => void };\ntype Dog = { bark: () => void };\n\nfunction makeNoise(animal: Cat | Dog) {\n  if (\"meow\" in animal) {\n    animal.meow(); // ✅ TypeScript knows: Cat\n  } else {\n    animal.bark(); // ✅ TypeScript knows: Dog\n  }\n}\n```\n\n**Logic:** \"Does this object have this property?\" → TypeScript narrows accordingly",
+  "type": "typescript"
+},
+{
+  "question": "What is type predicate and assertion in TypeScript?",
+  "answer": "**Type Predicate** = Function that tells TypeScript about the type\n```ts\nfunction isString(value: any): value is string {\n  return typeof value === \"string\";\n}\n// If true, TypeScript treats value as string\n```\n\n**Type Assertion** = \"Trust me, I know the type\"\n```ts\nlet data: any = \"hello\";\nlet length = (data as string).length; // Force treat as string\n```\n\n**Predicate** = Safe runtime check\n**Assertion** = Override type system (use carefully)",
+  "type": "typescript"
+},
+{
+  "question": "What are discriminated unions in TypeScript?",
+  "answer": "**Discriminated Unions** = Union types with common \"tag\" property\n\n**Example:**\n```ts\ntype Fish = { kind: \"fish\"; swim: () => void };\ntype Bird = { kind: \"bird\"; fly: () => void };\ntype Pet = Fish | Bird;\n\nfunction move(pet: Pet) {\n  if (pet.kind === \"fish\") {\n    pet.swim(); // ✅ TypeScript knows it's Fish\n  } else {\n    pet.fly();  // ✅ TypeScript knows it's Bird\n  }\n}\n```\n\n**Key:** Common property (`kind`) allows automatic type narrowing\n**Safer** than type assertions",
+  "type": "typescript"
+},
+{
+  "question": "What is exhaustiveness checking with 'never' in TypeScript?",
+  "answer": "**Exhaustiveness Checking** = Catch missing union cases\n\n**Using `never`:**\n```ts\nfunction moveExhaustive(pet: Pet) {\n  switch (pet.kind) {\n    case \"fish\": pet.swim(); break;\n    case \"bird\": pet.fly(); break;\n    default:\n      const _exhaustiveCheck: never = pet; // ❌ If Pet has new type\n      throw new Error(\"Unknown pet!\");\n  }\n}\n```\n\n**How it works:**\n- If all union cases handled → `pet` = `never` in default (OK)\n- If new type added to union → `pet` ≠ `never` → TypeScript error\n**Catches** missing cases at compile time",
+  "type": "typescript"
+}
 ]
